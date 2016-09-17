@@ -21,20 +21,9 @@
 }
 
 /*
- * Footer
+ * Special text
  */
-footer {
-  background-color: #f4f4f4;
-  margin-top: 16px;
-  padding: 32px;
-}
-footer .header {
-  margin-top: 0;
-  border-bottom: 1px #ccc solid;
-}
-footer .nav a {
-  color: #333333;
-}
-footer .nav a:hover {
-  background-color: #eaeaea;
+.info-date {
+  padding: 8px;
+  color: #999;
 }

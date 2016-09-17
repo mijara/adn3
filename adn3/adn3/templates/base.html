@@ -37,7 +37,7 @@
 
 <body>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -65,39 +65,13 @@
 
 {% block container %}{% endblock %}
 
-<footer>
-  <div class="row">
-    <div class="col-md-4">
-      <h3 class="header">Sobre nosotros</h3>
+<hr>
 
-      <p class="text-justify">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab commodi consequuntur dolore est excepturi,
-        laboriosam laudantium pariatur porro provident reprehenderit repudiandae sed sunt voluptatibus. Consectetur
-        consequatur doloremque doloribus officia tempora!
-      </p>
-
-      <p>Departamento de Matemáticas, 2016</p>
-      <p>Universidad Técnica Federico Santa Maria</p>
-    </div>
-
-    <div class="col-md-4">
-      <h3 class="header">Contacto</h3>
-
-      <p class="text-center">adn3@mat.utfsm.cl</p>
-      <p class="text-center">labmat@mat.utfsm.cl</p>
-    </div>
-
-    <div class="col-md-4">
-      <h3 class="header">Enlaces</h3>
-
-      <ul class="nav nav-stacked">
-        <li><a href="#">Sobre nosotros</a></li>
-        <li><a href="#">Matemáticas</a></li>
-        <li><a href="#">UTFSM</a></li>
-      </ul>
-    </div>
-  </div>
-</footer>
+<div class="container">
+  <footer>
+    <p>Departamento de Matemáticas, 2016, <br>Universidad Técnica Federico Santa Maria</p>
+  </footer>
+</div>
 
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>
