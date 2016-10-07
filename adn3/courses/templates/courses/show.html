@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">{{ course }}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Agendas -->
+    <div class="col-sm-8">
+      <h3>Agendas</h3>
+      {% include 'courses/_agendas.html' %}
+
+      <hr>
+
+      <h3>Noticias</h3>
+
+      <hr>
+
+      <h3>Sesiones</h3>
+
+      <hr>
+
+      <h3>Preinformes</h3>
+
+      <hr>
+
+      <h3>Controles</h3>
+    </div>
+
+    <!-- Information -->
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Curso
+        </div>
+
+        <div class="panel-body">
+          <table width="100%">
+            <tr>
+              <td width="50%">Sigla</td>
+              <td>{{ course.code }}</td>
+            </tr>
+
+            <tr>
+              <td width="50%">Año y Semestre</td>
+              <td>{{ course.year }} - {{ course.semester }}</td>
+            </tr>
+
+            <tr>
+              <td width="50%">Alumnos inscritor</td>
+              <td>-</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

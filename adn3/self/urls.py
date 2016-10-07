@@ -7,10 +7,4 @@ urlpatterns = [
         views.index,
         name='index'
     ),
-
-    url(
-        '^sign-in/$',
-        views.sign_in,
-        name='sign_in'
-    ),
 ]

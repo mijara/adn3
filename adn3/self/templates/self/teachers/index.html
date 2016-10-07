@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="header"><span class="glyphicon glyphicon-book"></span> Cursos</h1>
+
+      {% for course in courses %}
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h4 class="text-fit">
+                  <a href="{% url 'courses:show' course.pk %}">
+                    {{ course }}
+                  </a>
+                </h4>
+                <div class="text-muted">{{ course.code }}</div>
+              </div>
+
+              <div class="col-sm-6 text-right">
+                0 Alumnos,
+                0 Ayudantes
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

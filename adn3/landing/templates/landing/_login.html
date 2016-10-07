@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Iniciar sesión
+  </div>
+
+  <form action="{% url 'landing:sign_in' %}" method="post">
+    {% csrf_token %}
+
+    <div class="panel-body">
+      <div class="form-group">
+        <input type="text" class="form-control" name="username" placeholder="Usuario" required>
+      </div>
+
+      <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+    </div>
+
+    <div class="panel-footer">
+      <a href="#" class="btn">¿Olvidó su contraseña?</a>
+
+      <button type="submit" class="btn btn-primary pull-right">Entrar</button>
+
+      <div class="clearfix"></div>
+    </div>
+  </form>
+</div>
+
+<p class="text-center">
+  <a href="#">Solicitar una cuenta</a>
+</p>

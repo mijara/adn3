@@ -1,0 +1,29 @@
+{% if course.agenda_set.count == 0 %}
+  <div class="alert alert-warning">
+    Sin agendas
+  </div>
+{% else %}
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Día</th>
+      <th>Bloque</th>
+      <th>Sala</th>
+      <th>Alumnos Inscritos</th>
+      <th>Ayudantes</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for agenda in course.agenda_set.all %}
+      <tr>
+        <td>{{ agenda.get_day_display }}</td>
+        <td>{{ agenda.get_block_display }}</td>
+        <td>{{ agenda.room }}</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
