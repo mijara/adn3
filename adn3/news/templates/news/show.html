@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' new.course.pk %}">{{ new.course }}</a></li>
+    <li><a href="{% url 'news:index' new.course.pk %}">Noticias</a></li>
+    <li class="active">{{ new.title }}</li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">{{ new.title }}</h1>
+
+      {{ new.body }}
+    </div>
+  </div>
+{% endblock %}

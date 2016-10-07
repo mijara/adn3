@@ -1,0 +1,17 @@
+{% load bootstrap3 %}
+
+{% for field in form %}
+  {% if not field.is_hidden %}
+    <div class="row form-group{% if field.field.required %} required{% endif %}">
+      <div class="col-md-3 control-label">
+        {% bootstrap_label field.label label_for=field.auto_id %}
+      </div>
+
+      <div class="col-md-9">
+        {% bootstrap_field field show_label=False form_group_class=None %}
+      </div>
+    </div>
+  {% else %}
+    {% bootstrap_field field show_label=False form_group_class=None %}
+  {% endif %}
+{% endfor %}

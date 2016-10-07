@@ -64,6 +64,15 @@
 </nav>
 
 <div class="container">
+  {% block breadcrump %}
+    <div class="alert alert-danger">
+      BREADCRUMP MISSING
+    </div>
+  {% endblock %}
+</div>
+
+
+<div class="container">
   {% block container %}{% endblock %}
 </div>
 

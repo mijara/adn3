@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
+  </ol>
+{% endblock %}
+
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
@@ -12,11 +19,17 @@
     <div class="col-sm-8">
       <h3>Agendas</h3>
       {% include 'courses/_agendas.html' %}
-
       <hr>
 
-      <h3>Noticias</h3>
-
+      <div>
+        <div class="pull-right">
+          <a href="{% url 'news:create' course.pk %}">
+            <span class="glyphicon glyphicon-plus"></span> Publicar noticia
+          </a>
+        </div>
+        <h3><a href="{% url 'news:index' course.pk %}">Noticias</a></h3>
+      </div>
+      {% include 'news/_list.html' %}
       <hr>
 
       <h3>Sesiones</h3>
@@ -50,7 +63,7 @@
             </tr>
 
             <tr>
-              <td width="50%">Alumnos inscritor</td>
+              <td width="50%">Alumnos inscritos</td>
               <td>-</td>
             </tr>
           </table>

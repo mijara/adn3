@@ -8,6 +8,10 @@
   border-bottom: 1px #dedede solid;
 }
 
+.container {
+  max-width: 1000px;
+}
+
 /*
  * Navbar
  */
@@ -30,4 +34,12 @@
 
 .text-fit {
   margin: 0;
+}
+
+/*
+ * Forms
+ */
+.required .control-label:after {
+    content:"*";
+    color:red;
 }

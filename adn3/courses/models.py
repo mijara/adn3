@@ -41,7 +41,7 @@ class Course(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return u'%s / %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
+        return u'%s - %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
 
 
 class Agenda(models.Model):
