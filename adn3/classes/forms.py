@@ -6,7 +6,7 @@ from django.forms.extras import widgets
 
 class ClassForm(forms.ModelForm):
     class Meta:
-        model = Class
+        model = Session
         fields = ('name', 'number', 'start_date', 'end_date', 'session_type', 'state')
 
         widgets = {

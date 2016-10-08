@@ -54,6 +54,14 @@ urlpatterns = [
     ),
 
     url(
+        '^attendance/',
+        include(
+            'attendance.urls',
+            namespace='attendance'
+        )
+    ),
+
+    url(
         r'^admin/',
         include(
             admin.site.urls

@@ -4,7 +4,7 @@ from adn3.choices import *
 
 
 class Campus(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, verbose_name=u'Nombre')
 
     class Meta:
         verbose_name_plural = 'Campuses'
@@ -14,9 +14,9 @@ class Campus(models.Model):
 
 
 class Room(models.Model):
-    name = models.CharField(max_length=128)
-    code = models.CharField(max_length=32)
-    seats = models.IntegerField()
+    name = models.CharField(max_length=128, verbose_name=u'Nombre')
+    code = models.CharField(max_length=32, verbose_name=u'Código')
+    seats = models.IntegerField(verbose_name=u'Asientos')
 
     def __unicode__(self):
         return self.name
@@ -53,12 +53,12 @@ class Course(models.Model):
 
 
 class Agenda(models.Model):
-    day = models.IntegerField(choices=make_days())
-    room = models.ForeignKey(Room)
-    course = models.ForeignKey(Course)
-    block = models.IntegerField(choices=make_blocks())
+    day = models.IntegerField(choices=make_days(), verbose_name=u'Día')
+    room = models.ForeignKey(Room, verbose_name=u'Sala')
+    course = models.ForeignKey(Course, verbose_name=u'Curso')
+    block = models.IntegerField(choices=make_blocks(), verbose_name=u'Bloque')
 
-    inscriptions = models.ManyToManyField('auth.User')
+    inscriptions = models.ManyToManyField('auth.User', verbose_name='Inscripciones', blank=True)
 
     def __unicode__(self):
         return u'%s (%s, %s)' % (self.course, self.get_block_display(), self.room.name)

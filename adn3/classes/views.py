@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from courses.models import *
 from forms import *
+from datetime import timedelta
 
 
 def _get_first_available(sessions):
@@ -24,10 +25,17 @@ def detail(request, course_pk, pk=None):
     course = get_object_or_404(Course, pk=course_pk)
 
     if pk is None:
-        instance = Class()
-        instance.number = _get_first_available(course.class_set.all())
+        # default session.
+        instance = Session()
+
+        # set the next available session number.
+        instance.number = _get_first_available(course.session_set.all())
+
+        # set this as the start date and the end day as the 5 next days.
+        instance.start_date = datetime.now()
+        instance.end_date = datetime.now() + timedelta(days=5)
     else:
-        instance = get_object_or_404(Class, pk=pk)
+        instance = get_object_or_404(Session, pk=pk)
 
     form = ClassForm(request.POST or None, instance=instance)
 

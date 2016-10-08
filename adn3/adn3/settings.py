@@ -23,6 +23,7 @@ INSTALLED_APPS = (
     'news',
     'classes',
     'files',
+    'attendance',
 )
 
 MIDDLEWARE_CLASSES = (

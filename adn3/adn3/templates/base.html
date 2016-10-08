@@ -58,6 +58,10 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
+        {% if request.user.is_authenticated %}
+          <li><a href="#">Bienvenido, {{ request.user }}</a></li>
+        {% endif %}
+
         <li><a href="#">¿Necesita ayuda?</a></li>
       </ul>
     </div>

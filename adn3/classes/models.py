@@ -3,7 +3,7 @@ from django.db import models
 from adn3.choices import *
 
 
-class Class(models.Model):
+class Session(models.Model):
     PRIVATE = 0
     PUBLIC = 1
 

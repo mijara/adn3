@@ -1,4 +1,4 @@
-{% if course.class_set.count == 0 %}
+{% if course.session_set.count == 0 %}
   <div class="alert alert-warning">
     Sin sesiones
   </div>
@@ -18,16 +18,16 @@
     </thead>
 
     <tbody>
-    {% for class in course.class_set.all %}
+    {% for session in course.session_set.all %}
       <tr>
-        <td>{{ class.number }}</td>
-        <td>{{ class.name }}</td>
-        <td class="text-center">{{ class.start_date | date:'d/m' }}</td>
-        <td class="text-center">{{ class.end_date | date:'d/m' }}</td>
-        <td class="text-center">{{ class.duration }} días</td>
-        <td class="text-center">{{ class.get_state_display }}</td>
-        <td class="text-center">{{ class.get_session_type_display }}</td>
-        <td><a href="{% url 'classes:edit' course.pk class.pk %}" class="glyphicon glyphicon-pencil"></a></td>
+        <td>{{ session.number }}</td>
+        <td>{{ session.name }}</td>
+        <td class="text-center">{{ session.start_date | date:'d/m' }}</td>
+        <td class="text-center">{{ session.end_date | date:'d/m' }}</td>
+        <td class="text-center">{{ session.duration }} días</td>
+        <td class="text-center">{{ session.get_state_display }}</td>
+        <td class="text-center">{{ session.get_session_type_display }}</td>
+        <td><a href="{% url 'classes:edit' course.pk session.pk %}" class="glyphicon glyphicon-pencil"></a></td>
       </tr>
     {% endfor %}
     </tbody>

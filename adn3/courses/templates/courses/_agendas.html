@@ -11,6 +11,7 @@
       <th width="40%">Sala</th>
       <th width="5%">Inscritos</th>
       <th width="5%">Ayudantes</th>
+      <th width="5%"></th>
     </tr>
     </thead>
 
@@ -22,6 +23,11 @@
         <td>{{ agenda.room }}</td>
         <td class="text-center">{{ agenda.inscriptions.count }}</td>
         <td class="text-center">-</td>
+        <td>
+          <a href="{% url 'attendance:show' agenda.pk %}" title="Asistencia">
+            <span class="glyphicon glyphicon-list-alt step"></span>
+          </a>
+        </td>
       </tr>
     {% endfor %}
     </tbody>
