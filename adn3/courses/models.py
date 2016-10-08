@@ -43,12 +43,22 @@ class Course(models.Model):
     def __unicode__(self):
         return u'%s - %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
 
+    def count_inscriptions(self):
+        count = 0
+
+        for agenda in self.agenda_set.all():
+            count += agenda.inscriptions.count()
+
+        return count
+
 
 class Agenda(models.Model):
     day = models.IntegerField(choices=make_days())
     room = models.ForeignKey(Room)
     course = models.ForeignKey(Course)
     block = models.IntegerField(choices=make_blocks())
+
+    inscriptions = models.ManyToManyField('auth.User')
 
     def __unicode__(self):
         return u'%s (%s, %s)' % (self.course, self.get_block_display(), self.room.name)

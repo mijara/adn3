@@ -9,12 +9,6 @@ urlpatterns = [
     ),
 
     url(
-        '^show/(?P<pk>\d+)/$',
-        views.show,
-        name='show'
-    ),
-
-    url(
         '^(?P<course_pk>\d+)/create/$',
         views.detail,
         name='create'

@@ -21,18 +21,15 @@
       {% include 'courses/_agendas.html' %}
       <hr>
 
-      <div>
-        <div class="pull-right">
-          <a href="{% url 'news:create' course.pk %}">
-            <span class="glyphicon glyphicon-plus"></span> Publicar noticia
-          </a>
-        </div>
-        <h3><a href="{% url 'news:index' course.pk %}">Noticias</a></h3>
-      </div>
+      <a class="pull-right" href="{% url 'news:index' course.pk %}">Ver todas</a>
+      <h3>Noticias</h3>
       {% include 'news/_list.html' %}
+
       <hr>
 
+      <a class="pull-right" href="{% url 'classes:index' course.pk %}">Expandir</a>
       <h3>Sesiones</h3>
+      {% include 'classes/_list_small.html' %}
 
       <hr>
 
@@ -64,7 +61,7 @@
 
             <tr>
               <td width="50%">Alumnos inscritos</td>
-              <td>-</td>
+              <td>{{ course.count_inscriptions }}</td>
             </tr>
           </table>
         </div>

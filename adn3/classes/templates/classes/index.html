@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
+    <li><a href="{% url 'classes:index' course.pk %}">Sesiones</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <a href="{% url 'classes:create' course.pk %}" class="btn btn-success pull-right">
+    <span class="glyphicon glyphicon-plus"></span>
+    Nueva sesión
+  </a>
+
+  <h1 class="header">Sesiones</h1>
+
+  {% include 'classes/_list.html' %}
+{% endblock %}

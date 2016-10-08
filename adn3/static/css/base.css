@@ -20,6 +20,7 @@
   margin: 0;
   border-radius: 0;
 }
+
 .navbar + .container {
   margin-top: 24px;
 }
@@ -36,10 +37,16 @@
   margin: 0;
 }
 
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /*
  * Forms
  */
 .required .control-label:after {
-    content:"*";
-    color:red;
+  content: "*";
+  color: red;
 }

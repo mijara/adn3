@@ -12,9 +12,15 @@
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
+      {% if new.owner == request.user %}
+        <a href="{% url 'news:edit' new.course.pk new.pk %}" class="btn btn-success pull-right">
+          <span href="" class="glyphicon glyphicon-pencil"></span>
+        </a>
+      {% endif %}
+
       <h1 class="header">{{ new.title }}</h1>
 
-      {{ new.body }}
+      {{ new.body | linebreaks }}
     </div>
   </div>
 {% endblock %}

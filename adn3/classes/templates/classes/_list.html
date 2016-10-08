@@ -1,0 +1,35 @@
+{% if course.class_set.count == 0 %}
+  <div class="alert alert-warning">
+    Sin sesiones
+  </div>
+{% else %}
+  <table class="table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th width="75%">Nombre</th>
+      <th>Inicio</th>
+      <th>Término</th>
+      <th>Duración</th>
+      <th>Estado</th>
+      <th>Tipo</th>
+      <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for class in course.class_set.all %}
+      <tr>
+        <td>{{ class.number }}</td>
+        <td>{{ class.name }}</td>
+        <td>{{ class.start_date | date:'d/m' }}</td>
+        <td>{{ class.end_date | date:'d/m' }}</td>
+        <td>{{ class.duration }} días</td>
+        <td>-</td>
+        <td>-</td>
+        <td><a href="{% url 'classes:edit' course.pk class.pk %}" class="glyphicon glyphicon-pencil"></a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}

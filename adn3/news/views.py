@@ -3,9 +3,9 @@ from forms import *
 from courses.models import *
 
 
-def index(request, pk):
+def index(request, course_pk):
     return render(request, 'news/index.html', {
-        'course': get_object_or_404(Course, pk=pk)
+        'course': get_object_or_404(Course, pk=course_pk)
     })
 
 
@@ -17,11 +17,11 @@ def show(request, pk):
     })
 
 
-def create(request, course_pk, pk=None):
+def detail(request, course_pk, pk=None):
     course = get_object_or_404(Course, pk=course_pk)
 
     if pk is None:
-        instance = New(course=course)
+        instance = New()
     else:
         instance = get_object_or_404(New, pk=pk)
 
@@ -34,9 +34,9 @@ def create(request, course_pk, pk=None):
             instance.course = course
             instance.save()
 
-            return redirect('courses:show', course.pk)
+            return redirect('news:show', pk=instance.pk)
 
-    return render(request, 'news/create.html', {
+    return render(request, 'news/detail.html', {
         'course': course,
         'form': form
     })

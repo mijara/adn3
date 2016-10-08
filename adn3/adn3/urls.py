@@ -35,6 +35,14 @@ urlpatterns = [
     ),
 
     url(
+        '^classes/',
+        include(
+            'classes.urls',
+            namespace='classes'
+        )
+    ),
+
+    url(
         r'^admin/',
         include(
             admin.site.urls

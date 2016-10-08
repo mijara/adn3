@@ -32,3 +32,8 @@ def make_blocks():
         (5, '11-12'),
         (6, '13-14'),
     ]
+
+
+def make_session_numbers():
+    return [(i, i) for i in range(1, 33)]
+

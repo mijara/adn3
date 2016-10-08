@@ -11,6 +11,15 @@
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
+      <div class="pull-right">
+        <a class="btn btn-success" href="{% url 'news:create' course.pk %}">
+          <span class="glyphicon glyphicon-plus"></span>
+          Publicar noticia
+        </a>
+      </div>
+
+      <h1 class="header">Noticias</h1>
+
       {% include 'news/_list.html' %}
     </div>
   </div>

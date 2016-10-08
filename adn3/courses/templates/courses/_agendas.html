@@ -20,7 +20,7 @@
         <td>{{ agenda.get_day_display }}</td>
         <td>{{ agenda.get_block_display }}</td>
         <td>{{ agenda.room }}</td>
-        <td>-</td>
+        <td>{{ agenda.inscriptions.count }}</td>
         <td>-</td>
       </tr>
     {% endfor %}
