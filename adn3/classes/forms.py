@@ -1,3 +1,4 @@
+# coding=utf-8
 from django import forms
 from models import *
 from django.forms.extras import widgets
@@ -6,9 +7,13 @@ from django.forms.extras import widgets
 class ClassForm(forms.ModelForm):
     class Meta:
         model = Class
-        fields = ('name', 'number', 'start_date', 'end_date')
+        fields = ('name', 'number', 'start_date', 'end_date', 'session_type', 'state')
 
         widgets = {
             'start_date': widgets.SelectDateWidget(),
             'end_date': widgets.SelectDateWidget(),
+        }
+
+        help_texts = {
+            'number': u'Número de sesión, por defecto es la primera disponible.'
         }

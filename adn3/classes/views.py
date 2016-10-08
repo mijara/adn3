@@ -1,7 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from models import *
 from courses.models import *
 from forms import *
+
+
+def _get_first_available(sessions):
+    last = 1
+    for s in sessions:
+        if s.number > last + 1:
+            return last + 1
+
+    return len(sessions) + 1
 
 
 def index(request, course_pk):
@@ -17,6 +25,7 @@ def detail(request, course_pk, pk=None):
 
     if pk is None:
         instance = Class()
+        instance.number = _get_first_available(course.class_set.all())
     else:
         instance = get_object_or_404(Class, pk=pk)
 

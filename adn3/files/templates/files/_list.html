@@ -12,7 +12,7 @@
           {{ file.create_date | date:'d/m, H:i' }} <span class="glyphicon glyphicon-time"></span>
 
           {% if options %}
-            <a href="#" class="glyphicon glyphicon-pencil back-step"></a>
+            <a href="{% url 'files:edit' file.course.pk file.pk %}" class="glyphicon glyphicon-pencil back-step"></a>
           {% endif %}
         </div>
         <a href="{% url 'files:download' file.pk %}">{{ file.name }}</a>

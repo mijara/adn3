@@ -19,4 +19,10 @@ urlpatterns = [
         views.detail,
         name='create'
     ),
+
+    url(
+        '^(?P<course_pk>\d+)/edit/(?P<pk>\d+)$',
+        views.detail,
+        name='edit'
+    ),
 ]

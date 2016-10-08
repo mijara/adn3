@@ -36,4 +36,3 @@ def make_blocks():
 
 def make_session_numbers():
     return [(i, i) for i in range(1, 33)]
-

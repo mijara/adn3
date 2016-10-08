@@ -25,8 +25,8 @@
         <td class="text-center">{{ class.start_date | date:'d/m' }}</td>
         <td class="text-center">{{ class.end_date | date:'d/m' }}</td>
         <td class="text-center">{{ class.duration }} días</td>
-        <td class="text-center">-</td>
-        <td class="text-center">-</td>
+        <td class="text-center">{{ class.get_state_display }}</td>
+        <td class="text-center">{{ class.get_session_type_display }}</td>
         <td><a href="{% url 'classes:edit' course.pk class.pk %}" class="glyphicon glyphicon-pencil"></a></td>
       </tr>
     {% endfor %}

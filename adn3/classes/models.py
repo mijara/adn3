@@ -4,6 +4,13 @@ from adn3.choices import *
 
 
 class Class(models.Model):
+    PRIVATE = 0
+    PUBLIC = 1
+
+    REGULAR = 0
+    TEST = 1
+    RECUPERATIVE = 2
+
     # related course.
     course = models.ForeignKey('courses.Course')
 
@@ -18,6 +25,19 @@ class Class(models.Model):
 
     # end date of the classes.
     end_date = models.DateField(verbose_name=u'Fecha término')
+
+    # if this session is private or public.
+    state = models.IntegerField(default=PRIVATE, choices=[
+        (PRIVATE, 'Privada'),
+        (PUBLIC, 'Pública'),
+    ], verbose_name='Estado')
+
+    # what kind of session is this, regular, recuperative or test.
+    session_type = models.IntegerField(default=REGULAR, choices=[
+        (REGULAR, 'Regular'),
+        (TEST, 'Prueba'),
+        (RECUPERATIVE, 'Recuperativa'),
+    ], verbose_name='Tipo')
 
     # use for ordering.
     create_date = models.DateTimeField(auto_now_add=True)
