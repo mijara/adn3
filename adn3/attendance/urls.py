@@ -7,4 +7,10 @@ urlpatterns = [
         views.show,
         name='show'
     ),
+
+    url(
+        '^save/(?P<agenda_pk>\d+)/$',
+        views.save,
+        name='save'
+    ),
 ]

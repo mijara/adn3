@@ -2,6 +2,9 @@ from django.db import models
 
 
 class Attendance(models.Model):
+    """
+    Attendance of a user to certain session and agenda.
+    """
     NO_ATTENDED = 0
     ATTENDED = 1
     JUSTIFIED = 2
@@ -14,7 +17,7 @@ class Attendance(models.Model):
         (NO_ATTENDED, 'No'),
         (ATTENDED, 'Si'),
         (JUSTIFIED, 'Justificado'),
-    ])
+    ], default=NO_ATTENDED)
 
     class Meta:
         unique_together = ('session', 'agenda', 'user')

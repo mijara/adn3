@@ -21,29 +21,51 @@
         Asistencia: {{ agenda.get_day_display }} {{ agenda.get_block_display }}
       </h1>
 
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Rol</th>
+      <form action="{% url 'attendance:save' agenda.pk %}" method="post">
+        {% csrf_token %}
 
-          <!-- Sessions -->
-          {% for session in agenda.course.session_set.all %}
-            <th>{{ session.number }}</th>
-          {% endfor %}
-        </tr>
-        </thead>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Rol</th>
 
-        <tbody>
-        {% for attendance in attendance %}
-          <tr>
-            {% for a in attendance %}
-              <td>{{ a }}</td>
-            {% endfor %}
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                <!-- Sessions -->
+                {% for session in agenda.course.session_set.all %}
+                  <th>{{ session.number }}</th>
+                {% endfor %}
+              </tr>
+              </thead>
+
+              <tbody>
+              {% for attendance in table %}
+                <tr>
+                  <td>
+                    {{ attendance.0.get_full_name }}
+                  </td>
+
+                  <td>
+                    -
+                  </td>
+
+                  {% for a in attendance.1 %}
+                    <td>{{ a.attended }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel-footer">
+            <div class="text-right">
+              <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 {% endblock %}
