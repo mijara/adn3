@@ -11,10 +11,10 @@
 {% block container %}
   <a href="{% url 'classes:create' course.pk %}" class="btn btn-success pull-right">
     <span class="glyphicon glyphicon-plus"></span>
-    Nueva sesión
+    Nueva Sesión
   </a>
 
-  <h1 class="header">Sesiones</h1>
+  <h1 class="header"><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</h1>
 
   {% include 'classes/_list.html' %}
 {% endblock %}

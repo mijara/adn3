@@ -17,27 +17,43 @@
   <div class="row">
     <!-- Agendas -->
     <div class="col-sm-8">
-      <h3>Agendas</h3>
+      <h3><span class="glyphicon glyphicon-calendar step"></span> Agendas</h3>
       {% include 'courses/_agendas.html' %}
       <hr>
 
       <a class="pull-right" href="{% url 'news:index' course.pk %}">Ver todas</a>
-      <h3>Noticias</h3>
+      <h3><span class="glyphicon glyphicon-bookmark step"></span> Noticias</h3>
       {% include 'news/_list.html' %}
 
       <hr>
 
       <a class="pull-right" href="{% url 'classes:index' course.pk %}">Expandir</a>
-      <h3>Sesiones</h3>
+      <h3><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</h3>
       {% include 'classes/_list_small.html' %}
 
       <hr>
 
-      <h3>Preinformes</h3>
+      <h3><span class="glyphicon glyphicon-inbox step"></span> Preinformes</h3>
+
+      <div class="alert alert-warning">
+        Sin preinformes
+      </div>
 
       <hr>
 
-      <h3>Controles</h3>
+      <h3><span class="glyphicon glyphicon-file step"></span> Controles</h3>
+
+      <div class="alert alert-warning">
+        Sin controles
+      </div>
+
+      <hr>
+
+      <h3><span class="glyphicon glyphicon-download step"></span> Archivos</h3>
+
+      <div class="alert alert-warning">
+        Sin archivos
+      </div>
     </div>
 
     <!-- Information -->
@@ -64,6 +80,48 @@
               <td>{{ course.count_inscriptions }}</td>
             </tr>
           </table>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Acciones
+        </div>
+
+        <div class="panel-body">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="{% url 'news:create' course.pk %}">
+              <span class="glyphicon glyphicon-bookmark step"></span> Publicar Noticia</a>
+            </li>
+
+            <li><a href="{% url 'classes:create' course.pk %}">
+              <span class="glyphicon glyphicon-map-marker step"></span> Nueva Sesión</a>
+            </li>
+
+            <li><a href="#">
+              <span class="glyphicon glyphicon-inbox step"></span> Nuevo Preinforme</a>
+            </li>
+
+            <li><a href="#">
+              <span class="glyphicon glyphicon-file step"></span> Nuevo Control</a>
+            </li>
+
+            <li><a href="#">
+              <span class="glyphicon glyphicon-download step"></span> Subir Archivo</a>
+            </li>
+          </ul>
+
+          <hr>
+
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="{% url 'news:create' course.pk %}">
+              <span class="glyphicon glyphicon-th step"></span> Preinscripciones</a>
+            </li>
+
+            <li><a href="{% url 'classes:create' course.pk %}">
+              <span class="glyphicon glyphicon-ok step"></span> Califaciones</a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

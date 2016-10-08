@@ -5,15 +5,15 @@
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
-    <li><a href="{% url 'news:index' course.pk %}">Noticias</a></li>
-    <li class="active">Publicar noticia</li>
+    <li><a href="{% url 'classes:index' course.pk %}">Sesiones</a></li>
+    <li><a href="{% url 'classes:create' course.pk %}">Nueva Sesión</a></li>
   </ol>
 {% endblock %}
 
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="header">Nueva sesión</h1>
+      <h1 class="header"><span class="glyphicon glyphicon-map-marker step"></span> Nueva Sesión</h1>
 
       <form action="" method="post">
         {% csrf_token %}

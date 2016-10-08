@@ -18,8 +18,8 @@
       <tr>
         <td>{{ class.number }}</td>
         <td>{{ class.name }}</td>
-        <td>{{ class.start_date | date:'d/m' }}</td>
-        <td>{{ class.end_date | date:'d/m' }}</td>
+        <td class="text-center">{{ class.start_date | date:'d/m' }}</td>
+        <td class="text-center">{{ class.end_date | date:'d/m' }}</td>
       </tr>
     {% endfor %}
     </tbody>
