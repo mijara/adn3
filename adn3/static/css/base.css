@@ -65,3 +65,7 @@ hr {
 .step {
   padding-right: 10px;
 }
+
+.back-step {
+  padding-left: 10px;
+}

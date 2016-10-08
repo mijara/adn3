@@ -49,11 +49,9 @@
 
       <hr>
 
+      <a class="pull-right" href="{% url 'files:index' course.pk %}">Ver todos</a>
       <h3><span class="glyphicon glyphicon-download step"></span> Archivos</h3>
-
-      <div class="alert alert-warning">
-        Sin archivos
-      </div>
+      {% include 'files/_list.html' %}
     </div>
 
     <!-- Information -->
@@ -106,7 +104,7 @@
               <span class="glyphicon glyphicon-file step"></span> Nuevo Control</a>
             </li>
 
-            <li><a href="#">
+            <li><a href="{% url 'files:create' course.pk %}">
               <span class="glyphicon glyphicon-download step"></span> Subir Archivo</a>
             </li>
           </ul>

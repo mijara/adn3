@@ -1,0 +1,22 @@
+{% if course.coursefile_set.count == 0 %}
+  <div class="alert alert-warning">
+    Sin archivos
+  </div>
+{% else %}
+  <ul class="list-group">
+    {% for file in course.coursefile_set.all %}
+      <li class="list-group-item">
+        <div class="pull-right">
+          {{ file.downloads }} <span class="glyphicon glyphicon-download-alt step"></span>
+
+          {{ file.create_date | date:'d/m, H:i' }} <span class="glyphicon glyphicon-time"></span>
+
+          {% if options %}
+            <a href="#" class="glyphicon glyphicon-pencil back-step"></a>
+          {% endif %}
+        </div>
+        <a href="{% url 'files:download' file.pk %}">{{ file.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

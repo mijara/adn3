@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
+    <li><a href="{% url 'files:index' course.pk %}">Archivos</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <a href="{% url 'files:create' course.pk %}" class="btn btn-success pull-right">
+        <span class="glyphicon glyphicon-plus"></span> Subir Archivo
+      </a>
+
+      <h1 class="header"><span class="glyphicon glyphicon-download step"></span> Archivos</h1>
+
+      {% with options=True %}
+        {% include 'files/_list.html' %}
+      {% endwith %}
+    </div>
+  </div>
+{% endblock %}
