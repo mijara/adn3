@@ -8,6 +8,10 @@
   border-bottom: 1px #dedede solid;
 }
 
+* {
+  color: #555;
+}
+
 .container {
   max-width: 1000px;
 }
