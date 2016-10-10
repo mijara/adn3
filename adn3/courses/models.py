@@ -60,7 +60,11 @@ class Agenda(models.Model):
     course = models.ForeignKey(Course, verbose_name=u'Curso')
     block = models.IntegerField(choices=make_blocks(), verbose_name=u'Bloque')
 
-    inscriptions = models.ManyToManyField('auth.User', verbose_name=u'Inscritos', blank=True)
+    inscriptions = models.ManyToManyField('auth.User', verbose_name=u'Inscritos', blank=True,
+                                          related_name='inscriptions')
+
+    assistants = models.ManyToManyField('auth.User', verbose_name=u'Ayudantes', blank=True,
+                                        related_name='assistants')
 
     def __unicode__(self):
         return u'%s (%s, %s)' % (self.course, self.get_block_display(), self.room.name)
