@@ -37,11 +37,10 @@ class Course(models.Model):
     # state of the course.
     status = models.BooleanField(default=True, verbose_name=u'Estado')
 
+    teachers = models.ManyToManyField('auth.User', through='CourseTeacher', blank=True, verbose_name='Profesores')
+
     # Added for statistics.
     create_date = models.DateTimeField(auto_now_add=True)
-
-    def __unicode__(self):
-        return u'%s - %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
 
     def count_inscriptions(self):
         count = 0
@@ -51,6 +50,9 @@ class Course(models.Model):
 
         return count
 
+    def __unicode__(self):
+        return u'%s - %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
+
 
 class Agenda(models.Model):
     day = models.IntegerField(choices=make_days(), verbose_name=u'Día')
@@ -58,7 +60,16 @@ class Agenda(models.Model):
     course = models.ForeignKey(Course, verbose_name=u'Curso')
     block = models.IntegerField(choices=make_blocks(), verbose_name=u'Bloque')
 
-    inscriptions = models.ManyToManyField('auth.User', verbose_name='Inscripciones', blank=True)
+    inscriptions = models.ManyToManyField('auth.User', verbose_name=u'Inscritos', blank=True)
 
     def __unicode__(self):
         return u'%s (%s, %s)' % (self.course, self.get_block_display(), self.room.name)
+
+
+class CourseTeacher(models.Model):
+    user = models.ForeignKey('auth.User', verbose_name='Profesor')
+    course = models.ForeignKey('Course', verbose_name='Curso')
+    coordinates = models.BooleanField(verbose_name=u'Coordinador')
+
+    def __unicode__(self):
+        return self.user.username

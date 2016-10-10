@@ -21,7 +21,7 @@
     {% for session in course.session_set.all %}
       <tr>
         <td>{{ session.number }}</td>
-        <td>{{ session.name }}</td>
+        <td><a href="{% url 'classes:show' session.pk %}">{{ session.name }}</a></td>
         <td class="text-center">{{ session.start_date | date:'d/m' }}</td>
         <td class="text-center">{{ session.end_date | date:'d/m' }}</td>
         <td class="text-center">{{ session.duration }} días</td>

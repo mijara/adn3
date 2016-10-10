@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' session.course.pk %}">{{ session.course }}</a></li>
+    <li><a href="{% url 'classes:index' session.course.pk %}">Sesiones</a></li>
+    <li><a href="{% url 'classes:show' session.pk %}">{{ session }}</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="glyphicon glyphicon-map-marker step"></span>
+        {{ session }}
+      </h1>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Sesión
+        </div>
+
+        <div class="panel-body">
+          <table>
+            <tbody>
+            <tr>
+              <td width="50%">Nombre</td>
+              <td>{{ session.name }}</td>
+            </tr>
+
+            <tr>
+              <td>Tipo</td>
+              <td>{{ session.get_session_type_display }}</td>
+            </tr>
+
+            <tr>
+              <td>Estado</td>
+              <td>{{ session.get_state_display }}</td>
+            </tr>
+
+            <tr>
+              <td>Periodo</td>
+              <td>
+                {{ session.start_date | date:'d/m' }} - {{ session.end_date | date:'d/m' }}
+                ({{ session.duration }} días)
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Asistentes
+        </div>
+
+        <div class="panel-body">
+          {% for attendance in session.attendance_set.all %}
+            <div>{{ attendance.user.get_full_name }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="pull-right">
+            <a href="{% url 'classes:upload' session.pk %}">
+              <span class="glyphicon glyphicon-upload"></span> Subir Archivo
+            </a>
+          </div>
+
+          Archivos
+        </div>
+
+        <div class="panel-body">
+          {% if session.sessionfile_set.count == 0 %}
+            <div class="alert alert-info">
+              Sin archivos
+            </div>
+          {% else %}
+            {% for file in session.sessionfile_set.all %}
+              <div>
+                <a href="{% url 'classes:remove_file' file.pk %}" class="pull-right">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </a>
+
+                <a href="{{ file.file.url }}">{{ file.name }}</a>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

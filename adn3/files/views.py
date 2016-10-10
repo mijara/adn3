@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.static import serve
 
+from classes.models import Session
 from courses.models import Course
 from models import *
 from forms import *

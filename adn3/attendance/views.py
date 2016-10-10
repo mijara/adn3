@@ -6,9 +6,14 @@ from services import *
 def show(request, agenda_pk):
     agenda = get_object_or_404(Agenda, pk=agenda_pk)
 
+    try:
+        table = create_matrix(agenda)
+    except:
+        table = None
+
     return render(request, 'attendance/show.html', {
         'agenda': agenda,
-        'table': create_matrix(agenda),
+        'table': table
     })
 
 

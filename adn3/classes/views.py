@@ -1,17 +1,9 @@
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from courses.models import *
 from forms import *
 from datetime import timedelta
-
-
-def _get_first_available(sessions):
-    last = 1
-    for s in sessions:
-        if s.number > last + 1:
-            return last + 1
-        last = s.number
-
-    return len(sessions) + 1
+from services import *
 
 
 def index(request, course_pk):
@@ -19,6 +11,14 @@ def index(request, course_pk):
 
     return render(request, 'classes/index.html', {
         'course': course
+    })
+
+
+def show(request, pk):
+    session = get_object_or_404(Session, pk=pk)
+
+    return render(request, 'classes/show.html', {
+        'session': session
     })
 
 
@@ -30,7 +30,7 @@ def detail(request, course_pk, pk=None):
         instance = Session()
 
         # set the next available session number.
-        instance.number = _get_first_available(course.session_set.all())
+        instance.number = get_first_available(course.session_set.all())
 
         # set this as the start date and the end day as the 5 next days.
         instance.start_date = datetime.now()
@@ -38,7 +38,7 @@ def detail(request, course_pk, pk=None):
     else:
         instance = get_object_or_404(Session, pk=pk)
 
-    form = ClassForm(request.POST or None, instance=instance)
+    form = SessionForm(request.POST or None, instance=instance)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -52,3 +52,33 @@ def detail(request, course_pk, pk=None):
         'course': course,
         'form': form
     })
+
+
+def upload(request, session_pk):
+    session = get_object_or_404(Session, pk=session_pk)
+
+    form = SessionFileForm(request.POST or None, request.FILES or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.session = session
+            instance.save()
+
+            return redirect('classes:show', session.pk)
+
+    return render(request, 'classes/upload.html', {
+        'session': session,
+        'form': form
+    })
+
+
+def remove_file(request, file_pk):
+    session_file = get_object_or_404(SessionFile, pk=file_pk)
+
+    session_pk = session_file.session.pk
+
+    session_file.file.delete()
+    session_file.delete()
+
+    return redirect('classes:show', session_pk)
