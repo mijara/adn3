@@ -3,33 +3,35 @@
     Sin agendas
   </div>
 {% else %}
-  <table class="table">
-    <thead>
-    <tr>
-      <th width="25%">Día</th>
-      <th width="25%">Bloque</th>
-      <th width="40%">Sala</th>
-      <th width="5%">Inscritos</th>
-      <th width="5%">Ayudantes</th>
-      <th width="5%"></th>
-    </tr>
-    </thead>
-
-    <tbody>
-    {% for agenda in course.agenda_set.all %}
-      <tr>
-        <td>{{ agenda.get_day_display }}</td>
-        <td>{{ agenda.get_block_display }}</td>
-        <td>{{ agenda.room }}</td>
-        <td class="text-center">{{ agenda.inscriptions.count }}</td>
-        <td class="text-center">-</td>
-        <td>
-          <a href="{% url 'attendance:show' agenda.pk %}" title="Asistencia">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-          </a>
-        </td>
+  <div class="panel panel-default">
+    <table class="table">
+      <thead>
+      <tr class="table-heading  ">
+        <th width="25%">Día</th>
+        <th width="25%">Bloque</th>
+        <th width="40%">Sala</th>
+        <th width="5%">Inscritos</th>
+        <th width="5%">Ayudantes</th>
+        <th width="5%"></th>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+      {% for agenda in course.agenda_set.all %}
+        <tr>
+          <td>{{ agenda.get_day_display }}</td>
+          <td>{{ agenda.get_block_display }}</td>
+          <td>{{ agenda.room }}</td>
+          <td class="text-center">{{ agenda.inscriptions.count }}</td>
+          <td class="text-center">-</td>
+          <td>
+            <a href="{% url 'attendance:show' agenda.pk %}" title="Asistencia">
+              <span class="glyphicon glyphicon-list-alt step"></span>
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endif %}

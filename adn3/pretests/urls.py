@@ -31,10 +31,4 @@ urlpatterns = [
         views.upload,
         name='upload'
     ),
-
-    url(
-        '^remove-file/(?P<file_pk>\d+)$',
-        views.remove_file,
-        name='remove_file'
-    ),
 ]

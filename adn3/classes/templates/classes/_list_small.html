@@ -3,25 +3,28 @@
     Sin sesiones
   </div>
 {% else %}
-  <table class="table">
-    <thead>
-    <tr>
-      <th>#</th>
-      <th width="75%">Nombre</th>
-      <th>Inicio</th>
-      <th>Término</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    {% for session in course.session_set.all %}
-      <tr>
-        <td>{{ session.number }}</td>
-        <td><a href="{% url 'classes:show' session.pk %}">{{ session.name }}</a></td>
-        <td class="text-center">{{ session.start_date | date:'d/m' }}</td>
-        <td class="text-center">{{ session.end_date | date:'d/m' }}</td>
+  <div class="panel panel-default">
+    <table class="table">
+      <thead>
+      <tr class="table-heading">
+        <th>#</th>
+        <th width="75%">Nombre</th>
+        <th>Inicio</th>
+        <th>Término</th>
+        <th></th>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+      {% for session in course.session_set.all %}
+        <tr>
+          <td>{{ session.number }}</td>
+          <td><a href="{% url 'classes:show' session.pk %}">{{ session.name }}</a></td>
+          <td class="text-center">{{ session.start_date | date:'d/m' }}</td>
+          <td class="text-center">{{ session.end_date | date:'d/m' }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endif %}

@@ -62,6 +62,14 @@ urlpatterns = [
     ),
 
     url(
+      '^pretests/',
+      include(
+          'pretests.urls',
+          namespace='pretests'
+      )
+    ),
+
+    url(
         r'^admin/',
         include(
             admin.site.urls

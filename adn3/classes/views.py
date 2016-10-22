@@ -54,8 +54,8 @@ def detail(request, course_pk, pk=None):
     })
 
 
-def upload(request, session_pk):
-    session = get_object_or_404(Session, pk=session_pk)
+def upload(request, pk):
+    session = get_object_or_404(Session, pk=pk)
 
     form = SessionFileForm(request.POST or None, request.FILES or None)
 

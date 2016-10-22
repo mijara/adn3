@@ -7,7 +7,7 @@ class Campus(models.Model):
     name = models.CharField(max_length=64, verbose_name=u'Nombre')
 
     class Meta:
-        verbose_name_plural = 'Campuses'
+        verbose_name_plural = 'Campus'
 
     def __unicode__(self):
         return self.name

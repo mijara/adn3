@@ -13,6 +13,13 @@
   <div class="row">
     <div class="col-sm-12">
       <h1 class="header">
+        <span class="pull-right">
+          <a href="{% url 'classes:edit' session.course.pk session.pk %}" class="btn btn-success">
+            <span class="glyphicon glyphicon-pencil step"></span>
+            Editar
+          </a>
+        </span>
+
         <span class="glyphicon glyphicon-map-marker step"></span>
         {{ session }}
       </h1>
@@ -20,17 +27,17 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-8">
       <div class="panel panel-default">
         <div class="panel-heading">
           Sesión
         </div>
 
         <div class="panel-body">
-          <table>
+          <table width="100%">
             <tbody>
             <tr>
-              <td width="50%">Nombre</td>
+              <td width="25%">Nombre</td>
               <td>{{ session.name }}</td>
             </tr>
 
@@ -53,20 +60,6 @@
             </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Asistentes
-        </div>
-
-        <div class="panel-body">
-          {% for attendance in session.attendance_set.all %}
-            <div>{{ attendance.user.get_full_name }}</div>
-          {% endfor %}
         </div>
       </div>
     </div>

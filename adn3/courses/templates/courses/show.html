@@ -21,23 +21,21 @@
       {% include 'courses/_agendas.html' %}
       <hr>
 
-      <a class="pull-right" href="{% url 'news:index' course.pk %}">Ver todas</a>
+      <a class="pull-right right-link" href="{% url 'news:index' course.pk %}">Ver todas</a>
       <h3><span class="glyphicon glyphicon-bookmark step"></span> Noticias</h3>
       {% include 'news/_list.html' %}
 
       <hr>
 
-      <a class="pull-right" href="{% url 'classes:index' course.pk %}">Expandir</a>
+      <a class="pull-right right-link" href="{% url 'classes:index' course.pk %}">Expandir</a>
       <h3><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</h3>
       {% include 'classes/_list_small.html' %}
 
       <hr>
 
+      <a class="pull-right right-link" href="{% url 'pretests:index' course.pk %}">Expandir</a>
       <h3><span class="glyphicon glyphicon-inbox step"></span> Preinformes</h3>
-
-      <div class="alert alert-warning">
-        Sin preinformes
-      </div>
+      {% include 'pretests/_list_small.html' %}
 
       <hr>
 
@@ -49,7 +47,7 @@
 
       <hr>
 
-      <a class="pull-right" href="{% url 'files:index' course.pk %}">Ver todos</a>
+      <a class="pull-right right-link" href="{% url 'files:index' course.pk %}">Ver todos</a>
       <h3><span class="glyphicon glyphicon-download step"></span> Archivos</h3>
       {% include 'files/_list.html' %}
     </div>

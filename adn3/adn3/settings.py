@@ -24,6 +24,7 @@ INSTALLED_APPS = (
     'classes',
     'files',
     'attendance',
+    'pretests',
 )
 
 MIDDLEWARE_CLASSES = (
