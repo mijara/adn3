@@ -6,7 +6,11 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
     <li><a href="{% url 'files:index' course.pk %}">Archivos</a></li>
-    <li><a href="{% url 'files:create' course.pk %}">Subir Archivo</a></li>
+    {% if form.instance.pk %}
+      <li><a href="{% url 'files:edit' course.pk form.instance.pk %}">Editar Archivo</a></li>
+    {% else %}
+      <li><a href="{% url 'files:create' course.pk %}">Subir Archivo</a></li>
+    {% endif %}
   </ol>
 {% endblock %}
 

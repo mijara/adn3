@@ -5,7 +5,7 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{% url 'courses:show' new.course.pk %}">{{ new.course }}</a></li>
     <li><a href="{% url 'news:index' new.course.pk %}">Noticias</a></li>
-    <li class="active">{{ new.title }}</li>
+    <li><a href="{% url 'news:show' new.pk %}">{{ new.title }}</a></li>
   </ol>
 {% endblock %}
 

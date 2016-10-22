@@ -6,7 +6,11 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
     <li><a href="{% url 'classes:index' course.pk %}">Sesiones</a></li>
-    <li><a href="{% url 'classes:create' course.pk %}">Nueva Sesión</a></li>
+    {% if form.instance.pk %}
+      <li><a href="{% url 'classes:edit' course.pk form.instance.pk %}">Editar Sesión</a></li>
+    {% else %}
+      <li><a href="{% url 'classes:create' course.pk %}">Nueva Sesión</a></li>
+    {% endif %}
   </ol>
 {% endblock %}
 
