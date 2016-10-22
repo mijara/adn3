@@ -13,7 +13,15 @@
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="header"><span class="glyphicon glyphicon-upload step"></span> Subir Archivo</h1>
+      <h1 class="header">
+        <span class="glyphicon glyphicon-upload step"></span>
+        {% if form.instance.pk %}
+          Editar
+        {% else %}
+          Subir
+        {% endif %}
+        Archivo
+      </h1>
 
       <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
