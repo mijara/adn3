@@ -1,0 +1,31 @@
+{% if course.pretest_set.count == 0 %}
+  <div class="alert alert-warning">
+    Sin sesiones
+  </div>
+{% else %}
+  <table class="table">
+    <thead>
+    <tr>
+      <th width="50%">Nombre</th>
+      <th>Inicio</th>
+      <th>Entrega</th>
+      <th>Porcentage</th>
+      <th>Mostrar calificación</th>
+      <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for pretest in course.pretest_set.all %}
+      <tr>
+        <td><a href="{% url 'pretests:show' pretest.pk %}">{{ pretest.name }}</a></td>
+        <td>{{ pretest.start_session.number }}</td>
+        <td>{{ pretest.end_session.number }}</td>
+        <td>{{ pretest.percentage }}%</td>
+        <td>{% if pretest.show_grade %}Si{% else %}No{% endif %}</td>
+        <td><a href="{% url 'pretests:edit' pretest.course.pk pretest.pk %}" class="glyphicon glyphicon-pencil"></a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
