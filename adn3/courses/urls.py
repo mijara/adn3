@@ -3,7 +3,7 @@ import views
 
 urlpatterns = [
     url(
-        '^/$',
+        '^$',
         views.index,
         name='index'
     ),
