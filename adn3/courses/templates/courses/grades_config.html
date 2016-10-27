@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
+    <li><a href="{% url 'courses:grades' course.pk %}">Calificaciones</a></li>
+    <li><a href="{% url 'courses:grades-config' course.pk %}">Configuración</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <form action="" method="post">
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="header">
+          <span class="glyphicon glyphicon-wrench step"></span>
+          Configurar Calificaciones
+        </h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="glyphicon glyphicon-file step"></span>
+            Controles
+          </div>
+
+          <div class="panel-body">
+            <div class="alert alert-warning">
+              Not implemented.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="glyphicon glyphicon-inbox step"></span>
+            Preinformes
+          </div>
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th width="70%">Nombre</th>
+              <th>Porcentaje</th>
+              <th width="25%">Mostrar calificación</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for pretest in course.pretest_set.all %}
+              <tr>
+                <td>
+                  {{ pretest.name }}
+                </td>
+
+                <td>
+                  <input type="number" name="_pretest_percentage_{{ pretest.pk }}"
+                         style="width: 75px" max="100" value="{{ pretest.percentage }}">
+                </td>
+
+                <td>
+                  <input type="checkbox" name="_pretest_show_grade_{{ pretest.pk }}"
+                         {% if pretest.show_grade %}checked{% endif %}> Mostrar
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            General
+          </div>
+
+          <div class="panel-body">
+            {% bootstrap_form general_form %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">Guardar configuración</button>
+  </form>
+{% endblock %}

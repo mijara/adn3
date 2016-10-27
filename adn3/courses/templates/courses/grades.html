@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
+    <li><a href="{% url 'courses:grades' course.pk %}">Calificaciones</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="pull-right">
+        <a href="{% url 'courses:grades-config' course.pk %}" class="btn btn-success">
+          <span class="glyphicon glyphicon-wrench step"></span>
+          Configurar
+        </a>
+      </div>
+
+      <h1 class="header">
+        <span class="glyphicon glyphicon-ok step"></span>
+        Calificaciones
+      </h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="alert alert-warning">
+      Not implemented
+    </div>
+  </div>
+{% endblock %}

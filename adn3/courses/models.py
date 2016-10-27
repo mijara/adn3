@@ -37,7 +37,8 @@ class Course(models.Model):
     # state of the course.
     status = models.BooleanField(default=True, verbose_name=u'Estado')
 
-    teachers = models.ManyToManyField('auth.User', through='CourseTeacher', blank=True, verbose_name='Profesores')
+    teachers = models.ManyToManyField('auth.User', through='CourseTeacher', blank=True,
+                                      verbose_name='Profesores')
 
     # Added for statistics.
     create_date = models.DateTimeField(auto_now_add=True)
@@ -86,3 +87,18 @@ class CourseTeacher(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+
+class CourseGradesConfig(models.Model):
+    course = models.OneToOneField('Course', related_name='grades_config', blank=True, null=True)
+
+    grade_tests = models.FloatField(verbose_name=u'% Nota controles')
+
+    grade_pretests = models.FloatField(verbose_name=u'% Nota preinformes')
+
+    grade_assistance = models.FloatField(verbose_name=u'% Nota asistencia')
+
+    show_final_grade = models.BooleanField(default=True, verbose_name=u'Mostrar nota final')
+
+    def __unicode__(self):
+        return self.course.name
