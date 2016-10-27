@@ -50,6 +50,15 @@ class Course(models.Model):
 
         return count
 
+    def count_assistants(self):
+        assistants = set()
+
+        for agenda in self.agenda_set.all():
+            for assistant in agenda.assistants.all():
+                assistants.add(assistant)
+
+        return len(assistants)
+
     def __unicode__(self):
         return u'%s - %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
 

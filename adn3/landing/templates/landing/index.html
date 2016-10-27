@@ -10,42 +10,13 @@
 
         <div class="row">
           <div class="col-md-12">
-            <div class="pull-right info-date">0/0/0</div>
-            <h4>Ramo A</h4>
-            <p class="text-muted text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti dicta dolores eos et expedita fugiat
-              ipsa, iusto laboriosam, maxime molestiae, nam nobis non rerum. Aliquam esse explicabo molestias odio quo.
-            </p>
-          </div>
-
-          <div class="col-md-12">
-            <div class="pull-right info-date">0/0/0</div>
-            <h4>Ramo B</h4>
-            <p class="text-muted text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum doloribus esse explicabo laborum nihil
-              officiis, perferendis quae rem! Dicta natus quae reprehenderit sed sequi sit tempore tenetur ut voluptas!
-              Ullam.
-            </p>
-          </div>
-
-          <div class="col-md-12">
-            <div class="pull-right info-date">0/0/0</div>
-            <h4>Ramo B</h4>
-            <p class="text-muted text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias at doloribus enim est expedita inventore
-              iste laudantium natus nesciunt, odio officiis praesentium quas quidem, reprehenderit temporibus, velit
-              voluptatum! Nulla, temporibus.
-            </p>
-          </div>
-
-          <div class="col-md-12">
-            <div class="pull-right info-date">0/0/0</div>
-            <h4>Ramo B</h4>
-            <p class="text-muted text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus accusantium aspernatur, consequatur
-              cupiditate esse excepturi, in iusto magni nobis praesentium recusandae reprehenderit temporibus? Animi eos
-              nesciunt quam rem vero.
-            </p>
+            {% for new in news %}
+              <div class="pull-right info-date">{{ new.create_date | date:'d/m/y' }}</div>
+              <h4>{{ new.course }}</h4>
+              <p class="text-muted text-justify">
+                {{ new.body | truncatechars:290 }}
+              </p>
+            {% endfor %}
           </div>
         </div>
       </div>

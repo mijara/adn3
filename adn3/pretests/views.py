@@ -47,4 +47,19 @@ def detail(request, course_pk, pk=None):
 
 
 def upload(request, pk):
-    return None
+    pretest = get_object_or_404(Pretest, pk=pk)
+
+    form = PretestFileForm(request.POST or None, request.FILES or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.pretest = pretest
+            instance.save()
+
+            return redirect('pretests:show', pretest.pk)
+
+    return render(request, 'pretests/upload.html', {
+        'pretest': pretest,
+        'form': form
+    })

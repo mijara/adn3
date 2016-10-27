@@ -1,12 +1,15 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+from news.models import New
 
 
 def index(request):
     if request.user.is_authenticated():
         return redirect('self:index')
 
-    return render(request, 'landing/index.html')
+    return render(request, 'landing/index.html', {
+        'news': New.objects.all()[:5]
+    })
 
 
 def sign_in(request):
