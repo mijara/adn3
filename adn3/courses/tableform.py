@@ -13,6 +13,7 @@ class TableForm(object):
     def __init__(self, collection):
         self.collection = collection
         self.fields = {}
+        self.include_pks = []
 
     def add_field(self, name, default, transform=None):
         if transform is None:
@@ -27,12 +28,15 @@ class TableForm(object):
     def process(self, post_data):
         items = {}
 
+        for pk in self.include_pks:
+            items[pk] = {}
+
         for name in post_data:
             for field in self.fields:
                 match = self.fields[field]['regex'].match(name)
 
                 if match is not None:
-                    pk = match.group('pk')
+                    pk = int(match.group('pk'))
 
                     if pk not in items:
                         items[pk] = {}
@@ -64,3 +68,6 @@ class TableForm(object):
     def process_and_save(self, clazz, post_data):
         items = self.process(post_data)
         self.save(clazz, items)
+
+    def expect_pks(self, pks):
+        self.include_pks += pks

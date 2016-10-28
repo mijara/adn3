@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from models import *
 from forms import *
 import services
+from django import forms
 
 
 def show(request, pk):
@@ -36,7 +37,8 @@ def grades_config(request, pk):
             instance.course = course
             instance.save()
 
-            services.save_grades(request.POST)
+            services.save_pretests(request.POST)
+            services.save_sessions(request.POST, services.session_pks(course))
 
             return redirect('courses:grades', pk=pk)
 

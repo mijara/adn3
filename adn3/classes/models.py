@@ -39,6 +39,10 @@ class Session(models.Model):
         (RECUPERATIVE, 'Recuperativa'),
     ], verbose_name='Tipo')
 
+    # include in the general assistance for the final course grade.
+    include_assistance = models.BooleanField(default=True,
+                                             verbose_name=u'Incluir en la asistencia')
+
     # use for ordering.
     create_date = models.DateTimeField(auto_now_add=True)
 
@@ -60,3 +64,6 @@ class SessionFile(models.Model):
     file = models.FileField(verbose_name='Archivo')
 
     create_date = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name

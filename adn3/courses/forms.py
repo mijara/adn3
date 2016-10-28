@@ -1,5 +1,12 @@
 from django import forms
 from models import *
+from pretests.models import Pretest
+
+
+class PretestGradeForm(forms.ModelForm):
+    class Meta:
+        model = Pretest
+        fields = ('percentage', 'show_grade')
 
 
 class CourseGradesConfigForm(forms.ModelForm):
