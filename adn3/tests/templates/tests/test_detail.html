@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' test.course.pk %}">{{ test.course }}</a></li>
+    <li><a href="{% url 'tests:test_list' test.course.pk %}">Controles</a></li>
+    <li><a href="{% url 'tests:test_detail' test.pk %}">{{ test }}</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="pull-right">
+          <a href="{{ test.get_update_url }}" class="btn btn-success">
+            <span class="glyphicon glyphicon-pencil step"></span>
+            Editar
+          </a>
+        </span>
+
+        <span class="glyphicon glyphicon-map-marker step"></span>
+        {{ test }}
+      </h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Control
+        </div>
+
+        <div class="panel-body">
+          <table width="100%">
+            <tbody>
+            <tr>
+              <th width="25%">Nombre</th>
+              <td>{{ test.name }}</td>
+            </tr>
+
+            <tr>
+              <th>Software</th>
+              <td>{{ test.software.name }}</td>
+            </tr>
+
+            <tr>
+              <th>Sesión</th>
+              <td>{{ test.session.number }} ({{ test.session.name }})</td>
+            </tr>
+
+            <tr>
+              <th>Estado</th>
+              <td>
+                {% if test.active %}Activo{% else %}Inactivo{% endif %}
+              </td>
+            </tr>
+
+            <tr>
+              <th>Formas</th>
+              <td>
+                --
+              </td>
+            </tr>
+
+            <tr>
+              <th>Puntaje</th>
+              <td>
+                --
+              </td>
+            </tr>
+
+            <tr>
+              <th>Duración</th>
+              <td>
+                {{ test.get_timeout_display }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>Respuestas</th>
+              <td>
+                --
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+
+    </div>
+  </div>
+{% endblock %}

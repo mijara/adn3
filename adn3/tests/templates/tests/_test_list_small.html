@@ -1,0 +1,25 @@
+{% if test_list.count == 0 %}
+  <div class="alert alert-warning">
+    Sin controles
+  </div>
+{% else %}
+  <div class="panel panel-default">
+    <table class="table">
+      <thead>
+      <tr class="table-heading">
+        <th width="100%">Nombre</th>
+        <th width="0%">Sesión</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for test in test_list.all %}
+        <tr>
+          <td><a href="{% url 'tests:test_detail' test.pk %}">{{ test.name }}</a></td>
+          <td><a href="{{ test.session.get_absolute_url }}">{{ test.session.number }}</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}

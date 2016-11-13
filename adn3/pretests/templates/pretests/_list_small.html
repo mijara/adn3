@@ -4,24 +4,24 @@
   </div>
 {% else %}
   <div class="panel panel-default">
-  <table class="table">
-    <thead>
-    <tr class="table-heading">
-      <th width="90%">Nombre</th>
-      <th>Inicio</th>
-      <th>Entrega</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    {% for pretest in course.pretest_set.all %}
-      <tr>
-        <td><a href="{% url 'pretests:show' pretest.pk %}">{{ pretest.name }}</a></td>
-        <td>{{ pretest.start_session.number }}</td>
-        <td>{{ pretest.end_session.number }}</td>
+    <table class="table">
+      <thead>
+      <tr class="table-heading">
+        <th width="90%">Nombre</th>
+        <th>Inicio</th>
+        <th>Entrega</th>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+      {% for pretest in course.pretest_set.all %}
+        <tr>
+          <td><a href="{% url 'pretests:show' pretest.pk %}">{{ pretest.name }}</a></td>
+          <td>{{ pretest.start_session.number }}</td>
+          <td>{{ pretest.end_session.number }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endif %}

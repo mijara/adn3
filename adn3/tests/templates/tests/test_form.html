@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
+    <li><a href="{% url 'tests:test_list' course.pk %}">Controles</a></li>
+    {% if form.instance.pk %}
+      <li><a href="{% url 'tests:test_update' course.pk form.instance.pk %}">Editar Control</a></li>
+    {% else %}
+      <li><a href="{% url 'tests:test_create' course.pk %}">Nuevo Control</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="glyphicon glyphicon-file step"></span>
+        {% if form.instance.pk %}
+          Editar
+        {% else %}
+          Nuevo
+        {% endif %}
+        Control
+      </h1>
+
+      <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            {% include '_form.html' %}
+          </div>
+
+          <div class="panel-footer text-right">
+            <button class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

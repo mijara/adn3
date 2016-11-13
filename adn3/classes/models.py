@@ -55,6 +55,10 @@ class Session(models.Model):
     def duration(self):
         return (self.end_date - self.start_date).days
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'classes:show', [self.pk]
+
 
 class SessionFile(models.Model):
     session = models.ForeignKey('classes.Session')

@@ -70,6 +70,14 @@ urlpatterns = [
     ),
 
     url(
+      '^tests/',
+      include(
+          'tests.urls',
+          namespace='tests'
+      )
+    ),
+
+    url(
         r'^admin/',
         include(
             admin.site.urls

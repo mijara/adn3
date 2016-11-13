@@ -39,11 +39,12 @@
 
       <hr>
 
+      <a class="pull-right right-link" href="{% url 'tests:test_list' course.pk %}">Ver todos</a>
       <h3><span class="glyphicon glyphicon-file step"></span> Controles</h3>
 
-      <div class="alert alert-warning">
-        Sin controles
-      </div>
+      {% with course.test_set as test_list %}
+        {% include 'tests/_test_list_small.html' %}
+      {% endwith %}
 
       <hr>
 
