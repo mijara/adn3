@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        {% block icon %}
+          <div class="btn btn-danger"><span class="glyphicon glyphicon-alert"></span></div>
+        {% endblock %}
+
+        {% if form.instance.pk %}
+          Editar
+        {% else %}
+          Crear
+        {% endif %}
+
+        {% block object_name %}{% endblock %}
+      </h1>
+
+      <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            {% include '_form.html' %}
+          </div>
+
+          <div class="panel-footer text-right">
+            <button class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

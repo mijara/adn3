@@ -15,30 +15,36 @@
   </div>
 
   <div class="row">
-    <!-- Agendas -->
     <div class="col-sm-8">
+      <!-- Agendas -->
       <h3><span class="glyphicon glyphicon-calendar step"></span> Agendas</h3>
       {% include 'courses/_agendas.html' %}
       <hr>
 
-      <a class="pull-right right-link" href="{% url 'news:index' course.pk %}">Ver todas</a>
+      <!-- News -->
+      <a class="pull-right right-link" href="{% url 'news:new_list' course.pk %}">Ver todas</a>
       <h3><span class="glyphicon glyphicon-bookmark step"></span> Noticias</h3>
-      {% include 'news/_list.html' %}
+      {% with course.new_set.all as new_list %}
+        {% include 'news/_list.html' %}
+      {% endwith %}
 
       <hr>
 
+      <!-- Sessions -->
       <a class="pull-right right-link" href="{% url 'classes:index' course.pk %}">Expandir</a>
       <h3><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</h3>
       {% include 'classes/_list_small.html' %}
 
       <hr>
 
+      <!-- Pretests -->
       <a class="pull-right right-link" href="{% url 'pretests:index' course.pk %}">Expandir</a>
       <h3><span class="glyphicon glyphicon-inbox step"></span> Preinformes</h3>
       {% include 'pretests/_list_small.html' %}
 
       <hr>
 
+      <!-- Tests -->
       <a class="pull-right right-link" href="{% url 'tests:test_list' course.pk %}">Ver todos</a>
       <h3><span class="glyphicon glyphicon-file step"></span> Controles</h3>
 
@@ -48,6 +54,7 @@
 
       <hr>
 
+      <!-- Files -->
       <a class="pull-right right-link" href="{% url 'files:index' course.pk %}">Ver todos</a>
       <h3><span class="glyphicon glyphicon-download step"></span> Archivos</h3>
       {% include 'files/_list.html' %}
@@ -96,7 +103,7 @@
 
         <div class="panel-body">
           <ul class="nav nav-pills nav-stacked">
-            <li><a href="{% url 'news:create' course.pk %}">
+            <li><a href="{% url 'news:new_create' course.pk %}">
               <span class="glyphicon glyphicon-bookmark step"></span> Publicar Noticia</a>
             </li>
 
@@ -108,7 +115,7 @@
               <span class="glyphicon glyphicon-inbox step"></span> Nuevo Preinforme</a>
             </li>
 
-            <li><a href="#">
+            <li><a href="{% url 'tests:test_create' course.pk %}">
               <span class="glyphicon glyphicon-file step"></span> Nuevo Control</a>
             </li>
 
@@ -120,7 +127,7 @@
           <hr>
 
           <ul class="nav nav-pills nav-stacked">
-            <li><a href="{% url 'news:create' course.pk %}">
+            <li><a href="#">
               <span class="glyphicon glyphicon-th step"></span> Preinscripciones</a>
             </li>
 

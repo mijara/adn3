@@ -1,0 +1,23 @@
+{% extends 'form.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' view.get_course.pk %}">{{ view.get_course }}</a></li>
+    <li><a href="{% url 'news:new_list' view.get_course.pk %}">Noticias</a></li>
+    {% if form.instance.pk %}
+      <li><a href="{{ form.instance.get_absolute_url }}">{{ form.instance.title }}</a></li>
+      <li><a href="{{ form.instance.get_update_url }}">Editar noticia</a></li>
+    {% else %}
+      <li><a href="{% url 'news:new_create' view.get_course.pk %}">Publicar noticia</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+{% block icon %}
+  <span class="glyphicon glyphicon-bookmark step"></span>
+{% endblock %}
+
+{% block object_name %}
+  Noticia
+{% endblock %}

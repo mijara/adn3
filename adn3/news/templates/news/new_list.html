@@ -3,8 +3,8 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
-    <li class="active"><a href="{% url 'news:index' course.pk %}">Noticias</a></li>
+    <li><a href="{% url 'courses:show' view.get_course.pk %}">{{ view.get_course }}</a></li>
+    <li class="active"><a href="{% url 'news:new_list' view.get_course.pk %}">Noticias</a></li>
   </ol>
 {% endblock %}
 
@@ -12,8 +12,9 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="pull-right">
-        <a class="btn btn-success" href="{% url 'news:create' course.pk %}">
+        <a class="btn btn-success" href="{% url 'news:new_create' view.get_course.pk %}">
           <span class="glyphicon glyphicon-plus"></span>
+
           Publicar Noticia
         </a>
       </div>

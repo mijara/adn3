@@ -4,25 +4,31 @@ import views
 urlpatterns = [
     url(
         '^(?P<course_pk>\d+)/$',
-        views.index,
-        name='index'
+        views.NewList.as_view(),
+        name='new_list'
     ),
 
     url(
-        '^show/(?P<pk>\d+)/$',
-        views.show,
-        name='show'
+        '^detail/(?P<pk>\d+)/$',
+        views.NewDetail.as_view(),
+        name='new_detail'
     ),
 
     url(
         '^(?P<course_pk>\d+)/create/$',
-        views.detail,
-        name='create'
+        views.NewCreate.as_view(),
+        name='new_create'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/edit/(?P<pk>\d+)$',
-        views.detail,
-        name='edit'
+        '^(?P<course_pk>\d+)/update/(?P<pk>\d+)$',
+        views.NewUpdate.as_view(),
+        name='new_update'
+    ),
+
+    url(
+        '^(?P<course_pk>\d+)/delete/(?P<pk>\d+)/$',
+        views.NewDelete.as_view(),
+        name='new_delete'
     ),
 ]

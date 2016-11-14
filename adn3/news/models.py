@@ -24,3 +24,15 @@ class New(models.Model):
 
     def __unicode__(self):
         return u'[%s] %s' % (self.course, self.title)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'news:new_detail', [self.pk]
+
+    @models.permalink
+    def get_update_url(self):
+        return 'news:new_update', [self.course.pk, self.pk]
+
+    @models.permalink
+    def get_delete_url(self):
+        return 'news:new_delete', [self.course.pk, self.pk]

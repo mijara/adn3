@@ -3,14 +3,14 @@
     Sin noticias
   </div>
 {% else %}
-  {% for new in course.new_set.all %}
+  {% for new in new_list %}
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="pull-right">
           {{ new.create_date | date:'d/m/Y - H:i' }}
         </div>
 
-        <a href="{% url 'news:show' new.pk %}">{{ new.title }}</a>
+        <a href="{{ new.get_absolute_url }}">{{ new.title }}</a>
       </div>
 
       <div class="panel-body">

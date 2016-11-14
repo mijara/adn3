@@ -1,42 +1,38 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.core.urlresolvers import reverse_lazy
+from django.views import generic
+
+from adn3 import mixins
 from forms import *
-from courses.models import *
 
 
-def index(request, course_pk):
-    return render(request, 'news/index.html', {
-        'course': get_object_or_404(Course, pk=course_pk)
-    })
+class NewList(mixins.CourseMixin, generic.ListView):
+    def get_queryset(self):
+        return self.get_course().new_set.all()
 
 
-def show(request, pk):
-    new = get_object_or_404(New, pk=pk)
-
-    return render(request, 'news/show.html', {
-        'new': new
-    })
+class NewDetail(generic.DetailView):
+    model = New
 
 
-def detail(request, course_pk, pk=None):
-    course = get_object_or_404(Course, pk=course_pk)
+class NewUpdate(mixins.CourseMixin, generic.UpdateView):
+    model = New
+    form_class = NewForm
 
-    if pk is None:
-        instance = New()
-    else:
-        instance = get_object_or_404(New, pk=pk)
 
-    form = NewForm(request.POST or None, instance=instance)
+class NewCreate(mixins.CourseMixin, generic.CreateView):
+    model = New
+    form_class = NewForm
 
-    if request.method == 'POST':
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.owner = request.user
-            instance.course = course
-            instance.save()
+    def form_valid(self, form):
+        form.instance.course = self.get_course()
+        form.instance.owner = self.request.user
+        return super(NewCreate, self).form_valid(form)
 
-            return redirect('news:show', pk=instance.pk)
 
-    return render(request, 'news/detail.html', {
-        'course': course,
-        'form': form
-    })
+class NewDelete(mixins.GoBackPageMixin, mixins.CourseMixin, generic.DeleteView):
+    model = New
+
+    def get_success_url(self):
+        return reverse_lazy('news:new_list', kwargs={
+            'course_pk': self.get_course().pk
+        })

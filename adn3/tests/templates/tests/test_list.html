@@ -3,15 +3,15 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
-    <li><a href="{% url 'tests:test_list' course.pk %}">Controles</a></li>
+    <li><a href="{% url 'courses:show' view.get_course.pk %}">{{ view.get_course }}</a></li>
+    <li><a href="{% url 'tests:test_list' view.get_course.pk %}">Controles</a></li>
   </ol>
 {% endblock %}
 
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
-      <a href="{% url 'tests:test_create' course.pk %}" class="btn btn-success pull-right">
+      <a href="{% url 'tests:test_create' view.get_course.pk %}" class="btn btn-success pull-right">
         <span class="glyphicon glyphicon-plus"></span>
         Nuevo Control
       </a>

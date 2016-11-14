@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' new.course.pk %}">{{ new.course }}</a></li>
+    <li><a href="{% url 'news:new_list' new.course.pk %}">Noticias</a></li>
+    <li><a href="{% url 'news:new_detail' new.pk %}">{{ new.title }}</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      {% if new.owner == request.user %}
+        <div class="pull-right">
+          <a href="{{ new.get_delete_url }}" class="btn btn-danger">
+            <span href="" class="glyphicon glyphicon-remove"></span>
+          </a>
+
+          <a href="{{ new.get_update_url }}" class="btn btn-success">
+            <span href="" class="glyphicon glyphicon-pencil"></span>
+          </a>
+        </div>
+      {% endif %}
+
+      <h1 class="header">{{ new.title }}</h1>
+
+      {{ new.body | linebreaks }}
+    </div>
+  </div>
+{% endblock %}
