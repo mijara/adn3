@@ -36,7 +36,31 @@ class Test(models.Model):
     def get_absolute_url(self):
         return 'tests:test_detail', [self.pk]
 
-
     @models.permalink
     def get_update_url(self):
         return 'tests:test_update', [self.course.pk, self.pk]
+
+    @models.permalink
+    def get_delete_url(self):
+        return 'tests:test_delete', [self.course.pk, self.pk]
+
+
+class Version(models.Model):
+    test = models.ForeignKey('Test', verbose_name='Control')
+
+    create_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Forma'
+        verbose_name_plural = 'Formas'
+
+    def __unicode__(self):
+        return self.test.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'tests:version_detail', [self.pk]
+
+    @models.permalink
+    def get_delete_url(self):
+        return 'tests:version_delete', [self.test.pk, self.pk]

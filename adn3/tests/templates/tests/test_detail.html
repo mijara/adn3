@@ -13,10 +13,20 @@
   <div class="row">
     <div class="col-sm-12">
       <h1 class="header">
-        <span class="pull-right">
+        <!-- Control buttons -->
+        <span class="pull-right hidden-xs">
+          <a href="{{ test.get_delete_url }}" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove"></span>
+            <span class="back-step hidden-xs">
+              Eliminar
+            </span>
+          </a>
+
           <a href="{{ test.get_update_url }}" class="btn btn-success">
-            <span class="glyphicon glyphicon-pencil step"></span>
-            Editar
+            <span class="glyphicon glyphicon-pencil"></span>
+            <span class="back-step hidden-xs">
+              Editar
+            </span>
           </a>
         </span>
 
@@ -28,19 +38,30 @@
 
   <div class="row">
     <div class="col-sm-8">
+      <div>
+        <div class="pull-right">
+          <a href="{% url 'tests:version_create' test.pk %}" class="btn btn-primary btn-sm">Crear forma</a>
+        </div>
+
+        <h3>Formas</h3>
+      </div>
+
+      <div class="list-group">
+        {% for version in test.version_set.all %}
+          <a href="{{ version.get_absolute_url }}" class="list-group-item">Forma {{ forloop.counter }}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
       <div class="panel panel-default">
         <div class="panel-heading">
-          Control
+          Detalles
         </div>
 
         <div class="panel-body">
           <table width="100%">
             <tbody>
-            <tr>
-              <th width="25%">Nombre</th>
-              <td>{{ test.name }}</td>
-            </tr>
-
             <tr>
               <th>Software</th>
               <td>{{ test.software.name }}</td>
@@ -61,7 +82,7 @@
             <tr>
               <th>Formas</th>
               <td>
-                --
+                {{ test.version_set.count }}
               </td>
             </tr>
 
@@ -90,9 +111,19 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="col-sm-4">
+  <div class="row hidden-sm hidden-md hidden-lg">
+    <div class="col-sm-12">
+      <a href="{{ test.get_update_url }}" class="btn btn-success btn-block">
+        <span class="glyphicon glyphicon-pencil"></span>
+        Editar
+      </a>
 
+      <a href="{{ test.get_delete_url }}" class="btn btn-danger btn-block">
+        <span class="glyphicon glyphicon-remove"></span>
+        Eliminar
+      </a>
     </div>
   </div>
 {% endblock %}

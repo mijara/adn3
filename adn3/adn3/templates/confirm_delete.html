@@ -32,7 +32,11 @@
           <form action="" method="post">
             {% csrf_token %}
 
-            <a href="{{ view.get_last_page }}" class="btn btn-primary">Volver</a>
+            <a href="{% if view.get_last_page %}
+              {{ view.get_last_page }}
+            {% else %}
+              {% block back_page %}{% endblock %}
+            {% endif %}" class="btn btn-primary">Volver</a>
             <button type="submit" class="btn btn-danger pull-right">Confirmar</button>
           </form>
         </div>
