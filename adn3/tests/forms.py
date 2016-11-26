@@ -8,6 +8,10 @@ class TestForm(forms.ModelForm):
         fields = ['name', 'session', 'software', 'timeout', 'show_grade', 'percentage']
 
 
+class VersionFileForm(forms.Form):
+    file = forms.FileField()
+
+
 class ChoiceQuestionForm(forms.ModelForm):
     alternative_1 = forms.CharField(label='A)')
     alternative_2 = forms.CharField(label='B)')

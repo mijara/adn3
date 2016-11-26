@@ -1,3 +1,4 @@
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect, get_object_or_404
 from django.views import View
 from django.views import generic
@@ -49,6 +50,11 @@ class TestDelete(mixins.CourseMixin, generic.DeleteView):
 class VersionDetail(generic.DetailView):
     model = Version
 
+    def get_context_data(self, **kwargs):
+        context = super(VersionDetail, self).get_context_data(**kwargs)
+        context['file_form'] = VersionFileForm(self.object)
+        return context
+
 
 class VersionCreate(View):
     def get(self, request, test_pk):
@@ -69,6 +75,21 @@ class VersionDelete(mixins.TestMixin, generic.DeleteView):
 
     def get_success_url(self):
         return self.get_test().get_absolute_url()
+
+
+def version_attach_file(request, version_pk):
+    version = get_object_or_404(Version, pk=version_pk)
+
+    form = VersionFileForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        if version.file.name:
+            version.file.delete()
+
+        version.file = form.cleaned_data['file']
+        version.save()
+
+    return redirect(version.get_absolute_url())
 
 
 # Question Views

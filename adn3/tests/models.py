@@ -53,6 +53,8 @@ class Version(models.Model):
 
     index = models.IntegerField()
 
+    file = models.FileField(upload_to='tests/', blank=True)
+
     class Meta:
         verbose_name = 'Forma'
         verbose_name_plural = 'Formas'

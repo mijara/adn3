@@ -51,6 +51,12 @@ urlpatterns = [
     ),
 
     url(
+        r'^version/(?P<version_pk>\d+)/attachfile/$',
+        views.version_attach_file,
+        name='version_attach_file'
+    ),
+
+    url(
         r'^(?P<version_pk>\d+)/question/choice/create/$',
         views.ChoiceQuestionCreate.as_view(),
         name='choicequestion_create'

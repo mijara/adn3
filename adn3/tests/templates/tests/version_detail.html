@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 
 {% block breadcrump %}
   <ol class="breadcrumb">
@@ -69,7 +70,28 @@
           {% endif %}
         </div>
       {% endfor %}
+    </div>
 
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Archivo Adjunto
+        </div>
+
+        <div class="panel-body">
+          <form action="{% url 'tests:version_attach_file' version.pk %}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success pull-right">Guardar</button>
+
+            {% if version.file.name %}
+              <p>Actual: <a href="{{ version.file.url }}">{{ version.file.name }}</a></p>
+              <strong>Reemplazar:</strong>
+            {% endif %}
+
+            {{ file_form.file }}
+          </form>
+        </div>
+      </div>
     </div>
 
     <div class="col-sm-12 text-right">
