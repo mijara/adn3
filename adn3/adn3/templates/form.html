@@ -28,7 +28,11 @@
             </div>
 
             <div class="panel-footer text-right">
-              <button class="btn btn-primary">Enviar</button>
+              {% block panel_footer_extra %}
+
+              {% endblock %}
+
+              <button class="btn btn-primary">Guardar</button>
             </div>
           </div>
         </form>

@@ -1,0 +1,33 @@
+{% extends 'form.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' view.get_version.test.course.pk %}">{{ view.get_version.test.course }}</a></li>
+    <li><a href="{% url 'tests:test_list' view.get_version.test.course.pk %}">Controles</a></li>
+    <li><a href="{% url 'tests:test_detail' view.get_version.test.pk %}">{{ view.get_version.test }}</a></li>
+    <li><a href="{% url 'tests:version_detail' view.get_version.pk %}">Forma {{ view.get_version.index }}</a></li>
+
+    {% if form.instance.pk %}
+      <li><a href="">Editar Pregunta</a></li>
+    {% else %}
+      <li><a href="{% url 'tests:numericalquestion_create' view.get_version.pk %}">Crear Pregunta</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+{% block icon %}
+  <span class="glyphicon glyphicon-file step"></span>
+{% endblock %}
+
+{% block object_name %}
+  Pregunta Numérica
+{% endblock %}
+
+{% block panel_footer_extra %}
+  <div class="pull-left">
+    <a href="{% url 'tests:numericalquestion_delete' view.get_version.pk numericalquestion.pk %}"
+       class="btn btn-danger">Eliminar</a>
+  </div>
+{% endblock %}

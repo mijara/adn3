@@ -55,4 +55,40 @@ urlpatterns = [
         views.ChoiceQuestionCreate.as_view(),
         name='choicequestion_create'
     ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/text/create/$',
+        views.TextQuestionCreate.as_view(),
+        name='textquestion_create'
+    ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/text/update/(?P<pk>\d+)/$',
+        views.TextQuestionUpdate.as_view(),
+        name='textquestion_update'
+    ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/text/delete/(?P<pk>\d+)/$',
+        views.TextQuestionDelete.as_view(),
+        name='textquestion_delete'
+    ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/numerical/create/$',
+        views.NumericalQuestionCreate.as_view(),
+        name='numericalquestion_create'
+    ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/numerical/update/(?P<pk>\d+)/$',
+        views.NumericalQuestionUpdate.as_view(),
+        name='numericalquestion_update'
+    ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/numerical/delete/(?P<pk>\d+)/$',
+        views.NumericalQuestionDelete.as_view(),
+        name='numericalquestion_delete'
+    ),
 ]

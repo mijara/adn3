@@ -20,3 +20,15 @@ class ChoiceQuestionForm(forms.ModelForm):
     class Meta:
         model = ChoiceQuestion
         fields = ['text', 'score', 'alternative_1', 'alternative_2', 'alternative_3', 'alternative_4', 'alternative_5']
+
+
+class TextQuestionForm(forms.ModelForm):
+    class Meta:
+        model = TextQuestion
+        fields = ['text', 'score']
+
+
+class NumericalQuestionForm(forms.ModelForm):
+    class Meta:
+        model = NumericalQuestion
+        fields = ['text', 'bottom_limit', 'top_limit', 'score']

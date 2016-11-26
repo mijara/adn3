@@ -70,7 +70,7 @@ class Version(models.Model):
 
 
 class Question(models.Model):
-    version = models.ForeignKey('Version', verbose_name='Forma')
+    version = models.ForeignKey('Version', verbose_name=u'Forma')
 
     text = models.TextField(verbose_name=u'Enunciado')
 
@@ -80,13 +80,29 @@ class Question(models.Model):
     def __unicode__(self):
         return self.text[:25]
 
+    def get_update_url(self):
+        return '#'
+
+
+class TextQuestion(Question):
+    def get_update_url(self):
+        return reverse_lazy('tests:textquestion_update', args=[self.version.pk, self.pk])
+
+
+class NumericalQuestion(Question):
+    top_limit = models.FloatField(verbose_name=u'Límite Superior')
+    bottom_limit = models.FloatField(verbose_name=u'Límite Inferior')
+
+    def get_update_url(self):
+        return reverse_lazy('tests:numericalquestion_update', args=[self.version.pk, self.pk])
+
 
 class ChoiceQuestion(Question):
     pass
 
 
 class Alternative(models.Model):
-    question = models.ForeignKey('ChoiceQuestion')
+    question = models.ForeignKey('ChoiceQuestion', verbose_name=u'Pregunta')
 
     index = models.IntegerField(verbose_name=u'Índice')
     text = models.TextField(verbose_name=u'Texto')

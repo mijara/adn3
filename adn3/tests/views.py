@@ -94,3 +94,57 @@ class ChoiceQuestionCreate(mixins.VersionMixin, generic.CreateView):
 
     def get_success_url(self):
         return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
+class TextQuestionCreate(mixins.VersionMixin, generic.CreateView):
+    model = TextQuestion
+    form_class = TextQuestionForm
+
+    def form_valid(self, form):
+        form.instance.version = self.get_version()
+        return super(TextQuestionCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
+class TextQuestionUpdate(mixins.VersionMixin, generic.UpdateView):
+    model = TextQuestion
+    form_class = TextQuestionForm
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
+class TextQuestionDelete(mixins.VersionMixin, generic.DeleteView):
+    model = TextQuestion
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
+class NumericalQuestionCreate(mixins.VersionMixin, generic.CreateView):
+    model = NumericalQuestion
+    form_class = NumericalQuestionForm
+
+    def form_valid(self, form):
+        form.instance.version = self.get_version()
+        return super(NumericalQuestionCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
+class NumericalQuestionUpdate(mixins.VersionMixin, generic.UpdateView):
+    model = NumericalQuestion
+    form_class = NumericalQuestionForm
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
+class NumericalQuestionDelete(mixins.VersionMixin, generic.DeleteView):
+    model = NumericalQuestion
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
