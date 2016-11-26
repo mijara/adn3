@@ -50,6 +50,8 @@
               {{ question.textquestion.get_update_url }}
             {% elif question.numericalquestion %}
               {{ question.numericalquestion.get_update_url }}
+            {% elif question.choicequestion %}
+              {{ question.choicequestion.get_update_url }}
             {% endif %}
             " class="pull-right btn btn-success btn-xs" style="margin-left: 15px">
               <span class="glyphicon glyphicon-pencil"></span>

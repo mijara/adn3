@@ -80,9 +80,6 @@ class Question(models.Model):
     def __unicode__(self):
         return self.text[:25]
 
-    def get_update_url(self):
-        return '#'
-
 
 class TextQuestion(Question):
     def get_update_url(self):
@@ -98,7 +95,8 @@ class NumericalQuestion(Question):
 
 
 class ChoiceQuestion(Question):
-    pass
+    def get_update_url(self):
+        return reverse_lazy('tests:choicequestion_update', args=[self.version.pk, self.pk])
 
 
 class Alternative(models.Model):

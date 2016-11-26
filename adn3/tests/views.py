@@ -96,6 +96,47 @@ class ChoiceQuestionCreate(mixins.VersionMixin, generic.CreateView):
         return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
 
 
+class ChoiceQuestionUpdate(mixins.VersionMixin, generic.UpdateView):
+    model = ChoiceQuestion
+    form_class = ChoiceQuestionForm
+
+    def get_form(self, form_class=None):
+        form = super(ChoiceQuestionUpdate, self).get_form(form_class)
+        for alt in self.object.alternative_set.all():
+            if alt.correct:
+                form.fields['correct'].initial = str(alt.index)
+
+            form.fields['alternative_' + str(alt.index)].initial = alt.text
+
+        return form
+
+    def form_valid(self, form):
+        response = super(ChoiceQuestionUpdate, self).form_valid(form)
+
+        self.object.alternative_set.all().delete()
+
+        for i in range(1, 6):
+            text = form.cleaned_data['alternative_' + str(i)]
+            if not text:
+                continue
+
+            correct = True if form.cleaned_data['correct'] == i else False
+            alternative = Alternative(text=text, correct=correct, question=self.object, index=i)
+            alternative.save()
+
+        return response
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
+class ChoiceQuestionDelete(mixins.VersionMixin, generic.DeleteView):
+    model = ChoiceQuestion
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])
+
+
 class TextQuestionCreate(mixins.VersionMixin, generic.CreateView):
     model = TextQuestion
     form_class = TextQuestionForm

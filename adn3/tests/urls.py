@@ -57,6 +57,18 @@ urlpatterns = [
     ),
 
     url(
+        r'^(?P<version_pk>\d+)/question/choice/update/(?P<pk>\d+)/$',
+        views.ChoiceQuestionUpdate.as_view(),
+        name='choicequestion_update'
+    ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/choice/delete/(?P<pk>\d+)/$',
+        views.ChoiceQuestionDelete.as_view(),
+        name='choicequestion_delete'
+    ),
+
+    url(
         r'^(?P<version_pk>\d+)/question/text/create/$',
         views.TextQuestionCreate.as_view(),
         name='textquestion_create'

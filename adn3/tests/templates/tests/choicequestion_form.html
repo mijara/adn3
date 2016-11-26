@@ -51,12 +51,14 @@
           {% else %}
             <div>
           {% endif %}
-          <input type="text" name="alternative_1" class="form-control" value="{% if form.alternative_1.value %}{{ form.alternative_1.value }}{% endif %}">
+          <input type="text" name="alternative_1" class="form-control"
+                 value="{{ form.alternative_1.value|default_if_none:'' }}">
           </div>
         </td>
 
         <td width="20" style="vertical-align: middle">
-          <input type="radio" name="correct" value="1" {% if form.correct.value == '1' %}checked{% endif %} {% if not form.correct.value %}checked{% endif %}>
+          <input type="radio" name="correct" value="1" {% if form.correct.value == '1' %}checked{% endif %}
+                 {% if not form.correct.value %}checked{% endif %}>
         </td>
       </tr>
 
@@ -68,7 +70,8 @@
           {% else %}
             <div>
           {% endif %}
-          <input type="text" name="alternative_2" class="form-control" value="{% if form.alternative_2.value %}{{ form.alternative_2.value }}{% endif %}">
+          <input type="text" name="alternative_2" class="form-control"
+                 value="{{ form.alternative_2.value|default_if_none:'' }}">
           </div>
         </td>
         <td width="20" style="vertical-align: middle">
@@ -79,7 +82,8 @@
       <tr>
         <th width="20" style="vertical-align: middle">C)</th>
         <td>
-          <input type="text" name="alternative_3" class="form-control" value="{% if form.alternative_3.value %}{{ form.alternative_3.value }}{% endif %}">
+          <input type="text" name="alternative_3" class="form-control"
+                 value="{{ form.alternative_3.value|default_if_none:'' }}">
         </td>
         <td width="20" style="vertical-align: middle">
           <input type="radio" name="correct" value="3" {% if form.correct.value == '3' %}checked{% endif %}>
@@ -89,7 +93,8 @@
       <tr>
         <th width="20" style="vertical-align: middle">D)</th>
         <td>
-          <input type="text" name="alternative_4" class="form-control" value="{% if form.alternative_4.value %}{{ form.alternative_4.value }}{% endif %}">
+          <input type="text" name="alternative_4" class="form-control"
+                 value="{{ form.alternative_4.value|default_if_none:'' }}">
         </td>
         <td width="20" style="vertical-align: middle">
           <input type="radio" name="correct" value="4" {% if form.correct.value == '4' %}checked{% endif %}>
@@ -99,7 +104,8 @@
       <tr>
         <th width="20" style="vertical-align: middle">E)</th>
         <td>
-          <input type="text" name="alternative_5" class="form-control" value="{% if form.alternative_5.value %}{{ form.alternative_5.value }}{% endif %}">
+          <input type="text" name="alternative_5" class="form-control"
+                 value="{{ form.alternative_5.value|default_if_none:'' }}">
         </td>
         <td width="20" style="vertical-align: middle">
           <input type="radio" name="correct" value="5" {% if form.correct.value == '5' %}checked{% endif %}>
@@ -113,7 +119,11 @@
     </div>
 
     <div class="panel-footer text-right">
-      <a href="{{ view.get_version.get_absolute_url }}" class="btn btn-default">Cancelar</a>
+      <div class="pull-left">
+        <a href="{% url 'tests:choicequestion_delete' view.get_version.pk choicequestion.pk %}"
+           class="btn btn-danger">Eliminar</a>
+      </div>
+
       <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
   </form>
