@@ -60,40 +60,6 @@
     <div class="col-sm-4">
       <div class="panel panel-default">
         <div class="panel-heading">
-          Curso
-        </div>
-
-        <div class="panel-body">
-          <table width="100%">
-            <tr>
-              <td width="50%">Sigla</td>
-              <td>{{ course.code }}</td>
-            </tr>
-
-            <tr>
-              <td width="50%">Año y Semestre</td>
-              <td>{{ course.year }} - {{ course.semester }}</td>
-            </tr>
-
-            <tr>
-              <td width="50%">Alumnos inscritos</td>
-              <td>{{ course.count_inscriptions }}</td>
-            </tr>
-
-            <tr>
-              <td width="50%">Profesores</td>
-              <td>
-                {% for teacher in course.teachers.all %}
-                  <div>{{ teacher.get_full_name }}</div>
-                {% endfor %}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
           Acciones
         </div>
 
@@ -131,6 +97,40 @@
               <span class="glyphicon glyphicon-ok step"></span> Califaciones</a>
             </li>
           </ul>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Detalles
+        </div>
+
+        <div class="panel-body">
+          <table width="100%">
+            <tr>
+              <td width="50%">Sigla</td>
+              <td>{{ course.code }}</td>
+            </tr>
+
+            <tr>
+              <td width="50%">Año y Semestre</td>
+              <td>{{ course.year }} - {{ course.semester }}</td>
+            </tr>
+
+            <tr>
+              <td width="50%">Alumnos inscritos</td>
+              <td>{{ course.count_inscriptions }}</td>
+            </tr>
+
+            <tr>
+              <td width="50%">Profesores</td>
+              <td>
+                {% for teacher in course.teachers.all %}
+                  <div>{{ teacher.get_full_name }}</div>
+                {% endfor %}
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
