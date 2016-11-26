@@ -1,0 +1,121 @@
+{% extends 'form.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{% url 'courses:show' view.get_version.test.course.pk %}">{{ view.get_version.test.course }}</a></li>
+    <li><a href="{% url 'tests:test_list' view.get_version.test.course.pk %}">Controles</a></li>
+    <li><a href="{% url 'tests:test_detail' view.get_version.test.pk %}">{{ view.get_version.test }}</a></li>
+    <li><a href="{% url 'tests:test_detail' view.get_version.test.pk %}">{{ view.get_version.test }}</a></li>
+    <li><a href="{% url 'tests:version_detail' view.get_version.pk %}">Forma {n}</a></li>
+
+    {% if form.instance.pk %}
+      <li><a href="">Editar Pregunta</a></li>
+    {% else %}
+      <li><a href="{% url 'tests:choicequestion_create' view.get_version.pk %}">Crear Pregunta</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+{% block icon %}
+  <span class="glyphicon glyphicon-file step"></span>
+{% endblock %}
+
+{% block object_name %}
+  Pregunta de Alternativas
+{% endblock %}
+
+{% block form %}
+  <form action="" method="post" class="panel panel-default">
+    {% csrf_token %}
+
+    <div class="panel-body">
+      <div class="form-group">
+        {% bootstrap_field form.text %}
+      </div>
+    </div>
+
+    <div class="panel-divider">
+      Ingrese las respuestas que encuentre pertinente, puede dejar las del final
+      en blanco para indicar que no se usarán.
+    </div>
+
+    <table class="table">
+
+      <tbody>
+      <tr>
+        <th width="20" style="vertical-align: middle">A)</th>
+        <td>
+          {% if form.alternative_1.errors %}
+            <div class="has-error">
+          {% else %}
+            <div>
+          {% endif %}
+          <input type="text" name="alternative_1" class="form-control" value="{% if form.alternative_1.value %}{{ form.alternative_1.value }}{% endif %}">
+          </div>
+        </td>
+
+        <td width="20" style="vertical-align: middle">
+          <input type="radio" name="correct" value="1" {% if form.correct.value == '1' %}checked{% endif %} {% if not form.correct.value %}checked{% endif %}>
+        </td>
+      </tr>
+
+      <tr>
+        <th width="20" style="vertical-align: middle">B)</th>
+        <td>
+          {% if form.alternative_2.errors %}
+            <div class="has-error">
+          {% else %}
+            <div>
+          {% endif %}
+          <input type="text" name="alternative_2" class="form-control" value="{% if form.alternative_2.value %}{{ form.alternative_2.value }}{% endif %}">
+          </div>
+        </td>
+        <td width="20" style="vertical-align: middle">
+          <input type="radio" name="correct" value="2" {% if form.correct.value == '2' %}checked{% endif %}>
+        </td>
+      </tr>
+
+      <tr>
+        <th width="20" style="vertical-align: middle">C)</th>
+        <td>
+          <input type="text" name="alternative_3" class="form-control" value="{% if form.alternative_3.value %}{{ form.alternative_3.value }}{% endif %}">
+        </td>
+        <td width="20" style="vertical-align: middle">
+          <input type="radio" name="correct" value="3" {% if form.correct.value == '3' %}checked{% endif %}>
+        </td>
+      </tr>
+
+      <tr>
+        <th width="20" style="vertical-align: middle">D)</th>
+        <td>
+          <input type="text" name="alternative_4" class="form-control" value="{% if form.alternative_4.value %}{{ form.alternative_4.value }}{% endif %}">
+        </td>
+        <td width="20" style="vertical-align: middle">
+          <input type="radio" name="correct" value="4" {% if form.correct.value == '4' %}checked{% endif %}>
+        </td>
+      </tr>
+
+      <tr>
+        <th width="20" style="vertical-align: middle">E)</th>
+        <td>
+          <input type="text" name="alternative_5" class="form-control" value="{% if form.alternative_5.value %}{{ form.alternative_5.value }}{% endif %}">
+        </td>
+        <td width="20" style="vertical-align: middle">
+          <input type="radio" name="correct" value="5" {% if form.correct.value == '5' %}checked{% endif %}>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="panel-body">
+      {% bootstrap_field form.score %}
+    </div>
+
+    <div class="panel-footer text-right">
+      <a href="{{ view.get_version.get_absolute_url }}" class="btn btn-default">Cancelar</a>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,12 @@
+<div class="list-group">
+  {% for alternative in question.choicequestion.alternative_set.all %}
+    <div class="list-group-item">
+      {% if not alternative.correct %}
+        <span class="glyphicon glyphicon-unchecked text-muted pull-right"></span>
+      {% else %}
+        <span class="glyphicon glyphicon-ok text-success pull-right"></span>
+      {% endif %}
+      <strong>{{ alternative.index_as_name }})</strong> {{ alternative.text }}
+    </div>
+  {% endfor %}
+</div>

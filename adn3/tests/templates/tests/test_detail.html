@@ -48,7 +48,7 @@
 
       <div class="list-group">
         {% for version in test.version_set.all %}
-          <a href="{{ version.get_absolute_url }}" class="list-group-item">Forma {{ forloop.counter }}</a>
+          <a href="{{ version.get_absolute_url }}" class="list-group-item">Forma {{ version.index }}</a>
         {% endfor %}
       </div>
     </div>

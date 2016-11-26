@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.core.urlresolvers import reverse_lazy
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -50,6 +51,8 @@ class Version(models.Model):
 
     create_date = models.DateTimeField(auto_now_add=True)
 
+    index = models.IntegerField()
+
     class Meta:
         verbose_name = 'Forma'
         verbose_name_plural = 'Formas'
@@ -64,3 +67,36 @@ class Version(models.Model):
     @models.permalink
     def get_delete_url(self):
         return 'tests:version_delete', [self.test.pk, self.pk]
+
+
+class Question(models.Model):
+    version = models.ForeignKey('Version', verbose_name='Forma')
+
+    text = models.TextField(verbose_name=u'Enunciado')
+
+    score = models.IntegerField(default=100, validators=[MaxValueValidator(100), MinValueValidator(0)],
+                                verbose_name=u'Puntaje')
+
+    def __unicode__(self):
+        return self.text[:25]
+
+
+class ChoiceQuestion(Question):
+    pass
+
+
+class Alternative(models.Model):
+    question = models.ForeignKey('ChoiceQuestion')
+
+    index = models.IntegerField(verbose_name=u'Índice')
+    text = models.TextField(verbose_name=u'Texto')
+    correct = models.BooleanField(default=False, verbose_name=u'Es correcta')
+
+    def __unicode__(self):
+        return self.text
+
+    def index_as_name(self):
+        return 'ABCDE'[self.index - 1]
+
+    class Meta:
+        ordering = ('index',)

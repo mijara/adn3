@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from courses.models import Course
-from tests.models import Test
+from tests.models import Test, Version
 
 
 class CourseMixin(object):
@@ -11,6 +11,11 @@ class CourseMixin(object):
 class TestMixin(object):
     def get_test(self):
         return get_object_or_404(Test, pk=self.kwargs['test_pk'])
+
+
+class VersionMixin(object):
+    def get_version(self):
+        return get_object_or_404(Version, pk=self.kwargs['version_pk'])
 
 
 class GoBackPageMixin(object):

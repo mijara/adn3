@@ -6,7 +6,7 @@
     <li><a href="{% url 'courses:show' version.test.course.pk %}">{{ version.test.course }}</a></li>
     <li><a href="{% url 'tests:test_list' version.test.course.pk %}">Controles</a></li>
     <li><a href="{% url 'tests:test_detail' version.test.pk %}">{{ version.test }}</a></li>
-    <li><a href="{% url 'tests:version_detail' version.pk %}">Forma {n}</a></li>
+    <li><a href="{% url 'tests:version_detail' version.pk %}">Forma {{ version.index }}</a></li>
   </ol>
 {% endblock %}
 
@@ -24,48 +24,42 @@
     <div class="col-sm-12">
       <div>
         <div class="pull-right">
-          <a href="#" class="btn btn-primary btn-sm">Nueva pregunta</a>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+              Nueva pregunta <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'tests:choicequestion_create' version.pk %}">Alternativas</a></li>
+              <li><a href="#">Numérica</a></li>
+              <li><a href="#">Texto</a></li>
+            </ul>
+          </div>
         </div>
 
-        <h3>Forma {n}</h3>
+        <h3>Forma {{ version.index }}</h3>
       </div>
 
       <hr>
 
-      <div class="panel panel-default">
-        <div class="panel-body text-justify">
-          <a class="pull-right btn btn-success btn-sm" style="margin-left: 15px">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </a>
+      {% for question in version.question_set.all %}
+        <div class="panel panel-default">
+          <div class="panel-body text-justify">
+            <a class="pull-right btn btn-success btn-sm" style="margin-left: 15px">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
 
-          <strong>1.-</strong>
-          <i>[100%]</i>
-          {% lorem %}
-        </div>
+            <strong>{{ forloop.counter }}.-</strong>
+            <i>[{{ question.score }}pts]</i>
+            {{ question.text }}
+          </div>
 
-        <div class="list-group">
-          <div class="list-group-item">
-            <span class="glyphicon glyphicon-unchecked text-muted pull-right"></span>
-            <strong>A)</strong> Lorem ipsum dolor sit amet.
-          </div>
-          <div class="list-group-item">
-            <span class="glyphicon glyphicon-ok text-success pull-right"></span>
-            <strong>B)</strong> Eaque harum magni praesentium quam quasi
-          </div>
-          <div class="list-group-item">
-            <span class="glyphicon glyphicon-unchecked text-muted pull-right"></span>
-            <strong>C)</strong> Debitis ea eligendi explicabo id impedit
-          </div>
-          <div class="list-group-item">
-            <span class="glyphicon glyphicon-unchecked text-muted pull-right"></span>
-            <strong>D)</strong> Impedit iste iusto libero, neque
-          </div>
-          <div class="list-group-item">
-            <span class="glyphicon glyphicon-unchecked text-muted pull-right"></span>
-            <strong>E)</strong> Repellat sed temporibus ullam
-          </div>
+          {% if question.choicequestion %}
+            {% include 'tests/_choice_answers.html' %}
+          {% endif %}
         </div>
-      </div>
+      {% endfor %}
+
     </div>
 
     <div class="col-sm-12 text-right">
@@ -77,4 +71,6 @@
       </a>
     </div>
   </div>
+
+  {% include 'tests/_modal_choice_question.html' %}
 {% endblock %}

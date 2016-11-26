@@ -45,7 +45,7 @@ class TestDelete(mixins.CourseMixin, generic.DeleteView):
 
 
 # Version Views
-# ==========
+# =============
 class VersionDetail(generic.DetailView):
     model = Version
 
@@ -53,7 +53,12 @@ class VersionDetail(generic.DetailView):
 class VersionCreate(View):
     def get(self, request, test_pk):
         test = get_object_or_404(Test, pk=test_pk)
-        version = Version(test=test)
+
+        for i, version in enumerate(test.version_set.all()):
+            version.index = i + 1
+            version.save()
+
+        version = Version(test=test, index=test.version_set.count() + 1)
         version.save()
 
         return redirect(version.test.get_absolute_url())
@@ -64,3 +69,28 @@ class VersionDelete(mixins.TestMixin, generic.DeleteView):
 
     def get_success_url(self):
         return self.get_test().get_absolute_url()
+
+
+# Question Views
+# ==============
+class ChoiceQuestionCreate(mixins.VersionMixin, generic.CreateView):
+    model = ChoiceQuestion
+    form_class = ChoiceQuestionForm
+
+    def form_valid(self, form):
+        form.instance.version = self.get_version()
+        response = super(ChoiceQuestionCreate, self).form_valid(form)
+
+        for i in range(1, 6):
+            text = form.cleaned_data['alternative_' + str(i)]
+            if not text:
+                continue
+
+            correct = True if form.cleaned_data['correct'] == i else False
+            alternative = Alternative(text=text, correct=correct, question=self.object, index=i)
+            alternative.save()
+
+        return response
+
+    def get_success_url(self):
+        return reverse_lazy('tests:version_detail', args=[self.get_version().pk])

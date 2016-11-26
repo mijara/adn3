@@ -49,4 +49,10 @@ urlpatterns = [
         views.VersionDelete.as_view(),
         name='version_delete'
     ),
+
+    url(
+        r'^(?P<version_pk>\d+)/question/choice/create/$',
+        views.ChoiceQuestionCreate.as_view(),
+        name='choicequestion_create'
+    ),
 ]
