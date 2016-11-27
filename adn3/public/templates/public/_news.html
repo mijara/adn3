@@ -1,0 +1,13 @@
+{% for new in course.new_set.all %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h4>{{ new.title }} <small>{{ new.create_date }}</small></h4>
+
+      <div class="text-justify">
+        {{ new.body|linebreaks }}
+      </div>
+    </div>
+  </div>
+
+  <p></p>
+{% endfor %}

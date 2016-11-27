@@ -1,0 +1,27 @@
+{% for pretest in course.pretest_set.all %}
+  <div class="row">
+    <div class="col-sm-5">
+      <div>
+        <strong>{{ pretest.name }}</strong>
+      </div>
+
+      <div>
+        Entrega en Sesión {{ pretest.end_session.number }}
+      </div>
+    </div>
+
+    <p class="visible-xs"></p>
+
+    <div class="col-sm-7">
+      <div>
+        <strong>Archivos</strong>
+      </div>
+
+      {% for file in pretest.pretestfile_set.all %}
+        <div><span class="glyphicon glyphicon-file step"></span> <a href="{{ file.file.url }}">{{ file }}</a></div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <p></p>
+{% endfor %}

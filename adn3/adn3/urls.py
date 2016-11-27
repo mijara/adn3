@@ -78,6 +78,14 @@ urlpatterns = [
     ),
 
     url(
+      '^public/',
+      include(
+          'public.urls',
+          namespace='public'
+      )
+    ),
+
+    url(
         r'^admin/',
         include(
             admin.site.urls
