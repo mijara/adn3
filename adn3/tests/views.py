@@ -9,11 +9,6 @@ from forms import *
 
 # Test Views
 # ==========
-class TestList(mixins.CourseMixin, generic.ListView):
-    def get_queryset(self):
-        return self.get_course().test_set.all()
-
-
 class TestDetail(generic.DetailView):
     model = Test
 
@@ -42,7 +37,7 @@ class TestDelete(mixins.CourseMixin, generic.DeleteView):
     model = Test
 
     def get_success_url(self):
-        return reverse_lazy('tests:test_list', args=[self.get_course().pk])
+        return self.get_course().get_tests_url()
 
 
 # Version Views

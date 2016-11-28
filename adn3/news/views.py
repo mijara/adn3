@@ -5,10 +5,6 @@ from adn3 import mixins
 from forms import *
 
 
-class NewList(mixins.CourseMixin, generic.ListView):
-    def get_queryset(self):
-        return self.get_course().new_set.all()
-
 
 class NewDetail(generic.DetailView):
     model = New
@@ -33,6 +29,4 @@ class NewDelete(mixins.GoBackPageMixin, mixins.CourseMixin, generic.DeleteView):
     model = New
 
     def get_success_url(self):
-        return reverse_lazy('news:new_list', kwargs={
-            'course_pk': self.get_course().pk
-        })
+        return self.get_course().get_news_url()

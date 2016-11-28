@@ -1,14 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from models import *
+
+from adn3 import mixins
 from forms import *
 import services
-from django import forms
+from django.views import generic
 
 
-def show(request, pk):
-    return render(request, 'courses/show.html', {
-        'course': get_object_or_404(Course, pk=pk)
-    })
+class CourseDetail(mixins.CourseMixin, generic.View):
+    def get(self, request, course_pk, section='agendas'):
+        return render(self.request, 'courses/course_detail.html', {
+            'course': self.get_course(),
+            'section': section
+        })
 
 
 def index(request):

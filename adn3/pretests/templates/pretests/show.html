@@ -3,8 +3,8 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{% url 'courses:show' pretest.course.pk %}">{{ pretest.course }}</a></li>
-    <li><a href="{% url 'pretests:index' pretest.course.pk %}">Preinformes</a></li>
+    <li><a href="{{ pretest.course.get_absolute_url }}">{{ pretest.course }}</a></li>
+    <li><a href="{{ pretest.course.get_pretests_url }}">Preinformes</a></li>
     <li><a href="{% url 'pretests:show' pretest.pk %}">{{ pretest }}</a></li>
   </ol>
 {% endblock %}

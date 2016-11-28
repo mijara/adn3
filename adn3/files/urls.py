@@ -3,12 +3,6 @@ import views
 
 urlpatterns = [
     url(
-        '^(?P<course_pk>\d+)/$',
-        views.index,
-        name='index'
-    ),
-
-    url(
         '^download/(?P<pk>\d+)/$',
         views.download,
         name='download'

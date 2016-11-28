@@ -1,15 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from courses.models import *
-from models import *
 from forms import *
-
-
-def index(request, course_pk):
-    course = get_object_or_404(Course, pk=course_pk)
-
-    return render(request, 'pretests/index.html', {
-        'course': course
-    })
 
 
 def show(request, pk):

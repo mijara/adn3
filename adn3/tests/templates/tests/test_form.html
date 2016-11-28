@@ -4,8 +4,9 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{% url 'courses:show' view.get_course.pk %}">{{ view.get_course }}</a></li>
-    <li><a href="{% url 'tests:test_list' view.get_course.pk %}">Controles</a></li>
+    <li><a href="{{ view.get_course.get_absolute_url }}">{{ view.get_course }}</a></li>
+    <li><a href="{{ view.get_course.get_tests_url }}">Controles</a></li>
+
     {% if form.instance.pk %}
       <li><a href="{% url 'tests:test_detail' form.instance.pk %}">{{ test }}</a></li>
       <li><a href="{% url 'tests:test_update' view.get_course.pk form.instance.pk %}">Editar Control</a></li>

@@ -9,9 +9,15 @@ urlpatterns = [
     ),
 
     url(
-        '^show/(?P<pk>\d+)/$',
-        views.show,
-        name='show'
+        '^detail/(?P<course_pk>\d+)/$',
+        views.CourseDetail.as_view(),
+        name='course_detail'
+    ),
+
+    url(
+        '^detail/(?P<course_pk>\d+)/(?P<section>.+)/$',
+        views.CourseDetail.as_view(),
+        name='course_detail'
     ),
 
     url(

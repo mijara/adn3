@@ -63,6 +63,34 @@ class Course(models.Model):
     def __unicode__(self):
         return u'%s - %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'courses:course_detail', [self.pk]
+
+    @models.permalink
+    def get_agendas_url(self):
+        return 'courses:course_detail', [self.pk, 'agendas']
+
+    @models.permalink
+    def get_sessions_url(self):
+        return 'courses:course_detail', [self.pk, 'sessions']
+
+    @models.permalink
+    def get_pretests_url(self):
+        return 'courses:course_detail', [self.pk, 'pretests']
+
+    @models.permalink
+    def get_tests_url(self):
+        return 'courses:course_detail', [self.pk, 'tests']
+
+    @models.permalink
+    def get_news_url(self):
+        return 'courses:course_detail', [self.pk, 'news']
+
+    @models.permalink
+    def get_files_url(self):
+        return 'courses:course_detail', [self.pk, 'files']
+
 
 class Agenda(models.Model):
     day = models.IntegerField(choices=make_days(), verbose_name=u'Día')

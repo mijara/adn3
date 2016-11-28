@@ -6,14 +6,6 @@ from datetime import timedelta
 from services import *
 
 
-def index(request, course_pk):
-    course = get_object_or_404(Course, pk=course_pk)
-
-    return render(request, 'classes/index.html', {
-        'course': course
-    })
-
-
 def show(request, pk):
     session = get_object_or_404(Session, pk=pk)
 
@@ -46,7 +38,7 @@ def detail(request, course_pk, pk=None):
             instance.course = course
             instance.save()
 
-            return redirect('classes:index', course_pk=course.pk)
+            return redirect(course.get_sessions_url())
 
     return render(request, 'classes/detail.html', {
         'course': course,

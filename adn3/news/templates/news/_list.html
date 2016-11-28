@@ -14,7 +14,7 @@
       </div>
 
       <div class="panel-body">
-        {{ new.body | truncatechars:180 }}
+        {{ new.body | linebreaks }}
       </div>
     </div>
   {% endfor %}

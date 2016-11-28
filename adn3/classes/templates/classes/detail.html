@@ -4,8 +4,8 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{% url 'courses:show' course.pk %}">{{ course }}</a></li>
-    <li><a href="{% url 'classes:index' course.pk %}">Sesiones</a></li>
+    <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
+    <li><a href="{{ course.get_sessions_url }}">Sesiones</a></li>
     {% if form.instance.pk %}
       <li><a href="{% url 'classes:edit' course.pk form.instance.pk %}">Editar Sesión</a></li>
     {% else %}

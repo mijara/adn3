@@ -3,12 +3,6 @@ import views
 
 urlpatterns = [
     url(
-        '^(?P<course_pk>\d+)/$',
-        views.NewList.as_view(),
-        name='new_list'
-    ),
-
-    url(
         '^detail/(?P<pk>\d+)/$',
         views.NewDetail.as_view(),
         name='new_detail'

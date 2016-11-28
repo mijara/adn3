@@ -1,16 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.static import serve
 
-from classes.models import Session
 from courses.models import Course
-from models import *
 from forms import *
-
-
-def index(request, course_pk):
-    return render(request, 'files/index.html', {
-        'course': get_object_or_404(Course, pk=course_pk)
-    })
 
 
 def download(request, pk):
@@ -39,7 +31,7 @@ def detail(request, course_pk, pk=None):
             instance.course = course
             instance.save()
 
-            return redirect('files:index', course_pk=course.pk)
+            return redirect(course.get_files_url())
 
     return render(request, 'files/detail.html', {
         'course': course,

@@ -3,8 +3,8 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{% url 'courses:show' new.course.pk %}">{{ new.course }}</a></li>
-    <li><a href="{% url 'news:new_list' new.course.pk %}">Noticias</a></li>
+    <li><a href="{{ new.course.get_absolute_url }}">{{ new.course }}</a></li>
+    <li><a href="{{ new.course.get_news_url }}">Noticias</a></li>
     <li><a href="{% url 'news:new_detail' new.pk %}">{{ new.title }}</a></li>
   </ol>
 {% endblock %}

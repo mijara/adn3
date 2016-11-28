@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
+
+    {% if section == 'agendas' %}
+      <li class="active"><a href="{{ course.get_agendas_url }}">Agendas</a></li>
+    {% endif %}
+
+    {% if section == 'sessions' %}
+      <li class="active"><a href="{{ course.get_sessions_url }}">Sesiones</a></li>
+    {% endif %}
+
+    {% if section == 'pretests' %}
+      <li class="active"><a href="{{ course.get_pretests_url }}">Preinformes</a></li>
+    {% endif %}
+
+    {% if section == 'tests' %}
+      <li class="active"><a href="{{ course.get_tests_url }}">Controles</a></li>
+    {% endif %}
+
+    {% if section == 'news' %}
+      <li class="active"><a href="{{ course.get_news_url }}">Noticias</a></li>
+    {% endif %}
+
+    {% if section == 'files' %}
+      <li class="active"><a href="{{ course.get_files_url }}">Archivos</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">Acciones <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'news:new_create' course.pk %}"><span class="glyphicon glyphicon-bookmark step"></span>
+              Publicar Noticia</a></li>
+            <li><a href="{% url 'classes:create' course.pk %}">
+              <span class="glyphicon glyphicon-map-marker step"></span> Nueva Sesión</a>
+            </li>
+
+            <li><a href="{% url 'pretests:create' course.pk %}">
+              <span class="glyphicon glyphicon-inbox step"></span> Nuevo Preinforme</a>
+            </li>
+
+            <li><a href="{% url 'tests:test_create' course.pk %}">
+              <span class="glyphicon glyphicon-file step"></span> Nuevo Control</a>
+            </li>
+
+            <li><a href="{% url 'files:create' course.pk %}">
+              <span class="glyphicon glyphicon-download step"></span> Subir Archivo</a>
+            </li>
+
+            <li role="separator" class="divider"></li>
+
+            <li><a href="#">
+              <span class="glyphicon glyphicon-th step"></span> Preinscripciones</a>
+            </li>
+
+            <li><a href="{% url 'courses:grades' course.pk %}">
+              <span class="glyphicon glyphicon-ok step"></span> Califaciones</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <h1 class="header">{{ course }}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      {% with section as active %}
+        {% include 'courses/_tabs.html' %}
+      {% endwith %}
+    </div>
+  </div>
+
+  <p></p>
+
+  <p></p>
+
+  <div class="row">
+    <div class="col-sm-12">
+      {% if section == 'agendas' %}
+        {% include 'courses/_agendas.html' %}
+      {% endif %}
+
+      {% if section == 'sessions' %}
+        <a href="{% url 'classes:create' course.pk %}" class="btn btn-success btn-sm pull-right">
+          <span class="glyphicon glyphicon-plus"></span>
+          Nueva Sesión
+        </a>
+
+        <h3 class="header"><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</h3>
+
+        {% include 'classes/_list.html' %}
+      {% endif %}
+
+      {% if section == 'pretests' %}
+        <a href="{% url 'pretests:create' course.pk %}" class="btn btn-success btn-sm pull-right">
+          <span class="glyphicon glyphicon-plus"></span>
+          Nuevo Preinforme
+        </a>
+
+        <h3 class="header"><span class="glyphicon glyphicon-inbox step"></span> Preinformes</h3>
+
+        {% include 'pretests/_list.html' %}
+      {% endif %}
+
+      {% if section == 'tests' %}
+        <a href="{% url 'tests:test_create' course.pk %}" class="btn btn-success btn-sm pull-right">
+          <span class="glyphicon glyphicon-plus"></span>
+          Nuevo Control
+        </a>
+
+        <h3 class="header"><span class="glyphicon glyphicon-file step"></span> Controles</h3>
+
+        {% with course.test_set as test_list %}
+          {% include 'tests/_test_list.html' %}
+        {% endwith %}
+      {% endif %}
+
+      {% if section == 'news' %}
+        <a href="{% url 'news:new_create' course.pk %}" class="btn btn-success btn-sm pull-right">
+          <span class="glyphicon glyphicon-plus"></span>
+          Nueva Noticia
+        </a>
+
+        <h3 class="header"><span class="glyphicon glyphicon-bookmark step"></span> Noticias</h3>
+
+        {% with course.new_set.all as new_list %}
+          {% include 'news/_list.html' %}
+        {% endwith %}
+      {% endif %}
+
+      {% if section == 'files' %}
+        <a href="{% url 'files:create' course.pk %}" class="btn btn-success btn-sm pull-right">
+          <span class="glyphicon glyphicon-plus"></span>
+          Subir Archivo
+        </a>
+
+        <h3 class="header"><span class="glyphicon glyphicon-download step"></span> Archivos</h3>
+
+        {% include 'files/_list.html' %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
