@@ -35,52 +35,49 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="pull-right">
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false">Acciones <span class="caret"></span>
-          </button>
-
-          <ul class="dropdown-menu">
-            <li><a href="{% url 'news:new_create' course.pk %}"><span class="glyphicon glyphicon-bookmark step"></span>
-              Publicar Noticia</a></li>
-            <li><a href="{% url 'classes:create' course.pk %}">
-              <span class="glyphicon glyphicon-map-marker step"></span> Nueva Sesión</a>
-            </li>
-
-            <li><a href="{% url 'pretests:create' course.pk %}">
-              <span class="glyphicon glyphicon-inbox step"></span> Nuevo Preinforme</a>
-            </li>
-
-            <li><a href="{% url 'tests:test_create' course.pk %}">
-              <span class="glyphicon glyphicon-file step"></span> Nuevo Control</a>
-            </li>
-
-            <li><a href="{% url 'files:create' course.pk %}">
-              <span class="glyphicon glyphicon-download step"></span> Subir Archivo</a>
-            </li>
-
-            <li role="separator" class="divider"></li>
-
-            <li><a href="#">
-              <span class="glyphicon glyphicon-th step"></span> Preinscripciones</a>
-            </li>
-
-            <li><a href="{% url 'courses:grades' course.pk %}">
-              <span class="glyphicon glyphicon-ok step"></span> Califaciones</a>
-            </li>
-          </ul>
+        <div class="hidden-xs">
+          {% include 'courses/_actions_button.html' %}
         </div>
       </div>
 
-      <h1 class="header">{{ course }}</h1>
+      <div class="hidden-xs">
+        <h1 class="header">{{ course }}</h1>
+      </div>
+
+      <div class="visible-xs">
+        <h3 class="header">{{ course }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row visible-xs">
+    <div class="col-sm-12">
+      <div class="btn-group">
+        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">Sección <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu">
+          {% include 'courses/_tabs.html' %}
+        </ul>
+      </div>
+
+      <span class="back-step">
+        {% include 'courses/_actions_button.html' %}
+      </span>
+      <hr>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
-      {% with section as active %}
-        {% include 'courses/_tabs.html' %}
-      {% endwith %}
+      <div class="hidden-xs">
+        {% with section as active %}
+          <ul class="nav nav-tabs">
+            {% include 'courses/_tabs.html' %}
+          </ul>
+        {% endwith %}
+      </div>
     </div>
   </div>
 

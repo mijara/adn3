@@ -79,9 +79,11 @@
           {% else %}
             {% for file in pretest.pretestfile_set.all %}
               <div>
+                <!--
                 <a href="{% url 'classes:remove_file' file.pk %}" class="pull-right">
                   <span class="glyphicon glyphicon-remove"></span>
                 </a>
+                -->
 
                 <a href="{{ file.file.url }}">{{ file.name }}</a>
               </div>
