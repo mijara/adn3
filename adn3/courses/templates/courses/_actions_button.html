@@ -24,9 +24,9 @@
 
     <li role="separator" class="divider"></li>
 
-    <!--<li><a href="#">
+    <li><a href="{{ course.get_preregistrations_url }}">
       <span class="glyphicon glyphicon-th step"></span> Preinscripciones</a>
-    </li>-->
+    </li>
 
     <li><a href="{% url 'courses:grades' course.pk %}">
       <span class="glyphicon glyphicon-ok step"></span> Califaciones</a>

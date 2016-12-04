@@ -62,27 +62,35 @@ urlpatterns = [
     ),
 
     url(
-      '^pretests/',
-      include(
-          'pretests.urls',
-          namespace='pretests'
-      )
+        '^pretests/',
+        include(
+            'pretests.urls',
+            namespace='pretests'
+        )
     ),
 
     url(
-      '^tests/',
-      include(
-          'tests.urls',
-          namespace='tests'
-      )
+        '^tests/',
+        include(
+            'tests.urls',
+            namespace='tests'
+        )
     ),
 
     url(
-      '^public/',
-      include(
-          'public.urls',
-          namespace='public'
-      )
+        '^public/',
+        include(
+            'public.urls',
+            namespace='public'
+        )
+    ),
+
+    url(
+        '^preregistration/',
+        include(
+            'preregistration.urls',
+            namespace='preregistration'
+        )
     ),
 
     url(

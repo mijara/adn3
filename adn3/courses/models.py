@@ -91,6 +91,10 @@ class Course(models.Model):
     def get_files_url(self):
         return 'courses:course_detail', [self.pk, 'files']
 
+    @models.permalink
+    def get_preregistrations_url(self):
+        return 'preregistration:course_detail', [self.pk]
+
 
 class Agenda(models.Model):
     day = models.IntegerField(choices=make_days(), verbose_name=u'Día')

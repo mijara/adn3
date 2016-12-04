@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="page-header"><span class="glyphicon glyphicon-th step"></span> Preinscripciones</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="table-responsive" id="mnt">
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/preregistration.js' %}"></script>
+
+  <script>
+    Table.init($('#mnt'));
+    Table.mount();
+  </script>
+{% endblock %}

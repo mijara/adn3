@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'tests',
     'misc',
     'public',
+    'preregistration',
 )
 
 MIDDLEWARE_CLASSES = (
