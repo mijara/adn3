@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ object.course.get_absolute_url }}">{{ object.course }}</a></li>
+    <li><a href="{{ object.course.get_files_url }}">Archivos</a></li>
+    <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="pull-right">
+          <a href="{{ object.get_update_url }}" class="btn btn-success">
+            <span class="glyphicon glyphicon-pencil step"></span>
+            Editar
+          </a>
+        </span>
+
+        <span class="glyphicon glyphicon-upload step"></span>
+        {{ object.name }}
+      </h1>
+
+      <a href="{{ object.get_download_url }}" class="btn btn-success btn-block">
+        Descargar
+      </a>
+    </div>
+  </div>
+
+  <p></p>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Descargas
+        </div>
+
+        <div class="panel-body">
+          {{ object.downloads }}
+
+          <div class="alert alert-warning">
+            Not implemented.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

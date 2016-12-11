@@ -7,14 +7,10 @@
     {% for file in course.coursefile_set.all %}
       <li class="list-group-item">
         <div class="pull-right">
-          {{ file.downloads }} <span class="glyphicon glyphicon-download-alt step"></span>
-
-          {{ file.create_date | date:'d/m, H:i' }} <span class="glyphicon glyphicon-time"></span>
-
-          <a href="{% url 'files:edit' file.course.pk file.pk %}" class="glyphicon glyphicon-pencil back-step"></a>
+          {{ file.downloads }} <span class="glyphicon glyphicon-download-alt back-step"></span>
         </div>
 
-        <a href="{% url 'files:download' file.pk %}">{{ file.name }}</a>
+        <a href="{{ file.get_absolute_url }}">{{ file.name }}</a>
       </li>
     {% endfor %}
   </ul>

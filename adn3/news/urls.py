@@ -15,7 +15,7 @@ urlpatterns = [
     ),
 
     url(
-        '^(?P<course_pk>\d+)/update/(?P<pk>\d+)$',
+        '^(?P<course_pk>\d+)/update/(?P<pk>\d+)/$',
         views.NewUpdate.as_view(),
         name='new_update'
     ),

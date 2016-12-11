@@ -140,7 +140,7 @@
       {% endif %}
 
       {% if section == 'files' %}
-        <a href="{% url 'files:create' course.pk %}" class="btn btn-success btn-sm pull-right">
+        <a href="{% url 'files:coursefile_create' course.pk %}" class="btn btn-success btn-sm pull-right">
           <span class="glyphicon glyphicon-plus"></span>
           Subir Archivo
         </a>

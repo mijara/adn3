@@ -1,0 +1,33 @@
+{% extends 'form.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ view.get_course.get_absolute_url }}">{{ view.get_course }}</a></li>
+    <li><a href="{{ view.get_course.get_files_url }}">Archivos</a></li>
+
+    {% if form.instance.pk %}
+      <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+      <li><a href="{{ object.get_update_url }}">Editar</a></li>
+    {% else %}
+      <li><a href="{% url 'files:coursefile_create' view.get_course.pk %}">Crear Archivo</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+{% block object_name %}
+  Archivo
+{% endblock %}
+
+{% block icon %}
+  <span class="glyphicon glyphicon-upload step"></span>
+{% endblock %}
+
+{% block panel_footer_extra %}
+  {% if object %}
+    <span class="pull-left">
+      <a href="{{ object.get_delete_url }}" class="btn btn-danger">Eliminar</a>
+    </span>
+  {% endif %}
+{% endblock %}

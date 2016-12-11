@@ -22,3 +22,19 @@ class CourseFile(models.Model):
 
     def __unicode__(self):
         return self.file.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'files:coursefile_detail', [self.pk]
+
+    @models.permalink
+    def get_download_url(self):
+        return 'files:coursefile_download', [self.pk]
+
+    @models.permalink
+    def get_update_url(self):
+        return 'files:coursefile_update', [self.course.pk, self.pk]
+
+    @models.permalink
+    def get_delete_url(self):
+        return 'files:coursefile_delete', [self.course.pk, self.pk]
