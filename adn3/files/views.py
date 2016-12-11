@@ -1,9 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.static import serve
 from django.views import generic
 
 from adn3 import mixins
-from courses.models import Course
 from forms import *
 
 

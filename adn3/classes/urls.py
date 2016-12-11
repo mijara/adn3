@@ -3,21 +3,27 @@ import views
 
 urlpatterns = [
     url(
-        '^show/(?P<pk>\d+)/$',
-        views.show,
-        name='show'
+        '^(?P<pk>\d+)/$',
+        views.SessionDetailView.as_view(),
+        name='session_detail'
     ),
 
     url(
         '^(?P<course_pk>\d+)/create/$',
-        views.detail,
-        name='create'
+        views.SessionCreateView.as_view(),
+        name='session_create'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/edit/(?P<pk>\d+)$',
-        views.detail,
-        name='edit'
+        '^(?P<course_pk>\d+)/update/(?P<pk>\d+)/$',
+        views.SessionUpdateView.as_view(),
+        name='session_update'
+    ),
+
+    url(
+        '^(?P<course_pk>\d+)/delete/(?P<pk>\d+)/$',
+        views.SessionDeleteView.as_view(),
+        name='session_delete'
     ),
 
     url(

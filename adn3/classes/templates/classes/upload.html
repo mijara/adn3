@@ -6,7 +6,7 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ session.course.get_absolute_url }}">{{ session.course }}</a></li>
     <li><a href="{{ session.course.get_sessions_url }}">Sesiones</a></li>
-    <li><a href="{% url 'classes:show' session.pk %}">{{ session }}</a></li>
+    <li><a href="{% url 'classes:session_detail' session.pk %}">{{ session }}</a></li>
     <li><a href="{% url 'classes:upload' session.pk %}">Subir Archivo</a></li>
   </ol>
 {% endblock %}

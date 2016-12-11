@@ -1,49 +1,42 @@
-from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from courses.models import *
+from django.views import generic
+
+from adn3 import mixins
 from forms import *
 from datetime import timedelta
 from services import *
 
 
-def show(request, pk):
-    session = get_object_or_404(Session, pk=pk)
-
-    return render(request, 'classes/show.html', {
-        'session': session
-    })
+class SessionDetailView(generic.DetailView):
+    model = Session
 
 
-def detail(request, course_pk, pk=None):
-    course = get_object_or_404(Course, pk=course_pk)
+class SessionCreateView(mixins.CourseMixin, generic.CreateView):
+    model = Session
+    form_class = SessionForm
 
-    if pk is None:
-        # default session.
-        instance = Session()
+    def get_initial(self):
+        return {
+            'number': get_first_available(self.get_course().session_set.all()),
+            'start_date': datetime.now(),
+            'end_date': datetime.now() + timedelta(days=5)
+        }
 
-        # set the next available session number.
-        instance.number = get_first_available(course.session_set.all())
+    def form_valid(self, form):
+        form.instance.course = self.get_course()
+        return super(SessionCreateView, self).form_valid(form)
 
-        # set this as the start date and the end day as the 5 next days.
-        instance.start_date = datetime.now()
-        instance.end_date = datetime.now() + timedelta(days=5)
-    else:
-        instance = get_object_or_404(Session, pk=pk)
 
-    form = SessionForm(request.POST or None, instance=instance)
+class SessionUpdateView(mixins.CourseMixin, generic.UpdateView):
+    model = Session
+    form_class = SessionForm
 
-    if request.method == 'POST':
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.course = course
-            instance.save()
 
-            return redirect(course.get_sessions_url())
+class SessionDeleteView(mixins.CourseMixin, generic.DeleteView):
+    model = Session
 
-    return render(request, 'classes/detail.html', {
-        'course': course,
-        'form': form
-    })
+    def get_success_url(self):
+        return self.get_course().get_sessions_url()
 
 
 def upload(request, pk):
@@ -57,7 +50,7 @@ def upload(request, pk):
             instance.session = session
             instance.save()
 
-            return redirect('classes:show', session.pk)
+            return redirect('classes:session_detail', session.pk)
 
     return render(request, 'classes/upload.html', {
         'session': session,
@@ -73,4 +66,4 @@ def remove_file(request, file_pk):
     session_file.file.delete()
     session_file.delete()
 
-    return redirect('classes:show', session_pk)
+    return redirect('classes:session_detail', session_pk)

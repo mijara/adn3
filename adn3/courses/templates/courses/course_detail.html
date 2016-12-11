@@ -92,7 +92,7 @@
       {% endif %}
 
       {% if section == 'sessions' %}
-        <a href="{% url 'classes:create' course.pk %}" class="btn btn-success btn-sm pull-right">
+        <a href="{% url 'classes:session_create' course.pk %}" class="btn btn-success btn-sm pull-right">
           <span class="glyphicon glyphicon-plus"></span>
           Nueva Sesión
         </a>

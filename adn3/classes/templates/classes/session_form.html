@@ -1,0 +1,25 @@
+{% extends 'form.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ view.get_course.get_absolute_url }}">{{ view.get_course }}</a></li>
+    <li><a href="{{ view.get_course.get_sessions_url }}">Sesiones</a></li>
+
+    {% if form.instance.pk %}
+      <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+      <li><a href="{{ object.get_update_url }}">Editar</a></li>
+    {% else %}
+      <li><a href="{% url 'classes:session_create' view.get_course.pk %}">Crear</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+{% block icon %}
+  <span class="glyphicon glyphicon-map-marker step"></span>
+{% endblock %}
+
+{% block object_name %}
+  Sesión
+{% endblock %}

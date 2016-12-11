@@ -57,7 +57,15 @@ class Session(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'classes:show', [self.pk]
+        return 'classes:session_detail', [self.pk]
+
+    @models.permalink
+    def get_update_url(self):
+        return 'classes:session_update', [self.course.pk, self.pk]
+
+    @models.permalink
+    def get_delete_url(self):
+        return 'classes:session_delete', [self.course.pk, self.pk]
 
 
 class SessionFile(models.Model):

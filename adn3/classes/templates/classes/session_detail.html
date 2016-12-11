@@ -5,7 +5,7 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ session.course.get_absolute_url }}">{{ session.course }}</a></li>
     <li><a href="{{ session.course.get_sessions_url }}">Sesiones</a></li>
-    <li><a href="{% url 'classes:show' session.pk %}">{{ session }}</a></li>
+    <li><a href="{{ session.get_absolute_url }}">{{ session }}</a></li>
   </ol>
 {% endblock %}
 
@@ -14,7 +14,7 @@
     <div class="col-sm-12">
       <h1 class="header">
         <span class="pull-right">
-          <a href="{% url 'classes:edit' session.course.pk session.pk %}" class="btn btn-success">
+          <a href="{{ session.get_update_url }}" class="btn btn-success">
             <span class="glyphicon glyphicon-pencil step"></span>
             Editar
           </a>
