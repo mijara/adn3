@@ -11,7 +11,6 @@
           <th width="60%">Nombre</th>
           <th width="20%">Sesión</th>
           <th width="20%">Formas</th>
-          <th width="0"></th>
         </tr>
         </thead>
 
@@ -19,9 +18,8 @@
         {% for test in test_list.all %}
           <tr>
             <td><a href="{% url 'tests:test_detail' test.pk %}">{{ test.name }}</a></td>
-            <td><a href="{{ test.session.get_absolute_url }}">{{ test.session.number }}</a></td>
+            <td>{{ test.session.number }}</td>
             <td>{{ test.version_set.count }}</td>
-            <td><a href="{{ test.get_update_url }}" class="glyphicon glyphicon-pencil"></a></td>
           </tr>
         {% endfor %}
         </tbody>

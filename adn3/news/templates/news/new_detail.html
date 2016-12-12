@@ -14,12 +14,8 @@
     <div class="col-sm-12">
       {% if new.owner == request.user %}
         <div class="pull-right">
-          <a href="{{ new.get_delete_url }}" class="btn btn-danger">
-            <span href="" class="glyphicon glyphicon-remove"></span>
-          </a>
-
           <a href="{{ new.get_update_url }}" class="btn btn-success">
-            <span href="" class="glyphicon glyphicon-pencil"></span>
+            <span class="glyphicon glyphicon-pencil"></span> Editar
           </a>
         </div>
       {% endif %}

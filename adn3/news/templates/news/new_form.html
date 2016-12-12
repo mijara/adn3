@@ -5,11 +5,12 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ view.get_course.get_absolute_url }}">{{ view.get_course }}</a></li>
     <li><a href="{{ view.get_course.get_news_url }}">Noticias</a></li>
+
     {% if form.instance.pk %}
       <li><a href="{{ form.instance.get_absolute_url }}">{{ form.instance.title }}</a></li>
-      <li><a href="{{ form.instance.get_update_url }}">Editar noticia</a></li>
+      <li><a href="{{ form.instance.get_update_url }}">Editar</a></li>
     {% else %}
-      <li><a href="{% url 'news:new_create' view.get_course.pk %}">Publicar noticia</a></li>
+      <li><a href="{% url 'news:new_create' view.get_course.pk %}">Publicar</a></li>
     {% endif %}
   </ol>
 {% endblock %}
