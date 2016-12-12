@@ -1,0 +1,27 @@
+{% extends 'form.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ view.get_course.get_absolute_url }}">{{ view.get_course }}</a></li>
+    <li><a href="{{ view.get_course.get_pretests_url }}">Preinformes</a></li>
+
+    {% if form.instance.pk %}
+      <li><a href="{{ pretest.get_absolute_url }}">{{ pretest.name }}</a></li>
+      <li><a href="{{ pretest.get_update_url }}">Editar</a></li>
+    {% else %}
+      <li><a href="{% url 'pretests:pretest_create' view.get_course.pk %}">Nuevo</a></li>
+    {% endif %}
+  </ol>
+{% endblock %}
+
+
+{% block icon %}
+  <span class="glyphicon glyphicon-inbox step"></span>
+{% endblock %}
+
+
+{% block object_name %}
+  Preinforme
+{% endblock %}

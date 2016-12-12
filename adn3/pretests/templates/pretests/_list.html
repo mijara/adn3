@@ -13,19 +13,17 @@
           <th>Entrega</th>
           <th>Porcentaje</th>
           <th>Mostrar calificación</th>
-          <th></th>
         </tr>
         </thead>
 
         <tbody>
         {% for pretest in course.pretest_set.all %}
           <tr>
-            <td><a href="{% url 'pretests:show' pretest.pk %}">{{ pretest.name }}</a></td>
+            <td><a href="{{ pretest.get_absolute_url }}">{{ pretest.name }}</a></td>
             <td>{{ pretest.start_session.number }}</td>
             <td>{{ pretest.end_session.number }}</td>
             <td>{{ pretest.percentage }}%</td>
             <td>{% if pretest.show_grade %}Si{% else %}No{% endif %}</td>
-            <td><a href="{% url 'pretests:edit' pretest.course.pk pretest.pk %}" class="glyphicon glyphicon-pencil"></a>
             </td>
           </tr>
         {% endfor %}

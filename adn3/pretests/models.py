@@ -21,6 +21,18 @@ class Pretest(models.Model):
     def __unicode__(self):
         return self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'pretests:pretest_detail', [self.pk]
+
+    @models.permalink
+    def get_update_url(self):
+        return 'pretests:pretest_update', [self.course.pk, self.pk]
+
+    @models.permalink
+    def get_delete_url(self):
+        return 'pretests:pretest_delete', [self.course.pk, self.pk]
+
 
 class PretestFile(models.Model):
     pretest = models.ForeignKey('Pretest')
@@ -31,3 +43,10 @@ class PretestFile(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_download_url(self):
+        return self.file.url
+
+    @models.permalink
+    def get_delete_url(self):
+        return 'pretests:pretestfile_delete', [self.pk]

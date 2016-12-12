@@ -6,8 +6,8 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ pretest.course.get_absolute_url }}">{{ pretest.course }}</a></li>
     <li><a href="{{ pretest.course.get_pretests_url }}">Preinformes</a></li>
-    <li><a href="{% url 'pretests:show' pretest.pk %}">{{ pretest }}</a></li>
-    <li><a href="{% url 'pretests:upload' pretest.pk %}">Subir Archivo</a></li>
+    <li><a href="{{ pretest.get_absolute_url }}">{{ pretest }}</a></li>
+    <li><a href="{% url 'pretests:pretestfile_create' pretest.pk %}">Subir Archivo</a></li>
   </ol>
 {% endblock %}
 

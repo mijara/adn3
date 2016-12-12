@@ -5,7 +5,7 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ pretest.course.get_absolute_url }}">{{ pretest.course }}</a></li>
     <li><a href="{{ pretest.course.get_pretests_url }}">Preinformes</a></li>
-    <li><a href="{% url 'pretests:show' pretest.pk %}">{{ pretest }}</a></li>
+    <li><a href="{{ pretest.get_absolute_url }}">{{ pretest }}</a></li>
   </ol>
 {% endblock %}
 
@@ -13,6 +13,13 @@
   <div class="row">
     <div class="col-sm-12">
       <h1 class="header">
+        <span class="pull-right">
+          <a href="{{ pretest.get_update_url }}" class="btn btn-success">
+            <span class="glyphicon glyphicon-pencil step"></span>
+            Editar
+          </a>
+        </span>
+
         <span class="glyphicon glyphicon-inbox step"></span>
         {{ pretest }}
       </h1>
@@ -63,7 +70,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="pull-right">
-            <a href="{% url 'pretests:upload' pretest.pk %}">
+            <a href="{% url 'pretests:pretestfile_create' pretest.pk %}">
               <span class="glyphicon glyphicon-upload"></span> Subir Archivo
             </a>
           </div>
@@ -79,11 +86,9 @@
           {% else %}
             {% for file in pretest.pretestfile_set.all %}
               <div>
-                <!--
-                <a href="{% url 'classes:remove_file' file.pk %}" class="pull-right">
+                <a href="{{ file.get_delete_url }}" class="pull-right">
                   <span class="glyphicon glyphicon-remove"></span>
                 </a>
-                -->
 
                 <a href="{{ file.file.url }}">{{ file.name }}</a>
               </div>
