@@ -18,6 +18,11 @@
   <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+  {% block link %}{% endblock %}
+
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
 

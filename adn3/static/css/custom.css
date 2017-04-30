@@ -1,0 +1,18 @@
+/*
+ * Test details
+ */
+div.question-statement {
+	display: inline !important; 
+}
+
+div.question-statement p:first-of-type {
+	display: inline-block;
+}
+div.question-statement p:first-of-type:before {
+	content: '';
+	margin-left: 4px;
+}
+
+p.editormd-tex {
+	text-align: center;
+}

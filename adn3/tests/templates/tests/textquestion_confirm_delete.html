@@ -2,7 +2,7 @@
 
 {% block display_name %}
   <div style="font-size: 16px">
-    {{ object.text }}
+    {{ object.html|safe }}
   </div>
 {% endblock %}
 

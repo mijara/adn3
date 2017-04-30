@@ -76,6 +76,8 @@ class Question(models.Model):
 
     text = models.TextField(verbose_name=u'Enunciado')
 
+    html = models.TextField(verbose_name=u'html')
+
     score = models.IntegerField(default=100, validators=[MaxValueValidator(100), MinValueValidator(0)],
                                 verbose_name=u'Puntaje')
 

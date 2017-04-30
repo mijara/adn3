@@ -31,8 +31,14 @@
 
     <div class="panel-body">
       <div class="form-group">
-        {% bootstrap_field form.text %}
+        <div class="control-label">
+          {% bootstrap_label form.text.label label_for=form.text.auto_id %}
+        </div>
+        <div id="editormd">
+          {{ form.text }}
+        </div>
       </div>
+      {{ form.html }}
     </div>
 
     <div class="panel-divider">
@@ -119,7 +125,7 @@
     </div>
 
     <div class="panel-footer text-right">
-      {% if object.instance.pk %}
+      {% if object %}
         <div class="pull-left">
           <a href="{% url 'tests:choicequestion_delete' view.get_version.pk choicequestion.pk %}"
              class="btn btn-danger">Eliminar</a>

@@ -59,8 +59,10 @@
             </a>
 
             <strong>{{ forloop.counter }}.-</strong>
-            <i>[{{ question.score }}pts]</i>
-            {{ question.text }}
+            <div class="question-statement">
+              <i>[{{ question.score }}pts] </i>
+              {{ question.html|safe }}
+            </div>
           </div>
 
           {% if question.choicequestion %}
@@ -103,4 +105,16 @@
       </a>
     </div>
   </div>
+{% endblock %}
+
+{%block script %}
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      messageStyle: "none"
+    });
+  </script>
+  <script type="text/javascript"
+     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
+  </script>
 {% endblock %}
