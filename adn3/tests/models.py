@@ -22,9 +22,11 @@ class Test(models.Model):
         (105, u'1 hora 45 minutos'),
     ], verbose_name=u'Duración')
 
-    create_date = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name=u'Fecha de creación')
+    create_date = models.DateTimeField(auto_now_add=True, auto_now=False,
+                                       verbose_name=u'Fecha de creación')
 
-    show_grade = models.BooleanField(default=True, verbose_name=u'Mostrar nota')
+    show_grade = models.BooleanField(default=True,
+                                     verbose_name=u'Mostrar nota')
 
     active = models.BooleanField(default=True, verbose_name=u'Activo')
 
@@ -76,8 +78,10 @@ class Question(models.Model):
 
     text = models.TextField(verbose_name=u'Enunciado')
 
-    score = models.IntegerField(default=100, validators=[MaxValueValidator(100), MinValueValidator(0)],
-                                verbose_name=u'Puntaje')
+    score = models.IntegerField(
+        default=100,
+        validators=[MaxValueValidator(100), MinValueValidator(0)],
+        verbose_name=u'Puntaje')
 
     def __unicode__(self):
         return self.text[:25]
@@ -85,7 +89,8 @@ class Question(models.Model):
 
 class TextQuestion(Question):
     def get_update_url(self):
-        return reverse_lazy('tests:textquestion_update', args=[self.version.pk, self.pk])
+        return reverse_lazy('tests:textquestion_update',
+                            args=[self.version.pk, self.pk])
 
 
 class NumericalQuestion(Question):
@@ -93,12 +98,14 @@ class NumericalQuestion(Question):
     bottom_limit = models.FloatField(verbose_name=u'Límite Inferior')
 
     def get_update_url(self):
-        return reverse_lazy('tests:numericalquestion_update', args=[self.version.pk, self.pk])
+        return reverse_lazy('tests:numericalquestion_update',
+                            args=[self.version.pk, self.pk])
 
 
 class ChoiceQuestion(Question):
     def get_update_url(self):
-        return reverse_lazy('tests:choicequestion_update', args=[self.version.pk, self.pk])
+        return reverse_lazy('tests:choicequestion_update',
+                            args=[self.version.pk, self.pk])
 
 
 class Alternative(models.Model):
