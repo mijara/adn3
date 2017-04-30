@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load bootstrap3 %}
+
+{% block link %}
+  <link rel="stylesheet" href="{% static 'vendor/editormd/css/editormd.min.css' %}" />    
+{% endblock %}
 
 {% block container %}
   <div class="row">
@@ -43,4 +48,35 @@
       {% endblock %}
     </div>
   </div>
+{% endblock %}
+
+{%block script %}
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      messageStyle: "none"
+    });
+  </script>
+  <script type="text/javascript"
+     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
+  </script>
+  <script src="{% static 'vendor/editormd/editormd.js' %}"></script>
+  <script type="text/javascript">
+      var editor = editormd("editormd", {
+          path : "{% static 'vendor/editormd/lib/' %}",
+          tex  : false,
+          height: 320,
+          watch: false,
+          placeholder: "Enunciado",
+          saveHTMLToTextarea : true,
+          toolbarIcons : function() {
+            // Or return editormd.toolbarModes[name]; // full, simple, mini
+            // Using "||" set icons align right.
+            return editormd.toolbarModes['simple']
+          }
+      });
+      $('form').submit(function(){
+        $('#id_html').val(editor.getHTML());
+      });
+</script>
 {% endblock %}

@@ -83,6 +83,8 @@ class Question(models.Model):
         validators=[MaxValueValidator(100), MinValueValidator(0)],
         verbose_name=u'Puntaje')
 
+    html = models.TextField(verbose_name=u'html')
+
     def __unicode__(self):
         return self.text[:25]
 

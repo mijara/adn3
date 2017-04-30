@@ -8,7 +8,13 @@
       </div>
 
       <div class="col-md-9">
-        {% bootstrap_field field show_label=False form_group_class=None %}
+        {% if field.label == "Enunciado" %}
+          <div id="editormd">
+            {{ field }}
+          </div>
+        {% else %}
+          {% bootstrap_field field show_label=False form_group_class=None %}
+        {% endif %}
       </div>
     </div>
   {% else %}

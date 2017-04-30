@@ -1,7 +1,7 @@
 {% extends 'confirm_delete.html' %}
 
 {% block display_name %}
-  {{ object.name }}
+  {{ object.html|safe }}
 {% endblock %}
 
 {% block back_page %}

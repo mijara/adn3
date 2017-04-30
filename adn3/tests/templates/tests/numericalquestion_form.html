@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block panel_footer_extra %}
-  {% if object.instance.pk %}
+  {% if object %}
     <div class="pull-left">
       <a href="{% url 'tests:numericalquestion_delete' view.get_version.pk numericalquestion.pk %}"
          class="btn btn-danger">Eliminar</a>
