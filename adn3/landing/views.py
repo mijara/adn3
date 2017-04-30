@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from news.models import New
 
@@ -25,4 +25,9 @@ def sign_in(request):
         else:
             return render(request, 'landing/signin.html')
 
+    return redirect('landing:index')
+
+
+def log_out(request):
+    logout(request)
     return redirect('landing:index')

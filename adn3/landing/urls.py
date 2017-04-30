@@ -13,4 +13,10 @@ urlpatterns = [
         views.sign_in,
         name='sign_in'
     ),
+
+    url(
+        '^logout/$',
+        views.log_out,
+        name='logout'
+    ),
 ]

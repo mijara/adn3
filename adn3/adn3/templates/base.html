@@ -89,7 +89,17 @@
 
 <div class="container">
   <footer>
-    <p>Departamento de Matemáticas, 2016, <br>Universidad Técnica Federico Santa Maria</p>
+    <div class="row">
+      <div class="col-sm-8">
+        <p>Departamento de Matemáticas, 2016, <br>Universidad Técnica Federico Santa Maria</p>
+      </div>
+
+      <div class="col-sm-4 text-right">
+        {% if user.is_authenticated %}
+          <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
+        {% endif %}
+      </div>
+    </div>
   </footer>
 </div>
 
