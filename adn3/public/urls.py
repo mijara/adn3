@@ -7,4 +7,10 @@ urlpatterns = [
         views.CourseDetail.as_view(),
         name='course_detail'
     ),
+
+    url(
+        '^$',
+        views.CourseList.as_view(),
+        name='course_list'
+    ),
 ]

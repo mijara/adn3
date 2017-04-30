@@ -1,18 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block breadcrump %}
+
+{% endblock %}
+
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="page-header"><span class="glyphicon glyphicon-th step"></span> Preinscripciones</h1>
+      <h1 class="page-header">
+        <span class="glyphicon glyphicon-th step"></span>
+        Preinscripciones <small>{{ course }}</small>
+      </h1>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
-      <div class="table-responsive" id="mnt">
+      <div class="alert alert-info">Ingrese su preferencia en los horarios que estime conveniente,
+        los horarios que no rellene se considerarán sin prioridad.</div>
 
-      </div>
+      <div class="table-responsive" id="mnt"></div>
     </div>
   </div>
 {% endblock %}

@@ -5,7 +5,6 @@ from adn3 import mixins
 from forms import *
 
 
-
 class NewDetail(generic.DetailView):
     model = New
 
@@ -25,7 +24,8 @@ class NewCreate(mixins.CourseMixin, generic.CreateView):
         return super(NewCreate, self).form_valid(form)
 
 
-class NewDelete(mixins.GoBackPageMixin, mixins.CourseMixin, generic.DeleteView):
+class NewDelete(mixins.GoBackPageMixin, mixins.CourseMixin,
+                generic.DeleteView):
     model = New
 
     def get_success_url(self):

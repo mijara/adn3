@@ -93,7 +93,7 @@ class Course(models.Model):
 
     @models.permalink
     def get_preregistrations_url(self):
-        return 'preregistration:course_detail', [self.pk]
+        return 'preregistration:preregistration_create', [self.pk]
 
 
 class Agenda(models.Model):
@@ -109,7 +109,7 @@ class Agenda(models.Model):
                                         related_name='assistants')
 
     def __unicode__(self):
-        return u'%s (%s, %s)' % (self.course, self.get_block_display(), self.room.name)
+        return u'%s %s' % (self.get_day_display(), self.get_block_display())
 
 
 class CourseTeacher(models.Model):

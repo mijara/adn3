@@ -27,7 +27,7 @@ var Table = (function ($) {
             var column = [];
 
             for (var block = 0; block < BLOCKS; block++) {
-                column.push($('<td>'));
+                column.push($('<td><input type="number" size="4" maxlength="4"></td>'));
             }
 
             self.elements.push(column);

@@ -7,7 +7,8 @@ from django.forms.extras import widgets
 class SessionForm(forms.ModelForm):
     class Meta:
         model = Session
-        fields = ('name', 'number', 'start_date', 'end_date', 'session_type', 'state')
+        fields = ('name', 'number', 'start_date', 'end_date', 'session_type',
+                  'state')
 
         widgets = {
             'start_date': widgets.SelectDateWidget(),

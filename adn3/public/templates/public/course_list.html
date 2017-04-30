@@ -12,16 +12,11 @@
   <meta name="author" content="">
   <!-- <link rel="icon" href="../../favicon.ico"> -->
 
-  <title>ADN 3</title>
+  <title>[ADN3] Listado de Cursos</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
-
-  <!-- Custom stylesheet -->
-  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
-
-  {% block link %}{% endblock %}
 
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
@@ -46,77 +41,47 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1"
-              aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <a class="navbar-brand" href="{% url 'landing:index' %}">ADN3</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="{% url 'landing:index' %}">Inicio</a></li>
-        <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-        <li><a href="{% url 'public:course_list' %}">Público</a></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        {% if request.user.is_authenticated %}
-          <li><a href="#">Bienvenido, {{ request.user }}</a></li>
-        {% endif %}
-
-        <li><a href="#">¿Necesita ayuda?</a></li>
-      </ul>
     </div>
   </div>
 </nav>
 
 <div class="container">
-  {% block breadcrump %}
-    <div class="alert alert-danger">
-      BREADCRUMP MISSING
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">Cursos Actuales</h1>
     </div>
-  {% endblock %}
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="list-group">
+        {% for course in course_list %}
+          {% if course.status %}
+            <a href="{{ course.get_preregistrations_url }}" class="list-group-item">
+              {{ course }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 
-
-<div class="container">
-  {% block container %}{% endblock %}
-</div>
 
 <hr>
 
 <div class="container">
   <footer>
-    <div class="row">
-      <div class="col-sm-8">
-        <p>
-          Departamento de Matemáticas, 2016,
-          <br>Universidad Técnica Federico Santa Maria
-        </p>
-      </div>
-
-      <div class="col-sm-4 text-right">
-        {% if user.is_authenticated %}
-          <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
-        {% endif %}
-      </div>
-    </div>
+    <p>Departamento de Matemáticas, 2016, <br>Universidad Técnica Federico
+      Santa Maria</p>
   </footer>
 </div>
 
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>
 
-{% block script %}{% endblock %}
-
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
 </body>
 </html>
-

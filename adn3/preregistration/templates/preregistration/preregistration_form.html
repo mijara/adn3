@@ -1,0 +1,14 @@
+{% extends 'form.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <!-- Intentional No Breadcrump -->
+{% endblock %}
+
+{% block icon %}
+  <span class="glyphicon glyphicon-th step"></span>
+{% endblock %}
+
+{% block page_header %}
+  Inscripción {{ view.get_course }}
+{% endblock %}
