@@ -8,6 +8,11 @@ urlpatterns = [
         name='preregistration_create'
     ),
     url(
+        '^$',
+        views.CourseListView.as_view(),
+        name='course_list'
+    ),
+    url(
         '^(?P<pk>\d+)/$',
         views.CoursePreRegistrationDetailView.as_view(),
         name='course_detail'

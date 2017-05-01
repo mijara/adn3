@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.utils.decorators import method_decorator
+
 from courses.models import *
+from django.views import generic
 
 
-@login_required
-def index(request):
-    return render(request, 'self/teachers/index.html', {
-        'courses': Course.objects.all()
-    })
+@method_decorator(login_required, 'dispatch')
+class CourseListView(generic.ListView):
+    model = Course
+    template_name = 'self/teachers/course_list.html'

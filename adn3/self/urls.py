@@ -4,7 +4,7 @@ import views
 urlpatterns = [
     url(
         '^$',
-        views.index,
+        views.CourseListView.as_view(),
         name='index'
     ),
 ]

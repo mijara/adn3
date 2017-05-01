@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.db import models
 from adn3.choices import *
+from adn3.utils import get_year_semester
 
 
 class Campus(models.Model):
@@ -61,7 +62,12 @@ class Course(models.Model):
         return len(assistants)
 
     def __unicode__(self):
-        return u'%s - %s %d-%d' % (self.name, self.campus.name, self.year, self.semester)
+        return u'%s - %s %d-%d' % (
+            self.name, self.campus.name, self.year, self.semester)
+
+    def is_active(self):
+        return self.status and \
+               (self.year, self.semester) == get_year_semester()
 
     @models.permalink
     def get_absolute_url(self):

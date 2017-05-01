@@ -22,3 +22,8 @@ class PreRegistrationCreateView(mixins.CourseMixin, generic.CreateView):
         initial = super(PreRegistrationCreateView, self).get_initial()
         initial['course'] = self.get_course()
         return initial
+
+
+class CourseListView(generic.ListView):
+    model = Course
+    template_name = 'preregistration/course_list.html'
