@@ -58,7 +58,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'adn3.context_processors.constants'
+                'adn3.context_processors.constants',
+                'adn3.context_processors.url_args',
             ],
         },
     },
