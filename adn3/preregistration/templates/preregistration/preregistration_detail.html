@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <!-- EMPTY -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          Pre-inscrito exitosamente
+        </div>
+
+        <div class="panel-body">
+          Estimado/a
+          <strong>{{ object.first_name }} {{ object.last_names }}</strong>
+          hemos completado
+          su pre-inscripción al curso <strong>{{ object.course }}</strong> con
+          éxito, con los siguientes datos:
+        </div>
+
+        <table class="table table-responsive">
+          <tbody>
+          <tr>
+            <th width="20%">Rol USM</th>
+            <td>{{ object.usm_rol }}</td>
+          </tr>
+          <tr>
+            <th>Prioridad USM</th>
+            <td>{{ object.usm_priority }}</td>
+          </tr>
+          {% if object.psu_score %}
+            <tr>
+              <th>Puntaje PSU</th>
+              <td>{{ object.psu_score }}</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <th>Primera Preferencia</th>
+            <td>{{ object.first_preference }}</td>
+          </tr>
+
+          {% if object.second_preference %}
+            <tr>
+              <th>Segunda Preferencia</th>
+              <td>{{ object.second_preference }}</td>
+            </tr>
+          {% endif %}
+
+          {% if object.third_preference %}
+            <tr>
+              <th>Tercera Preferencia</th>
+              <td>{{ object.third_preference }}</td>
+            </tr>
+          {% endif %}
+          </tbody>
+        </table>
+
+        <div class="panel-footer">
+          Al terminar el proceso de pre-inscripción se la hará saber en qué curso quedó.
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

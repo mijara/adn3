@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.db import models
+from django.urls import reverse_lazy
 
 
 class PreRegistration(models.Model):
@@ -32,3 +33,7 @@ class PreRegistration(models.Model):
 
     def __unicode__(self):
         return self.first_name + ' ' + self.last_names
+
+    def get_absolute_url(self):
+        return reverse_lazy('preregistrations:preregistration_detail',
+                            args=[self.pk])
