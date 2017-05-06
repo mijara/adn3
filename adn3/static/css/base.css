@@ -25,6 +25,21 @@ hr {
   padding: 0;
 }
 
+#course-container {
+    padding-top: 15px;
+}
+
+#course-container > div:nth-child(2) {
+    border-left: 1px solid #ededed;
+}
+
+#course-container > div:nth-child(1) > ul{
+    position: fixed;
+    width: inherit;
+    padding-right: 40px;
+}
+
+
 /*
  * Navbar
  */
@@ -93,4 +108,23 @@ tr.table-heading th {
   background-color: #f5f5f5;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
+}
+
+/*
+ * Test details
+ */
+div.question-statement {
+	display: inline !important;
+}
+
+div.question-statement p:first-of-type {
+	display: inline-block;
+}
+div.question-statement p:first-of-type:before {
+	content: '';
+	margin-left: 4px;
+}
+
+p.editormd-tex {
+	text-align: center;
 }

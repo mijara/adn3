@@ -94,6 +94,10 @@ class TextQuestion(Question):
         return reverse_lazy('tests:textquestion_update',
                             args=[self.version.pk, self.pk])
 
+    def get_delete_url(self):
+        return reverse_lazy('tests:textquestion_delete',
+                            args=[self.version.pk, self.pk])
+
 
 class NumericalQuestion(Question):
     top_limit = models.FloatField(verbose_name=u'Límite Superior')

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_courses.html' %}
 {% load static %}
 {% load bootstrap3 %}
 
@@ -69,17 +69,18 @@
   <script src="{% static 'vendor/editormd/editormd.js' %}"></script>
   <script type="text/javascript">
     var editor = editormd("editormd", {
-      path: "{% static 'vendor/editormd/lib/' %}",
-      tex: false,
-      height: 320,
-      watch: false,
-      placeholder: "Enunciado",
-      saveHTMLToTextarea: true,
-      toolbarIcons: function () {
-        // Or return editormd.toolbarModes[name]; // full, simple, mini
-        // Using "||" set icons align right.
-        return editormd.toolbarModes['simple']
-      }
+        path: "{% static 'vendor/editormd/lib/' %}",
+        tex: false,
+        height: 320,
+        watch: false,
+        placeholder: "Enunciado",
+        saveHTMLToTextarea: true,
+        toolbarAutoFixed: false,
+        toolbarIcons: function () {
+            // Or return editormd.toolbarModes[name]; // full, simple, mini
+            // Using "||" set icons align right.
+            return editormd.toolbarModes['simple']
+        }
     });
     $('form').submit(function () {
       $('#id_html').val(editor.getHTML());
