@@ -86,10 +86,10 @@ urlpatterns = [
     ),
 
     url(
-        '^preregistration/',
+        '^preregistrations/',
         include(
             'preregistration.urls',
-            namespace='preregistration'
+            namespace='preregistrations'
         )
     ),
 
