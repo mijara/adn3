@@ -99,6 +99,10 @@ class Course(models.Model):
 
     @models.permalink
     def get_preregistrations_url(self):
+        return 'preregistrations:course_detail', [self.pk]
+
+    @models.permalink
+    def get_preregistrations_create_url(self):
         return 'preregistrations:preregistration_create', [self.pk]
 
 

@@ -1,3 +1,6 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
 from django.views import generic
 from courses.models import Course
 from preregistration.models import PreRegistration
@@ -23,7 +26,7 @@ class PreRegistrationCreateView(mixins.CourseMixin, generic.CreateView):
         return initial
 
 
-class CourseDetailView(generic.DetailView):
+class CourseDetailView(generic.DetailView, LoginRequiredMixin):
     model = Course
     template_name = 'preregistration/course_detail.html'
 

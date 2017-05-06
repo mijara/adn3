@@ -62,7 +62,7 @@
       <div class="list-group">
         {% for course in course_list %}
           {% if course.is_active %}
-            <a href="{{ course.get_preregistrations_url }}"
+            <a href="{{ course.get_preregistrations_create_url }}"
                class="list-group-item">
               {{ course }}
             </a>

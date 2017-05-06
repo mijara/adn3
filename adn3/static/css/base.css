@@ -59,6 +59,14 @@ hr {
   margin-top: 8px;
 }
 
+.header-fit {
+  margin-bottom: 5px;
+}
+
+.fit {
+  margin: 0;
+}
+
 /*
  * Forms
  */
