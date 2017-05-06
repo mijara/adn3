@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_courses.html' %}
 
 {% block breadcrump %}
   <ol class="breadcrumb">
@@ -66,18 +66,6 @@
         {% include 'courses/_actions_button.html' %}
       </span>
       <hr>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="hidden-xs">
-        {% with section as active %}
-          <ul class="nav nav-tabs">
-            {% include 'courses/_tabs.html' %}
-          </ul>
-        {% endwith %}
-      </div>
     </div>
   </div>
 
