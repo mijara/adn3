@@ -2,9 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 
 from adn3 import mixins
-from forms import *
+from .forms import *
 from datetime import timedelta
-from services import *
+from .services import *
 
 
 class SessionDetailView(generic.DetailView):

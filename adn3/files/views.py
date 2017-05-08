@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 
 from adn3 import mixins
-from forms import *
+from .forms import *
 
 
 class CourseFileDetailView(generic.DetailView):

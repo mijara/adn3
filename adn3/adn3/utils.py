@@ -1,4 +1,4 @@
-from constants import YEAR, SEMESTER
+from .constants import YEAR, SEMESTER
 
 
 def get_year_semester():

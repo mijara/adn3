@@ -1,6 +1,6 @@
 import os
-import defaults
-import constants
+from . import defaults
+from . import constants
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

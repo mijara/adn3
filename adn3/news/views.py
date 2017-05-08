@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views import generic
 
 from adn3 import mixins
-from forms import *
+from .forms import *
 
 
 class NewDetail(generic.DetailView):
