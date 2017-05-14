@@ -136,3 +136,21 @@ div.question-statement p:first-of-type:before {
 p.editormd-tex {
 	text-align: center;
 }
+
+div.choice-answer {
+  display: inline-block;
+}
+
+div.choice-answer > .MathJax_Display {
+  margin: 0;
+}
+
+/*
+ * News editor
+*/
+
+#editormd {
+    width: 1339px;
+    height: 726px;
+    z-index: 99;
+}

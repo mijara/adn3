@@ -9,6 +9,8 @@ class New(models.Model):
 
     body = models.TextField(verbose_name=u'Cuerpo')
 
+    html = models.TextField(verbose_name=u'Html')
+
     owner = models.ForeignKey('auth.User')
 
     create_date = models.DateTimeField(auto_now_add=True)

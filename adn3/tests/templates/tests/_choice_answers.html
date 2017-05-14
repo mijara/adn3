@@ -4,7 +4,7 @@
       {% if alternative.correct %}
         <span class="glyphicon glyphicon-ok text-success pull-right"></span>
       {% endif %}
-      <strong>{{ alternative.index_as_name }})</strong> {{ alternative.text }}
+        <strong>{{ alternative.index_as_name }})</strong> <div class="choice-answer">{{ alternative.text }}</div>
     </div>
   {% endfor %}
 </div>

@@ -56,16 +56,6 @@
 {% endblock %}
 
 {% block script %}
-  <!-- MathJax -->
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      messageStyle: "none"
-    });
-
-  </script>
-  <script type="text/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
-  </script>
   <script src="{% static 'vendor/editormd/editormd.js' %}"></script>
   <script type="text/javascript">
     var editor = editormd("editormd", {

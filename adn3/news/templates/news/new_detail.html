@@ -22,7 +22,7 @@
 
       <h1 class="header">{{ new.title }}</h1>
 
-      {{ new.body | linebreaks }}
+      {{ new.html | safe }}
     </div>
   </div>
 {% endblock %}
