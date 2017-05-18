@@ -18,7 +18,7 @@ class Pretest(models.Model):
 
     show_grade = models.BooleanField(default=False, verbose_name=u'Mostrar calificación')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @models.permalink
@@ -41,7 +41,7 @@ class PretestFile(models.Model):
 
     file = models.FileField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_download_url(self):

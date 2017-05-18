@@ -22,7 +22,7 @@ class New(models.Model):
     class Meta:
         ordering = ('-create_date',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'[%s] %s' % (self.course, self.title)
 
     @models.permalink

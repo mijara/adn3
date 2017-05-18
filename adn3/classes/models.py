@@ -49,7 +49,7 @@ class Session(models.Model):
     class Meta:
         ordering = ('number',)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def duration(self):
@@ -77,5 +77,5 @@ class SessionFile(models.Model):
 
     create_date = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

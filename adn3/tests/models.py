@@ -32,7 +32,7 @@ class Test(models.Model):
 
     percentage = models.IntegerField(verbose_name=u'Porcentaje')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @models.permalink
@@ -61,7 +61,7 @@ class Version(models.Model):
         verbose_name = 'Forma'
         verbose_name_plural = 'Formas'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.test.name
 
     @models.permalink
@@ -85,7 +85,7 @@ class Question(models.Model):
 
     html = models.TextField(verbose_name=u'html')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.text[:25]
 
 
@@ -121,7 +121,7 @@ class Alternative(models.Model):
     text = models.TextField(verbose_name=u'Texto')
     correct = models.BooleanField(default=False, verbose_name=u'Es correcta')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.text
 
     def index_as_name(self):
