@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from courses.models import Agenda
-from services import *
+from .services import *
 
 
 def show(request, agenda_pk):

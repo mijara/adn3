@@ -1,6 +1,6 @@
 import re
 
-from constants import *
+from .constants import *
 
 
 def constants(request):

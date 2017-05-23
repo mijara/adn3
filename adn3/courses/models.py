@@ -10,7 +10,7 @@ class Campus(models.Model):
     class Meta:
         verbose_name_plural = 'Campus'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -19,7 +19,7 @@ class Room(models.Model):
     code = models.CharField(max_length=32, verbose_name=u'Código')
     seats = models.IntegerField(verbose_name=u'Asientos')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -61,7 +61,7 @@ class Course(models.Model):
 
         return len(assistants)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s - %s %d-%d' % (
             self.name, self.campus.name, self.year, self.semester)
 
@@ -118,7 +118,7 @@ class Agenda(models.Model):
     assistants = models.ManyToManyField('auth.User', verbose_name=u'Ayudantes', blank=True,
                                         related_name='assistants')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s %s' % (self.get_day_display(), self.get_block_display())
 
 
@@ -127,7 +127,7 @@ class CourseTeacher(models.Model):
     course = models.ForeignKey('Course', verbose_name='Curso')
     coordinates = models.BooleanField(verbose_name=u'Coordinador')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
 
@@ -142,5 +142,5 @@ class CourseGradesConfig(models.Model):
 
     show_final_grade = models.BooleanField(default=True, verbose_name=u'Mostrar nota final')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.course.name

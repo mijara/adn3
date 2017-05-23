@@ -31,7 +31,7 @@ class PreRegistration(models.Model):
         related_name='third',
         verbose_name='Tercera Preferencia', blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.first_name + ' ' + self.last_names
 
     def get_absolute_url(self):

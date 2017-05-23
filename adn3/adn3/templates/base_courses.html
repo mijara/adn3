@@ -51,7 +51,7 @@
 <body>
 
 <nav class="navbar navbar-default">
-  <div class="container">
+  <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed"
               data-toggle="collapse"
@@ -94,38 +94,38 @@
 </nav>
 
 <div id="course-container" class="container-fluid">
-    <div class="hidden-xs col-sm-3 col-md-2">
-        {% with section as active %}
-          <ul class="nav nav-pills nav-stacked">
-            {% include 'courses/_tabs.html' %}
-          </ul>
-        {% endwith %}
-    </div>
-    <div  class="col-xs-12 col-sm-9 col-md-10">
-        {% block breadcrump %}
-            <div class="alert alert-danger">
-              BREADCRUMP MISSING
-            </div>
-        {% endblock %}
-        {% block container %}{% endblock %}
-        <hr>
-        <footer>
-            <div class="row">
-              <div class="col-sm-8">
-                <p>
-                  Departamento de Matemáticas, 2016,
-                  <br>Universidad Técnica Federico Santa Maria
-                </p>
-              </div>
+  <div class="hidden-xs col-sm-3 col-md-2">
+    {% with section as active %}
+      <ul class="nav nav-pills nav-stacked">
+        {% include 'courses/_tabs.html' %}
+      </ul>
+    {% endwith %}
+  </div>
+  <div class="col-xs-12 col-sm-9 col-md-10">
+    {% block breadcrump %}
+      <div class="alert alert-danger">
+        BREADCRUMP MISSING
+      </div>
+    {% endblock %}
+    {% block container %}{% endblock %}
+    <hr>
+    <footer>
+      <div class="row">
+        <div class="col-sm-8">
+          <p>
+            Departamento de Matemáticas, 2016,
+            <br>Universidad Técnica Federico Santa Maria
+          </p>
+        </div>
 
-              <div class="col-sm-4 text-right">
-                {% if user.is_authenticated %}
-                  <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
-                {% endif %}
-              </div>
-            </div>
-        </footer>
-    </div>
+        <div class="col-sm-4 text-right">
+          {% if user.is_authenticated %}
+            <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
+          {% endif %}
+        </div>
+      </div>
+    </footer>
+  </div>
 </div>
 
 

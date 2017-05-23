@@ -30,7 +30,7 @@
                     aria-expanded="false">
               Nueva pregunta <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-right">
               <li><a href="{% url 'tests:choicequestion_create' version.pk %}">Alternativas</a></li>
               <li><a href="{% url 'tests:numericalquestion_create' version.pk %}">Numérica</a></li>
               <li><a href="{% url 'tests:textquestion_create' version.pk %}">Texto</a></li>

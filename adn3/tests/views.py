@@ -4,7 +4,7 @@ from django.views import View
 from django.views import generic
 
 from adn3 import mixins
-from forms import *
+from .forms import *
 
 
 # Test Views

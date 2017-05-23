@@ -1,5 +1,5 @@
 from attendance.forms import AttendanceForm
-from models import *
+from .models import *
 from django.contrib.auth.models import User
 import re
 

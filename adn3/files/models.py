@@ -20,7 +20,7 @@ class CourseFile(models.Model):
     # stamps the date and time of update.
     update_date = models.DateTimeField(auto_now=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.file.name
 
     @models.permalink

@@ -22,5 +22,5 @@ class Attendance(models.Model):
     class Meta:
         unique_together = ('session', 'agenda', 'user')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'[%s] %s: %s' % (self.agenda, self.session, self.user.get_full_name())

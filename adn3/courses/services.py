@@ -1,6 +1,6 @@
 from pretests.models import Pretest
 from classes.models import Session
-from tableform import TableForm
+from .tableform import TableForm
 
 
 def session_pks(course):

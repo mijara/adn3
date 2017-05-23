@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from adn3 import mixins
-from forms import *
-import services
+from .forms import *
+from . import services
 from django.views import generic
 
 
