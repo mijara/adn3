@@ -49,17 +49,17 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="header">Cursos Actuales</h1>
+      <h1 class="header">Mis Cursos</h1>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
       <div class="list-group">
-        {% for course in course_list %}
-          {% if course.status %}
-            <a href="{% url 'public:course_detail' course.pk %}" class="list-group-item">
-              {{ course }}
+        {% for agenda in agenda_list %}
+          {% if agenda.course.status %}
+            <a href="{% url 'public:course_detail' agenda.course.pk %}" class="list-group-item">
+              {{ agenda.course }}
             </a>
           {% endif %}
         {% endfor %}
@@ -67,7 +67,6 @@
     </div>
   </div>
 </div>
-
 
 <hr>
 
