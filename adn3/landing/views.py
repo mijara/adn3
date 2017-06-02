@@ -11,7 +11,7 @@ def index(request):
         if is_teacher(request.user):
             return redirect('self:index')
         elif is_student(request.user):
-            return redirect('public:course_list')
+            return redirect('public:agenda_list')
 
     return render(request, 'landing/index.html', {
         'news': New.objects.all()[:5]
@@ -32,7 +32,7 @@ def sign_in(request):
             if is_teacher(user):
                 return redirect('self:index')
             elif is_student(user):
-                return redirect('public:course_list')
+                return redirect('public:agenda_list')
         else:
             return render(request, 'landing/signin.html')
 
