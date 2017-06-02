@@ -15,7 +15,7 @@ urlpatterns = [
     ),
 
     url(
-      '^test/(?P<pk>\d+)/$',
+        '^test/(?P<pk>\d+)/$',
         views.Test.as_view(),
         name="do_test"
     ),
