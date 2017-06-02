@@ -41,6 +41,7 @@ def grades_config(request, pk):
             instance.save()
 
             services.save_pretests(request.POST)
+            services.save_tests(request.POST)
             services.save_sessions(request.POST, services.session_pks(course))
 
             return redirect('courses:grades', pk=pk)

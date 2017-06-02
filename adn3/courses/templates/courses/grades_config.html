@@ -54,7 +54,7 @@
 
                 <td>
                   <input type="checkbox" name="_test_show_grade_{{ test.pk }}"
-                         {% if pretest.show_grade %}checked{% endif %}> Mostrar
+                         {% if test.show_grade %}checked{% endif %}> Mostrar
                 </td>
               </tr>
             {% endfor %}
