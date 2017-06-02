@@ -14,7 +14,7 @@ class Pretest(models.Model):
     end_session = models.ForeignKey('classes.Session', related_name='end_session',
                                     verbose_name=u'Sesión Entrega')
 
-    percentage = models.FloatField(default=0, verbose_name=u'Porcentaje')
+    percentage = models.IntegerField(default=0, verbose_name=u'Porcentaje')
 
     show_grade = models.BooleanField(default=False, verbose_name=u'Mostrar calificación')
 
