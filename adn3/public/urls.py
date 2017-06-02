@@ -10,9 +10,10 @@ urlpatterns = [
 
     url(
         '^$',
-        views.CourseList.as_view(),
-        name='course_list'
+        views.AgendaListView.as_view(),
+        name='agenda_list'
     ),
+
     url(
       '^test/(?P<pk>\d+)/$',
         views.Test.as_view(),

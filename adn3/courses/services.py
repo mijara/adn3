@@ -1,10 +1,18 @@
 from pretests.models import Pretest
 from classes.models import Session
+from tests.models import Test
 from .tableform import TableForm
 
 
 def session_pks(course):
     return [session.pk for session in course.session_set.all()]
+
+
+def save_tests(post_data):
+    tests_table = TableForm('test')
+    tests_table.add_field('percentage', 0)
+    tests_table.add_field('show_grade', False, transform={'on': True})
+    tests_table.process_and_save(Test, post_data)
 
 
 def save_pretests(post_data):

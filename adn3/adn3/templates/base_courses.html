@@ -74,12 +74,6 @@
         {% else %}
           <li><a href="{% url 'public:course_list' %}">Cursos</a></li>
         {% endif %}
-
-        {% if PRE_REGISTRATIONS_OPEN %}
-          <li>
-            <a href="{% url 'preregistrations:course_list' %}">Pre-Inscripciones</a>
-          </li>
-        {% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

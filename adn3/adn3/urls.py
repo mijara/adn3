@@ -94,6 +94,14 @@ urlpatterns = [
     ),
 
     url(
+        '^students/',
+        include(
+            'students.urls',
+            namespace='students'
+        )
+    ),
+
+    url(
         r'^admin/',
         include(
             admin.site.urls

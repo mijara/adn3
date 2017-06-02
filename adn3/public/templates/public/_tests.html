@@ -1,0 +1,15 @@
+{% for test in course.test_set.all %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div>
+        <strong>{{ test.name }}</strong>
+      </div>
+
+      <div>
+        Sesión {{ test.session.number }}, duración {{ test.get_timeout_display }}
+      </div>
+    </div>
+  </div>
+
+  <p></p>
+{% endfor %}

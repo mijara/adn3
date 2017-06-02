@@ -31,11 +31,35 @@
             Controles
           </div>
 
-          <div class="panel-body">
-            <div class="alert alert-warning">
-              Not implemented.
-            </div>
-          </div>
+          <table class="table">
+            <thead>
+            <tr>
+              <th width="70%">Nombre</th>
+              <th>Porcentaje</th>
+              <th width="25%">Mostrar calificación</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for test in course.test_set.all %}
+              <tr>
+                <td>
+                  {{ test.name }}
+                </td>
+
+                <td>
+                  <input type="number" name="_test_percentage_{{ test.pk }}"
+                         style="width: 75px" max="100" value="{{ test.percentage }}">
+                </td>
+
+                <td>
+                  <input type="checkbox" name="_test_show_grade_{{ test.pk }}"
+                         {% if test.show_grade %}checked{% endif %}> Mostrar
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
         </div>
 
         <div class="panel panel-default">

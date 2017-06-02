@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'misc',
     'public',
     'preregistration',
+    'students',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,7 +75,7 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-us'
 
 TIME_ZONE = 'UTC'
 
