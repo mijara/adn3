@@ -18,6 +18,7 @@ class PreRegistrationCreateView(mixins.CourseMixin, generic.CreateView):
 
     def form_valid(self, form):
         form.instance.course = self.get_course()
+        form.instance.student = self.request.user.student
         return super(PreRegistrationCreateView, self).form_valid(form)
 
     def get_initial(self):

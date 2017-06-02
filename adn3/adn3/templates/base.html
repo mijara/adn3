@@ -1,4 +1,5 @@
 {% load static %}
+{% load user %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,15 +62,19 @@
         <li><a href="{% url 'landing:index' %}">Inicio</a></li>
 
         {% if user.is_authenticated %}
-          <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-        {% else %}
-          <li><a href="{% url 'public:course_list' %}">Cursos</a></li>
-        {% endif %}
+          {% if user|is_teacher %}
+            <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+          {% endif %}
 
-        {% if PRE_REGISTRATIONS_OPEN %}
-          <li>
-            <a href="{% url 'preregistrations:course_list' %}">Pre-Inscripciones</a>
-          </li>
+          {% if user|is_student %}
+            <li><a href="{% url 'public:agenda_list' %}">Cursos</a></li>
+
+            {% if PRE_REGISTRATIONS_OPEN %}
+              <li>
+                <a href="{% url 'preregistrations:course_list' %}">Pre-Inscripciones</a>
+              </li>
+            {% endif %}
+          {% endif %}
         {% endif %}
       </ul>
 

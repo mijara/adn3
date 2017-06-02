@@ -14,11 +14,6 @@ class PreRegistrationForm(forms.ModelForm):
     class Meta:
         model = PreRegistration
         fields = [
-            'first_name',
-            'last_names',
-            'usm_rol',
-            'usm_priority',
-            'psu_score',
             'first_preference',
             'second_preference',
             'third_preference'

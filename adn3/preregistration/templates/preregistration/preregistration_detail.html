@@ -15,20 +15,20 @@
         <div class="panel-body">
           Estimado/a
           <strong>{{ object.first_name }} {{ object.last_names }}</strong>
-          hemos completado
-          su pre-inscripción al curso <strong>{{ object.course }}</strong> con
-          éxito, con los siguientes datos:
+          hemos recibido
+          su pre-inscripción al curso <strong>{{ object.course }}</strong>
+          con los siguientes datos:
         </div>
 
         <table class="table table-responsive">
           <tbody>
           <tr>
             <th width="20%">Rol USM</th>
-            <td>{{ object.usm_rol }}</td>
+            <td>{{ object.student.rol }}</td>
           </tr>
           <tr>
             <th>Prioridad USM</th>
-            <td>{{ object.usm_priority }}</td>
+            <td>{{ object.student.usm_priority }}</td>
           </tr>
           {% if object.psu_score %}
             <tr>
@@ -58,7 +58,7 @@
         </table>
 
         <div class="panel-footer">
-          Al terminar el proceso de pre-inscripción se la hará saber en qué curso quedó.
+          Al terminar el proceso de pre-inscripción se la hará saber en que agenda quedó seleccionado.
         </div>
       </div>
     </div>
