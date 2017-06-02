@@ -1,0 +1,11 @@
+<div class="list-group">
+  {% for alternative in question.choicequestion.alternative_set.all %}
+    <div class="list-group-item alternative">
+        <input id="{{ alternative.index }}" type="radio" class="hidden" name="{{ question.pk }}" value="{{ alternative.pk }}">
+        <label for="{{ alternative.index }}">
+            <span class="glyphicon glyphicon-ok text-success pull-right hidden"></span>
+            <strong>{{ alternative.index_as_name }})</strong> <div class="choice-answer">{{ alternative.text }}</div>
+        </label>
+    </div>
+  {% endfor %}
+</div>

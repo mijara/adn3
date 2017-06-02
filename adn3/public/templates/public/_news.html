@@ -4,7 +4,7 @@
       <h4>{{ new.title }} <small>{{ new.create_date }}</small></h4>
 
       <div class="text-justify">
-        {{ new.body|linebreaks }}
+        {{ new.html | safe }}
       </div>
     </div>
   </div>

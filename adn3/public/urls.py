@@ -13,4 +13,9 @@ urlpatterns = [
         views.CourseList.as_view(),
         name='course_list'
     ),
+    url(
+      '^test/(?P<pk>\d+)/$',
+        views.Test.as_view(),
+        name="do_test"
+    ),
 ]

@@ -154,3 +154,63 @@ div.choice-answer > .MathJax_Display {
     height: 726px;
     z-index: 99;
 }
+
+/* Student test */
+#student-test .list-group-item.alternative {
+  padding: 0px;
+  overflow: hidden;
+}
+
+#student-test .list-group-item.alternative > label {
+  width: 100%;
+  padding: 10px 15px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+ #student-test .list-group-item.alternative > input:checked + label {
+  background-color: #428bca !important;
+  color: white;
+  transition: .2s ease-in-out;
+}
+
+#student-test .list-group-item.alternative > input:checked + label > span {
+  display: inline-block !important;
+  color: white;
+}
+
+#student-test textarea {
+  resize: vertical;
+}
+
+#student-test .progress {
+  text-align: center;
+}
+
+#student-test .progress .progress-bar {
+  position: relative;
+  overflow: hidden;
+  transition: .2s ease;
+}
+
+#student-test .progress .progress-bar > span {
+  left: initial;
+  position: absolute;
+  width: 100%;
+  font-size: 14px !important;
+}
+
+#student-test .progress > span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+#student-test .limits {
+  overflow: hidden;
+}
+#student-test .limits input[type="number"] {
+  border: none;
+  padding: 10px;
+  outline: none;
+}
