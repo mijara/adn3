@@ -27,6 +27,7 @@ class CourseDetail(generic.DetailView):
                 context['assistant'] = agenda
         return context
 
+
 class Test(generic.DetailView):
     model = Version
     template_name = 'public/test.html'
