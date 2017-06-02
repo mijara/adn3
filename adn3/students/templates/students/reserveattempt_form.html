@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <!-- Left Blank -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-8">
+      <h1 class="header">
+        {% block icon %}
+          <span
+              class="glyphicon glyphicon-user"></span>
+        {% endblock %}
+
+        Reserva de Cuenta
+      </h1>
+
+      {% block form %}
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              {% include '_form.html' %}
+            </div>
+
+            <div class="panel-footer text-right">
+              <button class="btn btn-primary">Reservar</button>
+            </div>
+          </div>
+        </form>
+      {% endblock %}
+    </div>
+
+    <div class="col-sm-4">
+      <h3>¿Por qué necesito reservar una cuenta?</h3>
+
+      <p class="text-justify">
+        La reserva de cuenta sirve el propósito de asegurar que el email ingresado en el sistema
+        realmente corresponda a usted, al intentar crear una cuenta necesita este código para
+        realizar el registro.
+      </p>
+    </div>
+  </div>
+{% endblock %}
