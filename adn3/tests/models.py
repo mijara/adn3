@@ -57,6 +57,9 @@ class Version(models.Model):
 
     file = models.FileField(upload_to='tests/', blank=True)
 
+    students = models.ManyToManyField('auth.User', verbose_name=u'Estudiante', blank=True,
+                                      related_name=u'students', through='StudentsAnswers')
+
     class Meta:
         verbose_name = 'Forma'
         verbose_name_plural = 'Formas'
@@ -71,6 +74,12 @@ class Version(models.Model):
     @models.permalink
     def get_delete_url(self):
         return 'tests:version_delete', [self.test.pk, self.pk]
+
+class StudentsAnswers(models.Model):
+    version = models.ForeignKey('Version', verbose_name=u'Forma')
+    student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
+    started_at = models.DateTimeField(auto_now_add=True, auto_now=False,
+                                       verbose_name=u'Fecha de inicio')
 
 
 class Question(models.Model):
@@ -90,6 +99,9 @@ class Question(models.Model):
 
 
 class TextQuestion(Question):
+    answers = models.ManyToManyField('auth.User', verbose_name=u'Respuestas', blank=True,
+                                     related_name=u'text_answers', through='TextAnswer')
+
     def get_update_url(self):
         return reverse_lazy('tests:textquestion_update',
                             args=[self.version.pk, self.pk])
@@ -100,6 +112,9 @@ class TextQuestion(Question):
 
 
 class NumericalQuestion(Question):
+    answers = models.ManyToManyField('auth.User', verbose_name=u'Respuestas', blank=True,
+                                     related_name=u'numerical_answers', through='NumericalAnswer')
+
     top_limit = models.FloatField(verbose_name=u'Límite Superior')
     bottom_limit = models.FloatField(verbose_name=u'Límite Inferior')
 
@@ -109,10 +124,35 @@ class NumericalQuestion(Question):
 
 
 class ChoiceQuestion(Question):
+    answers = models.ManyToManyField('auth.User', verbose_name=u'Respuestas', blank=True,
+                                     related_name=u'choice_answers', through='ChoiceAnswer')
     def get_update_url(self):
         return reverse_lazy('tests:choicequestion_update',
                             args=[self.version.pk, self.pk])
 
+class TextAnswer(models.Model):
+    student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
+    textQuestion = models.ForeignKey('TextQuestion', verbose_name=u'Pregunta')
+    text = models.TextField(verbose_name=u'Texto')
+
+    def __str__(self):
+        return self.student.username
+
+class NumericalAnswer(models.Model):
+    student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
+    numericalQuestion = models.ForeignKey('NumericalQuestion', verbose_name=u'Pregunta')
+    number = models.FloatField(verbose_name=u'Número')
+
+    def __str__(self):
+        return self.student.username
+
+class ChoiceAnswer(models.Model):
+    student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
+    choiceQuestion = models.ForeignKey('ChoiceQuestion', verbose_name=u'Pregunta')
+    alternative = models.ForeignKey('Alternative', verbose_name=u'Alternativa')
+
+    def __str__(self):
+        return self.student.username
 
 class Alternative(models.Model):
     question = models.ForeignKey('ChoiceQuestion', verbose_name=u'Pregunta')
