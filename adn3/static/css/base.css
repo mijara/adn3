@@ -214,3 +214,7 @@ div.choice-answer > .MathJax_Display {
   padding: 10px;
   outline: none;
 }
+
+table tr > td {
+  vertical-align: middle !important;
+}

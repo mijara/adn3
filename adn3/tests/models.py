@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse_lazy
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
+from django.utils import timezone
+
 
 class Test(models.Model):
     course = models.ForeignKey('courses.Course', verbose_name=u'Curso')
@@ -75,11 +77,30 @@ class Version(models.Model):
     def get_delete_url(self):
         return 'tests:version_delete', [self.test.pk, self.pk]
 
+
 class StudentsAnswers(models.Model):
     version = models.ForeignKey('Version', verbose_name=u'Forma')
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
     started_at = models.DateTimeField(auto_now_add=True, auto_now=False,
                                        verbose_name=u'Fecha de inicio')
+    submitted = models.BooleanField(verbose_name='Enviado', default=False)
+
+    # Return the answers status
+    # 1: In progress
+    # 2: It's over
+    def get_status(self):
+        finish_time = self.started_at + timezone.timedelta(minutes = self.version.test.timeout)
+        if finish_time < timezone.now() or self.submitted:
+            return 2
+        else:
+            return 1
+
+    def get_time_left(self):
+        finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout)
+        if finish_time > timezone.now():
+            left = finish_time - timezone.now()
+            return left.total_seconds()/60
+        return 0
 
 
 class Question(models.Model):
@@ -130,29 +151,33 @@ class ChoiceQuestion(Question):
         return reverse_lazy('tests:choicequestion_update',
                             args=[self.version.pk, self.pk])
 
+
 class TextAnswer(models.Model):
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
-    textQuestion = models.ForeignKey('TextQuestion', verbose_name=u'Pregunta')
+    text_question = models.ForeignKey('TextQuestion', verbose_name=u'Pregunta')
     text = models.TextField(verbose_name=u'Texto')
 
     def __str__(self):
         return self.student.username
 
+
 class NumericalAnswer(models.Model):
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
-    numericalQuestion = models.ForeignKey('NumericalQuestion', verbose_name=u'Pregunta')
+    numerical_question = models.ForeignKey('NumericalQuestion', verbose_name=u'Pregunta')
     number = models.FloatField(verbose_name=u'Número')
 
     def __str__(self):
         return self.student.username
 
+
 class ChoiceAnswer(models.Model):
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
-    choiceQuestion = models.ForeignKey('ChoiceQuestion', verbose_name=u'Pregunta')
+    choice_question = models.ForeignKey('ChoiceQuestion', verbose_name=u'Pregunta')
     alternative = models.ForeignKey('Alternative', verbose_name=u'Alternativa')
 
     def __str__(self):
         return self.student.username
+
 
 class Alternative(models.Model):
     question = models.ForeignKey('ChoiceQuestion', verbose_name=u'Pregunta')

@@ -1,13 +1,37 @@
-{% for test in course.test_set.all %}
+{% for test in test_set %}
   <div class="row">
     <div class="col-sm-12">
-      <div>
-        <strong>{{ test.name }}</strong>
-      </div>
+        <div class="panel panel-default">
+            <table class="table table-responsive">
+                <tr>
+                    <td>
+                        <div>
+                            <strong>{{ test.name }}</strong>
+                        </div>
 
-      <div>
-        Sesión {{ test.session.number }}, duración {{ test.get_timeout_display }}
-      </div>
+                        <div>
+                            Sesión {{ test.session }}, {{ test.time }}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        {% if test.status == 0 %}
+                            <span class="text-muted">Pendiente</span>
+                        {% elif test.status == 1 %}
+                            <span class="text-success">En curso</span>
+                        {% elif test.status == 2 %}
+                            <span class="text-danger">Finalizado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if test.status == 2 %}
+                            <a class="btn btn-default pull-right disabled"><span class="glyphicon glyphicon glyphicon-ok"></span></a>
+                        {% else %}
+                            <a href="{% url 'public:preconfirmation_test' test.pk %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-play"></span></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
   </div>
 

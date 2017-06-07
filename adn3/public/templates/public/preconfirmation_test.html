@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block breadcrump %}
+  <!-- Left Blank -->
+{% endblock %}
+{% block container %}
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Atención
+            </div>
+            <div class="panel-body text-center">
+                <p>Estás por comenzar el <strong>{{ test.name }}</strong> de la <strong>sesión {{ test.session.number }}.</strong></p>
+                <p>Dispondrás de <strong>{{ test.get_timeout_display }}</strong> para realizar el control.</p>
+                <p>Una vez iniciado, el control no se podrá detener.</p>
+            </div>
+            <div class="panel-footer">
+                <a href="{% url 'public:course_detail' test.course.pk %}" class="btn btn-default">Volver</a>
+                <a href="{% url 'public:assign_test_version' test.pk %}" class="btn btn-primary pull-right">Iniciar Control</a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
