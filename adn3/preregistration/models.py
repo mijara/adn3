@@ -9,17 +9,17 @@ class PreRegistration(models.Model):
 
     first_preference = models.ForeignKey(
         'courses.Agenda',
-        related_name='first',
+        related_name='first_preference',
         verbose_name='Primera Preferencia')
 
     second_preference = models.ForeignKey(
         'courses.Agenda',
-        related_name='second',
+        related_name='second_preference',
         verbose_name='Segunda Preferencia', blank=True, null=True)
 
     third_preference = models.ForeignKey(
         'courses.Agenda',
-        related_name='third',
+        related_name='third_preference',
         verbose_name='Tercera Preferencia', blank=True, null=True)
 
     def __str__(self):

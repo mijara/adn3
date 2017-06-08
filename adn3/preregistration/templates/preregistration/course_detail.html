@@ -44,8 +44,6 @@
                 </a>
               </td>
             </tr>
-
-
           {% endfor %}
           </tbody>
         </table>
@@ -76,11 +74,11 @@
             </tr>
             </thead>
             <tbody>
-            {% for pr in agenda.first.all %}
+            {% for pr in agenda.first_preference.all %}
               <tr>
                 <td>{{ pr }}</td>
-                <td>{{ pr.usm_rol }}</td>
-                <td class="text-right">{{ pr.usm_priority }}</td>
+                <td>{{ pr.student.rol }}</td>
+                <td class="text-right">{{ pr.student.usm_priority }}</td>
               </tr>
             {% endfor %}
             </tbody>
