@@ -12,3 +12,9 @@ class PretestFileForm(forms.ModelForm):
     class Meta:
         model = PretestFile
         fields = ('name', 'file')
+
+
+class PretestUploadForm(forms.ModelForm):
+    class Meta:
+        model = PretestUpload
+        fields = ('software', 'file')
