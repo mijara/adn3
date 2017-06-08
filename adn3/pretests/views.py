@@ -5,7 +5,12 @@ from adn3 import mixins
 from .forms import *
 
 
-class PretestDetailView(generic.DetailView):
+class PretestMixin(mixins.CourseMixin):
+    def get_pretest(self):
+        return get_object_or_404(Pretest, pk=self.kwargs['pretest_pk'])
+
+
+class PretestDetailView(mixins.CourseMixin, generic.DetailView):
     model = Pretest
 
 
@@ -30,31 +35,20 @@ class PretestDeleteView(mixins.CourseMixin, generic.DeleteView):
         return self.get_course().get_pretests_url()
 
 
-def pretestfile_create(request, pk):
-    pretest = get_object_or_404(Pretest, pk=pk)
+class PretestFileCreateView(PretestMixin, generic.CreateView):
+    model = PretestFile
+    form_class = PretestFileForm
 
-    form = PretestFileForm(request.POST or None, request.FILES or None)
+    def form_valid(self, form):
+        form.instance.pretest = self.get_pretest()
+        return super().form_valid(form)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.pretest = pretest
-            instance.save()
-
-            return redirect(pretest.get_absolute_url())
-
-    return render(request, 'pretests/upload.html', {
-        'pretest': pretest,
-        'form': form
-    })
+    def get_success_url(self):
+        return self.get_pretest().get_absolute_url()
 
 
-def pretestfile_delete(request, pk):
-    instance = get_object_or_404(PretestFile, pk=pk)
+class PretestFileDeleteView(PretestMixin, generic.DeleteView):
+    model = PretestFile
 
-    pretest = instance.pretest
-
-    instance.file.delete()
-    instance.delete()
-
-    return redirect(pretest.get_absolute_url())
+    def get_success_url(self):
+        return self.get_pretest().get_absolute_url()

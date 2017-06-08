@@ -9,32 +9,32 @@ urlpatterns = [
     ),
 
     url(
-        '^(?P<course_pk>\d+)/update/(?P<pk>\d+)/$',
+        '^(?P<pk>\d+)/update/$',
         views.PretestUpdateView.as_view(),
         name='pretest_update'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/create/$',
+        '^create/$',
         views.PretestCreateView.as_view(),
         name='pretest_create'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/delete/(?P<pk>\d+)/$',
+        '^(?P<pk>\d+)/delete/$',
         views.PretestDeleteView.as_view(),
         name='pretest_delete'
     ),
 
     url(
-        '^upload/(?P<pk>\d+)$',
-        views.pretestfile_create,
+        '^(?P<pretest_pk>\d+)/file/upload/$',
+        views.PretestFileCreateView.as_view(),
         name='pretestfile_create'
     ),
 
     url(
-        '^file/delete/(?P<pk>\d+)$',
-        views.pretestfile_delete,
+        '^(?P<pretest_pk>\d+)/file/(?P<pk>\d+)/delete/$',
+        views.PretestFileDeleteView.as_view(),
         name='pretestfile_delete'
     ),
 ]

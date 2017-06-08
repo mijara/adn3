@@ -23,8 +23,7 @@
             <td>{{ pretest.start_session.number }}</td>
             <td>{{ pretest.end_session.number }}</td>
             <td>{{ pretest.percentage }}%</td>
-            <td>{% if pretest.show_grade %}Si{% else %}No{% endif %}</td>
-            </td>
+            <td>{{ pretest.show_grade|yesno:'Si,No' }}</td>
           </tr>
         {% endfor %}
         </tbody>

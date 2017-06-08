@@ -23,7 +23,7 @@ class Pretest(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'pretests:pretest_detail', [self.pk]
+        return 'pretests:pretest_detail', [self.course.pk, self.pk]
 
     @models.permalink
     def get_update_url(self):
@@ -49,4 +49,5 @@ class PretestFile(models.Model):
 
     @models.permalink
     def get_delete_url(self):
-        return 'pretests:pretestfile_delete', [self.pk]
+        return 'pretests:pretestfile_delete', [self.pretest.course.pk,
+                                               self.pretest.pk, self.pk]

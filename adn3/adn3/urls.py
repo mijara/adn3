@@ -62,7 +62,7 @@ urlpatterns = [
     ),
 
     url(
-        '^pretests/',
+        '^(?P<course_pk>\d+)/pretests/',
         include(
             'pretests.urls',
             namespace='pretests'
