@@ -30,7 +30,7 @@ urlpatterns = [
     ),
 
     url(
-        '^news/',
+        '^(?P<course_pk>\d+)/news/',
         include(
             'news.urls',
             namespace='news'
@@ -38,7 +38,7 @@ urlpatterns = [
     ),
 
     url(
-        '^classes/',
+        '^(?P<course_pk>\d+)/sessions/',
         include(
             'classes.urls',
             namespace='classes'

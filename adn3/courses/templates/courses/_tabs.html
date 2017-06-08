@@ -1,18 +1,18 @@
-  <li role="presentation" {% if active == 'agendas' %}class="active"{% endif %}>
-    <a href="{{ course.get_agendas_url }}"><span class="glyphicon glyphicon-calendar step"></span> Agendas</a>
-  </li>
-  <li role="presentation" {% if active == 'sessions' %}class="active"{% endif %}>
-    <a href="{{ course.get_sessions_url }}"><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</a>
-  </li>
-  <li role="presentation" {% if active == 'pretests' %}class="active"{% endif %}>
-    <a href="{{ course.get_pretests_url }}"><span class="glyphicon glyphicon-inbox step"></span> Preinformes</a>
-  </li>
-  <li role="presentation" {% if active == 'tests' %}class="active"{% endif %}>
-    <a href="{{ course.get_tests_url }}"><span class="glyphicon glyphicon-file step"></span> Controles</a>
-  </li>
-  <li role="presentation" {% if active == 'news' %}class="active"{% endif %}>
-    <a href="{{ course.get_news_url }}"><span class="glyphicon glyphicon-bookmark step"></span> Noticias</a>
-  </li>
-  <li role="presentation" {% if active == 'files' %}class="active"{% endif %}>
-    <a href="{{ course.get_files_url }}"><span class="glyphicon glyphicon-download step"></span> Archivos</a>
-  </li>
+<li role="presentation" {% if ACTIVE == 'agendas' %}class="active"{% endif %}>
+  <a href="{{ view.get_course.get_agendas_url }}"><span class="glyphicon glyphicon-calendar step"></span> Agendas</a>
+</li>
+<li role="presentation" {% if ACTIVE == 'sessions' %}class="active"{% endif %}>
+  <a href="{{ view.get_course.get_sessions_url }}"><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</a>
+</li>
+<li role="presentation" {% if ACTIVE == 'pretests' %}class="active"{% endif %}>
+  <a href="{{ view.get_course.get_pretests_url }}"><span class="glyphicon glyphicon-inbox step"></span> Preinformes</a>
+</li>
+<li role="presentation" {% if ACTIVE == 'tests' %}class="active"{% endif %}>
+  <a href="{{ view.get_course.get_tests_url }}"><span class="glyphicon glyphicon-file step"></span> Controles</a>
+</li>
+<li role="presentation" {% if ACTIVE == 'news' %}class="active"{% endif %}>
+  <a href="{{ view.get_course.get_news_url }}"><span class="glyphicon glyphicon-bookmark step"></span> Noticias</a>
+</li>
+<li role="presentation" {% if ACTIVE == 'files' %}class="active"{% endif %}>
+  <a href="{{ view.get_course.get_files_url }}"><span class="glyphicon glyphicon-download step"></span> Archivos</a>
+</li>

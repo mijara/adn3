@@ -29,7 +29,7 @@ class New(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'news:new_detail', [self.pk]
+        return 'news:new_detail', [self.course.pk, self.pk]
 
     @models.permalink
     def get_update_url(self):

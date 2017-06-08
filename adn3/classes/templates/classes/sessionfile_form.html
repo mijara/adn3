@@ -4,10 +4,10 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{{ session.course.get_absolute_url }}">{{ session.course }}</a></li>
-    <li><a href="{{ session.course.get_sessions_url }}">Sesiones</a></li>
-    <li><a href="{% url 'classes:session_detail' session.pk %}">{{ session }}</a></li>
-    <li><a href="{% url 'classes:upload' session.pk %}">Subir Archivo</a></li>
+    <li><a href="{{ view.get_session.course.get_absolute_url }}">{{ view.get_session.course }}</a></li>
+    <li><a href="{{ view.get_session.course.get_sessions_url }}">Sesiones</a></li>
+    <li><a href="{% url 'classes:session_detail' view.get_session.course.pk view.get_session.pk %}">{{ view.get_session }}</a></li>
+    <li><a href="{% url 'classes:sessionfile_create' view.get_course.pk view.get_session.pk %}">Subir Archivo</a></li>
   </ol>
 {% endblock %}
 

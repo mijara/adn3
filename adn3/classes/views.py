@@ -1,10 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views import generic
 
 from adn3 import mixins
 from .forms import *
 from datetime import timedelta
 from .services import *
+
+
+class SessionMixin(mixins.CourseMixin):
+    def get_session(self):
+        print(1)
+        return get_object_or_404(Session, pk=self.kwargs['session_pk'])
 
 
 class SessionDetailView(generic.DetailView):
@@ -39,31 +46,20 @@ class SessionDeleteView(mixins.CourseMixin, generic.DeleteView):
         return self.get_course().get_sessions_url()
 
 
-def upload(request, pk):
-    session = get_object_or_404(Session, pk=pk)
+class SessionFileCreateView(SessionMixin, generic.CreateView):
+    model = SessionFile
+    form_class = SessionFileForm
 
-    form = SessionFileForm(request.POST or None, request.FILES or None)
+    def form_valid(self, form):
+        form.instance.session = self.get_session()
+        return super().form_valid(form)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.session = session
-            instance.save()
-
-            return redirect('classes:session_detail', session.pk)
-
-    return render(request, 'classes/upload.html', {
-        'session': session,
-        'form': form
-    })
+    def get_success_url(self):
+        return self.get_session().get_absolute_url()
 
 
-def remove_file(request, file_pk):
-    session_file = get_object_or_404(SessionFile, pk=file_pk)
+class SessionFileDeleteView(SessionMixin, generic.DeleteView):
+    model = SessionFile
 
-    session_pk = session_file.session.pk
-
-    session_file.file.delete()
-    session_file.delete()
-
-    return redirect('classes:session_detail', session_pk)
+    def get_success_url(self):
+        return self.get_session().get_absolute_url()

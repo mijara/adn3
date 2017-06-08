@@ -1,5 +1,7 @@
 # coding=utf-8
 from django.db import models
+from django.urls import reverse_lazy
+
 from adn3.choices import *
 
 
@@ -57,7 +59,7 @@ class Session(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'classes:session_detail', [self.pk]
+        return 'classes:session_detail', [self.course.pk, self.pk]
 
     @models.permalink
     def get_update_url(self):
@@ -66,6 +68,9 @@ class Session(models.Model):
     @models.permalink
     def get_delete_url(self):
         return 'classes:session_delete', [self.course.pk, self.pk]
+
+    def get_upload_new_url(self):
+        return reverse_lazy('classes:sessionfile_create', args=[self.course.pk, self.pk])
 
 
 class SessionFile(models.Model):
@@ -79,3 +84,7 @@ class SessionFile(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_delete_url(self):
+        return reverse_lazy('classes:sessionfile_delete', args=[self.session.course.pk,
+                                                                self.session.pk, self.pk])
