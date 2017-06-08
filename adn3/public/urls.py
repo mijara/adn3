@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from . import views
+from . import views, pretest_views
 
 urlpatterns = [
     url(
@@ -36,5 +36,11 @@ urlpatterns = [
         '^test/update/$',
         views.UpdateAnswers.as_view(),
         name="update_answers"
+    ),
+
+    url(
+        '^pretest/(?P<pk>\d+)/$',
+        pretest_views.PretestDetailView.as_view(),
+        name="pretest_detail"
     )
 ]

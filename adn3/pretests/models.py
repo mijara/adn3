@@ -50,3 +50,13 @@ class PretestFile(models.Model):
     @models.permalink
     def get_delete_url(self):
         return 'pretests:pretestfile_delete', [self.pk]
+
+
+class PretestUpload(models.Model):
+    software = models.ForeignKey('misc.Software')
+
+    pretest = models.ForeignKey(Pretest)
+
+    student = models.ForeignKey('students.Student')
+
+    file = models.FileField()
