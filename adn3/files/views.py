@@ -5,7 +5,7 @@ from adn3 import mixins
 from .forms import *
 
 
-class CourseFileDetailView(generic.DetailView):
+class CourseFileDetailView(mixins.CourseMixin, generic.DetailView):
     model = CourseFile
 
 
@@ -30,7 +30,7 @@ class CourseFileDeleteView(mixins.CourseMixin, generic.DeleteView):
         return self.get_course().get_files_url()
 
 
-def download(request, pk):
+def download(request, course_pk, pk):
     course_file = get_object_or_404(CourseFile, pk=pk)
 
     course_file.downloads += 1

@@ -9,25 +9,25 @@ urlpatterns = [
     ),
 
     url(
-        '^download/(?P<pk>\d+)/$',
+        '^(?P<pk>\d+)/download/$',
         views.download,
         name='coursefile_download'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/create/$',
+        '^create/$',
         views.CourseFileCreateView.as_view(),
         name='coursefile_create'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/delete/(?P<pk>\d+)/$',
+        '^(?P<pk>\d+)/delete/$',
         views.CourseFileDeleteView.as_view(),
         name='coursefile_delete'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/update/(?P<pk>\d+)/$',
+        '^(?P<pk>\d+)/update/$',
         views.CourseFileUpdateView.as_view(),
         name='coursefile_update'
     ),

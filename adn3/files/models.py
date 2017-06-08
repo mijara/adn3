@@ -25,11 +25,11 @@ class CourseFile(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'files:coursefile_detail', [self.pk]
+        return 'files:coursefile_detail', [self.course.pk, self.pk]
 
     @models.permalink
     def get_download_url(self):
-        return 'files:coursefile_download', [self.pk]
+        return 'files:coursefile_download', [self.course.pk, self.pk]
 
     @models.permalink
     def get_update_url(self):

@@ -46,7 +46,7 @@ urlpatterns = [
     ),
 
     url(
-        '^files/',
+        '^(?P<course_pk>\d+)/files/',
         include(
             'files.urls',
             namespace='files'
