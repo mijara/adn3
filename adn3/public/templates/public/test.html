@@ -9,7 +9,7 @@
           <h1 class="header">{{ version }} <small>Forma {{ version.index }}</small></h1>
         </div>
         <div class="col-sm-12">
-            <span class="pull-right text-muted">Última actualización: <span id="last-update">{{ last_update | date:"h:i" | default_if_none:"Nunca" }}</span></span>
+            <span class="pull-right text-muted">Última actualización: <span id="last-update">{{ last_update | date:"h:i" | default:"Nunca" }}</span></span>
         </div>
         <div id="student-test" class="col-sm-12">
             <div class="progress">

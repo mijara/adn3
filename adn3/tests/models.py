@@ -1,6 +1,10 @@
 # coding=utf-8
 from django.core.urlresolvers import reverse_lazy
 from django.core.validators import MaxValueValidator, MinValueValidator
+
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+
 from django.db import models
 
 from django.utils import timezone
@@ -179,3 +183,12 @@ class Alternative(models.Model):
 
     class Meta:
         ordering = ('index',)
+
+
+@receiver(pre_delete, sender=StudentsAnswers)
+def pre_delete(sender, instance, **kwargs):
+    for question in instance.version.question_set.all():
+        try:
+            Answer.objects.get(student=instance.student, question=question).delete()
+        except:
+            pass
