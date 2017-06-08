@@ -6,7 +6,10 @@
 {% block container %}
     <div class="row">
         <div class="col-sm-12">
-          <h1 class="header">{{ version }}</h1>
+          <h1 class="header">{{ version }} <small>Forma {{ version.index }}</small></h1>
+        </div>
+        <div class="col-sm-12">
+            <span class="pull-right text-muted">Última actualización: <span id="last-update">{{ last_update | date:"h:i" | default_if_none:"Nunca" }}</span></span>
         </div>
         <div id="student-test" class="col-sm-12">
             <div class="progress">
@@ -14,29 +17,38 @@
               </div>
               <span class="text-success">Tiempo restante: <span class="time-out">{{ timeleft | floatformat:"0" }}</span> minutos</span>
             </div>
-            <form action="" method="GET">
+            <form id="form">
+                {% csrf_token %}
                 <input type="hidden" name="version" value="{{ version.pk }}">
-                {% for question in version.question_set.all %}
+                {% for answer in answers %}
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <strong>{{ forloop.counter }}.-</strong>
                             <div class="question-statement">
-                              <i>[{{ question.score }}pts] </i>
-                              {{ question.html|safe }}
+                              <i>[{{ answer.question.score }}pts] </i>
+                              {{ answer.question.html|safe }}
                             </div>
                             <hr>
-                            {% if question.choicequestion %}
+                            {% if answer.question.choicequestion %}
                                 {% include 'public/_choice_answers.html' %}
-                            {% elif question.numericalquestion %}
+                            {% elif answer.question.numericalquestion %}
                                 {% include 'public/_numerical_limits.html' %}
-                            {% elif question.textquestion %}
+                            {% elif answer.question.textquestion %}
                                 {% include 'public/_text_answer.html' %}
                             {% endif %}
                         </div>
                     </div>
                 {% endfor %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p>Subir documento <strong>{{ version.test.software }}</strong> aquí</p>
+                        <hr>
+                        <input type="file" name="document">
+                    </div>
+                </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" role="button">
+                    <a class="btn btn-danger pull-right" role="button">Finalizar</a>
+                    <input type="submit" class="btn btn-primary" role="button" value="Guardar respuestas">
                 </div>
             </form>
         </div>
@@ -88,43 +100,68 @@
         var startedAt_min = {{ timelapsed|unlocalize }};
         var startedAt = startedAt_min*60000;
         var duration = minutes*60000;
+        var flag_update = true;
 
         function start() {
           startedAt = Date.now() - startedAt;
           let elapsedTime = Date.now() - startedAt;
           let playback = elapsedTime / duration;
-          console.log(playback)
           updateTarget(playback);
           setTimeout(function() {requestAnimationFrame(update);}, 200);
         }
 
         function update() {
-          let elapsedTime = Date.now() - startedAt;
+            let elapsedTime = Date.now() - startedAt;
 
-          // playback is a value between 0 and 1
-          // being 0 the start of the animation and 1 its end
-          let playback = elapsedTime / duration;
+            // playback is a value between 0 and 1
+            // being 0 the start of the animation and 1 its end
+            let playback = elapsedTime / duration;
 
-          updateTarget(playback)
+            updateTarget(playback);
 
-          if (playback > 0 && playback < 1) {
+            if (playback > 0 && playback < 1) {
             // Queue the next frame
             requestAnimationFrame(update);
-          } else {
-            $('#modal').modal({backdrop: 'static', keyboard: false});
-          }
+            } else {
+                $('#modal').modal({backdrop: 'static', keyboard: false});
+                flag_update = false;
+                send();
+            }
         }
 
         function updateTarget(playback) {
-          // Uncomment the line below to reverse the animation
-          // playback = 1 - playback
-          // Update the target properties based on the playback position
-          if ((Date.now() - startedAt) != 0) {
+            // Uncomment the line below to reverse the animation
+            // playback = 1 - playback
+            // Update the target properties based on the playback position
+            if ((Date.now() - startedAt) != 0) {
               $('.time-out').html(Math.ceil((duration  - Date.now() + startedAt)/60000));
-          }
-          $('.progress-bar').css('min-width', playback*100 + '%');
+            }
+            $('.progress-bar').css('min-width', playback*100 + '%');
         }
 
-        start()
+        start();
+
+        function send() {
+            $.ajax({
+                url: "{% url 'public:update_answers' %}",
+                type: "post",
+                data: $('#form').serialize()
+            }).done(function(response) {
+                if (!response['error']) {
+                    $('#last-update').html(response['message']);
+                }
+            });
+        }
+        $(form).submit(function(e) {
+            e.preventDefault();
+            send();
+        });
+        // every 5 minutes send the answers
+        setTimeout(function() {
+            setInterval(function () {
+                if (flag_update)
+                    send();
+            }, 300000);
+        }, 300000);
     </script>
 {% endblock %}

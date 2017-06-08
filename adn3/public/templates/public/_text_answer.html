@@ -1,3 +1,8 @@
 <div class="form-group">
-    <textarea class="form-control" placeholder="Escriba aquí su respuesta" rows="5" name="{{ question.pk }}"></textarea>
+    <textarea
+            class="form-control"
+            placeholder="Escriba aquí su respuesta"
+            rows="5"
+            name="{{ answer.pk }}"
+    >{{ answer.textanswer.text | default_if_none:"" }}</textarea>
 </div>

@@ -83,6 +83,7 @@ class StudentsAnswers(models.Model):
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
     started_at = models.DateTimeField(auto_now_add=True, auto_now=False,
                                        verbose_name=u'Fecha de inicio')
+    last_update = models.DateTimeField(auto_now=False, verbose_name=u'Última actualización', null=True, blank=True)
     submitted = models.BooleanField(verbose_name='Enviado', default=False)
 
     # Return the answers status
@@ -120,9 +121,6 @@ class Question(models.Model):
 
 
 class TextQuestion(Question):
-    answers = models.ManyToManyField('auth.User', verbose_name=u'Respuestas', blank=True,
-                                     related_name=u'text_answers', through='TextAnswer')
-
     def get_update_url(self):
         return reverse_lazy('tests:textquestion_update',
                             args=[self.version.pk, self.pk])
@@ -133,9 +131,6 @@ class TextQuestion(Question):
 
 
 class NumericalQuestion(Question):
-    answers = models.ManyToManyField('auth.User', verbose_name=u'Respuestas', blank=True,
-                                     related_name=u'numerical_answers', through='NumericalAnswer')
-
     top_limit = models.FloatField(verbose_name=u'Límite Superior')
     bottom_limit = models.FloatField(verbose_name=u'Límite Inferior')
 
@@ -145,38 +140,28 @@ class NumericalQuestion(Question):
 
 
 class ChoiceQuestion(Question):
-    answers = models.ManyToManyField('auth.User', verbose_name=u'Respuestas', blank=True,
-                                     related_name=u'choice_answers', through='ChoiceAnswer')
     def get_update_url(self):
         return reverse_lazy('tests:choicequestion_update',
                             args=[self.version.pk, self.pk])
 
-
-class TextAnswer(models.Model):
+class Answer(models.Model):
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
-    text_question = models.ForeignKey('TextQuestion', verbose_name=u'Pregunta')
-    text = models.TextField(verbose_name=u'Texto')
+    question = models.ForeignKey('Question', verbose_name=u'Pregunta')
 
     def __str__(self):
         return self.student.username
 
 
-class NumericalAnswer(models.Model):
-    student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
-    numerical_question = models.ForeignKey('NumericalQuestion', verbose_name=u'Pregunta')
-    number = models.FloatField(verbose_name=u'Número')
-
-    def __str__(self):
-        return self.student.username
+class TextAnswer(Answer):
+    text = models.TextField(verbose_name=u'Texto', null=True, blank=True)
 
 
-class ChoiceAnswer(models.Model):
-    student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
-    choice_question = models.ForeignKey('ChoiceQuestion', verbose_name=u'Pregunta')
-    alternative = models.ForeignKey('Alternative', verbose_name=u'Alternativa')
+class NumericalAnswer(Answer):
+    number = models.FloatField(verbose_name=u'Número', null=True, blank=True)
 
-    def __str__(self):
-        return self.student.username
+
+class ChoiceAnswer(Answer):
+    alternative = models.ForeignKey('Alternative', verbose_name=u'Alternativa', null=True, blank=True)
 
 
 class Alternative(models.Model):

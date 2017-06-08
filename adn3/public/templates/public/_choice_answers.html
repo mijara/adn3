@@ -1,7 +1,16 @@
 <div class="list-group">
-  {% for alternative in question.choicequestion.alternative_set.all %}
+  {% for alternative in answer.question.choicequestion.alternative_set.all %}
     <div class="list-group-item alternative">
-        <input id="{{ alternative.index }}" type="radio" class="hidden" name="{{ question.pk }}" value="{{ alternative.pk }}">
+        <input
+                id="{{ alternative.index }}"
+                type="radio"
+                class="hidden"
+                name="{{ answer.pk }}"
+                value="{{ alternative.pk }}"
+                {% if answer.choiceanswer.alternative == alternative %}
+                    checked
+                {% endif %}
+        >
         <label for="{{ alternative.index }}">
             <span class="glyphicon glyphicon-ok text-success pull-right hidden"></span>
             <strong>{{ alternative.index_as_name }})</strong> <div class="choice-answer">{{ alternative.text }}</div>
