@@ -156,6 +156,7 @@ class UpdateAnswers(View):
     def post(self, request):
         try:
             studentanswer = StudentsAnswers.objects.get(student=request.user, version__pk=request.POST['version'])
+            print(studentanswer.get_status())
             if studentanswer.get_status() == 1:
                 for key in request.POST:
                     if key not in ['version', 'csrfmiddlewaretoken']:
@@ -182,7 +183,9 @@ class UpdateAnswers(View):
                 studentanswer = StudentsAnswers.objects.get(student=request.user, version__pk=request.POST['version'])
                 studentanswer.last_update = date
                 studentanswer.save()
-            return JsonResponse({'error': False, 'message': timezone.localtime(timezone.now()).strftime('%H:%M')})
+                return JsonResponse({'error': False, 'message': timezone.localtime(timezone.now()).strftime('%H:%M')})
+            else:
+                return JsonResponse({'error': True, 'message': u'Tiempo excedido'})
         except Exception as e:
             print(type(e))
             print(e)
