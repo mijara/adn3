@@ -70,7 +70,7 @@ urlpatterns = [
     ),
 
     url(
-        '^tests/',
+        '^(?P<course_pk>\d+)/tests/',
         include(
             'tests.urls',
             namespace='tests'

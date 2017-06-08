@@ -3,31 +3,31 @@ from . import views
 
 urlpatterns = [
     url(
-        r'^detail/(?P<pk>\d+)/$',
+        r'^(?P<pk>\d+)/$',
         views.TestDetail.as_view(),
         name='test_detail'
     ),
 
     url(
-        r'^(?P<course_pk>\d+)/create/$',
+        r'^create/$',
         views.TestCreate.as_view(),
         name='test_create'
     ),
 
     url(
-        r'^(?P<course_pk>\d+)/update/(?P<pk>\d+)/$',
+        r'^(?P<pk>\d+)/update/$',
         views.TestUpdate.as_view(),
         name='test_update'
     ),
 
     url(
-        r'^(?P<course_pk>\d+)/delete/(?P<pk>\d+)/$',
+        r'^(?P<pk>\d+)/delete/$',
         views.TestDelete.as_view(),
         name='test_delete'
     ),
 
     url(
-        r'^version/detail/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<pk>\d+)/detail/$',
         views.VersionDetail.as_view(),
         name='version_detail'
     ),
@@ -39,67 +39,67 @@ urlpatterns = [
     ),
 
     url(
-        r'^(?P<test_pk>\d+)/version/delete/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<pk>\d+)/delete/$',
         views.VersionDelete.as_view(),
         name='version_delete'
     ),
 
     url(
-        r'^version/(?P<version_pk>\d+)/attachfile/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/attachfile/$',
         views.version_attach_file,
         name='version_attach_file'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/choice/create/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/choice/create/$',
         views.ChoiceQuestionCreate.as_view(),
         name='choicequestion_create'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/choice/update/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/choice/(?P<pk>\d+)/update/$',
         views.ChoiceQuestionUpdate.as_view(),
         name='choicequestion_update'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/choice/delete/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/choice/(?P<pk>\d+)/delete/$',
         views.ChoiceQuestionDelete.as_view(),
         name='choicequestion_delete'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/text/create/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/text/create/$',
         views.TextQuestionCreate.as_view(),
         name='textquestion_create'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/text/update/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/text/(?P<pk>\d+)/update/$',
         views.TextQuestionUpdate.as_view(),
         name='textquestion_update'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/text/delete/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/text/(?P<pk>\d+)/delete/$',
         views.TextQuestionDelete.as_view(),
         name='textquestion_delete'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/numerical/create/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/numerical/create/$',
         views.NumericalQuestionCreate.as_view(),
         name='numericalquestion_create'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/numerical/update/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/numerical/(?P<pk>\d+)/update/$',
         views.NumericalQuestionUpdate.as_view(),
         name='numericalquestion_update'
     ),
 
     url(
-        r'^(?P<version_pk>\d+)/question/numerical/delete/(?P<pk>\d+)/$',
+        r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/question/numerical/(?P<pk>\d+)/delete/$',
         views.NumericalQuestionDelete.as_view(),
         name='numericalquestion_delete'
     ),

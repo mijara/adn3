@@ -6,8 +6,8 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ version.test.course.get_absolute_url }}">{{ version.test.course }}</a></li>
     <li><a href="{{ version.test.course.get_tests_url }}">Controles</a></li>
-    <li><a href="{% url 'tests:test_detail' version.test.pk %}">{{ version.test }}</a></li>
-    <li><a href="{% url 'tests:version_detail' version.pk %}">Forma {{ version.index }}</a></li>
+    <li><a href="{% url 'tests:test_detail' version.test.course.pk version.test.pk %}">{{ version.test }}</a></li>
+    <li><a href="{% url 'tests:version_detail' version.test.course.pk version.test.pk version.pk %}">Forma {{ version.index }}</a></li>
   </ol>
 {% endblock %}
 
@@ -31,9 +31,9 @@
               Nueva pregunta <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="{% url 'tests:choicequestion_create' version.pk %}">Alternativas</a></li>
-              <li><a href="{% url 'tests:numericalquestion_create' version.pk %}">Numérica</a></li>
-              <li><a href="{% url 'tests:textquestion_create' version.pk %}">Texto</a></li>
+              <li><a href="{% url 'tests:choicequestion_create' version.test.course.pk version.test.pk version.pk %}">Alternativas</a></li>
+              <li><a href="{% url 'tests:numericalquestion_create' version.test.course.pk version.test.pk version.pk %}">Numérica</a></li>
+              <li><a href="{% url 'tests:textquestion_create' version.test.course.pk version.test.pk version.pk %}">Texto</a></li>
             </ul>
           </div>
         </div>
@@ -81,7 +81,7 @@
         </div>
 
         <div class="panel-body">
-          <form action="{% url 'tests:version_attach_file' version.pk %}" enctype="multipart/form-data" method="post">
+          <form action="{% url 'tests:version_attach_file' version.test.course.pk version.test.pk version.pk %}" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-success pull-right">Guardar</button>
 

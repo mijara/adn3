@@ -39,7 +39,7 @@ class Test(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'tests:test_detail', [self.pk]
+        return 'tests:test_detail', [self.course.pk, self.pk]
 
     @models.permalink
     def get_update_url(self):
@@ -71,25 +71,25 @@ class Version(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'tests:version_detail', [self.pk]
+        return 'tests:version_detail', [self.test.course.pk, self.test.pk, self.pk]
 
     @models.permalink
     def get_delete_url(self):
-        return 'tests:version_delete', [self.test.pk, self.pk]
+        return 'tests:version_delete', [self.test.course.pk, self.test.pk, self.pk]
 
 
 class StudentsAnswers(models.Model):
     version = models.ForeignKey('Version', verbose_name=u'Forma')
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
     started_at = models.DateTimeField(auto_now_add=True, auto_now=False,
-                                       verbose_name=u'Fecha de inicio')
+                                      verbose_name=u'Fecha de inicio')
     submitted = models.BooleanField(verbose_name='Enviado', default=False)
 
     # Return the answers status
     # 1: In progress
     # 2: It's over
     def get_status(self):
-        finish_time = self.started_at + timezone.timedelta(minutes = self.version.test.timeout)
+        finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout)
         if finish_time < timezone.now() or self.submitted:
             return 2
         else:
@@ -99,7 +99,7 @@ class StudentsAnswers(models.Model):
         finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout)
         if finish_time > timezone.now():
             left = finish_time - timezone.now()
-            return left.total_seconds()/60
+            return left.total_seconds() / 60
         return 0
 
 
@@ -125,11 +125,13 @@ class TextQuestion(Question):
 
     def get_update_url(self):
         return reverse_lazy('tests:textquestion_update',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
     def get_delete_url(self):
         return reverse_lazy('tests:textquestion_delete',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
 
 class NumericalQuestion(Question):
@@ -141,15 +143,18 @@ class NumericalQuestion(Question):
 
     def get_update_url(self):
         return reverse_lazy('tests:numericalquestion_update',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
 
 class ChoiceQuestion(Question):
     answers = models.ManyToManyField('auth.User', verbose_name=u'Respuestas', blank=True,
                                      related_name=u'choice_answers', through='ChoiceAnswer')
+
     def get_update_url(self):
         return reverse_lazy('tests:choicequestion_update',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
 
 class TextAnswer(models.Model):
