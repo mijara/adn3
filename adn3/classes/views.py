@@ -14,7 +14,7 @@ class SessionMixin(mixins.CourseMixin):
         return get_object_or_404(Session, pk=self.kwargs['session_pk'])
 
 
-class SessionDetailView(generic.DetailView):
+class SessionDetailView(mixins.CourseMixin, generic.DetailView):
     model = Session
 
 

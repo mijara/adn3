@@ -16,3 +16,9 @@
 <li role="presentation" {% if ACTIVE == 'files' %}class="active"{% endif %}>
   <a href="{{ view.get_course.get_files_url }}"><span class="glyphicon glyphicon-download step"></span> Archivos</a>
 </li>
+
+{% if not view.get_course %}
+  <div class="alert alert-danger">
+    Miss configured View!
+  </div>
+{% endif %}
