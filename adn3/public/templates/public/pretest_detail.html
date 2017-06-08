@@ -1,1 +1,65 @@
-sdasd
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <ul class="breadcrumb">
+    <li><a href="{% url 'public:course_detail' pretest.course.pk %}">{{ pretest.course }}</a></li>
+    <li><a href="{% url 'public:pretest_detail' pretest.pk %}">{{ pretest }}</a></li>
+  </ul>
+{% endblock %}
+
+{% block container %}
+  <h1 class="page-header">
+    <span class="glyphicon glyphicon-inbox step"></span>
+    {{ pretest }}
+  </h1>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Detalle
+        </div>
+
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th>Inicio</th>
+              <td>{{ pretest.start_session }}</td>
+            </tr>
+
+            <tr>
+              <th>Término</th>
+              <td>{{ pretest.end_session }}</td>
+            </tr>
+
+            <tr>
+              <th>Porcentaje</th>
+              <td>{{ pretest.percentage }}%</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  <div class="col-sm-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Entrega
+      </div>
+
+      <div class="panel-body">
+        {% if pretestupload %}
+          Usted ya realizó una entrega para este pre-informe.
+        {% else %}
+          <form action="{% url 'public:pretestupload_create' pretest.pk %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary btn-block">Entregar</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock %}

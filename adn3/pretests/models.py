@@ -53,10 +53,10 @@ class PretestFile(models.Model):
 
 
 class PretestUpload(models.Model):
-    software = models.ForeignKey('misc.Software')
+    software = models.ForeignKey('misc.Software', verbose_name='Software')
 
-    pretest = models.ForeignKey(Pretest)
+    pretest = models.ForeignKey(Pretest, verbose_name='Preinforme')
 
-    student = models.ForeignKey('students.Student')
+    student = models.ForeignKey('students.Student', verbose_name='Estudiante')
 
-    file = models.FileField()
+    file = models.FileField(verbose_name='Archivo')

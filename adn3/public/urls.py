@@ -42,5 +42,11 @@ urlpatterns = [
         '^pretest/(?P<pk>\d+)/$',
         pretest_views.PretestDetailView.as_view(),
         name="pretest_detail"
-    )
+    ),
+
+    url(
+        '^pretest/(?P<pretest_pk>\d+)/upload/$',
+        pretest_views.PretestUploadCreateView.as_view(),
+        name="pretestupload_create"
+    ),
 ]
