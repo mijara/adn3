@@ -84,17 +84,23 @@ class Version(models.Model):
 
 class StudentsAnswers(models.Model):
     version = models.ForeignKey('Version', verbose_name=u'Forma')
+
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
+
     started_at = models.DateTimeField(auto_now_add=True, auto_now=False,
-                                       verbose_name=u'Fecha de inicio')
+                                      verbose_name=u'Fecha de inicio')
+
     last_update = models.DateTimeField(auto_now=False, verbose_name=u'Última actualización', null=True, blank=True)
+
     submitted = models.BooleanField(verbose_name='Enviado', default=False)
+
+    document = models.FileField(null=True, blank=True)
 
     # Return the answers status
     # 1: In progress
     # 2: It's over
     def get_status(self):
-        finish_time = self.started_at + timezone.timedelta(minutes = self.version.test.timeout)
+        finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout + 0.2)
         if finish_time < timezone.now() or self.submitted:
             return 2
         else:
@@ -104,8 +110,14 @@ class StudentsAnswers(models.Model):
         finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout)
         if finish_time > timezone.now():
             left = finish_time - timezone.now()
-            return left.total_seconds()/60
+            return left.total_seconds() / 60
         return 0
+
+    def get_time_elapsed(self):
+        return self.version.test.timeout - self.get_time_left()
+
+    def get_document_url(self):
+        return self.document.url
 
 
 class Question(models.Model):
@@ -147,6 +159,7 @@ class ChoiceQuestion(Question):
     def get_update_url(self):
         return reverse_lazy('tests:choicequestion_update',
                             args=[self.version.pk, self.pk])
+
 
 class Answer(models.Model):
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')

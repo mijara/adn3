@@ -1,21 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load l10n %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'vendor/animate/animate.css' %}">
+{% endblock %}
 {% block breadcrump %}
-  <!-- Left Blank -->
+    <!-- Left Blank -->
 {% endblock %}
 {% block container %}
     <div class="row">
         <div class="col-sm-12">
-          <h1 class="header">{{ version }} <small>Forma {{ version.index }}</small></h1>
+            <h1 class="header">{{ version }}
+                <small>Forma {{ version.index }}</small>
+            </h1>
         </div>
         <div class="col-sm-12">
-            <span class="pull-right text-muted">Última actualización: <span id="last-update">{{ last_update | date:"h:i" | default:"Nunca" }}</span></span>
+            <span class="pull-right text-muted">Última actualización: <span
+                    id="last-update">{{ studentanswer.last_update | date:"H:i" | default:"Nunca" }}</span></span>
         </div>
         <div id="student-test" class="col-sm-12">
             <div class="progress">
-              <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 0%;">
-              </div>
-              <span class="text-success">Tiempo restante: <span class="time-out">{{ timeleft | floatformat:"0" }}</span> minutos</span>
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0"
+                     aria-valuemin="0" aria-valuemax="100" style="min-width: 0%;">
+                </div>
+                <span class="text-success">Tiempo restante: <span
+                        class="time-out">{{ studentanswer.get_timeleft | floatformat:"0" }}</span> minutos</span>
             </div>
             <form id="form">
                 {% csrf_token %}
@@ -25,8 +34,8 @@
                         <div class="panel-body">
                             <strong>{{ forloop.counter }}.-</strong>
                             <div class="question-statement">
-                              <i>[{{ answer.question.score }}pts] </i>
-                              {{ answer.question.html|safe }}
+                                <i>[{{ answer.question.score }}pts] </i>
+                                {{ answer.question.html|safe }}
                             </div>
                             <hr>
                             {% if answer.question.choicequestion %}
@@ -41,47 +50,52 @@
                 {% endfor %}
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <p>Subir documento <strong>{{ version.test.software }}</strong> aquí</p>
+                        <p>Adjuntar documento <strong>{{ version.test.software }}</strong> aquí</p>
                         <hr>
+                        {% if studentanswer.document %}
+                            <blockquote id="documentName">
+                        {% else %}
+                            <blockquote id="documentName" class="hidden">
+                        {% endif %}
+                        {{ studentanswer.document }}
+                        </blockquote>
                         <input type="file" name="document">
                     </div>
                 </div>
                 <div class="form-group">
-                    <a class="btn btn-danger pull-right" role="button">Finalizar</a>
-                    <input type="submit" class="btn btn-primary" role="button" value="Guardar respuestas">
+                    <input type="submit" class="btn btn-primary pull-right" role="button" value="Guardar respuestas">
                 </div>
             </form>
         </div>
-      </div>
+    </div>
 
-      <div class="row">
+    <div class="row">
         <div class="col-sm-12">
-          <div class="list-group">
-            {% for course in course_list %}
-              {% if course.status %}
-                <a href="{% url 'public:course_detail' course.pk %}" class="list-group-item">
-                  {{ course }}
-                </a>
-              {% endif %}
-            {% endfor %}
-          </div>
+            <div class="list-group">
+                {% for course in course_list %}
+                    {% if course.status %}
+                        <a href="{% url 'public:course_detail' course.pk %}" class="list-group-item">
+                            {{ course }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal">
-      <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="modalLabel">Lo sentimos</h4>
-          </div>
-          <div class="modal-body">
-            <p>Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
-          <div class="modal-footer">
-            <a href="/public" type="button" class="btn btn-default">Ir al inicio</a>
-          </div>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalLabel">Lo sentimos</h4>
+            </div>
+            <div class="modal-body">
+                <p>Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
+                <div class="modal-footer">
+                    <a href="/public" type="button" class="btn btn-default">Ir al inicio</a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 {% endblock %}
 
@@ -91,40 +105,45 @@
         MathJax.Hub.Config({
           messageStyle: "none"
         });
+
     </script>
     <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
     </script>
+    <!-- Bootstrap Notify -->
+    <script src="{% static 'vendor/bootstrap-notify-master/bootstrap-notify.js' %}"></script>
     <script>
         var minutes = {{ version.test.timeout }};
-        var startedAt_min = {{ timelapsed|unlocalize }};
-        var startedAt = startedAt_min*60000;
-        var duration = minutes*60000;
-        var flag_update = true;
+        var startedAtMin = {{ studentanswer.get_time_elapsed|unlocalize }};
+        var startedAt = startedAtMin * 60000;
+        var duration = minutes * 60000;
+        var flagUpdateNotification = false;
+        var timeLeftNotificationList = [5, 3, 1];
 
         function start() {
-          startedAt = Date.now() - startedAt;
-          let elapsedTime = Date.now() - startedAt;
-          let playback = elapsedTime / duration;
-          updateTarget(playback);
-          setTimeout(function() {requestAnimationFrame(update);}, 200);
+            startedAt = Date.now() - startedAt;
+            var elapsedTime = Date.now() - startedAt;
+            var playback = elapsedTime / duration;
+            updateTarget(playback);
+            setTimeout(function () {
+                requestAnimationFrame(update);
+            }, 200);
         }
 
         function update() {
-            let elapsedTime = Date.now() - startedAt;
+            var elapsedTime = Date.now() - startedAt;
 
             // playback is a value between 0 and 1
             // being 0 the start of the animation and 1 its end
-            let playback = elapsedTime / duration;
+            var playback = elapsedTime / duration;
 
             updateTarget(playback);
 
             if (playback > 0 && playback < 1) {
-            // Queue the next frame
-            requestAnimationFrame(update);
+                // Queue the next frame
+                requestAnimationFrame(update);
             } else {
                 $('#modal').modal({backdrop: 'static', keyboard: false});
-                flag_update = false;
                 send();
             }
         }
@@ -133,35 +152,78 @@
             // Uncomment the line below to reverse the animation
             // playback = 1 - playback
             // Update the target properties based on the playback position
-            if ((Date.now() - startedAt) != 0) {
-              $('.time-out').html(Math.ceil((duration  - Date.now() + startedAt)/60000));
+            if ((Date.now() - startedAt) !== 0) {
+                $('.time-out').html(Math.ceil((duration - Date.now() + startedAt) / 60000));
             }
-            $('.progress-bar').css('min-width', playback*100 + '%');
+            $('.progress-bar').css('min-width', playback * 100 + '%');
+
+            // Every 5 minutes send the answers
+            if ((Date.now() - startedAt) % 300000 > 0 && (Date.now() - startedAt) % 300000 < 150000 && flagUpdateNotification) {
+                send();
+                flagUpdateNotification = false;
+            }
+            else if ((Date.now() - startedAt) % 300000 > 150000 && !flagUpdateNotification) {
+                flagUpdateNotification = true;
+            }
+
+            // Time left notifications
+            if (Math.ceil((duration - Date.now() + startedAt) / 60000) <= timeLeftNotificationList[0]) {
+                timeLeftNotificaction(timeLeftNotificationList[0]);
+                timeLeftNotificationList.shift();
+            }
         }
 
-        start();
-
         function send() {
+            var formData = new FormData($('#form')[0]);
             $.ajax({
                 url: "{% url 'public:update_answers' %}",
                 type: "post",
-                data: $('#form').serialize()
-            }).done(function(response) {
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                }
+            }).done(function (response) {
                 if (!response['error']) {
                     $('#last-update').html(response['message']);
+
+                    if (response['document'] !== '') {
+                        $('#documentName').removeClass('hidden').html(response['document']);
+                    }
+
+                    saveSuccessNotification();
                 }
             });
         }
-        $(form).submit(function(e) {
+        $(form).submit(function (e) {
             e.preventDefault();
             send();
         });
-        // every 5 minutes send the answers
-        setTimeout(function() {
-            setInterval(function () {
-                if (flag_update)
-                    send();
-            }, 300000);
-        }, 300000);
+
+        function saveSuccessNotification() {
+            $.notify({
+                // options
+                icon: 'glyphicon glyphicon-ok-circle',
+                message: 'Las respuestas han sido guardadas'
+            }, {
+                // settings
+                type: "info"
+            });
+        }
+
+        function timeLeftNotificaction(left) {
+            $.notify({
+                // options
+                icon: 'glyphicon glyphicon-time',
+                message: 'El control finaliza en <strong> %m minutos</strong>'.replace('%m', left).replace('minutos', left === 1 ? 'minuto' : 'minutos')
+            }, {
+                // settings
+                type: "danger"
+            });
+        }
+
+        start();
     </script>
 {% endblock %}

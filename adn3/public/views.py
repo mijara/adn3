@@ -1,7 +1,7 @@
 from django.views import generic
 from django.views import View
-from tests.models import Version, StudentsAnswers, Test, TextAnswer, NumericalAnswer, ChoiceAnswer, Answer
-from tests.models import TextQuestion, NumericalQuestion, ChoiceQuestion, Alternative
+from tests.models import Version, StudentsAnswers, Test, Answer
+from public import services
 
 from adn3.services import is_assistant_of
 from courses.models import Agenda, Course
@@ -12,9 +12,6 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.utils import timezone
-import random
-
-
 
 
 class AgendaListView(generic.ListView):
@@ -64,77 +61,61 @@ class CourseDetail(generic.DetailView):
         return context
 
 
-class PreconfirmationTest(generic.DetailView):
+class TestPreConfirmationView(generic.DetailView):
     model = Test
     template_name = 'public/preconfirmation_test.html'
 
     def get(self, request, *args, **kwargs):
         test = self.get_object()
         student_version = StudentsAnswers.objects.filter(student=self.request.user)
+
         for sv in student_version:
             if sv.version.test == test and sv.get_status() == 2:
                 return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
             elif sv.version.test == test and sv.get_status() == 1:
-                return HttpResponseRedirect(reverse('public:do_test', kwargs={'pk': sv.version.pk}))
+                return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': sv.version.pk}))
+
         else:
             return super().get(self, request, *args, **kwargs)
 
 
-class AssignTestVersion(generic.DetailView):
+class TestVersionAssignView(generic.DetailView):
     model = Test
 
     def get(self, request, *args, **kwargs):
         test = self.get_object()
         student_version = StudentsAnswers.objects.filter(student=self.request.user)
+
         for sv in student_version:
             if sv.version.test == test and sv.get_status() == 2:
                 return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
             elif sv.version.test == test and sv.get_status() == 1:
-                return HttpResponseRedirect(reverse('public:do_test', kwargs={'pk': sv.version.pk}))
+                return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': sv.version.pk}))
         else:
-            # Randomly assign a version
-            versions = test.version_set.all()
-            index = random.randint(0, len(versions) - 1)
-            student_version = StudentsAnswers(student=self.request.user, version=versions[index])
+            version = services.assign_version(test)
+
+            student_version = StudentsAnswers(student=request.user, version=version)
             student_version.save()
 
             # Once the students has a assigned version, create empty answers
-            for question in versions[index].question_set.all():
+            for question in version.question_set.all():
+                services.create_empty_answers(question, request.user)
 
-               try:
-                   textanswer = TextAnswer(student=request.user, question=question.textquestion)
-                   textanswer.save()
-               except TextQuestion.DoesNotExist:
-                   pass
-
-               try:
-                   numericalanswer = NumericalAnswer(student=request.user, question=question.numericalquestion)
-                   numericalanswer.save()
-               except NumericalQuestion.DoesNotExist:
-                   pass
-
-               try:
-                   choiceanswer = ChoiceAnswer(student=request.user, question=question.choicequestion)
-                   choiceanswer.save()
-               except ChoiceQuestion.DoesNotExist:
-                   pass
-
-            return HttpResponseRedirect(reverse('public:do_test', kwargs={'pk': versions[index].pk}))
+            return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': version.pk}))
 
 
-class Test(generic.DetailView):
+class TestDetailView(generic.DetailView):
     model = Version
     template_name = 'public/test.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            context['timeleft'] = StudentsAnswers.objects.get(student=self.request.user, version=self.object).get_time_left()
-            context['timelapsed'] = self.object.test.timeout - context['timeleft']
-            context['last_update'] = StudentsAnswers.objects.get(student=self.request.user, version=self.object).last_update
+            context['studentanswer'] = StudentsAnswers.objects.get(student=self.request.user,
+                                                                   version=self.object)
         except ObjectDoesNotExist:
-            context['timeleft'] = self.object.session.test.timeout
-            context['timelapsed'] = 0
+            return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': version.test.course.pk}))
+
         context['answers'] = Answer.objects.filter(student=self.request.user, question__version=self.get_object())
         return context
 
@@ -152,41 +133,30 @@ class Test(generic.DetailView):
 
         return super().get(self, request, *args, **kwargs)
 
+
 class UpdateAnswers(View):
     def post(self, request):
         try:
-            studentanswer = StudentsAnswers.objects.get(student=request.user, version__pk=request.POST['version'])
-            print(studentanswer.get_status())
-            if studentanswer.get_status() == 1:
+            student_answer = StudentsAnswers.objects.get(student=request.user, version__pk=request.POST['version'])
+            if student_answer.get_status() == 1:
                 for key in request.POST:
-                    if key not in ['version', 'csrfmiddlewaretoken']:
-                        try:
-                            answer = TextAnswer.objects.get(pk=key, student=request.user)
-                            answer.text = request.POST[key]
-                            answer.save()
-                        except:
-                            pass
-                        try:
-                            answer = ChoiceAnswer.objects.get(pk=key, student=request.user)
-                            answer.alternative = Alternative.objects.get(pk=request.POST[key])
-                            answer.save()
-                        except:
-                            pass
-                        try:
-                            answer = NumericalAnswer.objects.get(pk=key, student=request.user)
-                            answer.number = request.POST[key]
-                            answer.save()
-                        except:
-                            pass
+                    services.update_answer(key, request.user, request.POST[key], request.POST['version'])
+
+                for key in request.FILES:
+                    services.update_document(request.POST['version'], request.user, request.FILES[key])
+
                 # Update the field 'last_update'
-                date = timezone.now()
-                studentanswer = StudentsAnswers.objects.get(student=request.user, version__pk=request.POST['version'])
-                studentanswer.last_update = date
-                studentanswer.save()
-                return JsonResponse({'error': False, 'message': timezone.localtime(timezone.now()).strftime('%H:%M')})
+                student_answer.refresh_from_db()
+                student_answer.last_update = timezone.now()
+                student_answer.save()
+                return JsonResponse({
+                    'error': False,
+                    'message': timezone.localtime(timezone.now()).strftime('%H:%M'),
+                    'document': student_answer.document.name
+                })
+
             else:
                 return JsonResponse({'error': True, 'message': u'Tiempo excedido'})
+
         except Exception as e:
-            print(type(e))
-            print(e)
             return JsonResponse({'error': True, 'message': e})

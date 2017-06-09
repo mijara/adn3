@@ -16,20 +16,20 @@ urlpatterns = [
 
     url(
         '^test/(?P<pk>\d+)/$',
-        views.Test.as_view(),
-        name="do_test"
+        views.TestDetailView.as_view(),
+        name="test_detail"
     ),
 
     url(
         '^test/preconfirmation/(?P<pk>\d+)/$',
-        views.PreconfirmationTest.as_view(),
-        name="preconfirmation_test"
+        views.TestPreConfirmationView.as_view(),
+        name="test_preconfirmation"
     ),
 
     url(
         '^test/assign/(?P<pk>\d+)/$',
-        views.AssignTestVersion.as_view(),
-        name="assign_test_version"
+        views.TestVersionAssignView.as_view(),
+        name="test_version_assign"
     ),
 
     url(
