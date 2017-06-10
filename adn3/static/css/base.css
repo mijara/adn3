@@ -26,19 +26,18 @@ hr {
 }
 
 #course-container {
-    padding-top: 15px;
+  padding-top: 15px;
 }
 
 #course-container > div:nth-child(2) {
-    border-left: 1px solid #ededed;
+  border-left: 1px solid #ededed;
 }
 
-#course-container > div:nth-child(1) > ul{
-    position: fixed;
-    width: inherit;
-    padding-right: 40px;
+#course-container > div:nth-child(1) > ul {
+  position: fixed;
+  width: inherit;
+  padding-right: 40px;
 }
-
 
 /*
  * Navbar
@@ -50,6 +49,20 @@ hr {
 
 .navbar + .container {
   margin-top: 24px;
+}
+
+.nav-inner-item {
+  padding: 0;
+  margin: 0 0 0 8px;
+  background-color: #ffffff !important;
+  border-left: 2px #428bca solid;
+}
+.nav-inner-item > a {
+  padding: 7px !important;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /*
@@ -122,19 +135,20 @@ tr.table-heading th {
  * Test details
  */
 div.question-statement {
-	display: inline !important;
+  display: inline !important;
 }
 
 div.question-statement p:first-of-type {
-	display: inline-block;
+  display: inline-block;
 }
+
 div.question-statement p:first-of-type:before {
-	content: '';
-	margin-left: 4px;
+  content: '';
+  margin-left: 4px;
 }
 
 p.editormd-tex {
-	text-align: center;
+  text-align: center;
 }
 
 div.choice-answer {
@@ -150,9 +164,9 @@ div.choice-answer > .MathJax_Display {
 */
 
 #editormd {
-    width: 1339px;
-    height: 726px;
-    z-index: 99;
+  width: 1339px;
+  height: 726px;
+  z-index: 99;
 }
 
 /* Student test */
@@ -168,7 +182,7 @@ div.choice-answer > .MathJax_Display {
   cursor: pointer;
 }
 
- #student-test .list-group-item.alternative > input:checked + label {
+#student-test .list-group-item.alternative > input:checked + label {
   background-color: #428bca !important;
   color: white;
   transition: .2s ease-in-out;
@@ -209,6 +223,7 @@ div.choice-answer > .MathJax_Display {
 #student-test .limits {
   overflow: hidden;
 }
+
 #student-test .limits input[type="number"] {
   border: none;
   padding: 10px;
@@ -233,6 +248,7 @@ body.body-test .container:nth-child(3) {
 .navbar {
   margin: 0 !important;
 }
+
 .navbar-fixed-top {
   border-bottom: 1px #e7e7e7 solid;
 }

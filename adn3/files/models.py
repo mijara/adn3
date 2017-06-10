@@ -21,7 +21,7 @@ class CourseFile(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.file.name
+        return self.name
 
     @models.permalink
     def get_absolute_url(self):
