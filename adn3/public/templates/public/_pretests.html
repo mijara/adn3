@@ -6,7 +6,7 @@
       </div>
 
       <div>
-        Entrega en Sesión {{ pretest.end_session.number }}
+        <a href="{% url 'public:pretest_detail' pretest.pk %}">Entrega en Sesión {{ pretest.end_session.number }}</a>
       </div>
     </div>
 
