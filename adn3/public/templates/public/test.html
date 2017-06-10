@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load l10n %}
+{% block bodytag %}
+    <body class="body-test">
+{% endblock %}
 {% block link %}
     <link rel="stylesheet" href="{% static 'vendor/animate/animate.css' %}">
 {% endblock %}
@@ -8,24 +11,36 @@
     <!-- Left Blank -->
 {% endblock %}
 {% block container %}
+    {{ studentanswer.get_timeleft }}
     <div class="row">
         <div class="col-sm-12">
-            <h1 class="header">{{ version }}
-                <small>Forma {{ version.index }}</small>
-            </h1>
-        </div>
-        <div class="col-sm-12">
-            <span class="pull-right text-muted">Última actualización: <span
-                    id="last-update">{{ studentanswer.last_update | date:"H:i" | default:"Nunca" }}</span></span>
-        </div>
-        <div id="student-test" class="col-sm-12">
-            <div class="progress">
-                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0"
-                     aria-valuemin="0" aria-valuemax="100" style="min-width: 0%;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <h1 class="header">{{ version }}
+                            <small>Forma {{ version.index }}</small>
+                        </h1>
+                    </div>
                 </div>
-                <span class="text-success">Tiempo restante: <span
-                        class="time-out">{{ studentanswer.get_timeleft | floatformat:"0" }}</span> minutos</span>
+                <div class="col-sm-12">
+                    <span class="pull-right text-muted">Última actualización: <span
+                            id="last-update">{{ studentanswer.last_update | date:"H:i" | default:"Nunca" }}</span></span>
+                </div>
+                <div class="col-sm-12">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0"
+                             aria-valuemin="0" aria-valuemax="100" style="min-width: 0%;">
+                        </div>
+                        <span class="text-success">Tiempo restante: <span
+                                class="time-out">{{ studentanswer.get_time_left | floatformat:"0" }}</span> minutos</span>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
             </div>
+        </div>
+
+        <div id="student-test" class="col-sm-12">
             <form id="form">
                 {% csrf_token %}
                 <input type="hidden" name="version" value="{{ version.pk }}">
@@ -84,15 +99,16 @@
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">Lo sentimos</h4>
-            </div>
-            <div class="modal-body">
-                <p>Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
-                <div class="modal-footer">
-                    <a href="/public" type="button" class="btn btn-default">Ir al inicio</a>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Lo sentimos</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
+                    <div class="modal-footer">
+                        <a href="/public" type="button" class="btn btn-default">Ir al inicio</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,7 +121,6 @@
         MathJax.Hub.Config({
           messageStyle: "none"
         });
-
     </script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
@@ -117,8 +132,18 @@
         var startedAtMin = {{ studentanswer.get_time_elapsed|unlocalize }};
         var startedAt = startedAtMin * 60000;
         var duration = minutes * 60000;
+        var flagUpdateMinutes = true;
         var flagUpdateNotification = false;
-        var timeLeftNotificationList = [5, 3, 1];
+
+        {% if studentanswer.get_time_left >= 5%}
+            var timeLeftNotificationList = [5, 3, 1];
+        {% elif studentanswer.get_time_left >= 3%}
+            var timeLeftNotificationList = [3, 1];
+        {% elif studentanswer.get_time_left >= 1%}
+            var timeLeftNotificationList = [1];
+        {% else %}
+            var timeLeftNotificationList = [];
+        {% endif %}
 
         function start() {
             startedAt = Date.now() - startedAt;
@@ -153,7 +178,13 @@
             // playback = 1 - playback
             // Update the target properties based on the playback position
             if ((Date.now() - startedAt) !== 0) {
-                $('.time-out').html(Math.ceil((duration - Date.now() + startedAt) / 60000));
+                if ((Date.now() - startedAt)%60000 >0 && (Date.now() - startedAt)%60000 < 30000 && flagUpdateMinutes) {
+                    $('.time-out').html(Math.ceil((duration - Date.now() + startedAt) / 60000));
+                    flagUpdateMinutes = false;
+                }
+                else if ((Date.now() - startedAt)%60000 > 30000 && !flagUpdateMinutes ) {
+                    flagUpdateMinutes = true;
+                }
             }
             $('.progress-bar').css('min-width', playback * 100 + '%');
 

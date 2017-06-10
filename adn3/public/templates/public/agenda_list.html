@@ -1,29 +1,45 @@
 {% extends 'base.html' %}
 {% block bodytag %}
-    <body class="body-test">
+    <body class="body-student">
 {% endblock %}
 {% block breadcrump %}
-  <!-- Left Blank -->
+    <!-- Left Blank -->
 {% endblock %}
 
 {% block container %}
-  <div class="row">
-    <div class="col-sm-12">
-      <h1 class="header">Mis Cursos</h1>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="header">Mis Cursos</h1>
+        </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="list-group">
-        {% for agenda in agenda_list %}
-          {% if agenda.course.status %}
-            <a href="{% url 'public:course_detail' agenda.course.pk %}" class="list-group-item">
-              {{ agenda.course }}
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="list-group">
+                {% for agenda in agenda_list %}
+                    {% if agenda.course.status %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h4 class="text-fit">
+                                            <a href="{% url 'public:course_detail' agenda.course.pk %}">
+                                                {{ agenda.course }}
+                                            </a>
+                                        </h4>
+                                        <div class="text-muted">{{ agenda.course.code }}</div>
+                                    </div>
+
+                                    <div class="col-sm-6 text-right">
+                                        {{ agenda.course.count_inscriptions }} Alumnos,
+                                        {{ agenda.course.count_assistants }} Ayudantes
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
-  </div>
 {% endblock %}
