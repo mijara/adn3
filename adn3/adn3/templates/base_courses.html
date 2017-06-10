@@ -32,6 +32,8 @@
     MathJax.Hub.Config({
       messageStyle: "none"
     });
+
+
   </script>
   <script type="text/javascript"
           src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
@@ -99,6 +101,27 @@
       {% endblock %}
 
       {% block container %}{% endblock %}
+
+      <div class="row">
+        <div class="col-sm-12">
+          <footer>
+            <div class="row">
+              <div class="col-sm-8">
+                <p>
+                  Departamento de Matemáticas, 2016,
+                  <br>Universidad Técnica Federico Santa Maria
+                </p>
+              </div>
+
+              <div class="col-sm-4 text-right">
+                {% if user.is_authenticated %}
+                  <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
+                {% endif %}
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
     </div>
   </div>
 </div>

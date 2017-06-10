@@ -57,6 +57,7 @@ hr {
   background-color: #ffffff !important;
   border-left: 2px #428bca solid;
 }
+
 .nav-inner-item > a {
   padding: 7px !important;
   color: #333;
@@ -251,4 +252,25 @@ body.body-test .container:nth-child(3) {
 
 .navbar-fixed-top {
   border-bottom: 1px #e7e7e7 solid;
+}
+
+.calendar-item {
+  font-size: 10px;
+  background-color: #f5f5f5;
+  border-radius: 3px;
+  text-align: center;
+  cursor: pointer;
+}
+.calendar-item:hover {
+  background-color: #e5e5e5;
+}
+
+.calendar-item > div {
+  margin-top: -4px;
+}
+
+#selected > .calendar-item {
+  margin: 2px;
+  display: inline-block;
+  width: 15%;
 }
