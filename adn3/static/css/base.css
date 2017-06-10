@@ -218,3 +218,14 @@ div.choice-answer > .MathJax_Display {
 table tr > td {
   vertical-align: middle !important;
 }
+
+body.body-test {
+  background: #f8f8f8;
+}
+
+body.body-test .container:nth-child(3) {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid rgb(243, 243, 243);
+}
