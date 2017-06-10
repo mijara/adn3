@@ -62,7 +62,7 @@ class VersionDetail(TestMixin, generic.DetailView):
 
 
 class VersionCreate(View):
-    def get(self, request, test_pk):
+    def get(self, request, course_pk, test_pk):
         test = get_object_or_404(Test, pk=test_pk)
 
         for i, version in enumerate(test.version_set.all()):
