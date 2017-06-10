@@ -1,0 +1,10 @@
+{% if ACTIVE == 'sessions' %}
+  {% for session in view.get_course.session_set.all %}
+    <li role="presentation" class="nav-inner-item">
+      <a href="{{ view.get_course.get_sessions_url }}">
+        <span class="glyphicon glyphicon-menu-right step"></span>
+        {{ session }}
+      </a>
+    </li>
+  {% endfor %}
+{% endif %}

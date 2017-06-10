@@ -6,52 +6,50 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <meta name="description" content="">
   <meta name="author" content="">
-  <!-- <link rel="icon" href="../../favicon.ico"> -->
+  <link rel="icon" href="../../favicon.ico">
 
-  <title>ADN 3</title>
+  <title>Dashboard Template for Bootstrap</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
-  {% block link %}{% endblock %}
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
-  <!-- MathJax -->
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script>
+  <![endif]-->
+  <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       messageStyle: "none"
     });
 
+
   </script>
   <script type="text/javascript"
           src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
   </script>
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
-
-  <!-- Custom styles for this template -->
-  <!-- <link href="jumbotron.css" rel="stylesheet"> -->
-
-  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script>
-  <![endif]-->
-  <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+  {% block link %}{% endblock %}
 </head>
 
 <body>
-
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed"
@@ -88,47 +86,50 @@
   </div>
 </nav>
 
-<div id="course-container" class="container-fluid">
-  <div class="hidden-xs col-sm-3 col-md-2">
-    <ul class="nav nav-pills nav-stacked">
-      {% include 'courses/_tabs.html' %}
-    </ul>
-  </div>
-  <div class="col-xs-12 col-sm-9 col-md-10">
-    {% block breadcrump %}
-      <div class="alert alert-danger">
-        BREADCRUMP MISSING
-      </div>
-    {% endblock %}
-    {% block container %}{% endblock %}
-    <hr>
-    <footer>
-      <div class="row">
-        <div class="col-sm-8">
-          <p>
-            Departamento de Matemáticas, 2016,
-            <br>Universidad Técnica Federico Santa Maria
-          </p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        {% include 'courses/_tabs.html' %}
+      </ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      {% block breadcrump %}
+        <div class="alert alert-danger">
+          BREADCRUMP MISSING
         </div>
+      {% endblock %}
 
-        <div class="col-sm-4 text-right">
-          {% if user.is_authenticated %}
-            <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
-          {% endif %}
+      {% block container %}{% endblock %}
+
+      <div class="row">
+        <div class="col-sm-12">
+          <footer>
+            <div class="row">
+              <div class="col-sm-8">
+                <p>
+                  Departamento de Matemáticas, 2016,
+                  <br>Universidad Técnica Federico Santa Maria
+                </p>
+              </div>
+
+              <div class="col-sm-4 text-right">
+                {% if user.is_authenticated %}
+                  <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
+                {% endif %}
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
-    </footer>
+    </div>
   </div>
 </div>
 
-
 <script src="{% static 'js/jquery.js' %}"></script>
-<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 {% block script %}{% endblock %}
 
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
 </body>
 </html>
-

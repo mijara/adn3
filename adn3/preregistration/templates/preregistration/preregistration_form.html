@@ -1,5 +1,7 @@
 {% extends 'form.html' %}
 {% load bootstrap3 %}
+{% load preregistrations %}
+{% load static %}
 
 {% block breadcrump %}
   <!-- Intentional No Breadcrump -->
@@ -9,6 +11,57 @@
   <span class="glyphicon glyphicon-th step"></span>
 {% endblock %}
 
+{% block form %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Calendario
+    </div>
+
+    <div class="panel-body">
+      Arrastre los bloque a su lista de preferencias, puede escoger hasta 5
+      bloques y
+      la preferencia se ordena arriba hacia abajo como mayor a menor.
+    </div>
+
+    {% generate_calendar %}
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Mis preferencias
+    </div>
+
+    <div class="panel-body" id="selected"></div>
+
+    <div class="panel-footer text-right">
+      <button class="btn btn-success">Enviar Inscripción</button>
+    </div>
+  </div>
+{% endblock %}
+
 {% block page_header %}
   Inscripción {{ view.get_course }}
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/jquery-ui.js' %}"></script>
+
+  <script>
+      $(function () {
+          $('.calendar-item').click(function () {
+              var self = $(this);
+
+              if (self.data('added') === false || self.data('added') === undefined) {
+                  // add to selected list.
+                  self.data('parent', $(self[0].parentNode));
+                  $('#selected').append(self);
+                  self.data('added', true);
+              } else {
+                  // return to place.
+                  self.data('parent').append(self);
+                  self.data('added', false);
+              }
+          });
+      });
+  </script>
 {% endblock %}

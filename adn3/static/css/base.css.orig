@@ -26,17 +26,23 @@ hr {
 }
 
 #course-container {
-    padding-top: 15px;
+  padding-top: 15px;
 }
 
 #course-container > div:nth-child(2) {
-    border-left: 1px solid #ededed;
+  border-left: 1px solid #ededed;
 }
 
 #course-container > div:nth-child(1) > ul {
+<<<<<<< HEAD
     position: fixed;
     width: inherit;
     padding-right: 40px;
+=======
+  position: fixed;
+  width: inherit;
+  padding-right: 40px;
+>>>>>>> bfde4f7d18fac0c8af8e00a74a5bb95fed8b8c25
 }
 
 /*
@@ -136,6 +142,7 @@ tr.table-heading th {
  * Test details
  */
 div.question-statement {
+<<<<<<< HEAD
     display: inline !important;
 }
 
@@ -150,6 +157,22 @@ div.question-statement p:first-of-type:before {
 
 p.editormd-tex {
     text-align: center;
+=======
+  display: inline !important;
+}
+
+div.question-statement p:first-of-type {
+  display: inline-block;
+}
+
+div.question-statement p:first-of-type:before {
+  content: '';
+  margin-left: 4px;
+}
+
+p.editormd-tex {
+  text-align: center;
+>>>>>>> bfde4f7d18fac0c8af8e00a74a5bb95fed8b8c25
 }
 
 div.choice-answer {
@@ -165,9 +188,9 @@ div.choice-answer > .MathJax_Display {
 */
 
 #editormd {
-    width: 1339px;
-    height: 726px;
-    z-index: 99;
+  width: 1339px;
+  height: 726px;
+  z-index: 99;
 }
 
 /*
@@ -187,9 +210,15 @@ div.choice-answer > .MathJax_Display {
 }
 
 #student-test .list-group-item.alternative > input:checked + label {
+<<<<<<< HEAD
     background-color: #428bca !important;
     color: white;
     transition: .2s ease-in-out;
+=======
+  background-color: #428bca !important;
+  color: white;
+  transition: .2s ease-in-out;
+>>>>>>> bfde4f7d18fac0c8af8e00a74a5bb95fed8b8c25
 }
 
 #student-test .list-group-item.alternative > input:checked + label > span {
@@ -255,8 +284,15 @@ div.student-news > .panel-body {
     margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 div.modal.modal-dialog-news {
     margin: 30px auto;
+=======
+body.body-test .container:nth-child(3) {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid rgb(243, 243, 243);
 }
 
 .navbar {
@@ -286,4 +322,5 @@ div.modal.modal-dialog-news {
   margin: 2px;
   display: inline-block;
   width: 15%;
+>>>>>>> bfde4f7d18fac0c8af8e00a74a5bb95fed8b8c25
 }

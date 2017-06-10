@@ -25,7 +25,7 @@ class New(models.Model):
         ordering = ('-create_date',)
 
     def __str__(self):
-        return u'[%s] %s' % (self.course, self.title)
+        return self.title
 
     @models.permalink
     def get_absolute_url(self):
