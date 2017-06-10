@@ -1,0 +1,9 @@
+{% extends 'confirm_delete.html' %}
+
+{% block display_name %}
+  {{ object }}
+{% endblock %}
+
+{% block back_page %}
+  {{ object.pretest.get_absolute_url }}
+{% endblock %}

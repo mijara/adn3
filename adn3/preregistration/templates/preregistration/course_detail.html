@@ -10,7 +10,7 @@
     <div class="col-sm-12">
       <h1 class="page-header">
         <span class="glyphicon glyphicon-th step"></span>
-        Preinscripciones
+        Pre-inscripciones
         <small>{{ course }}</small>
       </h1>
     </div>
@@ -19,34 +19,42 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <table class="table table-responsive">
-          <thead>
-          <tr>
-            <th>Agenda</th>
-            <th class="text-center">Primera</th>
-            <th class="text-center">Segunda</th>
-            <th class="text-center">Tercera</th>
-            <th width="0%"></th>
-          </tr>
-          </thead>
+        <div class="panel-body">
+          Estado de pre-inscripciones: se indica la agenda y su cantidad de pre-inscripciones con
+          en cada nivel de preferencia.
+        </div>
 
-          <tbody>
-          {% for agenda in course.agenda_set.all %}
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
             <tr>
-              <th>{{ agenda }}</th>
-              <td class="text-center">{{ agenda.first.count }}</td>
-              <td class="text-center">{{ agenda.second.count }}</td>
-              <td class="text-center">{{ agenda.third.count }}</td>
-              <td width="0%" class="text-right">
-                <a href="#" data-toggle="modal"
-                   data-target="#agenda-{{ agenda.pk }}">
-                  <span class="glyphicon glyphicon-search"></span>
-                </a>
-              </td>
+              <th>Agenda</th>
+              <th class="text-center">Primera</th>
+              <th class="text-center">Segunda</th>
+              <th class="text-center">Tercera</th>
+              <th width="0%"></th>
             </tr>
-          {% endfor %}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+            {% for agenda in course.agenda_set.all %}
+              <tr>
+                <th>{{ agenda }}</th>
+                <td class="text-center">{{ agenda.first_preference.count }}</td>
+                <td class="text-center">{{ agenda.second_preference.count }}</td>
+                <td class="text-center">{{ agenda.third_preference.count }}</td>
+                <td width="0%" class="text-right">
+                  <a href="#" data-toggle="modal"
+                     data-target="#agenda-{{ agenda.pk }}">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
   </div>
@@ -59,7 +67,7 @@
           <div class="modal-header">
             <button type="button" class="close"
                     data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
+                    aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel">
               {{ agenda }}
             </h4>
@@ -105,7 +113,7 @@
               </tr>
             {% endfor %}
             </tbody>
-          
+
             <thead>
             <tr>
               <th class="active">Tercera Preferencia</th>

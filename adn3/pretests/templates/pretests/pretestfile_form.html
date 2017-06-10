@@ -4,17 +4,17 @@
 {% block breadcrump %}
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{{ session.course.get_absolute_url }}">{{ session.course }}</a></li>
-    <li><a href="{{ session.course.get_sessions_url }}">Sesiones</a></li>
-    <li><a href="{% url 'classes:session_detail' session.pk %}">{{ session }}</a></li>
-    <li><a href="{% url 'classes:upload' session.pk %}">Subir Archivo</a></li>
+    <li><a href="{{ view.get_course.get_absolute_url }}">{{ view.get_course }}</a></li>
+    <li><a href="{{ view.get_course.get_pretests_url }}">Preinformes</a></li>
+    <li><a href="{{ view.get_pretest.get_absolute_url }}">{{ view.get_pretest }}</a></li>
+    <li><a href="{% url 'pretests:pretestfile_create' view.get_course.pk view.get_pretest.pk %}">Subir Archivo</a></li>
   </ol>
 {% endblock %}
 
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="header"><span class="glyphicon glyphicon-map-marker step"></span> Subir Archivo</h1>
+      <h1 class="header"><span class="glyphicon glyphicon-inbox step"></span> Subir Archivo</h1>
 
       <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}

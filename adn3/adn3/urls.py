@@ -30,7 +30,7 @@ urlpatterns = [
     ),
 
     url(
-        '^news/',
+        '^(?P<course_pk>\d+)/news/',
         include(
             'news.urls',
             namespace='news'
@@ -38,7 +38,7 @@ urlpatterns = [
     ),
 
     url(
-        '^classes/',
+        '^(?P<course_pk>\d+)/sessions/',
         include(
             'classes.urls',
             namespace='classes'
@@ -46,7 +46,7 @@ urlpatterns = [
     ),
 
     url(
-        '^files/',
+        '^(?P<course_pk>\d+)/files/',
         include(
             'files.urls',
             namespace='files'
@@ -62,7 +62,7 @@ urlpatterns = [
     ),
 
     url(
-        '^pretests/',
+        '^(?P<course_pk>\d+)/pretests/',
         include(
             'pretests.urls',
             namespace='pretests'
@@ -70,7 +70,7 @@ urlpatterns = [
     ),
 
     url(
-        '^tests/',
+        '^(?P<course_pk>\d+)/tests/',
         include(
             'tests.urls',
             namespace='tests'

@@ -8,7 +8,7 @@
     <li><a href="{{ view.get_course.get_tests_url }}">Controles</a></li>
 
     {% if form.instance.pk %}
-      <li><a href="{% url 'tests:test_detail' form.instance.pk %}">{{ test }}</a></li>
+      <li><a href="{% url 'tests:test_detail' view.get_course.pk form.instance.pk %}">{{ test }}</a></li>
       <li><a href="{% url 'tests:test_update' view.get_course.pk form.instance.pk %}">Editar</a></li>
     {% else %}
       <li><a href="{% url 'tests:test_create' view.get_course.pk %}">Nuevo</a></li>

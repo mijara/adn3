@@ -17,7 +17,7 @@
         <tbody>
         {% for test in test_list.all %}
           <tr>
-            <td><a href="{% url 'tests:test_detail' test.pk %}">{{ test.name }}</a></td>
+            <td><a href="{% url 'tests:test_detail' test.course.pk test.pk %}">{{ test.name }}</a></td>
             <td>{{ test.session.number }}</td>
             <td>{{ test.version_set.count }}</td>
           </tr>

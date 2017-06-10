@@ -9,19 +9,19 @@ urlpatterns = [
     ),
 
     url(
-        '^(?P<course_pk>\d+)/create/$',
+        '^create/$',
         views.NewCreate.as_view(),
         name='new_create'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/update/(?P<pk>\d+)/$',
+        '^update/(?P<pk>\d+)/$',
         views.NewUpdate.as_view(),
         name='new_update'
     ),
 
     url(
-        '^(?P<course_pk>\d+)/delete/(?P<pk>\d+)/$',
+        '^delete/(?P<pk>\d+)/$',
         views.NewDelete.as_view(),
         name='new_delete'
     ),

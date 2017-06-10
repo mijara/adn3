@@ -9,8 +9,10 @@ from django.views import generic
 class CourseDetail(mixins.CourseMixin, generic.View):
     def get(self, request, course_pk, section='agendas'):
         return render(self.request, 'courses/course_detail.html', {
+            'view': self,
             'course': self.get_course(),
-            'section': section
+            'ACTIVE': section,
+            'section': section,
         })
 
 

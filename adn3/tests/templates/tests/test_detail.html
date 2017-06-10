@@ -5,7 +5,7 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ test.course.get_absolute_url }}">{{ test.course }}</a></li>
     <li><a href="{{ test.course.get_tests_url }}">Controles</a></li>
-    <li><a href="{% url 'tests:test_detail' test.pk %}">{{ test }}</a></li>
+    <li><a href="{% url 'tests:test_detail' test.course.pk test.pk %}">{{ test }}</a></li>
   </ol>
 {% endblock %}
 
@@ -33,7 +33,8 @@
     <div class="col-sm-8">
       <div>
         <div class="pull-right">
-          <a href="{% url 'tests:version_create' test.pk %}" class="btn btn-primary btn-sm">Crear forma</a>
+          <a href="{% url 'tests:version_create' test.course.pk test.pk %}" class="btn btn-primary btn-sm">Crear
+            forma</a>
         </div>
 
         <h3>Formas</h3>
@@ -67,37 +68,27 @@
 
             <tr>
               <th>Estado</th>
-              <td>
-                {% if test.active %}Activo{% else %}Inactivo{% endif %}
-              </td>
+              <td>{% if test.active %}Activo{% else %}Inactivo{% endif %}</td>
             </tr>
 
             <tr>
               <th>Formas</th>
-              <td>
-                {{ test.version_set.count }}
-              </td>
+              <td>{{ test.version_set.count }}</td>
             </tr>
 
             <tr>
               <th>Puntaje</th>
-              <td>
-                --
-              </td>
+              <td>--</td>
             </tr>
 
             <tr>
               <th>Duración</th>
-              <td>
-                {{ test.get_timeout_display }}
-              </td>
+              <td>{{ test.get_timeout_display }}</td>
             </tr>
 
             <tr>
               <th>Respuestas</th>
-              <td>
-                --
-              </td>
+              <td>--</td>
             </tr>
             </tbody>
           </table>

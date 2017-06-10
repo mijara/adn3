@@ -70,7 +70,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="pull-right">
-            <a href="{% url 'pretests:pretestfile_create' pretest.pk %}">
+            <a href="{% url 'pretests:pretestfile_create' pretest.course.pk pretest.pk %}">
               <span class="glyphicon glyphicon-upload"></span> Subir Archivo
             </a>
           </div>
@@ -78,14 +78,16 @@
           Archivos
         </div>
 
-        <div class="panel-body">
-          {% if pretest.pretestfile_set.count == 0 %}
+        {% if pretest.pretestfile_set.count == 0 %}
+          <div class="panel-body">
             <div class="alert alert-info">
               Sin archivos
             </div>
-          {% else %}
+          </div>
+        {% else %}
+          <div class="list-group">
             {% for file in pretest.pretestfile_set.all %}
-              <div>
+              <div class="list-group-item">
                 <a href="{{ file.get_delete_url }}" class="pull-right">
                   <span class="glyphicon glyphicon-remove"></span>
                 </a>
@@ -93,8 +95,8 @@
                 <a href="{{ file.file.url }}">{{ file.name }}</a>
               </div>
             {% endfor %}
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

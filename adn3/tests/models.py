@@ -43,7 +43,7 @@ class Test(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'tests:test_detail', [self.pk]
+        return 'tests:test_detail', [self.course.pk, self.pk]
 
     @models.permalink
     def get_update_url(self):
@@ -75,11 +75,11 @@ class Version(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'tests:version_detail', [self.pk]
+        return 'tests:version_detail', [self.test.course.pk, self.test.pk, self.pk]
 
     @models.permalink
     def get_delete_url(self):
-        return 'tests:version_delete', [self.test.pk, self.pk]
+        return 'tests:version_delete', [self.test.course.pk, self.test.pk, self.pk]
 
 
 class StudentsAnswers(models.Model):
@@ -101,6 +101,7 @@ class StudentsAnswers(models.Model):
     # 2: It's over
     def get_status(self):
         finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout + 0.2)
+
         if finish_time < timezone.now() or self.submitted:
             return 2
         else:
@@ -139,11 +140,13 @@ class Question(models.Model):
 class TextQuestion(Question):
     def get_update_url(self):
         return reverse_lazy('tests:textquestion_update',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
     def get_delete_url(self):
         return reverse_lazy('tests:textquestion_delete',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
 
 class NumericalQuestion(Question):
@@ -152,13 +155,15 @@ class NumericalQuestion(Question):
 
     def get_update_url(self):
         return reverse_lazy('tests:numericalquestion_update',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
 
 class ChoiceQuestion(Question):
     def get_update_url(self):
         return reverse_lazy('tests:choicequestion_update',
-                            args=[self.version.pk, self.pk])
+                            args=[self.version.test.course.pk, self.version.test.pk,
+                                  self.version.pk, self.pk])
 
 
 class Answer(models.Model):

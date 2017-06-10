@@ -19,3 +19,25 @@ def url_args(request):
     return {
         'ACTIVE': active,
     }
+
+
+def active_section(request):
+    """
+    Catches the current active section by matching:
+
+    ^/\d+/([^/]*)
+
+    For example:
+
+    /1/news/... will catch "news"
+    """
+    match = re.match('^/\d+/([^/]*)', request.path)
+
+    if match is None:
+        active = ''
+    else:
+        active = match.group(1)
+
+    return {
+        'ACTIVE': active,
+    }

@@ -5,7 +5,7 @@ from adn3 import mixins
 from .forms import *
 
 
-class NewDetail(generic.DetailView):
+class NewDetail(mixins.CourseMixin, generic.DetailView):
     model = New
 
 
