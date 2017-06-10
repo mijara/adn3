@@ -229,3 +229,10 @@ body.body-test .container:nth-child(3) {
   border-radius: 20px;
   border: 1px solid rgb(243, 243, 243);
 }
+
+.navbar {
+  margin: 0 !important;
+}
+.navbar-fixed-top {
+  border-bottom: 1px #e7e7e7 solid;
+}
