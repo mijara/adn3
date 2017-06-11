@@ -1,5 +1,8 @@
+from django.shortcuts import redirect
 from django.views import generic
 from django.views import View
+
+from adn3.constants import PRE_REGISTRATIONS_OPEN
 from tests.models import Version, StudentsAnswers, Test, Answer
 from public import services
 
@@ -17,6 +20,11 @@ from django.utils import timezone
 class AgendaListView(generic.ListView):
     model = Agenda
     template_name = 'public/agenda_list.html'
+
+    def get(self, request, *args, **kwargs):
+        if PRE_REGISTRATIONS_OPEN:
+            return redirect('preregistrations:course_list')
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         return self.request.user.inscriptions.all() | self.request.user.assistants.all()
@@ -73,6 +81,7 @@ class TestPreConfirmationView(generic.DetailView):
 
         return super().get(self, request, *args, **kwargs)
 
+
 class TestVersionAssignView(generic.DetailView):
     model = Test
 
@@ -95,7 +104,6 @@ class TestVersionAssignView(generic.DetailView):
                 services.create_empty_answers(question, request.user)
 
             return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': version.pk}))
-
 
 
 class TestDetailView(generic.DetailView):

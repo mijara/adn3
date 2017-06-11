@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block link %}
+  <link rel="stylesheet"
+        href="{% static 'vendor/editormd/css/editormd.min.css' %}"/>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        {% block icon %}
+          <div class="btn btn-danger"><span
+              class="glyphicon glyphicon-alert"></span></div>
+        {% endblock %}
+
+        {% block page_header %}
+          {% if form.instance.pk %}
+            Editar
+          {% else %}
+            Crear
+          {% endif %}
+        {% endblock %}
+
+        {% block object_name %}{% endblock %}
+      </h1>
+
+      {% block form %}
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              {% include '_form.html' %}
+            </div>
+
+            <div class="panel-footer text-right">
+              {% block panel_footer_extra %}
+                {% if object %}
+                  <span class="pull-left">
+                    <a href="{{ object.get_delete_url }}"
+                       class="btn btn-danger">Eliminar</a>
+                  </span>
+                {% endif %}
+              {% endblock %}
+
+              <button class="btn btn-primary">Guardar</button>
+            </div>
+          </div>
+        </form>
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/jquery-ui.js' %}"></script>
+  <script src="{% static 'vendor/editormd/editormd.js' %}"></script>
+  <script type="text/javascript">
+    var editor = editormd("editormd", {
+        path: "{% static 'vendor/editormd/lib/' %}",
+        tex: false,
+        height: 320,
+        watch: false,
+        placeholder: "Enunciado",
+        saveHTMLToTextarea: true,
+        toolbarAutoFixed: false,
+        toolbarIcons: function () {
+            // Or return editormd.toolbarModes[name]; // full, simple, mini
+            // Using "||" set icons align right.
+            return editormd.toolbarModes['simple']
+        }
+    });
+    $('form').submit(function () {
+      $('#id_html').val(editor.getHTML());
+    });
+  </script>
+{% endblock %}

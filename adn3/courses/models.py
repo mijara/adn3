@@ -66,8 +66,11 @@ class Course(models.Model):
             self.name, self.campus.name, self.year, self.semester)
 
     def is_active(self):
+        """
+        :return: True if the course belongs to this semester or one in the future.
+        """
         return self.status and \
-               (self.year, self.semester) == get_year_semester()
+               (self.year, self.semester) >= get_year_semester()
 
     @models.permalink
     def get_absolute_url(self):

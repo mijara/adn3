@@ -1,6 +1,5 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.decorators import method_decorator
+from django.shortcuts import redirect
 from django.views import generic
 from courses.models import Course
 from preregistration.models import PreRegistration
@@ -12,19 +11,30 @@ class PreRegistrationDetailView(generic.DetailView):
     model = PreRegistration
 
 
-class PreRegistrationCreateView(mixins.CourseMixin, generic.CreateView):
-    model = PreRegistration
+class PreRegistrationCreateView(mixins.CourseMixin, generic.TemplateView):
+    template_name = 'preregistration/preregistration_form.html'
     form_class = PreRegistrationForm
 
-    def form_valid(self, form):
-        form.instance.course = self.get_course()
-        form.instance.student = self.request.user.student
-        return super(PreRegistrationCreateView, self).form_valid(form)
+    def post(self, request, course_pk):
+        preferences = request.POST.getlist('block')
+        sel_names = ['first_preference', 'second_preference', 'third_preference',
+                     'fourth_preference', 'fifth_preference']
+        selections = {}
 
-    def get_initial(self):
-        initial = super(PreRegistrationCreateView, self).get_initial()
-        initial['course'] = self.get_course()
-        return initial
+        for i, p in enumerate(sel_names):
+            selections[p] = preferences[i] if len(preferences) > i else ''
+
+        initial = {'course': self.get_course().pk}
+        initial.update(selections)
+
+        form = PreRegistrationForm(initial)
+
+        if form.is_valid():
+            form.instance.student = request.user.student
+            instance = form.save()
+            return redirect(instance.get_absolute_url())
+
+        pass
 
 
 class CourseDetailView(generic.DetailView, LoginRequiredMixin):

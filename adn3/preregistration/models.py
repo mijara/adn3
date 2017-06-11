@@ -9,28 +9,25 @@ class PreRegistration(models.Model):
     course = models.ForeignKey('courses.Course')
     student = models.ForeignKey('students.Student')
 
+    # TODO: CharField should have convenient choices for each day-block.
+
     first_preference = models.CharField(
-        choices=choices.make_blocks_days(),
         max_length=32,
         verbose_name='Primera Preferencia')
 
     second_preference = models.CharField(
-        choices=choices.make_blocks_days(),
         max_length=32,
         verbose_name='Segunda Preferencia', blank=True, null=True)
 
     third_preference = models.CharField(
-        choices=choices.make_blocks_days(),
         max_length=32,
         verbose_name='Tercera Preferencia', blank=True, null=True)
 
     fourth_preference = models.CharField(
-        choices=choices.make_blocks_days(),
         max_length=32,
         verbose_name='Cuarta Preferencia', blank=True, null=True)
 
     fifth_preference = models.CharField(
-        choices=choices.make_blocks_days(),
         max_length=32,
         verbose_name='Quinta Preferencia', blank=True, null=True)
 

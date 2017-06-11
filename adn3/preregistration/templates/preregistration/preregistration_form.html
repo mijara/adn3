@@ -1,4 +1,4 @@
-{% extends 'form.html' %}
+{% extends 'form_temp.html' %}
 {% load bootstrap3 %}
 {% load preregistrations %}
 {% load static %}
@@ -18,9 +18,8 @@
     </div>
 
     <div class="panel-body">
-      Arrastre los bloque a su lista de preferencias, puede escoger hasta 5
-      bloques y
-      la preferencia se ordena arriba hacia abajo como mayor a menor.
+      Seleccione los bloques en orden de preferencia, puede escoger hasta 5
+      bloques.
     </div>
 
     {% generate_calendar %}
@@ -31,11 +30,18 @@
       Mis preferencias
     </div>
 
-    <div class="panel-body" id="selected"></div>
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="panel-body" id="selected"></div>
 
-    <div class="panel-footer text-right">
-      <button class="btn btn-success">Enviar Inscripción</button>
-    </div>
+      <div class="panel-footer">
+        <div class="pull-right">
+          <button class="btn btn-success">Enviar Inscripción</button>
+        </div>
+
+        <p>Presione los bloques para eliminarlo de su preferencia.</p>
+      </div>
+    </form>
   </div>
 {% endblock %}
 
@@ -48,18 +54,27 @@
 
   <script>
       $(function () {
+          var selected = 0;
+
           $('.calendar-item').click(function () {
               var self = $(this);
 
               if (self.data('added') === false || self.data('added') === undefined) {
+                  if (selected >= 5) {
+                      alert('Ya ha seleccionado el límite máximo de bloques!');
+                      return;
+                  }
+
                   // add to selected list.
                   self.data('parent', $(self[0].parentNode));
                   $('#selected').append(self);
                   self.data('added', true);
+                  selected += 1;
               } else {
                   // return to place.
                   self.data('parent').append(self);
                   self.data('added', false);
+                  selected -= 1;
               }
           });
       });

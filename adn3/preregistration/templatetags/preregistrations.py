@@ -21,13 +21,15 @@ class CalendarNode(Node):
         html += '</thead>'
         html += '<tbody>'
 
-        for block in blocks:
+        for b, block in enumerate(blocks):
             html += '<tr>'
             html += '<td>{block}</td>'.format(block=block)
 
-            for day in days:
-                html += '<td><div class="calendar-item">{day}<br>' \
-                        '<div>{block}</div></div></td>'.format(day=day, block=block)
+            for d, day in enumerate(days):
+                html += '<td><div class="calendar-item">' \
+                        '<input type="hidden" name="block" value="{d}-{b}">' \
+                        '{day}<br>' \
+                        '<div>{block}</div></div></td>'.format(day=day, block=block, d=d, b=b)
 
         html += '</tbody>'
         html += '</table>'
