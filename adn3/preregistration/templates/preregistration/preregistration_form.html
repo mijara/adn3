@@ -12,6 +12,12 @@
 {% endblock %}
 
 {% block form %}
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      <strong>Debe seleccionar al menos una preferencia.</strong>
+    </div>
+  {% endif %}
+
   <div class="panel panel-default">
     <div class="panel-heading">
       Calendario

@@ -1,0 +1,9 @@
+{% extends 'confirm_delete.html' %}
+
+{% block display_name %}
+  Pre-Inscripción a {{ object.course }}
+{% endblock %}
+
+{% block back_page %}
+  {{ object.get_absolute_url }}
+{% endblock %}

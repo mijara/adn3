@@ -55,19 +55,38 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <div class="alert alert-info">
-        Seleccione un curso para pre-inscribir
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Seleccione un curso para pre-inscribir
+        </div>
+
+        <div class="list-group">
+          {% for course in course_list %}
+            {% if course.is_active %}
+              <a href="{{ course.get_preregistrations_create_url }}"
+                 class="list-group-item">
+                {{ course }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
 
-      <div class="list-group">
-        {% for course in course_list %}
-          {% if course.is_active %}
-            <a href="{{ course.get_preregistrations_create_url }}"
-               class="list-group-item">
-              {{ course }}
-            </a>
-          {% endif %}
-        {% endfor %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Pre-inscripciones activas
+        </div>
+
+        <div class="list-group">
+          {% for pr in request.user.student.preregistration_set.all %}
+            {% if pr.course.is_active %}
+              <a href="{{ pr.get_absolute_url }}"
+                 class="list-group-item">
+                {{ pr.course }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>

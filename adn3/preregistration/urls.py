@@ -9,9 +9,15 @@ urlpatterns = [
     ),
 
     url(
-        '^detail/(?P<pk>\d+)/$',
+        '^(?P<pk>\d+)/detail/$',
         views.PreRegistrationDetailView.as_view(),
         name='preregistration_detail'
+    ),
+
+    url(
+        '^(?P<pk>\d+)/delete/$',
+        views.PreRegistrationDeleteView.as_view(),
+        name='preregistration_delete'
     ),
 
     url(

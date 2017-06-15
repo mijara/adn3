@@ -1,10 +1,24 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views import generic
 from courses.models import Course
 from preregistration.models import PreRegistration
 from .forms import PreRegistrationForm
 from adn3 import mixins
+
+
+class CourseDetailView(generic.DetailView, LoginRequiredMixin):
+    model = Course
+    template_name = 'preregistration/course_detail.html'
+
+
+class CourseListView(generic.ListView):
+    model = Course
+    template_name = 'preregistration/course_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset().exclude(preregistration__student=self.request.user.student)
 
 
 class PreRegistrationDetailView(generic.DetailView):
@@ -34,14 +48,13 @@ class PreRegistrationCreateView(mixins.CourseMixin, generic.TemplateView):
             instance = form.save()
             return redirect(instance.get_absolute_url())
 
-        pass
+        return render(request, self.template_name, {
+            'form': form,
+        })
 
 
-class CourseDetailView(generic.DetailView, LoginRequiredMixin):
-    model = Course
-    template_name = 'preregistration/course_detail.html'
+class PreRegistrationDeleteView(generic.DeleteView):
+    model = PreRegistration
 
-
-class CourseListView(generic.ListView):
-    model = Course
-    template_name = 'preregistration/course_list.html'
+    def get_success_url(self):
+        return reverse_lazy('preregistrations:course_list')

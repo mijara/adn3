@@ -41,3 +41,7 @@ class PreRegistration(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('preregistrations:preregistration_detail',
                             args=[self.pk])
+
+    def get_delete_url(self):
+        return reverse_lazy('preregistrations:preregistration_delete',
+                            args=[self.pk])
