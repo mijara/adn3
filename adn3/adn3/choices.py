@@ -1,6 +1,8 @@
 # coding=utf-8
 from datetime import datetime
 
+DAYS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
+BLOCKS = ['1 - 2', '3 - 4', '5 - 6', '7 - 8', '9 - 10', '11 - 12', '13 - 14']
 
 def make_years():
     """
@@ -32,6 +34,14 @@ def make_blocks():
         (5, '11-12'),
         (6, '13-14'),
     ]
+
+
+def make_days_blocks():
+    res = []
+    for d, day in enumerate(DAYS):
+        for b, block in enumerate(BLOCKS):
+            res.append(('{}-{}'.format(d, b), '{} {}'.format(day, block)))
+    return res
 
 
 def make_session_numbers():

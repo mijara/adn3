@@ -38,20 +38,34 @@
           {% endif %}
           <tr>
             <th>Primera Preferencia</th>
-            <td>{{ object.first_preference }}</td>
+            <td>{{ object.get_first_preference_display }}</td>
           </tr>
 
           {% if object.second_preference %}
             <tr>
               <th>Segunda Preferencia</th>
-              <td>{{ object.second_preference }}</td>
+              <td>{{ object.get_second_preference_display }}</td>
             </tr>
           {% endif %}
 
           {% if object.third_preference %}
             <tr>
               <th>Tercera Preferencia</th>
-              <td>{{ object.third_preference }}</td>
+              <td>{{ object.get_third_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if object.fourth_preference %}
+            <tr>
+              <th>Cuarta Preferencia</th>
+              <td>{{ object.get_fourth_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if object.fifth_preference %}
+            <tr>
+              <th>Quinta Preferencia</th>
+              <td>{{ object.get_fifth_preference_display }}</td>
             </tr>
           {% endif %}
           </tbody>
