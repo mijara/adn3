@@ -59,8 +59,6 @@ class Version(models.Model):
 
     create_date = models.DateTimeField(auto_now_add=True)
 
-    index = models.IntegerField()
-
     file = models.FileField(upload_to='tests/', blank=True)
 
     students = models.ManyToManyField('auth.User', verbose_name=u'Estudiante', blank=True,
@@ -69,9 +67,10 @@ class Version(models.Model):
     class Meta:
         verbose_name = 'Forma'
         verbose_name_plural = 'Formas'
+        ordering = ('create_date',)
 
     def __str__(self):
-        return self.test.name
+        return "Forma %s - %s" % (self.get_letter(), self.test.name)
 
     @models.permalink
     def get_absolute_url(self):
@@ -80,6 +79,19 @@ class Version(models.Model):
     @models.permalink
     def get_delete_url(self):
         return 'tests:version_delete', [self.test.course.pk, self.test.pk, self.pk]
+
+    @models.permalink
+    def get_duplicate_url(self):
+        return 'tests:version_duplicate', [self.test.course.pk, self.test.pk, self.pk]
+
+    def get_letter(self):
+        letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        versions = Version.objects.filter(test=self.test)
+
+        for i, version in enumerate(versions):
+            if version == self:
+                return letters[i]
+        return "A"
 
 
 class StudentsAnswers(models.Model):

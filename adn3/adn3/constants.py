@@ -9,4 +9,4 @@ YEAR = 2017
 # Current semester number.
 SEMESTER = 1
 
-PRE_REGISTRATIONS_OPEN = True
+PRE_REGISTRATIONS_OPEN = False

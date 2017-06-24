@@ -45,6 +45,12 @@ urlpatterns = [
     ),
 
     url(
+        r'^(?P<test_pk>\d+)/version/(?P<pk>\d+)/duplicate/$',
+        views.VersionDuplicateView.as_view(),
+        name='version_duplicate'
+    ),
+
+    url(
         r'^(?P<test_pk>\d+)/version/(?P<version_pk>\d+)/attachfile/$',
         views.version_attach_file,
         name='version_attach_file'

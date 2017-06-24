@@ -2,51 +2,61 @@
 {% load bootstrap3 %}
 
 {% block breadcrump %}
-  <ol class="breadcrumb">
-    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{{ version.test.course.get_absolute_url }}">{{ version.test.course }}</a></li>
-    <li><a href="{{ version.test.course.get_tests_url }}">Controles</a></li>
-    <li><a href="{% url 'tests:test_detail' version.test.course.pk version.test.pk %}">{{ version.test }}</a></li>
-    <li><a href="{% url 'tests:version_detail' version.test.course.pk version.test.pk version.pk %}">Forma {{ version.index }}</a></li>
-  </ol>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+        <li><a href="{{ version.test.course.get_absolute_url }}">{{ version.test.course }}</a></li>
+        <li><a href="{{ version.test.course.get_tests_url }}">Controles</a></li>
+        <li><a href="{% url 'tests:test_detail' version.test.course.pk version.test.pk %}">{{ version.test }}</a></li>
+        <li>
+            <a href="{% url 'tests:version_detail' version.test.course.pk version.test.pk version.pk %}">Forma {{ version.get_letter }}</a>
+        </li>
+    </ol>
 {% endblock %}
 
 {% block container %}
-  <div class="row">
-    <div class="col-sm-12">
-      <h1 class="header">
-        <span class="glyphicon glyphicon-file step"></span>
-        {{ version.test }}
-      </h1>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12">
-      <div>
-        <div class="pull-right">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-              Nueva pregunta <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="{% url 'tests:choicequestion_create' version.test.course.pk version.test.pk version.pk %}">Alternativas</a></li>
-              <li><a href="{% url 'tests:numericalquestion_create' version.test.course.pk version.test.pk version.pk %}">Numérica</a></li>
-              <li><a href="{% url 'tests:textquestion_create' version.test.course.pk version.test.pk version.pk %}">Texto</a></li>
-            </ul>
-          </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="header">
+                <span class="glyphicon glyphicon-file step"></span>
+                {{ version.test }}
+            </h1>
         </div>
+    </div>
 
-        <h3>Forma {{ version.index }}</h3>
-      </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div>
+                <div class="pull-right">
+                    <a href="{{ version.get_duplicate_url }}" role="button" class="btn btn-default">Duplicar forma</a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            Nueva pregunta <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="{% url 'tests:choicequestion_create' version.test.course.pk version.test.pk version.pk %}">Alternativas</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'tests:numericalquestion_create' version.test.course.pk version.test.pk version.pk %}">Numérica</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'tests:textquestion_create' version.test.course.pk version.test.pk version.pk %}">Texto</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-      <hr>
+                <h3>Forma {{ version.get_letter }}</h3>
+            </div>
 
-      {% for question in version.question_set.all %}
-        <div class="panel panel-default">
-          <div class="panel-body text-justify">
-            <a href="
+            <hr>
+
+            {% for question in version.question_set.all %}
+                <div class="panel panel-default">
+                    <div class="panel-body text-justify">
+                        <a href="
             {% if question.textquestion %}
               {{ question.textquestion.get_update_url }}
             {% elif question.numericalquestion %}
@@ -55,54 +65,55 @@
               {{ question.choicequestion.get_update_url }}
             {% endif %}
             " class="pull-right btn btn-success btn-xs" style="margin-left: 15px">
-              <span class="glyphicon glyphicon-pencil"></span>
-            </a>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
 
-            <strong>{{ forloop.counter }}.-</strong>
-            <div class="question-statement">
-              <i>[{{ question.score }}pts] </i>
-              {{ question.html|safe }}
+                        <strong>{{ forloop.counter }}.-</strong>
+                        <div class="question-statement">
+                            <i>[{{ question.score }}pts] </i>
+                            {{ question.html|safe }}
+                        </div>
+                    </div>
+
+                    {% if question.choicequestion %}
+                        {% include 'tests/_choice_answers.html' %}
+                    {% elif question.numericalquestion %}
+                        {% include 'tests/_numerical_limits.html' %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Archivo Adjunto
+                </div>
+
+                <div class="panel-body">
+                    <form action="{% url 'tests:version_attach_file' version.test.course.pk version.test.pk version.pk %}"
+                          enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success pull-right">Guardar</button>
+
+                        {% if version.file.name %}
+                            <p>Actual: <a href="{{ version.file.url }}">{{ version.file.name }}</a></p>
+                            <strong>Reemplazar:</strong>
+                        {% endif %}
+
+                        {{ file_form.file }}
+                    </form>
+                </div>
             </div>
-          </div>
-
-          {% if question.choicequestion %}
-            {% include 'tests/_choice_answers.html' %}
-          {% elif question.numericalquestion %}
-            {% include 'tests/_numerical_limits.html' %}
-          {% endif %}
-        </div>
-      {% endfor %}
-    </div>
-
-    <div class="col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Archivo Adjunto
         </div>
 
-        <div class="panel-body">
-          <form action="{% url 'tests:version_attach_file' version.test.course.pk version.test.pk version.pk %}" enctype="multipart/form-data" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-success pull-right">Guardar</button>
-
-            {% if version.file.name %}
-              <p>Actual: <a href="{{ version.file.url }}">{{ version.file.name }}</a></p>
-              <strong>Reemplazar:</strong>
-            {% endif %}
-
-            {{ file_form.file }}
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-12 text-right">
-      <a href="{{ version.get_delete_url }}" class="btn btn-danger">
-        <span class="glyphicon glyphicon-remove"></span>
-        <span class="back-step hidden-xs">
+        <div class="col-sm-12 text-right">
+            <a href="{{ version.get_delete_url }}" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove"></span>
+                <span class="back-step hidden-xs">
           Eliminar Forma
         </span>
-      </a>
+            </a>
+        </div>
     </div>
-  </div>
 {% endblock %}

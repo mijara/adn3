@@ -1,7 +1,7 @@
 {% extends 'confirm_delete.html' %}
 
 {% block display_name %}
-  Forma {{ object.index }} del control {{ object.test.name }}
+  Forma {{ object.get_letter }} del control {{ object.test.name }}
 {% endblock %}
 
 {% block back_page %}

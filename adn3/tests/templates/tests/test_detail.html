@@ -42,7 +42,7 @@
 
       <div class="list-group">
         {% for version in test.version_set.all %}
-          <a href="{{ version.get_absolute_url }}" class="list-group-item">Forma {{ version.index }}</a>
+          <a href="{{ version.get_absolute_url }}" class="list-group-item">Forma {{ version.get_letter }}</a>
         {% endfor %}
       </div>
     </div>

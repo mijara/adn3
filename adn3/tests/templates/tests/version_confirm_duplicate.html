@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          ¿Está seguro/a?
+        </div>
+
+        <div class="panel-body">
+          Va a duplicar:
+
+          <h4>
+              <a href="{{ object.get_absolute_url }}">  Forma {{ object.get_letter }} del control {{ object.test.name }} </a>
+          </h4>
+
+          ¿Desea continuar con esta acción?
+        </div>
+
+        <div class="panel-footer">
+          <form action="" method="post">
+            {% csrf_token %}
+
+            <a href="{{ object.get_absolute_url }}" class="btn btn-primary">Volver</a>
+            <button type="submit" class="btn btn-danger pull-right">Confirmar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{%block script %}
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      messageStyle: "none"
+    });
+  </script>
+  <script type="text/javascript"
+     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
+  </script>
+{% endblock %}

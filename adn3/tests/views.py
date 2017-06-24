@@ -6,6 +6,8 @@ from django.views import generic
 from adn3 import mixins
 from .forms import *
 
+from . import services
+
 
 class TestMixin(mixins.CourseMixin):
     def get_test(self):
@@ -65,11 +67,7 @@ class VersionCreate(View):
     def get(self, request, course_pk, test_pk):
         test = get_object_or_404(Test, pk=test_pk)
 
-        for i, version in enumerate(test.version_set.all()):
-            version.index = i + 1
-            version.save()
-
-        version = Version(test=test, index=test.version_set.count() + 1)
+        version = Version(test=test)
         version.save()
 
         return redirect(version.test.get_absolute_url())
@@ -80,6 +78,19 @@ class VersionDelete(TestMixin, generic.DeleteView):
 
     def get_success_url(self):
         return self.get_test().get_absolute_url()
+
+
+class VersionDuplicateView(TestMixin, generic.DetailView):
+    model = Version
+    template_name="tests/version_confirm_duplicate.html"
+
+    def post(self, request, *args, **kwargs):
+        new_version = self.get_object()
+        new_version.pk = None
+        new_version.save()
+        for q in self.get_object().question_set.all():
+            services.duplicate_question(q, new_version)
+        return redirect(self.get_test().get_absolute_url())
 
 
 def version_attach_file(request, version_pk):
