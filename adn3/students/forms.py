@@ -1,6 +1,6 @@
 from django import forms
 from .models import *
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 
 
@@ -19,7 +19,13 @@ class StudentForm(forms.ModelForm):
 
     class Meta:
         model = Student
-        fields = ('rol', 'usm_priority')
+        fields = ('rol', 'usm_priority', 'campus')
+
+
+class StudentUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ('usm_priority', 'campus')
 
 
 class ReserveAttemptForm(forms.ModelForm):

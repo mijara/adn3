@@ -11,8 +11,13 @@ class Student(models.Model):
 
     usm_priority = models.IntegerField(verbose_name='Prioridad')
 
+    campus = models.ForeignKey('courses.Campus')
+
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name
+
+    def get_absolute_url(self):
+        return reverse_lazy('students:student_detail')
 
 
 class ReserveAttempt(models.Model):

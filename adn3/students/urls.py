@@ -9,6 +9,18 @@ urlpatterns = [
     ),
 
     url(
+        '^update/$',
+        views.StudentUpdateView.as_view(),
+        name='student_detail'
+    ),
+
+    url(
+        '^update-password/$',
+        views.StudentPasswordUpdateView.as_view(),
+        name='student_password_update'
+    ),
+
+    url(
         '^success/$',
         views.StudentSuccessView.as_view(),
         name='student_success'

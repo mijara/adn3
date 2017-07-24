@@ -1,8 +1,8 @@
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.views import View
-from .models import *
 from .forms import *
 from .services import validate_secret
 
@@ -50,6 +50,36 @@ class StudentCreateView(View):
 
 class StudentSuccessView(generic.TemplateView):
     template_name = 'students/student_success.html'
+
+
+class StudentUpdateView(generic.UpdateView):
+    model = Student
+    form_class = StudentUpdateForm
+    template_name = 'students/student_update.html'
+
+    def get_object(self, queryset=None):
+        return self.request.user.student
+
+
+class StudentPasswordUpdateView(View):
+    def get(self, request):
+        form = PasswordChangeForm(self.request.user)
+
+        return render(request, 'students/student_password_update.html', context={
+            'form': form,
+        })
+
+    def post(self, request):
+        form = PasswordChangeForm(self.request.user, data=self.request.POST)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect(self.request.user.student.get_absolute_url())
+
+        return render(request, 'students/student_password_update.html', context={
+            'form': form,
+        })
 
 
 class ReserveAttemptCreateView(generic.CreateView):

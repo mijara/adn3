@@ -4,124 +4,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <!-- <link rel="icon" href="../../favicon.ico"> -->
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="../../favicon.ico"> -->
 
-  <title>ADN 3</title>
+    <title>ADN 3</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
+    {% block link %}{% endblock %}
 
-  {% block link %}{% endblock %}
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
 
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+    <!-- Custom styles for this template -->
+    <!-- <link href="jumbotron.css" rel="stylesheet"> -->
 
-  <!-- Custom styles for this template -->
-  <!-- <link href="jumbotron.css" rel="stylesheet"> -->
-
-  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script>
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script>
   <![endif]-->
-  <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+    <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
 
-{% block bodytag  %}
-<body>
+{% block bodytag %}
+    <body>
 {% endblock %}
 
 <nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1"
-              aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{% url 'landing:index' %}">ADN3</a>
-    </div>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'landing:index' %}">ADN3</a>
+        </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="{% url 'landing:index' %}">Inicio</a></li>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'landing:index' %}">Inicio</a></li>
 
-        {% if user.is_authenticated %}
-          {% if user|is_teacher %}
-            <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-          {% endif %}
+                {% if user.is_authenticated %}
+                    {% if user|is_teacher %}
+                        <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+                    {% endif %}
 
-          {% if user|is_student %}
-            <li><a href="{% url 'public:agenda_list' %}">Cursos</a></li>
+                    {% if user|is_student %}
+                        <li><a href="{% url 'public:agenda_list' %}">Cursos</a></li>
 
-            {% if PRE_REGISTRATIONS_OPEN %}
-              <li>
-                <a href="{% url 'preregistrations:course_list' %}">Pre-Inscripciones</a>
-              </li>
+                        {% if PRE_REGISTRATIONS_OPEN %}
+                            <li>
+                                <a href="{% url 'preregistrations:course_list' %}">Pre-Inscripciones</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </ul>
+
+            {% if user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">{{ request.user }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% if user|is_student %}
+                                <li><a href="{{ user.student.get_absolute_url }}">Perfil</a></li>
+                            {% endif %}
+                            <li><a href="#">¿Necesitas Ayuda?</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{% url 'landing:logout' %}">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
             {% endif %}
-          {% endif %}
-        {% endif %}
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        {% if request.user.is_authenticated %}
-          <li><a href="#">Bienvenido, {{ request.user }}</a></li>
-        {% endif %}
-
-        <li><a href="#">¿Necesita ayuda?</a></li>
-      </ul>
+        </div>
     </div>
-  </div>
 </nav>
 <div class="container">
-  {% block breadcrump %}
-    <div class="alert alert-danger">
-      BREADCRUMP MISSING
-    </div>
-  {% endblock %}
+    {% block breadcrump %}
+        <div class="alert alert-danger">
+            BREADCRUMP MISSING
+        </div>
+    {% endblock %}
 </div>
 
 
 <div class="container main-container">
-  {% block container %}{% endblock %}
+    {% block container %}{% endblock %}
 </div>
 
 <hr>
 
 <div class="container">
-  <footer>
-    <div class="row">
-      <div class="col-sm-8">
-        <p>
-          Departamento de Matemáticas, 2016,
-          <br>Universidad Técnica Federico Santa Maria
-        </p>
-      </div>
+    <footer>
+        <div class="row">
+            <div class="col-sm-8">
+                <p>
+                    Departamento de Matemáticas, 2016,
+                    <br>Universidad Técnica Federico Santa Maria
+                </p>
+            </div>
 
-      <div class="col-sm-4 text-right">
-        {% if user.is_authenticated %}
-          <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
-        {% endif %}
-      </div>
-    </div>
-  </footer>
+            <div class="col-sm-4 text-right">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'landing:logout' %}">Cerrar Sesión</a>
+                {% endif %}
+            </div>
+        </div>
+    </footer>
 </div>
 
 <script src="{% static 'js/jquery.js' %}"></script>
