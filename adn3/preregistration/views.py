@@ -18,7 +18,10 @@ class CourseListView(generic.ListView):
     template_name = 'preregistration/course_list.html'
 
     def get_queryset(self):
-        return super().get_queryset().exclude(preregistration__student=self.request.user.student)
+        # Filter courses already pre-registered and courses on another campus.
+        return super().get_queryset()\
+            .exclude(preregistration__student=self.request.user.student)\
+            .filter(campus=self.request.user.student.campus)
 
 
 class PreRegistrationDetailView(generic.DetailView):
