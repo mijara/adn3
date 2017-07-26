@@ -27,6 +27,12 @@ urlpatterns = [
     ),
 
     url(
+        r'^(?P<pk>\d+)/toggle/(?P<referrer>.+)/$',
+        views.toggle_test,
+        name="toggle_test"
+    ),
+
+    url(
         r'^(?P<test_pk>\d+)/version/(?P<pk>\d+)/detail/$',
         views.VersionDetail.as_view(),
         name='version_detail'

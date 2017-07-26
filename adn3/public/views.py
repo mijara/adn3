@@ -87,23 +87,26 @@ class TestVersionAssignView(generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         test = self.get_object()
-        try:
-            sv = StudentsAnswers.objects.get(student=self.request.user, version__test=test)
-            if sv.get_status() == 2:
-                return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
-            elif sv.get_status() == 1:
-                return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': sv.version.pk}))
-        except ObjectDoesNotExist:
-            version = services.assign_version(test)
+        if test.active:
+            try:
+                sv = StudentsAnswers.objects.get(student=self.request.user, version__test=test)
+                if sv.get_status() == 2:
+                    return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
+                elif sv.get_status() == 1:
+                    return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': sv.version.pk}))
+            except ObjectDoesNotExist:
+                version = services.assign_version(test)
 
-            sv = StudentsAnswers(student=request.user, version=version)
-            sv.save()
+                sv = StudentsAnswers(student=request.user, version=version)
+                sv.save()
 
-            # Once the students has a assigned version, create empty answers
-            for question in version.question_set.all():
-                services.create_empty_answers(question, request.user)
+                # Once the student has an assigned version, create empty answers
+                for question in version.question_set.all():
+                    services.create_empty_answers(question, request.user)
 
-            return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': version.pk}))
+                return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': version.pk}))
+        else:
+            return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
 
 
 class TestDetailView(generic.DetailView):

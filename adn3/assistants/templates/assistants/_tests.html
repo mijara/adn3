@@ -1,0 +1,29 @@
+<h3 class="header"><span class="glyphicon glyphicon-file step"></span> Controles</h3>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <table class="table table-responsive">
+                {% for test in tests %}
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>{{ test.name }}</strong>
+                            </div>
+
+                            <div>
+                                Sesión {{ test.session }}, {{ test.time }}
+                            </div>
+                        </td>
+                        <td>
+                            {% if test.active %}
+                                <a href="{% url 'tests:toggle_test' course.pk test.pk request.path %}" class="btn btn-danger pull-right">Deshabilitar</a>
+                            {% else %}
+                                <a href="{% url 'tests:toggle_test' course.pk test.pk request.path %}" class="btn btn-success pull-right">Habilitar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>

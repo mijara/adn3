@@ -7,6 +7,8 @@ from adn3 import mixins
 from .forms import *
 
 from . import services
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 
 class TestMixin(mixins.CourseMixin):
@@ -80,9 +82,16 @@ class VersionDelete(TestMixin, generic.DeleteView):
         return self.get_test().get_absolute_url()
 
 
+def toggle_test(request, course_pk, pk, referrer):
+    test = get_object_or_404(Test, pk=pk)
+    test.active = not test.active
+    test.save()
+    return HttpResponseRedirect(referrer)
+
+
 class VersionDuplicateView(TestMixin, generic.DetailView):
     model = Version
-    template_name="tests/version_confirm_duplicate.html"
+    template_name = "tests/version_confirm_duplicate.html"
 
     def post(self, request, *args, **kwargs):
         new_version = self.get_object()
