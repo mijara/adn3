@@ -13,7 +13,10 @@ def show(request, agenda_pk):
 
     return render(request, 'attendance/show.html', {
         'agenda': agenda,
-        'table': table
+        'table': table,
+        'ACTIVE': 'attendance',
+        'section': 'attendance',
+        'course': agenda.course
     })
 
 

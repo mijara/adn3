@@ -1,0 +1,73 @@
+{% extends 'base_courses.html' %}
+
+{% block breadcrump %}
+  {% include 'assistants/_breadcrumbs.html' %}
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="hidden-xs">
+        <h1 class="header">{{ course }}</h1>
+      </div>
+
+      <div class="visible-xs">
+        <h3 class="header">{{ course }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row visible-xs">
+    <div class="col-sm-12">
+      <div class="btn-group">
+        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">Sección <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu">
+          {% block tab %}
+                {% include 'assistants/_tabs.html' %}
+          {% endblock %}
+        </ul>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+  <p></p>
+
+  <p></p>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <!-- Asistencia -->
+      {% if section == 'attendance' %}
+        {% include 'assistants/_agendas.html' %}
+      {% endif %}
+
+      <!-- Pre informes -->
+      {% if section == 'pretests' %}
+        <a href="{% url 'pretests:pretest_create' course.pk %}" class="btn btn-success btn-sm pull-right">
+          <span class="glyphicon glyphicon-plus"></span>
+          Nuevo Preinforme
+        </a>
+
+        <h3 class="header"><span class="glyphicon glyphicon-inbox step"></span> Preinformes</h3>
+
+        {% include 'pretests/_list.html' %}
+      {% endif %}
+
+      <!-- Controles -->
+      {% if section == 'tests' %}
+          {% include 'assistants/_tests.html' %}
+      {% endif %}
+
+      <!-- Calificaciones -->
+      {% if section == 'qualifications' %}
+          <div class="alert alert-warning">
+            Not Implemented Yet
+          </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

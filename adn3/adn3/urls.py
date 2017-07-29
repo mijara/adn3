@@ -107,4 +107,12 @@ urlpatterns = [
             admin.site.urls
         )
     ),
+
+    url(
+        r'^assistants/',
+        include(
+            'assistants.urls',
+            namespace='assistants'
+        )
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

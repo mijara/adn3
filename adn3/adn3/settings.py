@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'public',
     'preregistration',
     'students',
+    'assistants',
 )
 
 MIDDLEWARE_CLASSES = (

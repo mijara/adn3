@@ -6,5 +6,9 @@ def is_teacher(user):
     return user.groups.filter(name='teachers').exists()
 
 
+def is_assistant(user):
+    return user.groups.filter(name='assistants').exists()
+
+
 def is_assistant_of(user, agenda):
     return user in agenda.assistants.all()

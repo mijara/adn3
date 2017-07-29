@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 
-from adn3.services import is_teacher, is_student
+from adn3.services import is_teacher, is_student, is_assistant
 from news.models import New
 
 
@@ -12,6 +12,8 @@ def index(request):
             return redirect('self:index')
         elif is_student(request.user):
             return redirect('public:agenda_list')
+        elif is_assistant(request.user):
+            return redirect('assistants:course_list')
 
     return render(request, 'landing/index.html', {
         'news': New.objects.all()[:5]

@@ -1,17 +1,25 @@
 {% extends 'base_courses.html' %}
 
 {% block breadcrump %}
-  <ol class="breadcrumb">
-    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-    <li><a href="{{ agenda.course.get_absolute_url }}">{{ agenda.course }}</a></li>
-    <li><a href="{{ agenda.course.get_agendas_url }}">Agendas</a></li>
-    <li>
-      <a href="{% url 'attendance:show' agenda.pk %}">
-        Asistencia:
-        {{ agenda.get_day_display }} {{ agenda.get_block_display }}
-      </a>
-    </li>
-  </ol>
+  {% if not request.user.assistants.all %}
+      <ol class="breadcrumb">
+        <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+        <li><a href="{{ agenda.course.get_absolute_url }}">{{ agenda.course }}</a></li>
+        <li><a href="{{ agenda.course.get_agendas_url }}">Agendas</a></li>
+        <li>
+          <a href="{% url 'attendance:show' agenda.pk %}">
+            Asistencia:
+            {{ agenda.get_day_display }} {{ agenda.get_block_display }}
+          </a>
+        </li>
+      </ol>
+    {% else %}
+      {% include 'assistants/_breadcrumbs.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block tab %}
+    {% include 'assistants/_tabs.html' %}
 {% endblock %}
 
 {% block container %}
