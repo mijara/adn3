@@ -102,6 +102,14 @@ urlpatterns = [
     ),
 
     url(
+        '^coordination/',
+        include(
+            'coordination.urls',
+            namespace='coordination'
+        )
+    ),
+
+    url(
         r'^admin/',
         include(
             admin.site.urls

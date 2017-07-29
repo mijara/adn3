@@ -76,6 +76,12 @@
                             </li>
                         {% endif %}
                     {% endif %}
+
+                    {% if user|is_coordinator %}
+                      <li>
+                        <a href="{% url 'coordination:coordination_index' %}">Coordinación</a>
+                      </li>
+                    {% endif %}
                 {% endif %}
             </ul>
 

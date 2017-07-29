@@ -12,3 +12,8 @@ def is_teacher(user):
 @register.filter
 def is_student(user):
     return services.is_student(user)
+
+
+@register.filter
+def is_coordinator(user):
+    return services.is_coordinator(user)
