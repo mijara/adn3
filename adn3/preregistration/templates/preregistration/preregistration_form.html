@@ -31,24 +31,37 @@
     {% generate_calendar %}
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      Mis preferencias
-    </div>
+  <form action="" method="post">
+    {% csrf_token %}
 
-    <form action="" method="post">
-      {% csrf_token %}
-      <div class="panel-body" id="selected"></div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Mis preferencias
+      </div>
+
+      <div class="list-group">
+        <div class="list-group-item" id="selected"></div>
+        <div class="list-group-item">
+          <div class="form-group">
+            <label for="id-software">Software</label>
+            <select name="software" id="id-software" class="form-control">
+              {% for software in software_list %}
+                <option value="{{ software.pk }}">{{ software }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
 
       <div class="panel-footer">
         <div class="pull-right">
-          <button class="btn btn-success">Enviar Inscripción</button>
+          <button class="btn btn-success">Enviar Pre-Inscripción</button>
         </div>
 
         <p>Presione los bloques para eliminarlo de su preferencia.</p>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 {% endblock %}
 
 {% block page_header %}
