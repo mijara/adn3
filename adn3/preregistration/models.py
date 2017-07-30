@@ -9,6 +9,7 @@ from adn3.choices import make_days_blocks
 class PreRegistration(models.Model):
     course = models.ForeignKey('courses.Course')
     student = models.ForeignKey('students.Student')
+    software = models.ForeignKey('misc.Software')
 
     first_preference = models.CharField(
         choices=make_days_blocks(),
