@@ -53,6 +53,21 @@ class Test(models.Model):
     def get_delete_url(self):
         return 'tests:test_delete', [self.course.pk, self.pk]
 
+    def get_submitted_tests(self):
+        tests = []
+        reviewed = 0
+        for version in self.version_set.all()   :
+            for answer in version.studentsanswers_set.all():
+                if answer.get_status() == 2:
+                    tests.append(answer)
+                    if  answer.qualification:
+                        reviewed += 1
+        if len(tests):
+            return [tests, len(tests), reviewed, len(tests) - reviewed]
+        else:
+            return None
+
+
 
 class Version(models.Model):
     test = models.ForeignKey('Test', verbose_name='Control')
@@ -108,11 +123,14 @@ class StudentsAnswers(models.Model):
 
     document = models.FileField(null=True, blank=True)
 
+    qualification = models.IntegerField(null=True)
+
     # Return the answers status
     # 1: In progress
     # 2: It's over
+    # There is a delta of 5 minutes
     def get_status(self):
-        finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout + 0.2)
+        finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout + 5)
 
         if finish_time < timezone.now() or self.submitted:
             return 2

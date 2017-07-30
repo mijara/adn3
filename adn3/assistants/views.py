@@ -10,10 +10,8 @@ class CourseListView(generic.View):
         agendas = self.request.user.assistants.all()
         courses = []
         for a in agendas:
-            print(a.course)
             if a.course not in courses:
                 courses.append(a.course)
-        print(courses)
         return render(self.request, 'assistants/course_list.html', {'courses': courses})
 
 class CourseDetailView(mixins.CourseMixin, generic.View):
@@ -23,6 +21,6 @@ class CourseDetailView(mixins.CourseMixin, generic.View):
             'course': self.get_course(),
             'ACTIVE': section,
             'section': section,
-            'agendas': self.request.user.assistants.filter(course=self.get_course()) if section=='attendance' else None,
-            'tests': Test.objects.filter(course=self.get_course()) if section=='tests' else None
+            'agendas': self.request.user.assistants.filter(course=self.get_course()),
+            'tests': Test.objects.filter(course=self.get_course())
         })

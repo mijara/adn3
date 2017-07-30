@@ -15,6 +15,24 @@ urlpatterns = [
     ),
 
     url(
+        r'^(?P<pk>\d+)/review/$',
+        views.TestReviewListView.as_view(),
+        name='test_review_list'
+    ),
+
+    url(
+        r'^(?P<test_pk>\d+)/review/(?P<pk>\d+)$',
+        views.TestReviewView.as_view(),
+        name='test_review'
+    ),
+
+    url(
+        r'^(?P<test_pk>\d+)/download/(?P<pk>\d+)$',
+        views.DownloadStudentFileView.as_view(),
+        name='download_student_file'
+    ),
+
+    url(
         r'^(?P<pk>\d+)/update/$',
         views.TestUpdate.as_view(),
         name='test_update'

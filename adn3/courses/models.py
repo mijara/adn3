@@ -72,6 +72,12 @@ class Course(models.Model):
         return self.status and \
                (self.year, self.semester) >= get_year_semester()
 
+    def has_submitted_tests(self):
+        for test in self.test_set.all():
+            if test.get_submitted_tests():
+                return True
+        return False
+
     @models.permalink
     def get_absolute_url(self):
         return 'courses:course_detail', [self.pk]

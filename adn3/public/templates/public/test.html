@@ -134,6 +134,7 @@
         var duration = minutes * 60000;
         var flagUpdateMinutes = true;
         var flagUpdateNotification = false;
+        var flag2UpdateMinutes = true;
 
         {% if studentanswer.get_time_left >= 5%}
             var timeLeftNotificationList = [5, 3, 1];
@@ -144,6 +145,10 @@
         {% else %}
             var timeLeftNotificationList = [];
         {% endif %}
+
+        function getMinutesLeft() {
+            return Math.ceil((duration - Date.now() + startedAt) / 60000)
+        }
 
         function start() {
             startedAt = Date.now() - startedAt;
@@ -169,7 +174,7 @@
                 requestAnimationFrame(update);
             } else {
                 $('#modal').modal({backdrop: 'static', keyboard: false});
-                send();
+                send(true);
             }
         }
 
@@ -177,20 +182,27 @@
             // Uncomment the line below to reverse the animation
             // playback = 1 - playback
             // Update the target properties based on the playback position
-            if ((Date.now() - startedAt) !== 0) {
+            /*if ((Date.now() - startedAt) !== 0) {
                 if ((Date.now() - startedAt)%60000 >0 && (Date.now() - startedAt)%60000 < 30000 && flagUpdateMinutes) {
-                    $('.time-out').html(Math.ceil((duration - Date.now() + startedAt) / 60000));
+                    flag2UpdateMinutes = true;
                     flagUpdateMinutes = false;
                 }
                 else if ((Date.now() - startedAt)%60000 > 30000 && !flagUpdateMinutes ) {
                     flagUpdateMinutes = true;
                 }
+            }*/
+            if ($('.time-out').html() != getMinutesLeft()) {
+                $('.time-out').html(getMinutesLeft());
             }
+            /*if (flag2UpdateMinutes){
+                $('.time-out').html(getMinutesLeft());
+                flag2UpdateMinutes = false;
+            }*/
             $('.progress-bar').css('min-width', playback * 100 + '%');
 
             // Every 5 minutes send the answers
             if ((Date.now() - startedAt) % 300000 > 0 && (Date.now() - startedAt) % 300000 < 150000 && flagUpdateNotification) {
-                send();
+                send(false);
                 flagUpdateNotification = false;
             }
             else if ((Date.now() - startedAt) % 300000 > 150000 && !flagUpdateNotification) {
@@ -204,8 +216,12 @@
             }
         }
 
-        function send() {
+        function send(finish) {
             var formData = new FormData($('#form')[0]);
+            if (finish) {
+                formData.append('finish', true);
+            }
+
             $.ajax({
                 url: "{% url 'public:update_answers' %}",
                 type: "post",
@@ -230,7 +246,7 @@
         }
         $(form).submit(function (e) {
             e.preventDefault();
-            send();
+            send(false);
         });
 
         function saveSuccessNotification() {

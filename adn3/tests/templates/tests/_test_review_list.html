@@ -1,0 +1,32 @@
+{% if not course.has_submitted_tests %}
+  <div class="alert alert-warning">
+    No hay controles para revisar
+  </div>
+{% else %}
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr class="table-heading">
+          <th width="60%">Nombre</th>
+          <th width="20%">Total</th>
+          <th width="20%">Revisados</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for test in test_list.all %}
+          {% with test.get_submitted_tests as answers %}
+            {% if answers %}
+              <tr>
+                <td><a href="{% url 'tests:test_review_list' test.course.pk test.pk %}">{{ test.name }}</a></td>
+                <td>{{ answers.1 }}</td>
+                <td>{{ answers.2 }}</td>
+              </tr>
+            {% endif %}
+          {% endwith %}
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endif %}
