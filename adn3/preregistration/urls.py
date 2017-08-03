@@ -9,6 +9,12 @@ urlpatterns = [
     ),
 
     url(
+        '^(?P<course_pk>\d+)/news/$',
+        views.NewListView.as_view(),
+        name='new_list'
+    ),
+
+    url(
         '^(?P<pk>\d+)/detail/$',
         views.PreRegistrationDetailView.as_view(),
         name='preregistration_detail'

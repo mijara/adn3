@@ -18,6 +18,12 @@
     </div>
   {% endif %}
 
+  <div class="alert alert-info">
+    Recuerde leer las noticias del curso antes de preinscribir!
+
+    <p><a href="{% url 'preregistrations:new_list' course.pk %}" class="alert-link">Presione aquí para ver las noticias de este curso.</a></p>
+  </div>
+
   <div class="panel panel-default">
     <div class="panel-heading">
       Calendario

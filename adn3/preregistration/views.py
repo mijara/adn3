@@ -5,6 +5,7 @@ from django.views import generic
 from django.views import View
 from courses.models import Course
 from misc.models import Software
+from news.models import New
 from preregistration.models import PreRegistration
 from .forms import PreRegistrationForm
 from adn3 import mixins
@@ -26,6 +27,14 @@ class CourseListView(generic.ListView):
             .filter(campus=self.request.user.student.campus)
 
 
+class NewListView(mixins.CourseMixin, generic.ListView):
+    model = New
+    template_name = 'preregistration/new_list.html'
+
+    def get_queryset(self):
+        return self.get_course().new_set
+
+
 class PreRegistrationDetailView(generic.DetailView):
     model = PreRegistration
 
@@ -37,6 +46,7 @@ class PreRegistrationCreateView(mixins.CourseMixin, View):
     def get(self, request, course_pk):
         return render(request, self.template_name, {
             'software_list': Software.objects.all(),
+            'course': self.get_course()
         })
 
     def post(self, request, course_pk):
@@ -65,6 +75,7 @@ class PreRegistrationCreateView(mixins.CourseMixin, View):
 
         return render(request, self.template_name, {
             'form': form,
+            'course': self.get_course(),
         })
 
 
