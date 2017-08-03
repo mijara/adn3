@@ -56,8 +56,6 @@ class PreRegistrationCreateView(mixins.CourseMixin, View):
         }
         initial.update(selections)
 
-        print(initial)
-
         form = PreRegistrationForm(initial)
 
         if form.is_valid():

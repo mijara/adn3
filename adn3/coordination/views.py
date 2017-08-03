@@ -6,6 +6,7 @@ import tempfile
 import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
 from adn3.constants import YEAR, SEMESTER
+from coordination.services import dayblock_to_adn2_format
 
 from courses.models import Course
 from misc.models import Software
@@ -50,7 +51,7 @@ class PreRegistrationExcelView(View):
         ws['W5'] = 'Par'
 
         for i, pr in enumerate(pr_list):
-            ws['B%s' % (6 + i)] = i
+            ws['B%s' % (6 + i)] = i + 1
             ws['C%s' % (6 + i)] = '{{"'
             ws['D%s' % (6 + i)] = pr.student.rol
             ws['E%s' % (6 + i)] = '","'
@@ -59,19 +60,19 @@ class PreRegistrationExcelView(View):
             ws['H%s' % (6 + i)] = '",'
             ws['I%s' % (6 + i)] = pr.student.usm_priority
             ws['J%s' % (6 + i)] = ','
-            ws['K%s' % (6 + i)] = pr.first_preference
+            ws['K%s' % (6 + i)] = dayblock_to_adn2_format(pr.first_preference)
             ws['L%s' % (6 + i)] = ','
-            ws['M%s' % (6 + i)] = pr.second_preference
+            ws['M%s' % (6 + i)] = dayblock_to_adn2_format(pr.second_preference)
             ws['N%s' % (6 + i)] = ','
-            ws['O%s' % (6 + i)] = pr.third_preference
+            ws['O%s' % (6 + i)] = dayblock_to_adn2_format(pr.third_preference)
             ws['P%s' % (6 + i)] = ','
-            ws['Q%s' % (6 + i)] = pr.fourth_preference
+            ws['Q%s' % (6 + i)] = dayblock_to_adn2_format(pr.fourth_preference)
             ws['R%s' % (6 + i)] = ','
-            ws['S%s' % (6 + i)] = pr.fifth_preference
+            ws['S%s' % (6 + i)] = dayblock_to_adn2_format(pr.fifth_preference)
             ws['T%s' % (6 + i)] = ','
-            ws['U%s' % (6 + i)] = 0
+            ws['U%s' % (6 + i)] = int(pr.previous_experience)
             ws['V%s' % (6 + i)] = '},'
-            ws['W%s' % (6 + i)] = 0
+            ws['W%s' % (6 + i)] = pr.parallel
 
         response = HttpResponse(content=save_virtual_workbook(wb), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=preinscripciones.xlsx'
