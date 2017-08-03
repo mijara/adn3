@@ -12,8 +12,6 @@ def index(request):
             return redirect('self:index')
         elif is_student(request.user):
             return redirect('public:agenda_list')
-        elif is_assistant(request.user):
-            return redirect('assistants:course_list')
 
     return render(request, 'landing/index.html', {
         'news': New.objects.all()[:5]

@@ -1,12 +1,4 @@
  <ol class="breadcrumb">
-    <li><a href="{% url 'assistants:course_list' %}">Cursos</a></li>
+    <li><a href="{% url 'public:agenda_list' %}">Cursos</a></li>
     <li><a href="{% url 'assistants:course_detail' course.pk %}">{{ course }} </a></li>
-
-    {% if section == 'attendance' %}
-      <li class="active"><a href="{% url 'assistants:course_detail' course.pk 'attendance' %}">Asistencia</a></li>
-    {% endif %}
-
-    {% if section == 'tests' %}
-      <li class="active"><a href="{% url 'assistants:course_detail' course.pk 'tests' %}">Controles</a></li>
-    {% endif %}
 </ol>

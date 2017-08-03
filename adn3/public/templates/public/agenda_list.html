@@ -1,45 +1,81 @@
 {% extends 'base.html' %}
+{% load user %}
 {% block bodytag %}
-    <body class="body-student">
+  <body class="body-student">
 {% endblock %}
 {% block breadcrump %}
-    <!-- Left Blank -->
+  <!-- Left Blank -->
 {% endblock %}
 
 {% block container %}
-    <div class="row">
-        <div class="col-sm-12">
-            <h1 class="header">Mis Cursos</h1>
-        </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">Mis Cursos</h1>
     </div>
+  </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="list-group">
-                {% for agenda in agenda_list %}
-                    {% if agenda.course.status %}
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <h4 class="text-fit">
-                                            <a href="{% url 'public:course_detail' agenda.course.pk %}">
-                                                {{ agenda.course }}
-                                            </a>
-                                        </h4>
-                                        <div class="text-muted">{{ agenda.course.code }}</div>
-                                    </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="list-group">
+        {% if agenda_list|length == 0 %}
+          <div class="alert alert-info">
+            No tienes cursos inscritos
+          </div>
+        {% endif %}
+        {% for agenda in agenda_list %}
+          {% if agenda.course.status %}
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h4 class="text-fit">
+                      <a href="{% url 'public:course_detail' agenda.course.pk %}">
+                        {{ agenda.course }}
+                      </a>
+                    </h4>
+                    <div class="text-muted">{{ agenda.course.code }}</div>
+                  </div>
 
-                                    <div class="col-sm-6 text-right">
-                                        {{ agenda.course.count_inscriptions }} Alumnos,
-                                        {{ agenda.course.count_assistants }} Ayudantes
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                  <div class="col-sm-6 text-right">
+                    {{ agenda.course.count_inscriptions }} Alumnos,
+                    {{ agenda.course.count_assistants }} Ayudantes
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
+          {% endif %}
+        {% endfor %}
+        {% if request.user|is_assistant %}
+          <div class="row">
+            <div class="col-sm-12">
+              <h1 class="header">Mis Ayudantías</h1>
+            </div>
+          </div>
+          {% for course in assistant_courses %}
+            {% if course.status %}
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h4 class="text-fit">
+                        <a href="{% url 'assistants:course_detail' course.pk %}">
+                          {{ course }}
+                        </a>
+                      </h4>
+                      <div class="text-muted">{{ course.code }}</div>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                      {{ course.count_inscriptions }} Alumnos,
+                      {{ course.count_assistants }} Ayudantes
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
+  </div>
 {% endblock %}

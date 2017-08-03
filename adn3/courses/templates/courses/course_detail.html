@@ -117,6 +117,14 @@
         {% with course.test_set as test_list %}
           {% include 'tests/_test_list.html' %}
         {% endwith %}
+
+        <br>
+
+        <h3 class="header"><span class="glyphicon glyphicon-check step"></span> Disponibles para revisión</h3>
+
+        {% with course.test_set as test_list %}
+          {% include 'tests/_test_review_list.html' %}
+        {% endwith %}
       {% endif %}
 
       {% if section == 'news' %}

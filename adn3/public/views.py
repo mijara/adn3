@@ -6,7 +6,7 @@ from adn3.constants import PRE_REGISTRATIONS_OPEN
 from tests.models import Version, StudentsAnswers, Test, Answer
 from public import services
 
-from adn3.services import is_assistant_of
+from adn3.services import is_assistant_of, is_assistant
 from courses.models import Agenda, Course
 
 from django.http import HttpResponseRedirect, JsonResponse
@@ -21,13 +21,28 @@ class AgendaListView(generic.ListView):
     model = Agenda
     template_name = 'public/agenda_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if (is_assistant(self.request.user)):
+            agendas = self.request.user.assistants.all()
+            courses = []
+            for a in agendas:
+                if a.course not in courses:
+                    courses.append(a.course)
+            context['assistant_courses'] = courses
+
+        return context
+
     def get(self, request, *args, **kwargs):
+        '''
         if PRE_REGISTRATIONS_OPEN:
             return redirect('preregistrations:course_list')
+        '''
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        return self.request.user.inscriptions.all() | self.request.user.assistants.all()
+        return self.request.user.inscriptions.all()
 
 
 class CourseDetail(generic.DetailView):
@@ -150,6 +165,11 @@ class UpdateAnswers(View):
                 # Update the field 'last_update'
                 sv.refresh_from_db()
                 sv.last_update = timezone.now()
+
+                # If it's the last update, the test is submitted
+                if request.POST.get('finish'):
+                    sv.submitted = True
+
                 sv.save()
                 return JsonResponse({
                     'error': False,

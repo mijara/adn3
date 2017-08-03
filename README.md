@@ -5,5 +5,5 @@ Course administration for the Computation Laboratory for Applications of Mathema
 
 ## Setup
 
-- Create groups: teachers, students.
+- Create groups: teachers, students, assistants.
 

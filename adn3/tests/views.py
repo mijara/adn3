@@ -7,7 +7,7 @@ from adn3 import mixins
 from .forms import *
 
 from . import services
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
 
@@ -41,6 +41,38 @@ class TestCreate(mixins.CourseMixin, generic.CreateView):
         form.instance.owner = self.request.user
         return super(TestCreate, self).form_valid(form)
 
+
+class TestReviewListView(mixins.CourseMixin, generic.DetailView):
+    model = Test
+    template_name = 'tests/test_review_students_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = self.get_course()
+        return context
+
+
+class TestReviewView(mixins.CourseMixin, generic.DetailView):
+    model = StudentsAnswers
+    template_name = "tests/test_review.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['test'] = get_object_or_404(Test, pk=self.kwargs['test_pk'])
+        return context
+
+
+class DownloadStudentFileView(View):
+    model = StudentsAnswers
+    def get(self, request, course_pk, test_pk, pk):
+        student_answer = get_object_or_404(StudentsAnswers, pk=pk)
+        if student_answer.document:
+            filename = student_answer.document.name.split('/')[-1]
+            response = HttpResponse(student_answer.document, content_type='text/plain')
+            response['Content-Disposition'] = 'attachment; filename =%s' % filename
+            return response
+        else:
+            return HttpResponse("El estudiante no adjuntó un documento")
 
 class TestUpdate(mixins.CourseMixin, generic.UpdateView):
     model = Test
