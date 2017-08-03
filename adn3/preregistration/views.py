@@ -50,7 +50,9 @@ class PreRegistrationCreateView(mixins.CourseMixin, View):
 
         initial = {
             'course': self.get_course().pk,
-            'software': self.request.POST.get('software')
+            'software': self.request.POST.get('software'),
+            'previous_experience': self.request.POST.get('previous_experience'),
+            'parallel': self.request.POST.get('parallel')
         }
         initial.update(selections)
 

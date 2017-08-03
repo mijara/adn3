@@ -13,5 +13,7 @@ class PreRegistrationForm(forms.ModelForm):
             'third_preference',
             'fourth_preference',
             'fifth_preference',
+            'parallel',
             'software',
+            'previous_experience',
         ]

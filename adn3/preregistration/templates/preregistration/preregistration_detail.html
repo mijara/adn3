@@ -31,6 +31,14 @@
             <td>{{ object.student.usm_priority }}</td>
           </tr>
           <tr>
+            <th>Paralelo</th>
+            <td>{{ object.parallel }}</td>
+          </tr>
+          <tr>
+            <th>Experiencia Rendidad</th>
+            <td>{{ object.previous_experience|yesno:"Si,No" }}</td>
+          </tr>
+          <tr>
             <th>Software</th>
             <td>{{ object.software }}</td>
           </tr>

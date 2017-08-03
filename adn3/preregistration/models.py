@@ -2,7 +2,6 @@
 from django.db import models
 from django.urls import reverse_lazy
 
-from adn3 import choices
 from adn3.choices import make_days_blocks
 
 
@@ -10,6 +9,10 @@ class PreRegistration(models.Model):
     course = models.ForeignKey('courses.Course')
     student = models.ForeignKey('students.Student')
     software = models.ForeignKey('misc.Software')
+
+    parallel = models.IntegerField()
+
+    previous_experience = models.BooleanField()
 
     first_preference = models.CharField(
         choices=make_days_blocks(),
