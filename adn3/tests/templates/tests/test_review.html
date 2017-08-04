@@ -3,47 +3,46 @@
 {% load static %}
 
 {% block breadcrump %}
-    <ol class="breadcrumb">
-        <li><a href="{% url 'courses:index' %}">Cursos</a></li>
-        <li><a href="{{ test.course.get_absolute_url }}">{{ test.course }}</a></li>
-        <li><a href="{{ test.course.get_tests_url }}">Controles</a></li>
-        <li><a href="{% url 'tests:test_review_list' test.course.pk test.pk %}">Revisión {{ test }}</a></li>
-        <li><a href="{% url 'tests:test_review' test.course.pk test.pk studentsanswers.pk %}">Control de {{ studentsanswers.student.first_name }} {{ studentsanswers.student.last_name }}</a></li>
-    </ol>
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ test.course.get_absolute_url }}">{{ test.course }}</a></li>
+    <li><a href="{{ test.course.get_tests_url }}">Controles</a></li>
+    <li><a href="{% url 'tests:test_review_list' test.course.pk test.pk %}">Revisión {{ test }}</a></li>
+    <li><a href="{% url 'tests:test_review' test.course.pk test.pk studentsanswers.pk %}">Control
+      de {{ studentsanswers.student.first_name }} {{ studentsanswers.student.last_name }}</a></li>
+  </ol>
 {% endblock %}
 
 {% block container %}
-
-  {% with test.get_submitted_tests  as answers %}
-    <div class="row">
-        <div class="col-sm-12">
-            <h1 class="header">
-                <span class="glyphicon glyphicon-check step"></span>
-                Revisión {{ test }} <span class="small">de {{ studentsanswers.student.first_name }} {{ studentsanswers.student.last_name }}</span>
-            </h1>
-        </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="glyphicon glyphicon-check step"></span>
+        Revisión {{ test }} <span
+          class="small">de {{ studentsanswers.student.first_name }} {{ studentsanswers.student.last_name }}</span>
+      </h1>
     </div>
-    <div class="row">
-      <div class="col-sm-12">
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
       {% if studentsanswers.document %}
         <div class="panel panel-default">
       {% else %}
         <div class="panel panel-danger">
       {% endif %}
-          <div class="panel-heading">
-            Documento adjunto
-          </div>
-          <div class="panel-body">
-            {% if studentsanswers.document %}
-              <span>{{ studentsanswers.document.name }}</span>
-              <span class="pull-right"><a class="btn btn-primary" href="{% url 'tests:download_student_file'  test.course.pk test.pk studentsanswers.pk%}" >Descargar</a></span>
-            {% else %}
-              <span>El estudiante no adjuntó un documento</span>
-            {% endif %}
-          </div>
+        <div class="panel-heading">
+          Documento adjunto
+        </div>
+        <div class="panel-body">
+          {% if studentsanswers.document %}
+            <span>{{ studentsanswers.document.name }}</span>
+            <span class="pull-right"><a class="btn btn-primary"
+                                        href="{% url 'tests:download_student_file'  test.course.pk test.pk studentsanswers.pk %}">Descargar</a></span>
+          {% else %}
+            <span>El estudiante no adjuntó un documento</span>
+          {% endif %}
         </div>
       </div>
     </div>
-  {% endwith %}
+  </div>
 {% endblock %}
-
