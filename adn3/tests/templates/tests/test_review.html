@@ -25,19 +25,25 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      {% if studentsanswers.document %}
-        <div class="panel panel-default">
-      {% else %}
-        <div class="panel panel-danger">
-      {% endif %}
+      <div
+          {% if studentsanswers.document %}
+            class="panel panel-default"
+          {% else %}
+            class="panel panel-danger"
+          {% endif %}
+      >
         <div class="panel-heading">
           Documento adjunto
         </div>
         <div class="panel-body">
           {% if studentsanswers.document %}
             <span>{{ studentsanswers.document.name }}</span>
-            <span class="pull-right"><a class="btn btn-primary"
-                                        href="{% url 'tests:download_student_file'  test.course.pk test.pk studentsanswers.pk %}">Descargar</a></span>
+            <span class="pull-right">
+              <a class="btn btn-primary"
+                 href="{% url 'tests:download_student_file' test.course.pk test.pk studentsanswers.pk %}">
+                  Descargar
+              </a>
+            </span>
           {% else %}
             <span>El estudiante no adjuntó un documento</span>
           {% endif %}
@@ -45,4 +51,122 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <form>
+        {% for answer in answers %}
+          <div class="panel panel-default review-question">
+            <div class="col-xs-12 review-options">
+              <!--<h5 class="text-muted text-center col-md-2">Corrección:</h5>-->
+              <input
+                  type="radio"
+                  class="hidden correct"
+                  id="answer-{{ answer.pk }}-1"
+                  name="{{ answer.pk }}"
+                  value="true"
+                  data-score="{{ answer.question.score }}"
+                  required
+                  {% if answer.choiceanswer.alternative.correct or answer.numericalanswer.is_correct %}
+                  checked
+                  {% endif %}
+              >
+              <label for="answer-{{ answer.pk }}-1" class="col-xs-6 text-center">
+                <span class="glyphicon glyphicon-ok"></span>
+              </label>
+              <input
+                  type="radio"
+                  class="hidden incorrect"
+                  id="answer-{{ answer.pk }}-2"
+                  name="{{ answer.pk }}"
+                  value="false"
+                  required
+                  {% if answer.choiceanswer and not answer.choiceanswer.alternative.correct %}
+                  checked
+                  {% elif answer.numericalanswer and not answer.numericalanswer.is_correct %}
+                  checked
+                  {% elif answer.textanswer and not answer.textanswer.text %}
+                  checked
+                  {% endif %}
+              >
+              <label for="answer-{{ answer.pk }}-2" class="col-xs-6 text-center">
+                <span class="glyphicon glyphicon-remove"></span>
+              </label>
+            </div>
+            <div class="col-xs-12">
+              <div class="review-statement">
+                <div class="col-sm-1 lead">{{ forloop.counter }}.</div>
+                <div class="col-sm-11">{{ answer.question.html|safe }}</div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="review-answer">
+                {% if answer.question.choicequestion %}
+                  {% include 'tests/_test_review_choicequestion.html' %}
+                {% elif answer.question.numericalquestion %}
+                  {% include 'tests/_test_review_numericalquestion.html' %}
+                {% elif answer.question.textquestion %}
+                  {% include 'tests/_test_review_textquestion.html' %}
+                {% endif %}
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <br>
+          <br>
+        {% endfor %}
+      </form>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="panel panel-default review-footer">
+            <div>
+              <table class="table table-striped">
+                <tr>
+                  <td style="width: 100%">Nota Ponderada</td>
+                  <td id="grade" style="width: 0%" class="text-right">0</td>
+                </tr>
+                <tr>
+                  <td style="width: 100%">Respuestas correctas</td>
+                  <td id="correct" style="width: 0%" class="text-right"></td>
+                </tr>
+                <tr>
+                  <td style="width: 100%">Respuestas incorrectas</td>
+                  <td id="incorrect" style="width: 0%" class="text-right"></td>
+                </tr>
+              </table>
+            </div>
+            <div class="panel-footer">
+              <a role="button" class="btn btn-default">Guardar y salir</a>
+              <a role="button" class="btn btn-primary pull-right">Guardar y pasar al siguiente</a>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+      function updateCounters() {
+          $('#correct').text($('input[type="radio"][value="true"]:checked').length);
+          $('#incorrect').text($('input[type="radio"][value="false"]:checked').length);
+      }
+
+      function updateGrade(){
+        var grade = 0;
+        $('input[type="radio"][value="true"]:checked').each(function() {
+            grade += parseInt($(this).attr('data-score'));
+        });
+        $('#grade').text(grade);
+      }
+
+      $(document).ready(function () {
+          updateCounters();
+          updateGrade();
+          $('input[type="radio"]').on('change', function () {
+            updateGrade();
+            updateCounters();
+          });
+      });
+  </script>
 {% endblock %}

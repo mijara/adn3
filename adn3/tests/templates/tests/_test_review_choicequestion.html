@@ -1,0 +1,40 @@
+<div class="col-sm-12">
+  {% if answer.choiceanswer.alternative %}
+    <div class="list-group">
+      {% for alternative in answer.question.choicequestion.alternative_set.all %}
+        <div
+            {% if alternative == answer.choiceanswer.alternative and answer.choiceanswer.alternative.correct %}
+              class="list-group-item review-answer-alternative list-group-item-success"
+            {% elif alternative == answer.choiceanswer.alternative %}
+              class="list-group-item review-answer-alternative list-group-item-danger"
+            {% else %}
+              class="list-group-item review-answer-alternative"
+            {% endif %}
+        >
+          <div class="col-md-1">
+            {% if answer.choiceanswer.alternative == alternative %}
+              <input type="radio" disabled checked>
+            {% else %}
+              <input type="radio" disabled>
+            {% endif %}
+          </div>
+          <div class="col-md-8">
+            <div class="choice-answer">
+              {{ alternative.text }}
+            </div>
+          </div>
+          <div class="col-md-3">
+            {% if alternative.correct %}
+              <span class="label label-success pull-right">Alternativa correcta</span>
+            {% endif %}
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="review-answer-text lead bg-danger">
+      No responde
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,3 @@
+<div class="review-answer-text lead {% if answer.textanswer.text is None or answer.textanswer.text == "" %} bg-danger {% endif %}">
+  {{ answer.textanswer.text|default:"No responde"|default_if_none:"No responde" }}
+</div>

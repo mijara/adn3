@@ -1,0 +1,16 @@
+<div class="col-sm-12">
+  <div class="review-answer-numerical">
+    <div class="col-sm-4 text-center">
+      <p class="text-muted">Límite inferior</p>
+      <p class="lead">{{ answer.question.numericalquestion.bottom_limit }}</p>
+    </div>
+    <div class="col-sm-4 text-center {% if answer.numericalanswer.is_correct %} bg-success {% else %} bg-danger {% endif %}">
+      <p class="text-muted">Respuesta</p>
+      <p class="lead">{{ answer.numericalanswer.number|default_if_none:"No responde" }}</p>
+    </div>
+    <div class="col-sm-4 text-center">
+      <p class="text-muted">Límite superior</p>
+      <p class="lead">{{ answer.question.numericalquestion.top_limit }}</p>
+    </div>
+  </div>
+</div>

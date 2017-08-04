@@ -309,3 +309,101 @@ div.modal.modal-dialog-news {
     display: inline-block;
     width: 15%;
 }
+
+/*
+ * Test Review (Teacher section)
+ */
+
+div.review-question {
+    overflow: hidden;
+}
+
+div.review-question > div:nth-child(2) {
+    padding: 0px;
+}
+
+div.review-statement {
+    padding: 20px 0px;
+}
+
+div.review-question div.list-group {
+    margin: 0px;
+}
+
+div.review-question div.list-group-item {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+}
+
+div.review-question div.list-group-item:last-child {
+    border-bottom: 0px;
+}
+
+div.review-answer > div:first-child {
+    padding: 0px;
+}
+
+div.review-answer-alternative {
+    padding-left: 0px;
+    padding-right: 0px;
+    color: inherit;
+}
+
+div.review-answer-alternative > input {
+    margin-right: 10px;
+}
+
+div.review-answer-text {
+    border-top: 1px solid #e9e9e9;
+    padding: 20px !important;
+    margin: 0px;
+}
+
+div.review-answer-numerical > * {
+    padding: 20px;
+    border-top: 1px solid #e9e9e9;
+}
+
+div.review-answer-numerical > *:nth-child(2) {
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+}
+
+div.review-options {
+    padding: 0;
+    border-bottom: 1px solid #e9e9e9;
+    background: #fafafa;
+}
+
+div.review-options > input.correct:checked + label {
+    background: #5cb85c;
+    color: #fff;
+}
+
+div.review-options > input.incorrect:checked + label {
+    background: #d9534f;
+    color: #fff;
+}
+
+div.review-options > label {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+div.review-options > label:first-child {
+    border-right: 1px solid #e9e9e9;
+}
+
+div.review-footer {
+    overflow: hidden;
+}
+
+div.review-footer table {
+    margin: 0;
+}
+
+div.review-footer table tr:first-child td {
+    border-top: none;
+}

@@ -56,17 +56,16 @@ class Test(models.Model):
     def get_submitted_tests(self):
         tests = []
         reviewed = 0
-        for version in self.version_set.all()   :
+        for version in self.version_set.all():
             for answer in version.studentsanswers_set.all():
                 if answer.get_status() == 2:
                     tests.append(answer)
-                    if  answer.qualification:
+                    if answer.qualification:
                         reviewed += 1
         if len(tests):
             return [tests, len(tests), reviewed, len(tests) - reviewed]
         else:
             return None
-
 
 
 class Version(models.Model):
@@ -210,6 +209,11 @@ class TextAnswer(Answer):
 
 class NumericalAnswer(Answer):
     number = models.FloatField(verbose_name=u'Número', null=True, blank=True)
+
+    def is_correct(self):
+        if not self.number: return False
+        return self.number <= self.question.numericalquestion.top_limit and\
+               self.number >= self.question.numericalquestion.bottom_limit
 
 
 class ChoiceAnswer(Answer):

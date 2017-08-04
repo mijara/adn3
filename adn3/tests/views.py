@@ -59,6 +59,8 @@ class TestReviewView(mixins.CourseMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['test'] = get_object_or_404(Test, pk=self.kwargs['test_pk'])
+        context['answers'] = Answer.objects.filter(student=self.get_object().student
+                                                   , question__version=self.get_object().version)
         return context
 
 
