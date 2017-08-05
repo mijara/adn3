@@ -23,7 +23,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'landing',
-    'self',
+    'teachers',
     'courses',
     'news',
     'classes',

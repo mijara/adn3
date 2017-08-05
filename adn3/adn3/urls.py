@@ -14,10 +14,10 @@ urlpatterns = [
     ),
 
     url(
-        '^self/',
+        '^teachers/',
         include(
-            'self.urls',
-            namespace='self'
+            'teachers.urls',
+            namespace='teachers'
         )
     ),
 
