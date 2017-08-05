@@ -33,35 +33,37 @@
         </div>
       {% endfor %}
 
-      <a role="button" data-toggle="collapse" href="#old-courses" aria-expanded="false"
-         aria-controls="old-courses" class="collapse-title">
-        <span class="glyphicon glyphicon-triangle-bottom"></span>
-        Semestres anteriores
-      </a>
+      {% if course_list|length != 0 %}
+        <a role="button" data-toggle="collapse" href="#old-courses" aria-expanded="false"
+           aria-controls="old-courses" class="collapse-title">
+          <span class="glyphicon glyphicon-triangle-bottom"></span>
+          Semestres anteriores
+        </a>
 
-      <div class="collapse" id="old-courses">
-        {% for course in old_course_list %}
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-6">
-                <h4 class="text-fit">
-                  <a href="{% url 'courses:course_detail' course.pk %}">
-                    {{ course }}
-                  </a>
-                </h4>
-                <div class="text-muted">{{ course.code }}</div>
-              </div>
+        <div class="collapse" id="old-courses">
+          {% for course in old_course_list %}
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h4 class="text-fit">
+                      <a href="{% url 'courses:course_detail' course.pk %}">
+                        {{ course }}
+                      </a>
+                    </h4>
+                    <div class="text-muted">{{ course.code }}</div>
+                  </div>
 
-              <div class="col-sm-6 text-right">
-                {{ course.count_inscriptions }} Alumnos,
-                {{ course.count_assistants }} Ayudantes
+                  <div class="col-sm-6 text-right">
+                    {{ course.count_inscriptions }} Alumnos,
+                    {{ course.count_assistants }} Ayudantes
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-      </div>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

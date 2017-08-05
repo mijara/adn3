@@ -78,6 +78,11 @@
   {% endfor %}
 {% endif %}
 
+<li role="presentation" {% if ACTIVE == 'grades' %}class="active"{% endif %}>
+  <a href="{{ view.get_course.get_grades_url }}"><span
+      class="glyphicon glyphicon-ok step"></span> Calificaciones</a>
+</li>
+
 {% if not view.get_course %}
   <div class="alert alert-danger">
     Miss configured View!

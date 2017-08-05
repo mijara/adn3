@@ -26,13 +26,5 @@
     "fields": {
       "name": "coordinators"
     }
-  },
-  {
-    "model": "misc.Setting",
-    "pk": 1,
-    "fields": {
-      "key": "preregistrations-open",
-      "value": "True"
-    }
   }
 ]

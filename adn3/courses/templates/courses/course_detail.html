@@ -67,10 +67,10 @@
       </span>
       <hr>
       {% if question.choicequestion %}
-            {% include '/tests/_choice_answers.html' %}
-          {% elif question.numericalquestion %}
-            {% include 'tests/_numerical_limits.html' %}
-          {% endif %}
+        {% include 'tests/_choice_answers.html' %}
+      {% elif question.numericalquestion %}
+        {% include 'tests/_numerical_limits.html' %}
+      {% endif %}
     </div>
   </div>
 

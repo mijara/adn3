@@ -2,11 +2,10 @@ from django.shortcuts import redirect
 from django.views import generic
 from django.views import View
 
-from adn3.constants import PRE_REGISTRATIONS_OPEN
 from tests.models import Version, StudentsAnswers, Test, Answer
 from public import services
 
-from adn3.services import is_assistant_of, is_assistant
+from adn3.services import is_assistant_of, is_assistant, preregistrations_open
 from courses.models import Agenda, Course
 
 from django.http import HttpResponseRedirect, JsonResponse
@@ -35,10 +34,9 @@ class AgendaListView(generic.ListView):
         return context
 
     def get(self, request, *args, **kwargs):
-        '''
-        if PRE_REGISTRATIONS_OPEN:
+        if preregistrations_open():
             return redirect('preregistrations:course_list')
-        '''
+
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):

@@ -6,3 +6,20 @@ class Software(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Setting(models.Model):
+    key = models.CharField(max_length=64, primary_key=True)
+    value = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.key
+
+    def get_str(self):
+        return self.value
+
+    def get_int(self):
+        return int(self.value)
+
+    def get_bool(self):
+        return self.value == "True"

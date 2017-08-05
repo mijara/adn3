@@ -107,8 +107,8 @@ class Course(models.Model):
         return 'courses:course_detail', [self.pk, 'files']
 
     @models.permalink
-    def get_preregistrations_url(self):
-        return 'preregistrations:course_detail', [self.pk]
+    def get_grades_url(self):
+        return 'courses:course_grades', [self.pk]
 
     @models.permalink
     def get_preregistrations_create_url(self):

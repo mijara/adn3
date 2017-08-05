@@ -11,11 +11,6 @@ from .forms import PreRegistrationForm
 from adn3 import mixins
 
 
-class CourseDetailView(generic.DetailView, LoginRequiredMixin):
-    model = Course
-    template_name = 'preregistration/course_detail.html'
-
-
 class CourseListView(generic.ListView):
     model = Course
     template_name = 'preregistration/course_list.html'

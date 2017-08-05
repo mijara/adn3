@@ -35,7 +35,8 @@ class StudentCreateView(View):
                 student = Student(
                     user=user,
                     rol=student_form.cleaned_data['rol'],
-                    usm_priority=student_form.cleaned_data['usm_priority'])
+                    usm_priority=student_form.cleaned_data['usm_priority'],
+                    campus=student_form.cleaned_data['campus'])
                 student.save()
 
                 return redirect('students:student_success')

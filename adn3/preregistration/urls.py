@@ -31,10 +31,4 @@ urlpatterns = [
         views.CourseListView.as_view(),
         name='course_list'
     ),
-
-    url(
-        '^course/(?P<pk>\d+)/$',
-        views.CourseDetailView.as_view(),
-        name='course_detail'
-    ),
 ]
