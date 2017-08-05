@@ -52,8 +52,8 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12">
-      <form>
+    <form action="" method="GET">
+      <div class="col-xs-12">
         {% for answer in answers %}
           <div class="panel panel-default review-question">
             <div class="col-xs-12 review-options">
@@ -113,35 +113,35 @@
           <br>
           <br>
         {% endfor %}
-      </form>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="panel panel-default review-footer">
-            <div>
-              <table class="table table-striped">
-                <tr>
-                  <td style="width: 100%">Nota Ponderada</td>
-                  <td id="grade" style="width: 0%" class="text-right">0</td>
-                </tr>
-                <tr>
-                  <td style="width: 100%">Respuestas correctas</td>
-                  <td id="correct" style="width: 0%" class="text-right"></td>
-                </tr>
-                <tr>
-                  <td style="width: 100%">Respuestas incorrectas</td>
-                  <td id="incorrect" style="width: 0%" class="text-right"></td>
-                </tr>
-              </table>
-            </div>
-            <div class="panel-footer">
-              <a role="button" class="btn btn-default">Guardar y salir</a>
-              <a role="button" class="btn btn-primary pull-right">Guardar y pasar al siguiente</a>
-              <div class="clearfix"></div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="panel panel-default review-footer">
+              <div>
+                <table class="table table-striped">
+                  <tr>
+                    <td style="width: 100%">Nota Ponderada</td>
+                    <td id="grade" style="width: 0%" class="text-right">0</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 100%">Respuestas correctas</td>
+                    <td id="correct" style="width: 0%" class="text-right"></td>
+                  </tr>
+                  <tr>
+                    <td style="width: 100%">Respuestas incorrectas</td>
+                    <td id="incorrect" style="width: 0%" class="text-right"></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="panel-footer">
+                <button type="submit" name="action" value="close-after" class="btn btn-default">Guardar y salir</button>
+                <button type="submit" name="action" value="next-after" class="btn btn-primary pull-right">Guardar y pasar al siguiente</button>
+                <div class="clearfix"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 {% endblock %}
 
@@ -152,20 +152,20 @@
           $('#incorrect').text($('input[type="radio"][value="false"]:checked').length);
       }
 
-      function updateGrade(){
-        var grade = 0;
-        $('input[type="radio"][value="true"]:checked').each(function() {
-            grade += parseInt($(this).attr('data-score'));
-        });
-        $('#grade').text(grade);
+      function updateGrade() {
+          var grade = 0;
+          $('input[type="radio"][value="true"]:checked').each(function () {
+              grade += parseInt($(this).attr('data-score'));
+          });
+          $('#grade').text(grade);
       }
 
       $(document).ready(function () {
           updateCounters();
           updateGrade();
           $('input[type="radio"]').on('change', function () {
-            updateGrade();
-            updateCounters();
+              updateGrade();
+              updateCounters();
           });
       });
   </script>

@@ -17,8 +17,8 @@ def is_assistant(user):
     return user.groups.filter(name='assistants').exists()
 
 
-def is_assistant_of(user, agenda):
-    return user in agenda.assistants.all()
+def is_assistant_of(user, course):
+    return user in course.assistants.all()
 
 
 def preregistrations_open():
