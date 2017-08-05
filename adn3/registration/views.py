@@ -3,6 +3,8 @@ from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.views import View
+
+from adn3 import settings
 from .forms import *
 from .services import validate_secret
 
@@ -12,7 +14,7 @@ class StudentCreateView(View):
         user_form = UserForm(prefix='user')
         student_form = StudentForm(prefix='student')
 
-        return render(request, 'students/student_form.html', context={
+        return render(request, 'registration/student_form.html', context={
             'user_form': user_form,
             'student_form': student_form,
         })
@@ -32,31 +34,27 @@ class StudentCreateView(View):
                 students_group = Group.objects.get(name='students')
                 students_group.user_set.add(user)
 
-                student = Student(
-                    user=user,
-                    rol=student_form.cleaned_data['rol'],
-                    usm_priority=student_form.cleaned_data['usm_priority'],
-                    campus=student_form.cleaned_data['campus'])
-                student.save()
+                student_form.instance.user = user
+                student_form.save()
 
-                return redirect('students:student_success')
+                return redirect('registration:student_success')
             else:
                 student_form.add_error('secret', 'Código secreto inválido')
 
-        return render(request, 'students/student_form.html', context={
+        return render(request, 'registration/student_form.html', context={
             'user_form': user_form,
             'student_form': student_form,
         })
 
 
 class StudentSuccessView(generic.TemplateView):
-    template_name = 'students/student_success.html'
+    template_name = 'registration/student_success.html'
 
 
 class StudentUpdateView(generic.UpdateView):
     model = Student
     form_class = StudentUpdateForm
-    template_name = 'students/student_update.html'
+    template_name = 'registration/student_update.html'
 
     def get_object(self, queryset=None):
         return self.request.user.student
@@ -66,7 +64,7 @@ class StudentPasswordUpdateView(View):
     def get(self, request):
         form = PasswordChangeForm(self.request.user)
 
-        return render(request, 'students/student_password_update.html', context={
+        return render(request, 'registration/student_password_update.html', context={
             'form': form,
         })
 
@@ -78,15 +76,18 @@ class StudentPasswordUpdateView(View):
             update_session_auth_hash(request, form.user)
             return redirect(self.request.user.student.get_absolute_url())
 
-        return render(request, 'students/student_password_update.html', context={
+        return render(request, 'registration/student_password_update.html', context={
             'form': form,
         })
 
 
-class ReserveAttemptCreateView(generic.CreateView):
-    model = ReserveAttempt
-    form_class = ReserveAttemptForm
+class TicketCreateView(generic.CreateView):
+    model = Ticket
+    form_class = TicketForm
 
 
-class ReserveAttemptDetailView(generic.DetailView):
-    model = ReserveAttempt
+class TicketDetailView(generic.DetailView):
+    model = Ticket
+
+    def is_debug(self):
+        return settings.DEBUG

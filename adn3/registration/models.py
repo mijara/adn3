@@ -17,12 +17,12 @@ class Student(models.Model):
         return self.user.first_name + ' ' + self.user.last_name
 
     def get_absolute_url(self):
-        return reverse_lazy('students:student_detail')
+        return reverse_lazy('registration:student_detail')
 
 
-class ReserveAttempt(models.Model):
+class Ticket(models.Model):
     """
-    Reserve Attempt describes an attempt to use an email account for an user.
+    Ticket describes an attempt to use an email account for an user.
     The user should validate via email that this is his account in order to proceed.
     """
 
@@ -36,7 +36,7 @@ class ReserveAttempt(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse_lazy('students:reserveattempt_detail', args=[self.pk])
+        return reverse_lazy('registration:ticket_detail', args=[self.pk])
 
     def __str__(self):
         return self.email

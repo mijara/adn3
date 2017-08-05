@@ -33,9 +33,9 @@
         </div>
       {% endfor %}
 
-      {% if course_list|length != 0 %}
-        <a role="button" data-toggle="collapse" href="#old-courses" aria-expanded="false"
-           aria-controls="old-courses" class="collapse-title">
+      {% if old_course_list|length > 0 %}
+        <a data-toggle="collapse" href="#old-courses" aria-expanded="false" aria-controls="old-courses"
+           class="collapse-title">
           <span class="glyphicon glyphicon-triangle-bottom"></span>
           Semestres anteriores
         </a>

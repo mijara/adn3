@@ -57,6 +57,6 @@ class PretestUpload(models.Model):
 
     pretest = models.ForeignKey(Pretest, verbose_name='Preinforme')
 
-    student = models.ForeignKey('students.Student', verbose_name='Estudiante')
+    student = models.ForeignKey('registration.Student', verbose_name='Estudiante')
 
     file = models.FileField(verbose_name='Archivo')

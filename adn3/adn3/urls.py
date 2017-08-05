@@ -94,10 +94,10 @@ urlpatterns = [
     ),
 
     url(
-        '^students/',
+        '^registration/',
         include(
-            'students.urls',
-            namespace='students'
+            'registration.urls',
+            namespace='registration'
         )
     ),
 

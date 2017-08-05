@@ -34,7 +34,7 @@ INSTALLED_APPS = (
     'misc',
     'public',
     'preregistration',
-    'students',
+    'registration',
     'assistants',
     'coordination',
 )

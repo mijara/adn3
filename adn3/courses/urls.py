@@ -9,12 +9,6 @@ urlpatterns = [
     ),
 
     url(
-        '^(?P<course_pk>\d+)/$',
-        views.CourseDetail.as_view(),
-        name='course_detail'
-    ),
-
-    url(
         '^(?P<course_pk>\d+)/grades/$',
         views.GradesView.as_view(),
         name='course_grades'
@@ -24,6 +18,12 @@ urlpatterns = [
         '^(?P<course_pk>\d+)/grades/config/$',
         views.GradesConfigView.as_view(),
         name='course_grades_config'
+    ),
+
+    url(
+        '^(?P<course_pk>\d+)/$',
+        views.CourseDetail.as_view(),
+        name='course_detail'
     ),
 
     url(
