@@ -22,7 +22,7 @@ class CourseDetail(UserPassesTestMixin, CourseMixin, View):
 
 
 def index(request):
-    return redirect('self:index')
+    return redirect('teachers:index')
 
 
 class GradesView(UserPassesTestMixin, CourseMixin, View):

@@ -13,9 +13,7 @@ def index(request):
         elif is_student(request.user):
             return redirect('public:agenda_list')
 
-    return render(request, 'landing/index.html', {
-        'news': New.objects.all()[:5]
-    })
+    return render(request, 'landing/index.html')
 
 
 def sign_in(request):

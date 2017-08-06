@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <!-- Left Blank -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="glyphicon glyphicon-user"></span>
+        Registro
+      </h1>
+
+      {% block form %}
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              {% with user_form as form %}
+                {% include '_form.html' %}
+              {% endwith %}
+
+              {% with student_form as form %}
+                {% include '_form.html' %}
+              {% endwith %}
+            </div>
+
+            <div class="panel-footer text-right">
+              {% block panel_footer_extra %}
+              {% endblock %}
+
+              <button class="btn btn-primary">Confirmar Registro</button>
+            </div>
+          </div>
+        </form>
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
