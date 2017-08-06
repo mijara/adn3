@@ -9,7 +9,7 @@ from news.models import New
 def index(request):
     if request.user.is_authenticated():
         if is_teacher(request.user):
-            return redirect('self:index')
+            return redirect('teachers:index')
         elif is_student(request.user):
             return redirect('public:agenda_list')
 
@@ -30,7 +30,7 @@ def sign_in(request):
 
             # redirect the user accordingly
             if is_teacher(user):
-                return redirect('self:index')
+                return redirect('teachers:index')
             elif is_student(user):
                 return redirect('public:agenda_list')
         else:

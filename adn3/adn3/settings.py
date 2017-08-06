@@ -23,7 +23,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'landing',
-    'self',
+    'teachers',
     'courses',
     'news',
     'classes',
@@ -34,7 +34,7 @@ INSTALLED_APPS = (
     'misc',
     'public',
     'preregistration',
-    'students',
+    'registration',
     'assistants',
     'coordination',
 )

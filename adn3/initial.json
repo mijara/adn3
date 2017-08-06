@@ -28,6 +28,20 @@
     }
   },
   {
+    "model": "courses.Campus",
+    "pk": 1,
+    "fields": {
+      "name": "Casa Central"
+    }
+  },
+  {
+    "model": "courses.Campus",
+    "pk": 2,
+    "fields": {
+      "name": "San Joaquín"
+    }
+  },
+  {
     "model": "misc.Setting",
     "pk": 1,
     "fields": {

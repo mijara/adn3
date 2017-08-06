@@ -7,7 +7,7 @@ from adn3.choices import make_days_blocks
 
 class PreRegistration(models.Model):
     course = models.ForeignKey('courses.Course')
-    student = models.ForeignKey('students.Student')
+    student = models.ForeignKey('registration.Student')
     software = models.ForeignKey('misc.Software')
 
     parallel = models.IntegerField()

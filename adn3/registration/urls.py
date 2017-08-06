@@ -27,14 +27,14 @@ urlpatterns = [
     ),
 
     url(
-        '^reserve-attempt/create/$',
-        views.ReserveAttemptCreateView.as_view(),
-        name='reserveattempt_create'
+        '^ticket/create/$',
+        views.TicketCreateView.as_view(),
+        name='ticket_create'
     ),
 
     url(
-        '^reserve-attempt/detail/(?P<pk>.*)/$',
-        views.ReserveAttemptDetailView.as_view(),
-        name='reserveattempt_detail'
+        '^ticket/(?P<pk>.*)/$',
+        views.TicketDetailView.as_view(),
+        name='ticket_detail'
     ),
 ]

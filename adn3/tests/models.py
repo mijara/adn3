@@ -76,7 +76,7 @@ class Version(models.Model):
     file = models.FileField(upload_to='tests/', blank=True)
 
     students = models.ManyToManyField('auth.User', verbose_name=u'Estudiante', blank=True,
-                                      related_name=u'students', through='StudentsAnswers')
+                                      related_name=u'registration', through='StudentsAnswers')
 
     class Meta:
         verbose_name = 'Forma'

@@ -9,7 +9,7 @@ from django.views import generic
 @method_decorator(login_required, 'dispatch')
 class CourseListView(generic.ListView):
     model = Course
-    template_name = 'self/teachers/course_list.html'
+    template_name = 'teachers/course_list.html'
 
     def get_queryset(self):
         return self.request.user.course_set.filter(year=YEAR, semester=SEMESTER)

@@ -28,7 +28,14 @@ class StudentUpdateForm(forms.ModelForm):
         fields = ('usm_priority', 'campus')
 
 
-class ReserveAttemptForm(forms.ModelForm):
+class TicketForm(forms.ModelForm):
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Ya existe un usuario con este email')
+        return email
+
     class Meta:
-        model = ReserveAttempt
+        model = Ticket
         fields = ('email',)

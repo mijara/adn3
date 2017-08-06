@@ -9,6 +9,13 @@
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
+      {% if view.is_debug %}
+        <div class="alert alert-warning">
+          <strong>[DEBUG]</strong> Código: {{ ticket.secret }}, <a
+            href="{% url 'registration:student_create' %}" class="alert-link">continuar</a>.
+        </div>
+      {% endif %}
+
       <div class="panel panel-default">
         <div class="panel-heading">
           Reserva Registrada
