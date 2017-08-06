@@ -133,6 +133,10 @@ class Agenda(models.Model):
     assistants = models.ManyToManyField('auth.User', verbose_name=u'Ayudantes', blank=True,
                                         related_name='assistants')
 
+    @models.permalink
+    def get_attendance_url(self):
+        return 'attendance:show', [self.course.pk, self.pk]
+
     def __str__(self):
         return u'%s %s' % (self.get_day_display(), self.get_block_display())
 

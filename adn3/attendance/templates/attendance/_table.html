@@ -1,4 +1,4 @@
-<form action="{% url 'attendance:save' agenda.pk %}" method="post">
+<form action="{% url 'attendance:save' course.pk agenda.pk %}" method="post">
   {% csrf_token %}
 
   <div class="panel panel-default">

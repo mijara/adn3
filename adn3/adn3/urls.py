@@ -54,7 +54,7 @@ urlpatterns = [
     ),
 
     url(
-        '^attendance/',
+        '^(?P<course_pk>\d+)/attendance/',
         include(
             'attendance.urls',
             namespace='attendance'

@@ -8,7 +8,7 @@
             {% get_status_code test as test_status %}
             {% if test.active and test_status != 2 %}
               <tr>
-                <td>
+                <td width="60%">
                   <div>
                     <strong>{{ test.name }}</strong>
                   </div>
@@ -17,10 +17,10 @@
                     Sesión {{ test.session }}, {{ test.get_timeout_display }}
                   </div>
                 </td>
-                <td class="text-center">
+                <td width="20%">
                   {% autoescape off %}{% print_status test %}{% endautoescape %}
                 </td>
-                <td>
+                <td width="20%">
                   {% if test.status == 2 %}
                     <a class="btn btn-default pull-right disabled"><span
                         class="glyphicon glyphicon glyphicon-ok"></span></a>
@@ -47,7 +47,7 @@
         <table class="table table-responsive">
           {% for test in submitted_tests %}
             <tr>
-              <td>
+              <td width="100%">
                 <div>
                   <strong>{{ test.version.test.name }}</strong>
                 </div>
@@ -56,7 +56,7 @@
                   Sesión {{ test.version.test.session }}
                 </div>
               </td>
-              <td>
+              <td width="0%" class="spacing bg">
                 {% if test.qualification %}
                   {% if test.version.test.show_grade %}
                     <div class="pull-right text-info lead">{{ test.qualification }}</div>

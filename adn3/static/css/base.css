@@ -263,6 +263,16 @@ table tr > td .lead {
     margin: 0;
 }
 
+body.body-student table tr > .spacing {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    white-space: nowrap;
+}
+
+body.body-student table tr >td.bg {
+    background: #fafafa;
+}
+
 body.body-student, .body-test {
     background: #e9ebee;
 }

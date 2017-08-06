@@ -3,7 +3,7 @@
     <table class="table table-responsive">
       {% for pretest in course.pretest_set.all %}
         <tr>
-          <td>
+          <td width="60%">
             <div>
               <strong>{{ pretest.name }}</strong>
             </div>
@@ -13,7 +13,7 @@
                 Sesión {{ pretest.end_session.number }}</a>
             </div>
           </td>
-          <td>
+          <td width="40%" class="spacing">
             <div>
               <strong>Archivos</strong>
             </div>

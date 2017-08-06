@@ -3,6 +3,17 @@
       class="glyphicon glyphicon-calendar step"></span> Agendas</a>
 </li>
 
+{% if ACTIVE == 'agendas' %}
+  {% for agenda in view.get_course.agenda_set.all %}
+    <li role="presentation" class="nav-inner-item">
+      <a href="{{ agenda.get_attendance_url }}">
+        <span class="glyphicon glyphicon-menu-right step"></span>
+        {{ agenda }} {{ agenda.room }}
+      </a>
+    </li>
+  {% endfor %}
+{% endif %}
+
 <li role="presentation" {% if ACTIVE == 'sessions' %}class="active"{% endif %}>
   <a href="{{ view.get_course.get_sessions_url }}"><span
       class="glyphicon glyphicon-map-marker step"></span> Sesiones</a>

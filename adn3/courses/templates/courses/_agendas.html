@@ -26,7 +26,7 @@
             <td>{{ agenda.inscriptions.count }}</td>
             <td>{{ agenda.assistants.count }}</td>
             <td>
-              <a href="{% url 'attendance:show' agenda.pk %}" title="Asistencia">
+              <a href="{% url 'attendance:show' course.pk agenda.pk %}" title="Asistencia">
                 <span class="glyphicon glyphicon-list-alt step"></span>
               </a>
             </td>
