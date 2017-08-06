@@ -72,7 +72,7 @@
         {% if user.is_authenticated %}
           <li><a href="{% url 'courses:index' %}">Cursos</a></li>
         {% else %}
-          <li><a href="{% url 'public:course_list' %}">Cursos</a></li>
+          <li><a href="{% url 'students:course_list' %}">Cursos</a></li>
         {% endif %}
 
         {% if user|is_coordinator %}

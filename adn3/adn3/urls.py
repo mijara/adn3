@@ -78,10 +78,10 @@ urlpatterns = [
     ),
 
     url(
-        '^public/',
+        '^students/',
         include(
-            'public.urls',
-            namespace='public'
+            'students.urls',
+            namespace='students'
         )
     ),
 

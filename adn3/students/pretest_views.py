@@ -13,7 +13,7 @@ class PretestMixin:
 
 class PretestDetailView(generic.DetailView):
     model = Pretest
-    template_name = 'public/pretest_detail.html'
+    template_name = 'students/pretest_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class PretestUploadCreateView(PretestMixin, generic.CreateView):
     model = PretestUpload
     form_class = PretestUploadForm
 
-    template_name = 'public/pretest_detail.html'
+    template_name = 'students/pretest_detail.html'
 
     def form_valid(self, form):
         form.instance.pretest = self.get_pretest()
@@ -41,4 +41,4 @@ class PretestUploadCreateView(PretestMixin, generic.CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('public:pretest_detail', args=[self.object.pretest.pk])
+        return reverse_lazy('students:pretest_detail', args=[self.object.pretest.pk])

@@ -3,7 +3,7 @@ from django.views import generic
 from django.views import View
 
 from tests.models import Version, StudentsAnswers, Test, Answer
-from public import services
+from students import services
 
 from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student, is_student_of
 from courses.models import Agenda, Course
@@ -20,7 +20,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 
 class AgendaListView(UserPassesTestMixin, generic.ListView):
     model = Agenda
-    template_name = 'public/agenda_list.html'
+    template_name = 'students/agenda_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,7 +50,7 @@ class AgendaListView(UserPassesTestMixin, generic.ListView):
 
 class CourseDetail(UserPassesTestMixin, generic.DetailView):
     model = Course
-    template_name = 'public/course_detail.html'
+    template_name = 'students/course_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,16 +67,16 @@ class CourseDetail(UserPassesTestMixin, generic.DetailView):
 
 class TestPreConfirmationView(UserPassesTestMixin, generic.DetailView):
     model = Test
-    template_name = 'public/preconfirmation_test.html'
+    template_name = 'students/preconfirmation_test.html'
 
     def get(self, request, *args, **kwargs):
         test = self.get_object()
         try:
             sv = StudentsAnswers.objects.get(student=self.request.user, version__test=test)
             if sv.get_status() == 2:
-                return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
+                return HttpResponseRedirect(reverse('students:course_detail', kwargs={'pk': test.course.pk}))
             elif sv.get_status() == 1:
-                return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': sv.version.pk}))
+                return HttpResponseRedirect(reverse('students:test_detail', kwargs={'pk': sv.version.pk}))
 
         except ObjectDoesNotExist:
             pass
@@ -96,9 +96,9 @@ class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):
             try:
                 sv = StudentsAnswers.objects.get(student=self.request.user, version__test=test)
                 if sv.get_status() == 2:
-                    return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
+                    return HttpResponseRedirect(reverse('students:course_detail', kwargs={'pk': test.course.pk}))
                 elif sv.get_status() == 1:
-                    return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': sv.version.pk}))
+                    return HttpResponseRedirect(reverse('students:test_detail', kwargs={'pk': sv.version.pk}))
             except ObjectDoesNotExist:
                 version = services.assign_version(test)
 
@@ -109,9 +109,9 @@ class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):
                 for question in version.question_set.all():
                     services.create_empty_answers(question, request.user)
 
-                return HttpResponseRedirect(reverse('public:test_detail', kwargs={'pk': version.pk}))
+                return HttpResponseRedirect(reverse('students:test_detail', kwargs={'pk': version.pk}))
         else:
-            return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
+            return HttpResponseRedirect(reverse('students:course_detail', kwargs={'pk': test.course.pk}))
 
     def test_func(self):
         return is_student(self.request.user)
@@ -119,7 +119,7 @@ class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):
 
 class TestDetailView(UserPassesTestMixin, generic.DetailView):
     model = Version
-    template_name = 'public/test.html'
+    template_name = 'students/test.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -139,9 +139,9 @@ class TestDetailView(UserPassesTestMixin, generic.DetailView):
         try:
             sv = StudentsAnswers.objects.get(student=self.request.user, version=version)
             if sv.get_status() == 2:
-                return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': version.test.course.pk}))
+                return HttpResponseRedirect(reverse('students:course_detail', kwargs={'pk': version.test.course.pk}))
         except ObjectDoesNotExist:
-            return HttpResponseRedirect(reverse('public:test_preconfirmation', kwargs={'pk': version.test.pk}))
+            return HttpResponseRedirect(reverse('students:test_preconfirmation', kwargs={'pk': version.test.pk}))
 
         return super().get(self, request, *args, **kwargs)
 

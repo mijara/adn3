@@ -11,7 +11,7 @@ def index(request):
         if is_teacher(request.user):
             return redirect('teachers:index')
         elif is_student(request.user):
-            return redirect('public:agenda_list')
+            return redirect('students:agenda_list')
 
     return render(request, 'landing/index.html')
 
@@ -30,7 +30,7 @@ def sign_in(request):
             if is_teacher(user):
                 return redirect('teachers:index')
             elif is_student(user):
-                return redirect('public:agenda_list')
+                return redirect('students:agenda_list')
         else:
             return render(request, 'landing/signin.html')
 

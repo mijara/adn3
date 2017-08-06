@@ -32,7 +32,7 @@ INSTALLED_APPS = (
     'pretests',
     'tests',
     'misc',
-    'public',
+    'students',
     'preregistration',
     'registration',
     'assistants',

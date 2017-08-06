@@ -3,8 +3,8 @@
 
 {% block breadcrump %}
   <ul class="breadcrumb">
-    <li><a href="{% url 'public:course_detail' pretest.course.pk %}">{{ pretest.course }}</a></li>
-    <li><a href="{% url 'public:pretest_detail' pretest.pk %}">{{ pretest }}</a></li>
+    <li><a href="{% url 'students:course_detail' pretest.course.pk %}">{{ pretest.course }}</a></li>
+    <li><a href="{% url 'students:pretest_detail' pretest.pk %}">{{ pretest }}</a></li>
   </ul>
 {% endblock %}
 
@@ -52,7 +52,7 @@
         {% if pretestupload %}
           Usted ya realizó una entrega para este pre-informe.
         {% else %}
-          <form action="{% url 'public:pretestupload_create' pretest.pk %}" method="post" enctype="multipart/form-data">
+          <form action="{% url 'students:pretestupload_create' pretest.pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
             <button class="btn btn-primary btn-block">Entregar</button>

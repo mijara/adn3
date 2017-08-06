@@ -54,11 +54,11 @@
                             </div>
                             <hr>
                             {% if answer.question.choicequestion %}
-                                {% include 'public/_choice_answers.html' %}
+                                {% include 'students/_choice_answers.html' %}
                             {% elif answer.question.numericalquestion %}
-                                {% include 'public/_numerical_limits.html' %}
+                                {% include 'students/_numerical_limits.html' %}
                             {% elif answer.question.textquestion %}
-                                {% include 'public/_text_answer.html' %}
+                                {% include 'students/_text_answer.html' %}
                             {% endif %}
                         </div>
                     </div>
@@ -89,7 +89,7 @@
             <div class="list-group">
                 {% for course in course_list %}
                     {% if course.status %}
-                        <a href="{% url 'public:course_detail' course.pk %}" class="list-group-item">
+                        <a href="{% url 'students:course_detail' course.pk %}" class="list-group-item">
                             {{ course }}
                         </a>
                     {% endif %}
@@ -223,7 +223,7 @@
             }
 
             $.ajax({
-                url: "{% url 'public:update_answers' %}",
+                url: "{% url 'students:update_answers' %}",
                 type: "post",
                 data: formData,
                 cache: false,

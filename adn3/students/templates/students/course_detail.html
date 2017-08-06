@@ -26,20 +26,20 @@
             </div>
         {% else %}
             <h2 class="page-header"><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</h2>
-            {% include 'public/_sessions.html' %}
+            {% include 'students/_sessions.html' %}
 
             <h2 class="page-header"><span class="glyphicon glyphicon-file step"></span> Controles</h2>
-            {% include 'public/_tests.html' %}
+            {% include 'students/_tests.html' %}
 
             <h2 class="page-header"><span class="glyphicon glyphicon-inbox step"></span> Preinformes</h2>
-            {% include 'public/_pretests.html' %}
+            {% include 'students/_pretests.html' %}
         {% endif %}
 
         <h2 class="page-header"><span class="glyphicon glyphicon-download step"></span> Archivos</h2>
-        {% include 'public/_files.html' %}
+        {% include 'students/_files.html' %}
 
         <h2 class="page-header"><span class="glyphicon glyphicon-bookmark step"></span> Noticias</h2>
-        {% include 'public/_news.html' %}
+        {% include 'students/_news.html' %}
     </div>
 {% endblock %}
 
