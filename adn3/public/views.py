@@ -5,7 +5,7 @@ from django.views import View
 from tests.models import Version, StudentsAnswers, Test, Answer
 from public import services
 
-from adn3.services import is_assistant_of, is_assistant, preregistrations_open
+from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student
 from courses.models import Agenda, Course
 
 from django.http import HttpResponseRedirect, JsonResponse
@@ -15,8 +15,10 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from django.utils import timezone
 
+from django.contrib.auth.mixins import UserPassesTestMixin
 
-class AgendaListView(generic.ListView):
+
+class AgendaListView(UserPassesTestMixin, generic.ListView):
     model = Agenda
     template_name = 'public/agenda_list.html'
 
@@ -42,8 +44,11 @@ class AgendaListView(generic.ListView):
     def get_queryset(self):
         return self.request.user.inscriptions.all()
 
+    def test_func(self):
+        return is_student(self.request.user)
 
-class CourseDetail(generic.DetailView):
+
+class CourseDetail(UserPassesTestMixin, generic.DetailView):
     model = Course
     template_name = 'public/course_detail.html'
 
@@ -75,8 +80,11 @@ class CourseDetail(generic.DetailView):
             context['test_set'].append(test_as_dict)
         return context
 
+    def test_func(self):
+        return is_student(self.request.user)
 
-class TestPreConfirmationView(generic.DetailView):
+
+class TestPreConfirmationView(UserPassesTestMixin, generic.DetailView):
     model = Test
     template_name = 'public/preconfirmation_test.html'
 
@@ -94,8 +102,11 @@ class TestPreConfirmationView(generic.DetailView):
 
         return super().get(self, request, *args, **kwargs)
 
+    def test_func(self):
+        return is_student(self.request.user)
 
-class TestVersionAssignView(generic.DetailView):
+
+class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):
     model = Test
 
     def get(self, request, *args, **kwargs):
@@ -121,14 +132,19 @@ class TestVersionAssignView(generic.DetailView):
         else:
             return HttpResponseRedirect(reverse('public:course_detail', kwargs={'pk': test.course.pk}))
 
+    def test_func(self):
+        return is_student(self.request.user)
 
-class TestDetailView(generic.DetailView):
+
+class TestDetailView(UserPassesTestMixin, generic.DetailView):
     model = Version
     template_name = 'public/test.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
+            # FIXME: self.object??
+
             context['studentanswer'] = StudentsAnswers.objects.get(student=self.request.user,
                                                                    version=self.object)
         except ObjectDoesNotExist:
@@ -148,8 +164,11 @@ class TestDetailView(generic.DetailView):
 
         return super().get(self, request, *args, **kwargs)
 
+    def test_func(self):
+        return is_student(self.request.user)
 
-class UpdateAnswers(View):
+
+class UpdateAnswers(UserPassesTestMixin, View):
     def post(self, request):
         try:
             sv = StudentsAnswers.objects.get(student=request.user, version__pk=request.POST['version'])
@@ -180,3 +199,6 @@ class UpdateAnswers(View):
 
         except Exception as e:
             return JsonResponse({'error': True, 'message': e})
+
+    def test_func(self):
+        return is_student(self.request.user)

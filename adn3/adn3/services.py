@@ -19,7 +19,10 @@ def is_assistant(user):
 
 # FIXME: Find a way to make this works
 def is_assistant_of(user, course):
-    return user in course.assistants.all()
+    for agenda in user.assistants.all():
+        if agenda.course == course:
+            return True
+    return False
 
 
 def preregistrations_open():
