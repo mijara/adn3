@@ -149,6 +149,10 @@ class StudentsAnswers(models.Model):
     def get_document_url(self):
         return self.document.url
 
+    @models.permalink
+    def get_review_url(self):
+        return 'tests:test_review', [self.version.test.course.pk, self.version.test.pk, self.pk]
+
 
 class Question(models.Model):
     version = models.ForeignKey('Version', verbose_name=u'Forma')
@@ -198,6 +202,7 @@ class ChoiceQuestion(Question):
 class Answer(models.Model):
     student = models.ForeignKey('auth.User', verbose_name=u'Estudiante')
     question = models.ForeignKey('Question', verbose_name=u'Pregunta')
+    correct = models.NullBooleanField(verbose_name=u'Es correcta')
 
     def __str__(self):
         return self.student.username
@@ -212,7 +217,7 @@ class NumericalAnswer(Answer):
 
     def is_correct(self):
         if not self.number: return False
-        return self.number <= self.question.numericalquestion.top_limit and\
+        return self.number <= self.question.numericalquestion.top_limit and \
                self.number >= self.question.numericalquestion.bottom_limit
 
 

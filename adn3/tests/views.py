@@ -63,16 +63,43 @@ class TestReviewListView(UserPassesTestMixin, mixins.CourseMixin, generic.Detail
         return is_teacher_of(self.request.user, self.get_course())
 
 
-class TestReviewView(UserPassesTestMixin, mixins.CourseMixin, generic.DetailView):
+class TestReviewView(UserPassesTestMixin, TestMixin, generic.DetailView):
     model = StudentsAnswers
     template_name = "tests/test_review.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['test'] = get_object_or_404(Test, pk=self.kwargs['test_pk'])
+        context['test'] = self.get_test()
         context['answers'] = Answer.objects.filter(student=self.get_object().student
                                                    , question__version=self.get_object().version)
         return context
+
+    def post(self, request, *args, **kwargs):
+        student_answer = self.get_object()
+        qualification = 0
+
+        for key, val in request.POST.items():
+            if key != "csrfmiddlewaretoken" and key != "action":
+                answer = get_object_or_404(Answer, pk=key)
+                answer.correct = True if val == 'true' else False
+                answer.save()
+
+                if val == "true":
+                    qualification += answer.question.score
+
+        # FIXME: Maybe it's better to get the qualification in real time with an object method and not use an attribute to store it every time
+        student_answer.qualification = qualification
+        student_answer.save()
+
+        tests_list_url = reverse('tests:test_review_list', args=[kwargs['course_pk'], kwargs['test_pk']])
+        if request.POST.get('action') == "close-after":
+            return HttpResponseRedirect(tests_list_url + '?message=success');
+        elif request.POST.get('action') == "next-after":
+            next_ = StudentsAnswers.objects.filter(version__test__pk=kwargs['test_pk'], qualification=None).first()
+            if next_:
+                return HttpResponseRedirect(next_.get_review_url())
+            else:
+                return HttpResponseRedirect(tests_list_url + '?message=nomore')
 
     def test_func(self):
         return is_teacher_of(self.request.user, self.get_course())

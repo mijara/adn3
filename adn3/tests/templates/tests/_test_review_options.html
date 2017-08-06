@@ -1,0 +1,42 @@
+<div class="col-xs-12 review-options">
+  <!--<h5 class="text-muted text-center col-md-2">Corrección:</h5>-->
+  <input
+      type="radio"
+      class="hidden correct"
+      id="answer-{{ answer.pk }}-1"
+      name="{{ answer.pk }}"
+      value="true"
+      data-score="{{ answer.question.score }}"
+      required
+      {% if answer.correct %}
+      checked
+      {% elif answer.choiceanswer.alternative.correct or answer.numericalanswer.is_correct %}
+      checked
+      {% endif %}
+  >
+  <label for="answer-{{ answer.pk }}-1" class="col-xs-6 text-center">
+    <span class="glyphicon glyphicon-ok"></span>
+  </label>
+  <input
+      type="radio"
+      class="hidden incorrect"
+      id="answer-{{ answer.pk }}-2"
+      name="{{ answer.pk }}"
+      value="false"
+      required
+      {% if answer.correct is not None and not answer.correct %}
+      checked
+      {% elif answer.correct is None %}
+        {% if answer.choiceanswer and not answer.choiceanswer.alternative.correct %}
+        checked
+        {% elif answer.numericalanswer and not answer.numericalanswer.is_correct %}
+        checked
+        {% elif answer.textanswer and not answer.textanswer.text %}
+        checked
+        {% endif %}
+      {% endif %}
+  >
+  <label for="answer-{{ answer.pk }}-2" class="col-xs-6 text-center">
+    <span class="glyphicon glyphicon-remove"></span>
+  </label>
+</div>

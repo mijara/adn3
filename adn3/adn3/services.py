@@ -17,6 +17,7 @@ def is_assistant(user):
     return user.groups.filter(name='assistants').exists()
 
 
+# FIXME: Find a way to make this works
 def is_assistant_of(user, course):
     return user in course.assistants.all()
 

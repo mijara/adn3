@@ -390,10 +390,16 @@ div.review-options > label {
     margin: 0;
     padding: 10px;
     cursor: pointer;
+    transition: .3s ease;
 }
 
 div.review-options > label:first-child {
     border-right: 1px solid #e9e9e9;
+}
+
+div.review-options label.blink {
+    background: #f0ad4e !important;
+    color: white !important;
 }
 
 div.review-footer {

@@ -52,46 +52,12 @@
     </div>
   </div>
   <div class="row">
-    <form action="" method="GET">
+    <form id="form" action="" method="POST" novalidate>
+      {% csrf_token %}
       <div class="col-xs-12">
         {% for answer in answers %}
           <div class="panel panel-default review-question">
-            <div class="col-xs-12 review-options">
-              <!--<h5 class="text-muted text-center col-md-2">Corrección:</h5>-->
-              <input
-                  type="radio"
-                  class="hidden correct"
-                  id="answer-{{ answer.pk }}-1"
-                  name="{{ answer.pk }}"
-                  value="true"
-                  data-score="{{ answer.question.score }}"
-                  required
-                  {% if answer.choiceanswer.alternative.correct or answer.numericalanswer.is_correct %}
-                  checked
-                  {% endif %}
-              >
-              <label for="answer-{{ answer.pk }}-1" class="col-xs-6 text-center">
-                <span class="glyphicon glyphicon-ok"></span>
-              </label>
-              <input
-                  type="radio"
-                  class="hidden incorrect"
-                  id="answer-{{ answer.pk }}-2"
-                  name="{{ answer.pk }}"
-                  value="false"
-                  required
-                  {% if answer.choiceanswer and not answer.choiceanswer.alternative.correct %}
-                  checked
-                  {% elif answer.numericalanswer and not answer.numericalanswer.is_correct %}
-                  checked
-                  {% elif answer.textanswer and not answer.textanswer.text %}
-                  checked
-                  {% endif %}
-              >
-              <label for="answer-{{ answer.pk }}-2" class="col-xs-6 text-center">
-                <span class="glyphicon glyphicon-remove"></span>
-              </label>
-            </div>
+            {% include 'tests/_test_review_options.html' %}
             <div class="col-xs-12">
               <div class="review-statement">
                 <div class="col-sm-1 lead">{{ forloop.counter }}.</div>
@@ -134,7 +100,9 @@
               </div>
               <div class="panel-footer">
                 <button type="submit" name="action" value="close-after" class="btn btn-default">Guardar y salir</button>
-                <button type="submit" name="action" value="next-after" class="btn btn-primary pull-right">Guardar y pasar al siguiente</button>
+                <button type="submit" name="action" value="next-after" class="btn btn-primary pull-right">Guardar y
+                  pasar al siguiente
+                </button>
                 <div class="clearfix"></div>
               </div>
             </div>
@@ -142,6 +110,24 @@
         </div>
       </div>
     </form>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="modalLabel">Hubo un problema</h4>
+        </div>
+        <div class="modal-body">
+          Asegurese de corregir todas las preguntas
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}
 
@@ -166,6 +152,39 @@
           $('input[type="radio"]').on('change', function () {
               updateGrade();
               updateCounters();
+          });
+
+          $('form').submit(function () {
+              var shouldPass = true;
+              var scroll = true;
+              $('.review-options').each(function () {
+                  var _this = $(this);
+                  if ($(this).find('input:checked:required').length === 0) {
+                      shouldPass = false;
+                      if (scroll) {
+                          $('html, body').animate({
+                              scrollTop: $(this).offset().top - $('.navbar').height() * 2
+                          }, 200);
+                          scroll = false;
+                      }
+                      setTimeout(function () {
+                          var countBlink = 0;
+                          var intervalBlink = setInterval(function () {
+                              if (++countBlink > 6) {
+                                  clearInterval(intervalBlink);
+                                  return
+                              }
+                              _this.find('label').toggleClass('blink');
+                          }, 200);
+
+                      });
+                  }
+              });
+              if (!shouldPass) {
+                  return false;
+              } else {
+                  return true;
+              }
           });
       });
   </script>
