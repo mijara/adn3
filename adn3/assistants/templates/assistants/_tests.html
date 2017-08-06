@@ -10,9 +10,10 @@
                             </div>
 
                             <div>
-                                Sesión {{ test.session }}, {{ test.time }}
+                                Sesión {{ test.session }}, {{ test.get_timeout_display }}
                             </div>
                         </td>
+                        <!--
                         <td>
                             {% if test.active %}
                                 <a href="{% url 'tests:toggle_test' course.pk test.pk request.path %}" class="btn btn-danger pull-right">Deshabilitar</a>
@@ -20,6 +21,7 @@
                                 <a href="{% url 'tests:toggle_test' course.pk test.pk request.path %}" class="btn btn-success pull-right">Habilitar</a>
                             {% endif %}
                         </td>
+                        -->
                     </tr>
                 {% endfor %}
             </table>

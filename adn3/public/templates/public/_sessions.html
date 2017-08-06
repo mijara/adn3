@@ -1,27 +1,34 @@
-<div class="panel panel-default">
+{% if course.session_set.all %}
+  <div class="panel panel-default">
     <table class="table table-responsive">
-        {% for session in course.session_set.all %}
-            <tr>
-                <td>
-                    <div>
-                        <strong>{{ session.name }}</strong>
-                    </div>
+      {% for session in course.session_set.all %}
+        <tr>
+          <td>
+            <div>
+              <strong>{{ session.name }}</strong>
+            </div>
 
-                    <div>
-                        {{ session.start_date }} al {{ session.end_date }}
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <strong>Archivos</strong>
-                    </div>
-
-                    {% for file in session.sessionfile_set.all %}
-                        <div><span class="glyphicon glyphicon-file step"></span> <a
-                                href="{{ file.file.url }}">{{ file }}</a></div>
-                    {% endfor %}
-                </td>
-            </tr>
-        {% endfor %}
+            <div>
+              {{ session.start_date }} al {{ session.end_date }}
+            </div>
+          </td>
+          <td>
+            <div>
+              <strong>Archivos</strong>
+            </div>
+            {% if session.sessionfile_set.all %}
+              {% for file in session.sessionfile_set.all %}
+                <div><span class="glyphicon glyphicon-file step"></span> <a
+                    href="{{ file.file.url }}">{{ file }}</a></div>
+              {% endfor %}
+            {% else %}
+              <span class="text-info">No hay archivos</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
     </table>
-</div>
+  </div>
+{% else %}
+  <div class="alert alert-warning">No hay sesiones disponibles</div>
+{% endif %}

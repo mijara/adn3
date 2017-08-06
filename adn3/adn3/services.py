@@ -5,6 +5,13 @@ def is_student(user):
     return user.groups.filter(name='students').exists()
 
 
+def is_student_of(user, course):
+    for agenda in course.agenda_set.all():
+        if user in agenda.inscriptions.all():
+            return True
+    return False
+
+
 def is_teacher(user):
     return user.groups.filter(name='teachers').exists()
 
@@ -17,10 +24,9 @@ def is_assistant(user):
     return user.groups.filter(name='assistants').exists()
 
 
-# FIXME: Find a way to make this works
 def is_assistant_of(user, course):
-    for agenda in user.assistants.all():
-        if agenda.course == course:
+    for agenda in course.agenda_set.all():
+        if user in agenda.assistants.all():
             return True
     return False
 

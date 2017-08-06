@@ -78,6 +78,12 @@ class Course(models.Model):
                 return True
         return False
 
+    def has_active_tests(self):
+        for test in self.test_set.all():
+            if test.active:
+                return True
+        return False
+
     @models.permalink
     def get_absolute_url(self):
         return 'courses:course_detail', [self.pk]

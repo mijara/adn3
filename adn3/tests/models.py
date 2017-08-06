@@ -34,7 +34,7 @@ class Test(models.Model):
     show_grade = models.BooleanField(default=True,
                                      verbose_name=u'Mostrar nota')
 
-    active = models.BooleanField(default=False, verbose_name=u'Activo')
+    active = models.BooleanField(default=True, verbose_name=u'Activo')
 
     percentage = models.IntegerField(verbose_name=u'Porcentaje')
 

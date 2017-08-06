@@ -1,28 +1,35 @@
-<div class="panel panel-default">
+{% if course.pretest_set.all %}
+  <div class="panel panel-default">
     <table class="table table-responsive">
-        {% for pretest in course.pretest_set.all %}
-            <tr>
-                <td>
-                    <div>
-                        <strong>{{ pretest.name }}</strong>
-                    </div>
+      {% for pretest in course.pretest_set.all %}
+        <tr>
+          <td>
+            <div>
+              <strong>{{ pretest.name }}</strong>
+            </div>
 
-                    <div>
-                        <a href="{% url 'public:pretest_detail' pretest.pk %}">Entrega en
-                            Sesión {{ pretest.end_session.number }}</a>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <strong>Archivos</strong>
-                    </div>
-
-                    {% for file in pretest.pretestfile_set.all %}
-                        <div><span class="glyphicon glyphicon-file step"></span> <a
-                                href="{{ file.file.url }}">{{ file }}</a></div>
-                    {% endfor %}
-                </td>
-            </tr>
-        {% endfor %}
+            <div>
+              <a href="{% url 'public:pretest_detail' pretest.pk %}">Entrega en
+                Sesión {{ pretest.end_session.number }}</a>
+            </div>
+          </td>
+          <td>
+            <div>
+              <strong>Archivos</strong>
+            </div>
+            {% if pretest.pretestfile_set.all %}
+              {% for file in pretest.pretestfile_set.all %}
+                <div><span class="glyphicon glyphicon-file step"></span> <a
+                    href="{{ file.file.url }}">{{ file }}</a></div>
+              {% endfor %}
+            {% else %}
+              <span class="text-info">No hay archivos</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
     </table>
-</div>
+  </div>
+{% else %}
+  <div class="alert alert-warning">No hay entregas disponibles</div>
+{% endif %}

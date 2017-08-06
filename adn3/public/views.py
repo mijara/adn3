@@ -5,7 +5,7 @@ from django.views import View
 from tests.models import Version, StudentsAnswers, Test, Answer
 from public import services
 
-from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student
+from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student, is_student_of
 from courses.models import Agenda, Course
 
 from django.http import HttpResponseRedirect, JsonResponse
@@ -55,33 +55,14 @@ class CourseDetail(UserPassesTestMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # check if the user is assistant of the course.
-        context['assistant'] = None
-        for agenda in self.object.agenda_set.all():
-            if is_assistant_of(self.request.user, agenda):
-                context['assistant'] = agenda
-
-        # Check test status
-        # 0: The test has not been performed
-        # 1: The test is in progress
-        # 2: The test is over
-        context['test_set'] = []
-        for test in self.object.test_set.all():
-            test_as_dict = test.__dict__
-            test_as_dict['time'] = test.get_timeout_display
-            test_as_dict['session'] = test.session.number
-            test_as_dict['pk'] = test.pk
-            try:
-                sv = StudentsAnswers.objects.get(student=self.request.user, version__test=test)
-                test_as_dict['status'] = sv.get_status()
-            except ObjectDoesNotExist:
-                test_as_dict['status'] = 0
-
-            context['test_set'].append(test_as_dict)
+        context['submitted_tests'] = []
+        for sv in StudentsAnswers.objects.filter(student=self.request.user, version__test__course=self.get_object()):
+            if sv.get_status() == 2:
+                context['submitted_tests'].append(sv)
         return context
 
     def test_func(self):
-        return is_student(self.request.user)
+        return is_student_of(self.request.user, self.get_object())
 
 
 class TestPreConfirmationView(UserPassesTestMixin, generic.DetailView):
@@ -103,7 +84,7 @@ class TestPreConfirmationView(UserPassesTestMixin, generic.DetailView):
         return super().get(self, request, *args, **kwargs)
 
     def test_func(self):
-        return is_student(self.request.user)
+        return is_student_of(self.request.user, self.get_object().course)
 
 
 class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):

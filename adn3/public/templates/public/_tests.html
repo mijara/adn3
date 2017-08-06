@@ -1,41 +1,76 @@
-<div class="row">
-  <div class="col-sm-12">
-    <div class="panel panel-default">
-      <table class="table table-responsive">
-        {% for test in test_set %}
-          {% if test.active %}
+{% load test %}
+{% if course.has_active_tests %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <table class="table table-responsive">
+          {% for test in course.test_set.all %}
+            {% get_status_code test as test_status %}
+            {% if test.active and test_status != 2 %}
+              <tr>
+                <td>
+                  <div>
+                    <strong>{{ test.name }}</strong>
+                  </div>
+
+                  <div>
+                    Sesión {{ test.session }}, {{ test.get_timeout_display }}
+                  </div>
+                </td>
+                <td class="text-center">
+                  {% autoescape off %}{% print_status test %}{% endautoescape %}
+                </td>
+                <td>
+                  {% if test.status == 2 %}
+                    <a class="btn btn-default pull-right disabled"><span
+                        class="glyphicon glyphicon glyphicon-ok"></span></a>
+                  {% else %}
+                    <a href="{% url 'public:test_preconfirmation' test.pk %}" class="btn btn-default pull-right"><span
+                        class="glyphicon glyphicon-play"></span></a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-warning">No hay controles disponibles</div>
+{% endif %}
+{% if submitted_tests %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h4>Controles enviados</h4>
+      <div class="panel panel-default">
+        <table class="table table-responsive">
+          {% for test in submitted_tests %}
             <tr>
               <td>
                 <div>
-                  <strong>{{ test.name }}</strong>
+                  <strong>{{ test.version.test.name }}</strong>
                 </div>
 
                 <div>
-                  Sesión {{ test.session }}, {{ test.time }}
+                  Sesión {{ test.version.test.session }}
                 </div>
               </td>
-              <td class="text-center">
-                {% if test.status == 0 %}
-                  <span class="text-muted">Pendiente</span>
-                {% elif test.status == 1 %}
-                  <span class="text-success">En curso</span>
-                {% elif test.status == 2 %}
-                  <span class="text-danger">Finalizado</span>
-                {% endif %}
-              </td>
               <td>
-                {% if test.status == 2 %}
-                  <a class="btn btn-default pull-right disabled"><span
-                      class="glyphicon glyphicon glyphicon-ok"></span></a>
+                {% if test.qualification %}
+                  {% if test.version.test.show_grade %}
+                    <div class="pull-right text-info lead">{{ test.qualification }}</div>
+                  {% else %}
+                    <span class="pull-right  text-success">Revisado</span>
+                  {% endif %}
                 {% else %}
-                  <a href="{% url 'public:test_preconfirmation' test.pk %}" class="btn btn-default pull-right"><span
-                      class="glyphicon glyphicon-play"></span></a>
+                  <span class="pull-right text-info">Pendiente de revisión</span>
                 {% endif %}
               </td>
             </tr>
-          {% endif %}
-        {% endfor %}
-      </table>
+          {% endfor %}
+        </table>
+      </div>
     </div>
   </div>
-</div>
+{% endif %}
