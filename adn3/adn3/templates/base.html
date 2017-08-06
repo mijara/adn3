@@ -59,9 +59,7 @@
     </div>
 
     <div class="collapse navbar-collapse">
-      {% block navitems %}
-
-      {% endblock %}
+      {% block navitems %}{% endblock %}
 
       {% if user.is_authenticated %}
         <ul class="nav navbar-nav navbar-right">

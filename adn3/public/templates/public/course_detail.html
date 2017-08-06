@@ -1,11 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'base_students.html' %}
 {% load static %}
-{% block bodytag %}
-    <body class="body-student">
-{% endblock %}
+
 {% block breadcrump %}
     <!-- Left Blank -->
 {% endblock %}
+
 {% block link %}
     <link rel="stylesheet"
           href="{% static 'vendor/editormd/css/editormd.min.css' %}"/>
@@ -43,18 +42,21 @@
         {% include 'public/_news.html' %}
     </div>
 {% endblock %}
+
 {% block script %}
     <script>
         $('.see-more-news').click(function () {
             $($(this).attr('data-target')).modal({});
         });
     </script>
+
     <!-- MathJax -->
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           messageStyle: "none"
         });
     </script>
+
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
     </script>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block bodytag %}
+  <body class="body-student">
+{% endblock %}
+
+{% block navitems %}
+  <ul class="nav navbar-nav">
+    <li><a href="{% url 'public:agenda_list' %}">Cursos</a></li>
+  </ul>
+{% endblock %}
