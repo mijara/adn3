@@ -123,15 +123,28 @@ class Course(models.Model):
 
 class Agenda(models.Model):
     day = models.IntegerField(choices=make_days(), verbose_name=u'Día')
+
     room = models.ForeignKey(Room, verbose_name=u'Sala')
+
     course = models.ForeignKey(Course, verbose_name=u'Curso')
+
     block = models.IntegerField(choices=make_blocks(), verbose_name=u'Bloque')
 
-    inscriptions = models.ManyToManyField('auth.User', verbose_name=u'Inscritos', blank=True,
-                                          related_name='inscriptions')
+    software = models.ForeignKey(
+        'misc.Software',
+        verbose_name='Software')
 
-    assistants = models.ManyToManyField('auth.User', verbose_name=u'Ayudantes', blank=True,
-                                        related_name='assistants')
+    inscriptions = models.ManyToManyField(
+        'auth.User',
+        verbose_name=u'Inscritos',
+        blank=True,
+        related_name='inscriptions')
+
+    assistants = models.ManyToManyField(
+        'auth.User',
+        verbose_name=u'Ayudantes',
+        blank=True,
+        related_name='assistants')
 
     @models.permalink
     def get_attendance_url(self):
