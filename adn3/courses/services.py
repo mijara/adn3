@@ -1,3 +1,4 @@
+from courses.gradematrix import GradeMatrix
 from pretests.models import Pretest
 from classes.models import Session
 from tests.models import Test
@@ -30,14 +31,18 @@ def save_sessions(post_data, expect_pks):
 
 
 def generate_grades_excel(course):
+    grade_matrix = GradeMatrix()
+
     students = course.get_students()
 
     for student in students:
         grades = student.get_grades_for_course(course)
 
-        print(student.user.get_full_name())
+        full_name = student.user.get_full_name()
 
-        for grade in grades:
-            print(grade)
+        grade_matrix.set_user(full_name)
 
-    return None
+        for test_name, grade in grades:
+            grade_matrix.add(test_name, grade)
+
+    return grade_matrix.render()
