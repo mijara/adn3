@@ -1,15 +1,22 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from adn3.constants import YEAR, SEMESTER
 from coordination.services import generate_excel
-from adn3.services import preregistrations_open, preregistrations_set
+from adn3.services import preregistrations_open, preregistrations_set, \
+    is_coordinator
 
 from courses.models import Course
 from misc.models import Software
 
 
-class CoordinationIndexView(View):
+class CoordinatorTestMixin(UserPassesTestMixin):
+    def test_func(self):
+        return is_coordinator(self.request.user)
+
+
+class CoordinationIndexView(CoordinatorTestMixin, View):
     def get(self, request):
         current_courses = Course.objects.filter(semester=SEMESTER, year=YEAR)
 
@@ -20,7 +27,7 @@ class CoordinationIndexView(View):
         })
 
 
-class PreRegistrationExcelView(View):
+class PreRegistrationExcelView(CoordinatorTestMixin, View):
     def get(self, request):
         course = self.get_course()
         software = self.get_software()
@@ -51,7 +58,7 @@ class PreRegistrationExcelView(View):
         return get_object_or_404(Software, pk=software_pk)
 
 
-class PreRegistrationsToggle(View):
+class PreRegistrationsToggle(CoordinatorTestMixin, View):
     def get(self, request):
         state = preregistrations_open()
         preregistrations_set(not state)

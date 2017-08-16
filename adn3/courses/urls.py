@@ -15,6 +15,12 @@ urlpatterns = [
     ),
 
     url(
+        '^(?P<course_pk>\d+)/grades/excel/$',
+        views.CourseGradesExcelView.as_view(),
+        name='course_grades_excel'
+    ),
+
+    url(
         '^(?P<course_pk>\d+)/grades/config/$',
         views.GradesConfigView.as_view(),
         name='course_grades_config'

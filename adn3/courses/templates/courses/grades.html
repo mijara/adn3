@@ -4,7 +4,9 @@
   <ol class="breadcrumb">
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
-    <li><a href="{% url 'courses:course_grades' course.pk %}">Calificaciones</a></li>
+    <li><a
+        href="{% url 'courses:course_grades' course.pk %}">Calificaciones</a>
+    </li>
   </ol>
 {% endblock %}
 
@@ -12,7 +14,8 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="pull-right">
-        <a href="{% url 'courses:course_grades_config' course.pk %}" class="btn btn-success">
+        <a href="{% url 'courses:course_grades_config' course.pk %}"
+           class="btn btn-success">
           <span class="glyphicon glyphicon-wrench step"></span>
           Configurar
         </a>
@@ -27,9 +30,7 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <div class="alert alert-warning">
-        Not implemented
-      </div>
+      <a href="{% url 'courses:course_grades_excel' course.pk %}" class="btn btn-success btn-lg btn-block">Descargar en Excel</a>
     </div>
   </div>
 {% endblock %}

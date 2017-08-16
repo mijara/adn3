@@ -79,10 +79,16 @@ class Course(models.Model):
         return False
 
     def has_active_tests(self):
-        for test in self.test_set.all():
-            if test.active:
-                return True
-        return False
+        # TODO: Fix!
+        #for test in self.test_set.all():
+            #if test.active:
+            #    return True
+        return True
+
+    def get_students(self):
+        for agenda in self.agenda_set.all():
+            for student in agenda.inscriptions.all():
+                yield student.student
 
     @models.permalink
     def get_absolute_url(self):

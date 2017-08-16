@@ -1,11 +1,18 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from adn3.mixins import CourseMixin
 from adn3.services import is_teacher_of
+from courses.services import generate_grades_excel
 from .forms import *
 from . import services
 from django.views import View
+
+
+class IsTeacherOfCourseMixin(UserPassesTestMixin):
+    def test_func(self):
+        return is_teacher_of(self.request.user, self.get_course())
 
 
 class CourseDetail(UserPassesTestMixin, CourseMixin, View):
@@ -71,3 +78,17 @@ class GradesConfigView(UserPassesTestMixin, CourseMixin, View):
 
     def test_func(self):
         return is_teacher_of(self.request.user, self.get_course())
+
+
+class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
+    def get(self, request, course_pk):
+        course = self.get_course()
+
+        content = generate_grades_excel(course)
+
+        response = HttpResponse(
+            content=content,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response[
+            'Content-Disposition'] = 'attachment; filename=preinscripciones.xlsx'
+        return response

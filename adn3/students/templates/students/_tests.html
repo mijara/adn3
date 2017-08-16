@@ -6,6 +6,7 @@
         <table class="table table-responsive">
           {% for test in course.test_set.all %}
             {% get_status_code test as test_status %}
+
             {% if test.active and test_status != 2 %}
               <tr>
                 <td width="60%">

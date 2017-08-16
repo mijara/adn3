@@ -27,3 +27,17 @@ def save_sessions(post_data, expect_pks):
     table.add_field('include_assistance', False, transform={'on': True})
     table.expect_pks(expect_pks)
     table.process_and_save(Session, post_data)
+
+
+def generate_grades_excel(course):
+    students = course.get_students()
+
+    for student in students:
+        grades = student.get_grades_for_course(course)
+
+        print(student.user.get_full_name())
+
+        for grade in grades:
+            print(grade)
+
+    return None

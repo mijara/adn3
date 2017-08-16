@@ -19,6 +19,14 @@ class Student(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('registration:student_detail')
 
+    def get_grades_for_course(self, course):
+        for test in course.test_set.all():
+            version = test.version_set.filter(students__pk=self.pk)
+
+            if not version.exists():
+                yield test.name, None
+        return []
+
 
 class Ticket(models.Model):
     """
