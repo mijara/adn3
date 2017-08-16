@@ -48,5 +48,19 @@
       "key": "preregistrations-open",
       "value": "True"
     }
+  },
+  {
+    "model": "misc.Software",
+    "pk": 1,
+    "fields": {
+      "name": "Mathematica"
+    }
+  },
+  {
+    "model": "misc.Software",
+    "pk": 2,
+    "fields": {
+      "name": "MATLAB"
+    }
   }
 ]

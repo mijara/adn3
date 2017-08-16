@@ -30,12 +30,9 @@ class ShowAttendanceView(UserPassesTestMixin, CourseMixin, View):
 
 
 class SaveAttendanceView(UserPassesTestMixin, CourseMixin, View):
-    def get(request, course_pk, agenda_pk):
+    def post(self, request, course_pk, agenda_pk):
         agenda = get_object_or_404(Agenda, pk=agenda_pk)
-
-        if request.method == 'POST':
-            save_matrix(agenda, request.POST)
-
+        save_matrix(agenda, request.POST)
         return redirect('attendance:show', course_pk, agenda_pk)
 
     def test_func(self):

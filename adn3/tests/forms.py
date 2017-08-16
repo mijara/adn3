@@ -24,13 +24,16 @@ class ChoiceQuestionForm(forms.ModelForm):
 
     class Meta:
         model = ChoiceQuestion
-        fields = ['text', 'html', 'score', 'alternative_1', 'alternative_2', 'alternative_3', 'alternative_4', 'alternative_5']
+        fields = ['text', 'html', 'score', 'alternative_1', 'alternative_2',
+                  'alternative_3', 'alternative_4', 'alternative_5']
         widgets = {
             'text': forms.Textarea(attrs={'style': 'display: none;'}),
         }
 
+
 class TextQuestionForm(forms.ModelForm):
     html = forms.CharField(widget=forms.HiddenInput())
+
     class Meta:
         model = TextQuestion
         fields = ['text', 'html', 'score']
@@ -41,6 +44,7 @@ class TextQuestionForm(forms.ModelForm):
 
 class NumericalQuestionForm(forms.ModelForm):
     html = forms.CharField(widget=forms.HiddenInput())
+
     class Meta:
         model = NumericalQuestion
         fields = ['text', 'html', 'bottom_limit', 'top_limit', 'score']
