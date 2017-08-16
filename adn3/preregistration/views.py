@@ -13,9 +13,9 @@ from .forms import PreRegistrationForm
 from adn3 import mixins
 
 
-class PreRegistrationsActiveMixin(UserPassesTestMixin):
+class PreRegistrationsActiveMixin(UserPassesTestMixin, LoginRequiredMixin):
     def test_func(self):
-         return preregistrations_open()
+        return preregistrations_open()
 
 
 class CourseListView(PreRegistrationsActiveMixin, generic.ListView):

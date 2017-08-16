@@ -7,6 +7,8 @@ def dayblock_to_adn2_format(day):
     Transform the internal day-block representation to ADN2's representation:
     {block}{day}, both starting at 1.
     """
+    if day is None:
+        return '11'
     day, block = day.split("-")
     return "{}{}".format(int(block) + 1, int(day) + 1)
 
@@ -55,7 +57,7 @@ def generate_excel(course, software, pr_list):
         ws['S%s' % (6 + i)] = dayblock_to_adn2_format(pr.fifth_preference)
         ws['T%s' % (6 + i)] = ','
         ws['U%s' % (6 + i)] = int(pr.previous_experience)
-        ws['V%s' % (6 + i)] = '},'
+        ws['V%s' % (6 + i)] = '},' if i + 1 < len(pr_list) else '}}'
         ws['W%s' % (6 + i)] = pr.parallel
 
     return save_virtual_workbook(wb)
