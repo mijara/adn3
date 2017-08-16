@@ -1,8 +1,9 @@
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from adn3.constants import YEAR, SEMESTER
 from coordination.services import generate_excel
+from adn3.services import preregistrations_open, preregistrations_set
 
 from courses.models import Course
 from misc.models import Software
@@ -11,9 +12,11 @@ from misc.models import Software
 class CoordinationIndexView(View):
     def get(self, request):
         current_courses = Course.objects.filter(semester=SEMESTER, year=YEAR)
+
         return render(request, 'coordination/coordination_index.html', {
             'current_courses': current_courses,
             'software_list': Software.objects.all(),
+            'preregistrations_open': preregistrations_open(),
         })
 
 
@@ -46,3 +49,11 @@ class PreRegistrationExcelView(View):
             raise Http404()
 
         return get_object_or_404(Software, pk=software_pk)
+
+
+class PreRegistrationsToggle(View):
+    def get(self, request):
+        state = preregistrations_open()
+        preregistrations_set(not state)
+
+        return redirect('coordination:coordination_index')

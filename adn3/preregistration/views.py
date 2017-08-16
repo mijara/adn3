@@ -1,8 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views import View
+
+from adn3.services import preregistrations_open
 from courses.models import Course
 from misc.models import Software
 from news.models import New
@@ -11,7 +13,12 @@ from .forms import PreRegistrationForm
 from adn3 import mixins
 
 
-class CourseListView(generic.ListView):
+class PreRegistrationsActiveMixin(UserPassesTestMixin):
+    def test_func(self):
+         return preregistrations_open()
+
+
+class CourseListView(PreRegistrationsActiveMixin, generic.ListView):
     model = Course
     template_name = 'preregistration/course_list.html'
 
@@ -22,7 +29,7 @@ class CourseListView(generic.ListView):
             .filter(campus=self.request.user.student.campus)
 
 
-class NewListView(mixins.CourseMixin, generic.ListView):
+class NewListView(PreRegistrationsActiveMixin, mixins.CourseMixin, generic.ListView):
     model = New
     template_name = 'preregistration/new_list.html'
 
@@ -30,11 +37,11 @@ class NewListView(mixins.CourseMixin, generic.ListView):
         return self.get_course().new_set
 
 
-class PreRegistrationDetailView(generic.DetailView):
+class PreRegistrationDetailView(PreRegistrationsActiveMixin, generic.DetailView):
     model = PreRegistration
 
 
-class PreRegistrationCreateView(mixins.CourseMixin, View):
+class PreRegistrationCreateView(PreRegistrationsActiveMixin, mixins.CourseMixin, View):
     template_name = 'preregistration/preregistration_form.html'
     form_class = PreRegistrationForm
 
@@ -74,7 +81,7 @@ class PreRegistrationCreateView(mixins.CourseMixin, View):
         })
 
 
-class PreRegistrationDeleteView(generic.DeleteView):
+class PreRegistrationDeleteView(PreRegistrationsActiveMixin, generic.DeleteView):
     model = PreRegistration
 
     def get_success_url(self):
