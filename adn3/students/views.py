@@ -132,6 +132,7 @@ class TestDetailView(UserPassesTestMixin, generic.DetailView):
             pass
 
         context['answers'] = Answer.objects.filter(student=self.request.user, question__version=self.get_object())
+        context['agenda'] = services.get_agenda(self)
         return context
 
     def get(self, request, *args, **kwargs):

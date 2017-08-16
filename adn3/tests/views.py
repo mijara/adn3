@@ -202,7 +202,7 @@ class VersionDuplicateView(UserPassesTestMixin, TestMixin, generic.DetailView):
 
 
 # FIXME: Change?
-def version_attach_file(request, version_pk):
+def version_attach_file(request, version_pk, course_pk, test_pk):
     version = get_object_or_404(Version, pk=version_pk)
 
     form = VersionFileForm(request.POST or None, request.FILES or None)
