@@ -1,0 +1,45 @@
+<form action="{% url 'assistants:attendance_save' course.pk agenda.pk %}" method="post">
+  {% csrf_token %}
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Rol</th>
+
+          <!-- Sessions -->
+          {% for session in agenda.course.session_set.all %}
+            <th>Sesión {{ session.number }}</th>
+          {% endfor %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for attendance in table %}
+          <tr>
+            <td>
+              {{ attendance.0.get_full_name }}
+            </td>
+
+            <td>
+              -
+            </td>
+
+            {% for a in attendance.1 %}
+              <td>{{ a.attended }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel-footer">
+        <a type="button" class="btn btn-default" href="{% url 'assistants:course_detail' course.pk %}">Volver al curso</a>
+
+        <button class="btn btn-primary pull-right" type="submit">Guardar</button>
+    </div>
+  </div>
+</form>

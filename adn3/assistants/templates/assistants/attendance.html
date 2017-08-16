@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block bodytag %}
+    <body class="body-student">
+{% endblock %}
+
+{% block breadcrump %}
+{% endblock %}
+
+{% block container %}
+    <div class="col-sm-12">
+        <h1 class="page-header">{{ course }}</h1>
+    </div>
+
+    <div class="col-sm-12">
+        <h1 class="header">
+        <span class="glyphicon glyphicon-list-alt step"></span>
+        Asistencia: {{ agenda.get_day_display }} {{ agenda.get_block_display }}
+      </h1>
+
+      {% if table %}
+        {% include 'assistants/_attendance_table.html' %}
+      {% else %}
+        <div class="alert alert-warning">
+          Debe agregar al menos una sesión para pasar asistencia.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

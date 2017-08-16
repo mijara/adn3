@@ -30,6 +30,9 @@ def is_assistant_of(user, course):
             return True
     return False
 
+def is_assistant_of_agenda(user, agenda):
+    return user in agenda.assistants.all()
+
 
 def preregistrations_open():
     return Setting.objects.get(key='preregistrations-open').get_bool()

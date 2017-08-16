@@ -24,7 +24,7 @@
             <td>{{ agenda.room }}</td>
             <td>{{ agenda.inscriptions.count }}</td>
             <td>
-              <a class="btn btn-primary" href="{% url 'attendance:show' course.pk agenda.pk %}" title="Asistencia">
+              <a class="btn btn-primary" href="{% url 'assistants:attendance' course.pk agenda.pk %}" title="Asistencia">
                 Pasar asistencia
               </a>
             </td>
