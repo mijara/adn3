@@ -30,6 +30,7 @@ def is_assistant_of(user, course):
             return True
     return False
 
+
 def is_assistant_of_agenda(user, agenda):
     return user in agenda.assistants.all()
 
