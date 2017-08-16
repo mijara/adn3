@@ -12,9 +12,10 @@ from django.utils import timezone
 
 class Test(models.Model):
     course = models.ForeignKey('courses.Course', verbose_name=u'Curso')
+
     session = models.ForeignKey('classes.Session', verbose_name=u'Sesión')
+
     owner = models.ForeignKey('auth.User', verbose_name=u'Dueño')
-    software = models.ForeignKey('misc.Software', verbose_name=u'Software')
 
     name = models.CharField(max_length=128, verbose_name=u'Nombre')
 
@@ -33,8 +34,6 @@ class Test(models.Model):
 
     show_grade = models.BooleanField(default=True,
                                      verbose_name=u'Mostrar nota')
-
-    active = models.BooleanField(default=True, verbose_name=u'Activo')
 
     percentage = models.IntegerField(verbose_name=u'Porcentaje')
 
@@ -67,6 +66,20 @@ class Test(models.Model):
         else:
             return None
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        for agenda in self.course.agenda_set.all():
+            AgendaTest.objects.create(agenda=agenda, test=self)
+
+
+class AgendaTest(models.Model):
+    agenda = models.ForeignKey('courses.Agenda')
+
+    test = models.ForeignKey('tests.Test')
+
+    active = models.BooleanField(default=False)
+
 
 class Version(models.Model):
     test = models.ForeignKey('Test', verbose_name='Control')
@@ -75,8 +88,12 @@ class Version(models.Model):
 
     file = models.FileField(upload_to='tests/', blank=True)
 
-    students = models.ManyToManyField('auth.User', verbose_name=u'Estudiante', blank=True,
-                                      related_name=u'registration', through='StudentsAnswers')
+    students = models.ManyToManyField(
+        'auth.User',
+        verbose_name=u'Estudiante',
+        blank=True,
+        related_name=u'registration',
+        through='StudentsAnswers')
 
     class Meta:
         verbose_name = 'Forma'
@@ -116,7 +133,11 @@ class StudentsAnswers(models.Model):
     started_at = models.DateTimeField(auto_now_add=True, auto_now=False,
                                       verbose_name=u'Fecha de inicio')
 
-    last_update = models.DateTimeField(auto_now=False, verbose_name=u'Última actualización', null=True, blank=True)
+    last_update = models.DateTimeField(
+        auto_now=False,
+        verbose_name=u'Última actualización',
+        null=True,
+        blank=True)
 
     submitted = models.BooleanField(verbose_name='Enviado', default=False)
 

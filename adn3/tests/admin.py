@@ -43,6 +43,7 @@ class AlternativeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Test)
+admin.site.register(AgendaTest)
 admin.site.register(Version, VersionAdmin)
 admin.site.register(ChoiceQuestion, ChoiceQuestionAdmin)
 admin.site.register(NumericalQuestion, NumericalQuestionAdmin)
