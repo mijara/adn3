@@ -2,6 +2,8 @@ from tests.models import TextQuestion, NumericalQuestion, ChoiceQuestion
 from tests.models import StudentsAnswers, TextAnswer, NumericalAnswer, ChoiceAnswer, Alternative
 import random
 
+from django.shortcuts import get_object_or_404
+
 
 def assign_version(test):
     # Randomly assign a version
@@ -66,3 +68,10 @@ def update_document(version, student, file):
         student_answer.save()
     except:
         pass
+
+def get_agenda(object):
+    sv = get_object_or_404(StudentsAnswers, pk=object.kwargs['pk'])
+    for agenda in sv.version.test.course.agenda_set.all():
+        if object.request.user in agenda.inscriptions.all():
+            return agenda
+    return
