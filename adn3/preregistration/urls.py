@@ -3,6 +3,12 @@ from . import views
 
 urlpatterns = [
     url(
+        '^$',
+        views.CourseListView.as_view(),
+        name='course_list'
+    ),
+    
+    url(
         '^(?P<course_pk>\d+)/create/$',
         views.PreRegistrationCreateView.as_view(),
         name='preregistration_create'
@@ -24,11 +30,5 @@ urlpatterns = [
         '^(?P<pk>\d+)/delete/$',
         views.PreRegistrationDeleteView.as_view(),
         name='preregistration_delete'
-    ),
-
-    url(
-        '^$',
-        views.CourseListView.as_view(),
-        name='course_list'
     ),
 ]

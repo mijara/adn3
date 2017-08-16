@@ -13,4 +13,10 @@ urlpatterns = [
         views.PreRegistrationExcelView.as_view(),
         name='preregistrations_excel'
     ),
+
+    url(
+        r'^preregistrations/toggle/$',
+        views.PreRegistrationsToggle.as_view(),
+        name='preregistrations_toggle'
+    ),
 ]

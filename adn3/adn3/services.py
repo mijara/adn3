@@ -35,5 +35,11 @@ def preregistrations_open():
     return Setting.objects.get(key='preregistrations-open').get_bool()
 
 
+def preregistrations_set(value):
+    obj = Setting.objects.get(key='preregistrations-open')
+    obj.value = str(value)
+    obj.save()
+
+
 def is_teacher_of(user, course):
     return course.teachers.filter(pk=user.pk).exists()
