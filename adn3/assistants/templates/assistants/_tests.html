@@ -1,30 +1,41 @@
 <div class="row">
-    <div class="col-sm-12">
-        <div class="panel panel-default">
-            <table class="table table-responsive">
-                {% for test in tests %}
-                    <tr>
-                        <td>
-                            <div>
-                                <strong>{{ test.name }}</strong>
-                            </div>
+  <div class="col-sm-12">
+    {% for agenda in agendas %}
+      <div class="panel panel-default">
+        <div class="table-responsive">
+          <table class="table">
+              <thead>
+                <tr class="table-heading">
+                  <th colspan="2">
+                    {{ agenda.get_day_display }} {{ agenda.get_block_display }}
+                  </th>
+                </tr>
+              </thead>
+            {% for agendatest in agenda.agendatest_set.all %}
+              <tr>
+                <td>
+                  <div>
+                    <strong>{{ agendatest.test.name }}</strong>
+                  </div>
 
-                            <div>
-                                Sesión {{ test.session }}, {{ test.get_timeout_display }}
-                            </div>
-                        </td>
-                        <!--
-                        <td>
-                            {% if test.active %}
-                                <a href="{% url 'tests:toggle_test' course.pk test.pk request.path %}" class="btn btn-danger pull-right">Deshabilitar</a>
-                            {% else %}
-                                <a href="{% url 'tests:toggle_test' course.pk test.pk request.path %}" class="btn btn-success pull-right">Habilitar</a>
-                            {% endif %}
-                        </td>
-                        -->
-                    </tr>
-                {% endfor %}
-            </table>
+                  <div>
+                    Sesión {{ agendatest.test.session }}, {{ agendatest.test.get_timeout_display }}
+                  </div>
+                </td>
+                <td>
+                  {% if agendatest.active %}
+                    <a href="{% url 'tests:toggle_test' course.pk agendatest.test.pk agenda.pk request.path %}"
+                       class="btn btn-danger pull-right">Deshabilitar</a>
+                  {% else %}
+                    <a href="{% url 'tests:toggle_test' course.pk agendatest.test.pk agenda.pk request.path %}"
+                       class="btn btn-success pull-right">Habilitar</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
         </div>
-    </div>
+      </div>
+    {% endfor %}
+  </div>
 </div>

@@ -70,8 +70,14 @@ def update_document(version, student, file):
         pass
 
 def get_agenda(object):
-    sv = get_object_or_404(StudentsAnswers, pk=object.kwargs['pk'])
+    sv = get_object_or_404(StudentsAnswers, student=object.request.user, version__pk=object.kwargs['pk'])
     for agenda in sv.version.test.course.agenda_set.all():
         if object.request.user in agenda.inscriptions.all():
             return agenda
-    return
+    return None
+
+def is_active(user, test):
+    for agendatest in test.agendatest_set.filter(active=True):
+        if user in agendatest.agenda.inscriptions.all():
+            return True
+    return False

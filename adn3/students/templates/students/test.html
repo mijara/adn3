@@ -3,274 +3,287 @@
 {% load l10n %}
 
 {% block link %}
-    <link rel="stylesheet" href="{% static 'vendor/animate/animate.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/animate/animate.css' %}">
 {% endblock %}
 
 {% block breadcrump %}
-    <!-- Left Blank -->
+  <!-- Left Blank -->
 {% endblock %}
 
 {% block container %}
-    {{ studentanswer.get_timeleft }}
-    <div class="row">
+  {{ studentanswer.get_timeleft }}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-sm-12">
+            <h1 class="header">{{ version.test.name }}
+              <small>Forma {{ version.get_letter }}</small>
+            </h1>
+          </div>
+        </div>
+
         <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="col-sm-12">
-                        <h1 class="header">{{ version.test.name }}
-                            <small>Forma {{ version.get_letter }}</small>
-                        </h1>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <span class="pull-right text-muted">Última actualización: <span
-                            id="last-update">{{ studentanswer.last_update | date:"H:i" | default:"Nunca" }}</span></span>
-                </div>
-                <div class="col-sm-12">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0"
-                             aria-valuemin="0" aria-valuemax="100" style="min-width: 0%;">
-                        </div>
-                        <span class="text-success">Tiempo restante: <span
-                                class="time-out">{{ studentanswer.get_time_left | floatformat:"0" }}</span> minutos</span>
-                    </div>
-
-                </div>
-                <div class="clearfix"></div>
-            </div>
+          <span class="pull-right text-muted">Última actualización: <span
+              id="last-update">{{ studentanswer.last_update | date:"H:i" | default:"Nunca" }}</span></span>
         </div>
-
-        <div id="student-test" class="col-sm-12">
-            <form id="form">
-                {% csrf_token %}
-                <input type="hidden" name="version" value="{{ version.pk }}">
-                {% for answer in answers %}
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <strong>{{ forloop.counter }}.-</strong>
-                            <div class="question-statement">
-                                <i>[{{ answer.question.score }}pts] </i>
-                                {{ answer.question.html|safe }}
-                            </div>
-                            <hr>
-                            {% if answer.question.choicequestion %}
-                                {% include 'students/_choice_answers.html' %}
-                            {% elif answer.question.numericalquestion %}
-                                {% include 'students/_numerical_limits.html' %}
-                            {% elif answer.question.textquestion %}
-                                {% include 'students/_text_answer.html' %}
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <p>Adjuntar documento <strong>{{ agenda.software }}</strong> aquí</p>
-                        <hr>
-                        {% if studentanswer.document %}
-                            <blockquote id="documentName">
-                        {% else %}
-                            <blockquote id="documentName" class="hidden">
-                        {% endif %}
-                        {{ studentanswer.document }}
-                        </blockquote>
-                        <input type="file" name="document">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary pull-right" role="button" value="Guardar respuestas">
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
         <div class="col-sm-12">
-            <div class="list-group">
-                {% for course in course_list %}
-                    {% if course.status %}
-                        <a href="{% url 'students:course_detail' course.pk %}" class="list-group-item">
-                            {{ course }}
-                        </a>
-                    {% endif %}
-                {% endfor %}
+          <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0"
+                 aria-valuemin="0" aria-valuemax="100" style="min-width: 0%;">
             </div>
+            <span class="text-success">Tiempo restante: <span
+                class="time-out">{{ studentanswer.get_time_left | floatformat:"0" }}</span> minutos</span>
+          </div>
         </div>
+        <div class="clearfix"></div>
+      </div>
     </div>
 
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalLabel">Lo sentimos</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
-                    <div class="modal-footer">
-                        <a href="/public" type="button" class="btn btn-default">Ir al inicio</a>
-                    </div>
-                </div>
-            </div>
+    <div id="student-test" class="col-sm-12">
+      {% if version.file.name %}
+        <div class="alert alert-warning file">
+          <span>Descarga este documento con las instrucciones</span>
+          <a class="btn btn-default pull-right" href="{{ version.file.url }}" target="_blank">Ver documento</a>
         </div>
+      {% endif %}
+
+      <form id="form">
+        {% csrf_token %}
+        <input type="hidden" name="version" value="{{ version.pk }}">
+        {% for answer in answers %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <strong>{{ forloop.counter }}.-</strong>
+              <div class="question-statement">
+                <i>[{{ answer.question.score }}pts] </i>
+                {{ answer.question.html|safe }}
+              </div>
+            </div>
+            {% if answer.question.choicequestion %}
+              {% include 'students/_choice_answers.html' %}
+            {% elif answer.question.numericalquestion %}
+              {% include 'students/_numerical_limits.html' %}
+            {% elif answer.question.textquestion %}
+              {% include 'students/_text_answer.html' %}
+            {% endif %}
+          </div>
+        {% endfor %}
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p>Adjuntar documento <strong>{{ agenda.software }}</strong> aquí</p>
+            <hr>
+            {% if studentanswer.document %}
+              <blockquote id="documentName">
+            {% else %}
+              <blockquote id="documentName" class="hidden">
+            {% endif %}
+            {{ studentanswer.document }}
+            </blockquote>
+            <input type="file" name="document">
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary pull-right" role="button" value="Guardar respuestas">
+        </div>
+      </form>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="list-group">
+        {% for course in course_list %}
+          {% if course.status %}
+            <a href="{% url 'students:course_detail' course.pk %}" class="list-group-item">
+              {{ course }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modalLabel">Lo sentimos</h4>
+        </div>
+        <div class="modal-body">
+          <p>Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
+          <div class="modal-footer">
+            <a href="{% url 'students:course_detail' version.test.course.pk %}" type="button" class="btn btn-default">Ir al inicio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block script %}
-    <!-- MathJax -->
-    <script type="text/x-mathjax-config">
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           messageStyle: "none"
         });
-    </script>
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
-    </script>
-    <!-- Bootstrap Notify -->
-    <script src="{% static 'vendor/bootstrap-notify-master/bootstrap-notify.js' %}"></script>
-    <script>
-        var minutes = {{ version.test.timeout }};
-        var startedAtMin = {{ studentanswer.get_time_elapsed|unlocalize }};
-        var startedAt = startedAtMin * 60000;
-        var duration = minutes * 60000;
-        var flagUpdateMinutes = true;
-        var flagUpdateNotification = false;
-        var flag2UpdateMinutes = true;
 
-        {% if studentanswer.get_time_left >= 5%}
-            var timeLeftNotificationList = [5, 3, 1];
-        {% elif studentanswer.get_time_left >= 3%}
-            var timeLeftNotificationList = [3, 1];
-        {% elif studentanswer.get_time_left >= 1%}
-            var timeLeftNotificationList = [1];
-        {% else %}
-            var timeLeftNotificationList = [];
-        {% endif %}
 
-        function getMinutesLeft() {
-            return Math.ceil((duration - Date.now() + startedAt) / 60000)
-        }
 
-        function start() {
-            startedAt = Date.now() - startedAt;
-            var elapsedTime = Date.now() - startedAt;
-            var playback = elapsedTime / duration;
-            updateTarget(playback);
-            setTimeout(function () {
-                requestAnimationFrame(update);
-            }, 200);
-        }
 
-        function update() {
-            var elapsedTime = Date.now() - startedAt;
 
-            // playback is a value between 0 and 1
-            // being 0 the start of the animation and 1 its end
-            var playback = elapsedTime / duration;
 
-            updateTarget(playback);
 
-            if (playback > 0 && playback < 1) {
-                // Queue the next frame
-                requestAnimationFrame(update);
-            } else {
-                $('#modal').modal({backdrop: 'static', keyboard: false});
-                send(true);
-            }
-        }
+  </script>
+  <script type="text/javascript"
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
+  </script>
+  <!-- Bootstrap Notify -->
+  <script src="{% static 'vendor/bootstrap-notify-master/bootstrap-notify.js' %}"></script>
+  <script>
+      var minutes = {{ version.test.timeout }};
+      var startedAtMin = {{ studentanswer.get_time_elapsed|unlocalize }};
+      var startedAt = startedAtMin * 60000;
+      var duration = minutes * 60000;
+      var flagUpdateMinutes = true;
+      var flagUpdateNotification = false;
+      var flag2UpdateMinutes = true;
 
-        function updateTarget(playback) {
-            // Uncomment the line below to reverse the animation
-            // playback = 1 - playback
-            // Update the target properties based on the playback position
-            /*if ((Date.now() - startedAt) !== 0) {
-                if ((Date.now() - startedAt)%60000 >0 && (Date.now() - startedAt)%60000 < 30000 && flagUpdateMinutes) {
-                    flag2UpdateMinutes = true;
-                    flagUpdateMinutes = false;
-                }
-                else if ((Date.now() - startedAt)%60000 > 30000 && !flagUpdateMinutes ) {
-                    flagUpdateMinutes = true;
-                }
-            }*/
-            if ($('.time-out').html() != getMinutesLeft()) {
-                $('.time-out').html(getMinutesLeft());
-            }
-            /*if (flag2UpdateMinutes){
-                $('.time-out').html(getMinutesLeft());
-                flag2UpdateMinutes = false;
-            }*/
-            $('.progress-bar').css('min-width', playback * 100 + '%');
+      {% if studentanswer.get_time_left >= 5%}
+          var timeLeftNotificationList = [5, 3, 1];
+      {% elif studentanswer.get_time_left >= 3%}
+          var timeLeftNotificationList = [3, 1];
+      {% elif studentanswer.get_time_left >= 1%}
+          var timeLeftNotificationList = [1];
+      {% else %}
+          var timeLeftNotificationList = [];
+      {% endif %}
 
-            // Every 5 minutes send the answers
-            if ((Date.now() - startedAt) % 300000 > 0 && (Date.now() - startedAt) % 300000 < 150000 && flagUpdateNotification) {
-                send(false);
-                flagUpdateNotification = false;
-            }
-            else if ((Date.now() - startedAt) % 300000 > 150000 && !flagUpdateNotification) {
-                flagUpdateNotification = true;
-            }
+      function getMinutesLeft() {
+          return Math.ceil((duration - Date.now() + startedAt) / 60000)
+      }
 
-            // Time left notifications
-            if (Math.ceil((duration - Date.now() + startedAt) / 60000) <= timeLeftNotificationList[0]) {
-                timeLeftNotificaction(timeLeftNotificationList[0]);
-                timeLeftNotificationList.shift();
-            }
-        }
+      function start() {
+          startedAt = Date.now() - startedAt;
+          var elapsedTime = Date.now() - startedAt;
+          var playback = elapsedTime / duration;
+          updateTarget(playback);
+          setTimeout(function () {
+              requestAnimationFrame(update);
+          }, 200);
+      }
 
-        function send(finish) {
-            var formData = new FormData($('#form')[0]);
-            if (finish) {
-                formData.append('finish', true);
-            }
+      function update() {
+          var elapsedTime = Date.now() - startedAt;
 
-            $.ajax({
-                url: "{% url 'students:update_answers' %}",
-                type: "post",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function (request) {
-                    request.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
-                }
-            }).done(function (response) {
-                if (!response['error']) {
-                    $('#last-update').html(response['message']);
+          // playback is a value between 0 and 1
+          // being 0 the start of the animation and 1 its end
+          var playback = elapsedTime / duration;
 
-                    if (response['document'] !== '') {
-                        $('#documentName').removeClass('hidden').html(response['document']);
-                    }
+          updateTarget(playback);
 
-                    saveSuccessNotification();
-                }
-            });
-        }
-        $(form).submit(function (e) {
-            e.preventDefault();
-            send(false);
-        });
+          if (playback > 0 && playback < 1) {
+              // Queue the next frame
+              requestAnimationFrame(update);
+          } else {
+              $('#modal').modal({backdrop: 'static', keyboard: false});
+              send(true);
+          }
+      }
 
-        function saveSuccessNotification() {
-            $.notify({
-                // options
-                icon: 'glyphicon glyphicon-ok-circle',
-                message: 'Las respuestas han sido guardadas'
-            }, {
-                // settings
-                type: "info"
-            });
-        }
+      function updateTarget(playback) {
+          // Uncomment the line below to reverse the animation
+          // playback = 1 - playback
+          // Update the target properties based on the playback position
+        /*if ((Date.now() - startedAt) !== 0) {
+         if ((Date.now() - startedAt)%60000 >0 && (Date.now() - startedAt)%60000 < 30000 && flagUpdateMinutes) {
+         flag2UpdateMinutes = true;
+         flagUpdateMinutes = false;
+         }
+         else if ((Date.now() - startedAt)%60000 > 30000 && !flagUpdateMinutes ) {
+         flagUpdateMinutes = true;
+         }
+         }*/
+          if ($('.time-out').html() != getMinutesLeft()) {
+              $('.time-out').html(getMinutesLeft());
+          }
+        /*if (flag2UpdateMinutes){
+         $('.time-out').html(getMinutesLeft());
+         flag2UpdateMinutes = false;
+         }*/
+          $('.progress-bar').css('min-width', playback * 100 + '%');
 
-        function timeLeftNotificaction(left) {
-            $.notify({
-                // options
-                icon: 'glyphicon glyphicon-time',
-                message: 'El control finaliza en <strong> %m minutos</strong>'.replace('%m', left).replace('minutos', left === 1 ? 'minuto' : 'minutos')
-            }, {
-                // settings
-                type: "danger"
-            });
-        }
+          // Every 5 minutes send the answers
+          if ((Date.now() - startedAt) % 300000 > 0 && (Date.now() - startedAt) % 300000 < 150000 && flagUpdateNotification) {
+              send(false);
+              flagUpdateNotification = false;
+          }
+          else if ((Date.now() - startedAt) % 300000 > 150000 && !flagUpdateNotification) {
+              flagUpdateNotification = true;
+          }
 
-        start();
-    </script>
+          // Time left notifications
+          if (Math.ceil((duration - Date.now() + startedAt) / 60000) <= timeLeftNotificationList[0]) {
+              timeLeftNotificaction(timeLeftNotificationList[0]);
+              timeLeftNotificationList.shift();
+          }
+      }
+
+      function send(finish) {
+          var formData = new FormData($('#form')[0]);
+          if (finish) {
+              formData.append('finish', true);
+          }
+
+          $.ajax({
+              url: "{% url 'students:update_answers' %}",
+              type: "post",
+              data: formData,
+              cache: false,
+              contentType: false,
+              processData: false,
+              beforeSend: function (request) {
+                  request.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+              }
+          }).done(function (response) {
+              if (!response['error']) {
+                  $('#last-update').html(response['message']);
+
+                  if (response['document'] !== '') {
+                      $('#documentName').removeClass('hidden').html(response['document']);
+                  }
+
+                  saveSuccessNotification();
+              }
+          });
+      }
+      $(form).submit(function (e) {
+          e.preventDefault();
+          send(false);
+      });
+
+      function saveSuccessNotification() {
+          $.notify({
+              // options
+              icon: 'glyphicon glyphicon-ok-circle',
+              message: 'Las respuestas han sido guardadas'
+          }, {
+              // settings
+              type: "info"
+          });
+      }
+
+      function timeLeftNotificaction(left) {
+          $.notify({
+              // options
+              icon: 'glyphicon glyphicon-time',
+              message: 'El control finaliza en <strong> %m minutos</strong>'.replace('%m', left).replace('minutos', left === 1 ? 'minuto' : 'minutos')
+          }, {
+              // settings
+              type: "danger"
+          });
+      }
+
+      start();
+  </script>
 {% endblock %}

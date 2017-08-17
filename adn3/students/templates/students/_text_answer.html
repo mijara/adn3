@@ -1,9 +1,9 @@
 
-<div class="form-group">
+<div class="text-answer">
     <textarea
-            class="form-control"
+            class="lead focus-anim"
             placeholder="Escriba aquí su respuesta"
-            rows="5"
+            rows="3"
             name="{{ answer.pk }}"
     >{{ answer.textanswer.text | default_if_none:"" }}</textarea>
 </div>

@@ -78,13 +78,6 @@ class Course(models.Model):
                 return True
         return False
 
-    def has_active_tests(self):
-        # TODO: Fix!
-        #for test in self.test_set.all():
-            #if test.active:
-            #    return True
-        return True
-
     def get_students(self):
         for agenda in self.agenda_set.all():
             for student in agenda.inscriptions.all():
@@ -158,6 +151,12 @@ class Agenda(models.Model):
 
     def __str__(self):
         return u'%s %s' % (self.get_day_display(), self.get_block_display())
+
+    def has_active_tests(self):
+        for agenda_test in self.agendatest_set.all():
+            if agenda_test.active:
+                return True
+        return False
 
 
 class CourseTeacher(models.Model):

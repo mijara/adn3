@@ -1,12 +1,13 @@
 {% load l10n %}
-<div class="panel panel-default limits col-xs-6 col-xs-offset-3">
+<div class="limits">
     <input
             type="number"
             step="any"
-            class="col-xs-12"
+            class="col-xs-12 lead focus-anim"
             placeholder="Ingrese aquí el valor"
             name="{{ answer.pk }}"
             value="{{ answer.numericalanswer.number|unlocalize }}"
     >
     <div class="clearfix"></div>
 </div>
+    <div class="clearfix"></div>

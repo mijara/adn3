@@ -45,8 +45,8 @@ urlpatterns = [
     ),
 
     url(
-        r'^(?P<pk>\d+)/toggle/(?P<referrer>.+)/$',
-        views.toggle_test,
+        r'^(?P<pk>\d+)/toggle/(?P<agenda_pk>\d+)/(?P<referrer>.+)/$',
+        views.ToggleTest.as_view(),
         name="toggle_test"
     ),
 

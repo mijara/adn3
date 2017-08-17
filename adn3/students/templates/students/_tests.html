@@ -1,32 +1,33 @@
 {% load test %}
-{% if course.has_active_tests %}
+{% has_tests_to_show agenda as tests_to_show %}
+{% if agenda.has_active_tests and tests_to_show %}
   <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
         <table class="table table-responsive">
-          {% for test in course.test_set.all %}
-            {% get_status_code test as test_status %}
+          {% for agendatest in agenda.agendatest_set.all %}
+            {% get_status_code agendatest.test as test_status %}
 
-            {% if test.active and test_status != 2 %}
+            {% if agendatest.active and test_status != 2 %}
               <tr>
                 <td width="60%">
                   <div>
-                    <strong>{{ test.name }}</strong>
+                    <strong>{{ agendatest.test.name }}</strong>
                   </div>
 
                   <div>
-                    Sesión {{ test.session }}, {{ test.get_timeout_display }}
+                    Sesión {{ agendatest.test.session }}, {{ agendatest.test.get_timeout_display }}
                   </div>
                 </td>
                 <td width="20%">
-                  {% autoescape off %}{% print_status test %}{% endautoescape %}
+                  {% autoescape off %}{% print_status agendatest.test %}{% endautoescape %}
                 </td>
                 <td width="20%">
-                  {% if test.status == 2 %}
+                  {% if agendatest.test.status == 2 %}
                     <a class="btn btn-default pull-right disabled"><span
                         class="glyphicon glyphicon glyphicon-ok"></span></a>
                   {% else %}
-                    <a href="{% url 'students:test_preconfirmation' test.pk %}" class="btn btn-default pull-right"><span
+                    <a href="{% url 'students:test_preconfirmation' agendatest.test.pk %}" class="btn btn-default pull-right"><span
                         class="glyphicon glyphicon-play"></span></a>
                   {% endif %}
                 </td>

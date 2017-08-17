@@ -59,6 +59,8 @@ class CourseDetail(UserPassesTestMixin, generic.DetailView):
         for sv in StudentsAnswers.objects.filter(student=self.request.user, version__test__course=self.get_object()):
             if sv.get_status() == 2:
                 context['submitted_tests'].append(sv)
+
+        context['agenda'] = self.request.user.inscriptions.filter(course=self.object).first()
         return context
 
     def test_func(self):
@@ -92,7 +94,7 @@ class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         test = self.get_object()
-        if test.active:
+        if services.is_active(self.request.user, test):
             try:
                 sv = StudentsAnswers.objects.get(student=self.request.user, version__test=test)
                 if sv.get_status() == 2:
@@ -124,10 +126,9 @@ class TestDetailView(UserPassesTestMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            # FIXME: self.object??
-
             context['studentanswer'] = StudentsAnswers.objects.get(student=self.request.user,
                                                                    version=self.object)
+
         except ObjectDoesNotExist:
             pass
 
@@ -139,6 +140,7 @@ class TestDetailView(UserPassesTestMixin, generic.DetailView):
         version = self.get_object()
         try:
             sv = StudentsAnswers.objects.get(student=self.request.user, version=version)
+            print(sv)
             if sv.get_status() == 2:
                 return HttpResponseRedirect(reverse('students:course_detail', kwargs={'pk': version.test.course.pk}))
         except ObjectDoesNotExist:

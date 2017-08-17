@@ -6,11 +6,13 @@ from django.views import generic
 
 from adn3 import mixins
 from .forms import *
-from adn3.services import is_teacher_of
+from adn3.services import is_teacher_of, is_assistant_of_agenda
 
 from . import services
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+
+from courses.models import Agenda
 
 
 class TestMixin(mixins.CourseMixin):
@@ -177,13 +179,16 @@ class VersionDelete(UserPassesTestMixin, TestMixin, generic.DeleteView):
         return is_teacher_of(self.request.user, self.get_course())
 
 
-# FIXME: Change to a class ?
-def toggle_test(request, course_pk, pk, referrer):
-    test = get_object_or_404(Test, pk=pk)
-    test.active = not test.active
-    test.save()
-    return HttpResponseRedirect(referrer)
+class ToggleTest(UserPassesTestMixin, View):
+    def get(self, request, course_pk, pk, agenda_pk, referrer):
+        agenda_test = get_object_or_404(AgendaTest, agenda__pk=agenda_pk, test__pk=pk)
+        agenda_test.active = not agenda_test.active
+        agenda_test.save()
+        return HttpResponseRedirect(referrer)
 
+    def test_func(self):
+        agenda = get_object_or_404(Agenda, pk=self.kwargs['agenda_pk'])
+        return is_assistant_of_agenda(self.request.user, agenda)
 
 class VersionDuplicateView(UserPassesTestMixin, TestMixin, generic.DetailView):
     model = Version

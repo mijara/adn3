@@ -246,13 +246,50 @@ div.choice-answer > .MathJax_Display {
 }
 
 #student-test .limits {
-    overflow: hidden;
+    border-top: 1px solid #ddd;
 }
 
 #student-test .limits input[type="number"] {
     border: none;
-    padding: 10px;
+    padding: 30px;
+    margin: 0;
     outline: none;
+    text-align: center;
+}
+
+#student-test .text-answer {
+    border-top: 1px solid #ddd;
+}
+
+#student-test .text-answer textarea {
+    resize: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 15px;
+}
+
+.focus-anim {
+        transition: .2s ease;
+}
+.focus-anim:focus {
+    transform: scale(1.01, 1.01);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+#student-test .file {
+    position: relative;
+}
+
+#student-test .file > a {
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+    right: 15px;
 }
 
 table tr > td {
@@ -269,7 +306,7 @@ body.body-student table tr > .spacing {
     white-space: nowrap;
 }
 
-body.body-student table tr >td.bg {
+body.body-student table tr > td.bg {
     background: #fafafa;
 }
 

@@ -27,3 +27,11 @@ def get_status_code(context, test):
         return sv.get_status()
     except ObjectDoesNotExist:
         return 0
+
+@register.simple_tag(takes_context=True)
+def has_tests_to_show(context, agenda):
+    for agendatest in agenda.agendatest_set.all():
+        if agendatest.active and get_status_code(context, agendatest.test) != 2:
+            return True
+    return False
+
