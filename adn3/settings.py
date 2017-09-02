@@ -1,4 +1,5 @@
 import os
+
 from . import defaults
 from . import constants
 import dj_database_url
@@ -7,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '=ae0sq1izh2ao_8&(*-i@=9$99i#=_qn_b+!l86y$8+p%7&x9a'
 
-DEBUG = True
+DEBUG = False # os.getenv('DJANGO_DEBUG', 'True') != 'False'
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -87,8 +88,6 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
-print(DATABASES['default'])
-
 LANGUAGE_CODE = 'es-us'
 
 TIME_ZONE = 'America/Santiago'
@@ -105,9 +104,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/'
+
+#EMAIL_USE_TLS = True
+#EMAIL_HOST = ''
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_PORT = 587
+DEFAULT_EMAIL_FROM = 'adn3@lab.mat.utfsm.cl'

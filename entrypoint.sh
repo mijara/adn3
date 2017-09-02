@@ -1,6 +1,7 @@
 #!/bin/bash
 
 python manage.py migrate
+python manage.py loaddata initial.json
 python manage.py collectstatic --noinput
 
 exec gunicorn adn3.wsgi \

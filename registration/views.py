@@ -1,5 +1,6 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import Group
+from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.views import View
@@ -84,6 +85,14 @@ class StudentPasswordUpdateView(View):
 class TicketCreateView(generic.CreateView):
     model = Ticket
     form_class = TicketForm
+
+    def form_valid(self, form):
+        ret = super().form_valid(form)
+
+        if not settings.DEBUG:
+            EmailMessage('Ticket de Registro de LabMat', 'Ticket: ' + self.object.secret, to=[self.object.email]).send()
+
+        return ret
 
 
 class TicketDetailView(generic.DetailView):

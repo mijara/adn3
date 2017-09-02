@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
+from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 
 from adn3.services import is_teacher, is_student, is_assistant
