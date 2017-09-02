@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '=ae0sq1izh2ao_8&(*-i@=9$99i#=_qn_b+!l86y$8+p%7&x9a'
 
-DEBUG = False # os.getenv('DJANGO_DEBUG', 'True') != 'False'
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') != 'False'
 
 ALLOWED_HOSTS = [
     'localhost',
