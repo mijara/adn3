@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrump %}
+
+{% endblock %}
+{% block container %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="header"><span class="glyphicon glyphicon-th step"></span> Noticias <small>{{ view.get_course }}</small></h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        {% for news in new_list.all %}
+          <div class="panel panel-default student-news">
+            <div class="panel-heading">
+              <h4>
+                {{ news.title }}
+                <small>{{ news.create_date }}</small>
+              </h4>
+            </div>
+            <div class="panel-body">
+              <div class="text-justify markdown-body editormd-preview-container ">
+                {{ news.html | safe }}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+        {% if news|length == 0 %}
+          <div class="alert alert-warning">
+            No existen noticias para este curso.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

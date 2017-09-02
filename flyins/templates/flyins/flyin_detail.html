@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <!-- EMPTY -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          Pre-inscrito exitosamente
+        </div>
+
+        <div class="panel-body">
+          Estimado/a
+          <strong>{{ object.first_name }} {{ object.last_names }}</strong>
+          hemos recibido
+          su pre-inscripción al curso <strong>{{ object.course }}</strong>
+          con los siguientes datos:
+        </div>
+
+        <table class="table table-responsive">
+          <tbody>
+          <tr>
+            <th width="20%">Rol USM</th>
+            <td>{{ object.rol }}</td>
+          </tr>
+          <tr>
+            <th>Prioridad USM</th>
+            <td>{{ object.usm_priority }}</td>
+          </tr>
+          <tr>
+            <th>Paralelo</th>
+            <td>{{ object.parallel }}</td>
+          </tr>
+          <tr>
+            <th>Experiencia Rendidad</th>
+            <td>{{ object.previous_experience|yesno:"Si,No" }}</td>
+          </tr>
+          <tr>
+            <th>Software</th>
+            <td>{{ object.software }}</td>
+          </tr>
+          {% if object.psu_score %}
+            <tr>
+              <th>Puntaje PSU</th>
+              <td>{{ object.psu_score }}</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <th>Primera Preferencia</th>
+            <td>{{ object.get_first_preference_display }}</td>
+          </tr>
+
+          {% if object.second_preference %}
+            <tr>
+              <th>Segunda Preferencia</th>
+              <td>{{ object.get_second_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if object.third_preference %}
+            <tr>
+              <th>Tercera Preferencia</th>
+              <td>{{ object.get_third_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if object.fourth_preference %}
+            <tr>
+              <th>Cuarta Preferencia</th>
+              <td>{{ object.get_fourth_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if object.fifth_preference %}
+            <tr>
+              <th>Quinta Preferencia</th>
+              <td>{{ object.get_fifth_preference_display }}</td>
+            </tr>
+          {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

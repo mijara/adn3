@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrump %}
+{% endblock %}
+
+{% block container %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header"><span class="glyphicon glyphicon-th step"></span> Preinscripciones</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Seleccione un curso para pre-inscribir
+        </div>
+
+        <div class="list-group">
+          {% for course in course_list %}
+            {% if course.is_active %}
+              <a href="{% url 'flyins:preregistration_create' course.pk %}"
+                 class="list-group-item">
+                {{ course }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

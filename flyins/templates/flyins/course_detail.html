@@ -1,0 +1,147 @@
+{% extends 'base_courses.html' %}
+{% load static %}
+
+{% block breadcrump %}
+
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="page-header">
+        <span class="glyphicon glyphicon-th step"></span>
+        Pre-inscripciones
+        <small>{{ course }}</small>
+      </h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          Estado de pre-inscripciones: se indica la agenda y su cantidad de pre-inscripciones
+          en cada nivel de preferencia.
+        </div>
+
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
+            <tr>
+              <th>Agenda</th>
+              <th class="text-center">Primera</th>
+              <th class="text-center">Segunda</th>
+              <th class="text-center">Tercera</th>
+              <th width="0%"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for agenda in course.agenda_set.all %}
+              <tr>
+                <th>{{ agenda }}</th>
+                <td class="text-center">{{ agenda.first_preference.count }}</td>
+                <td class="text-center">{{ agenda.second_preference.count }}</td>
+                <td class="text-center">{{ agenda.third_preference.count }}</td>
+                <td width="0%" class="text-right">
+                  <a href="#" data-toggle="modal"
+                     data-target="#agenda-{{ agenda.pk }}">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% for agenda in course.agenda_set.all %}
+    <div class="modal fade" id="agenda-{{ agenda.pk }}" tabindex="-1"
+         role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close"
+                    data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">
+              {{ agenda }}
+            </h4>
+          </div>
+
+          <table class="table table-responsive fit">
+            <thead>
+            <tr>
+              <th class="active">Primera Preferencia</th>
+              <th class="active">Rol USM</th>
+              <th class="active text-right" width="15%">Prioridad</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pr in agenda.first_preference.all %}
+              <tr>
+                <td>{{ pr }}</td>
+                <td>{{ pr.student.rol }}</td>
+                <td class="text-right">{{ pr.student.usm_priority }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+
+            <thead>
+            <tr>
+              <th class="active">Segunda Preferencia</th>
+              <th class="active">Rol USM</th>
+              <th class="active text-right" width="15%">Prioridad</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if agenda.second.count == 0 %}
+              <tr>
+                <td class="text-center" colspan="3"><i>Sin inscripciones por el
+                  momento...</i></td>
+              </tr>
+            {% endif %}
+            {% for pr in agenda.second.all %}
+              <tr>
+                <td>{{ pr }}</td>
+                <td>{{ pr.usm_rol }}</td>
+                <td class="text-right">{{ pr.usm_priority }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+
+            <thead>
+            <tr>
+              <th class="active">Tercera Preferencia</th>
+              <th class="active">Rol USM</th>
+              <th class="active text-right" width="15%">Prioridad</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if agenda.third.count == 0 %}
+              <tr>
+                <td class="text-center" colspan="3"><i>Sin inscripciones por el
+                  momento...</i></td>
+              </tr>
+            {% endif %}
+            {% for pr in agenda.third.all %}
+              <tr>
+                <td>{{ pr }}</td>
+                <td>{{ pr.usm_rol }}</td>
+                <td class="text-right">{{ pr.usm_priority }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/preregistration.js' %}"></script>
+{% endblock %}

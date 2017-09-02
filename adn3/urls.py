@@ -94,6 +94,14 @@ urlpatterns = [
     ),
 
     url(
+        '^flyins/',
+        include(
+            'flyins.urls',
+            namespace='flyins'
+        )
+    ),
+
+    url(
         '^registration/',
         include(
             'registration.urls',
