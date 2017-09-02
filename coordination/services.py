@@ -39,11 +39,15 @@ def generate_excel(course, software, pr_list):
     for i, pr in enumerate(pr_list):
         ws['B%s' % (6 + i)] = i + 1
         ws['C%s' % (6 + i)] = '{{"'
+        # ws['D%s' % (6 + i)] = pr.student.rol
         ws['D%s' % (6 + i)] = pr.rol
         ws['E%s' % (6 + i)] = '","'
+        # ws['F%s' % (6 + i)] = pr.student.user.last_name.split()[0]
         ws['F%s' % (6 + i)] = pr.last_names.split()[0]
+        # ws['G%s' % (6 + i)] = pr.student.user.first_name
         ws['G%s' % (6 + i)] = pr.first_name
         ws['H%s' % (6 + i)] = '",'
+        # ws['I%s' % (6 + i)] = pr.student.usm_priority
         ws['I%s' % (6 + i)] = pr.usm_priority
         ws['J%s' % (6 + i)] = ','
         ws['K%s' % (6 + i)] = dayblock_to_adn2_format(pr.first_preference)
