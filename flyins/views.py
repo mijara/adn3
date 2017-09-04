@@ -9,11 +9,43 @@ from courses.models import Course
 from misc.models import Software
 from news.models import New
 from .models import FlyIn
-from .forms import FlyInForm
+from .forms import FlyInForm, RolForm
 from adn3 import mixins
 
 
 class FlyInsActiveMixin(UserPassesTestMixin):
+    login_url = reverse_lazy('flyins:rol_authentication')
+
+    def test_func(self):
+        is_authenticated = self.request.session.get('rol', False)
+        return preregistrations_open() and is_authenticated
+
+
+class RolAuthenticationView(UserPassesTestMixin, View):
+    template_name = 'flyins/rol_authentication.html'
+
+    def get(self, request):
+        if request.session.get('rol', False):
+            return redirect(reverse_lazy('flyins:course_list'))
+        return render(request, self.template_name, {
+        })
+
+    def post(self, request):
+        initial = {
+            'rol': self.request.POST.get('rol')
+        }
+        form = RolForm(initial)
+
+        if form.is_valid():
+            request.session.set_expiry(1200)
+            request.session['rol'] = self.request.POST.get('rol')
+
+            return redirect(reverse_lazy('flyins:course_list'))
+        else:
+            return render(request, self.template_name, {
+                'form': form
+            })
+
     def test_func(self):
         return preregistrations_open()
 

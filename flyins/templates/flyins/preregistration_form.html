@@ -63,9 +63,8 @@
 
           <div class="form-group">
             <label for="id-rol">Rol</label>
-            <input name="rol" id="id-rol" class="form-control" required>
+            <input name="rol" id="id-rol" class="form-control" value="{{ request.session.rol }}" required>
           </div>
-
           <div class="form-group">
             <label for="id-usm_priority">Prioridad</label>
             <input name="usm_priority" id="id-usm_priority" class="form-control" required>

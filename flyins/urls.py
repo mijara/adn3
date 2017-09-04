@@ -3,6 +3,12 @@ from . import views
 
 urlpatterns = [
     url(
+        '^auth/$',
+        views.RolAuthenticationView.as_view(),
+        name='rol_authentication'
+    ),
+
+    url(
         '^$',
         views.CourseListView.as_view(),
         name='course_list'

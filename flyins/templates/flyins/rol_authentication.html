@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}{% endblock %}
+
+{% block container %}
+  <div class="container">
+    <div class="row" style="margin-top: 16px">
+      <div class="col-sm-offset-3 col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">Por favor, ingresa tu Rol USM para continuar.</div>
+          <div class="panel-body text-justify">
+            {% if form.errors %}
+              <div class="alert alert-danger">
+                <strong>El Rol no es válido.</strong>
+              </div>
+            {% endif %}
+            <form action="" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <input name="rol" class="form-control" placeholder="123456789-0" required>
+              </div>
+              <input type="submit" class="btn btn-success col-sm-12 lead">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
