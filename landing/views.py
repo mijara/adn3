@@ -1,10 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import Group
-from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 
-from adn3.services import is_teacher, is_student, is_assistant
-from news.models import New
+from adn3.services import is_teacher, is_student, is_assistant, welcome_message
 
 
 def index(request):
@@ -14,7 +11,9 @@ def index(request):
         elif is_student(request.user):
             return redirect('students:agenda_list')
 
-    return render(request, 'landing/index.html')
+    return render(request, 'landing/index.html', {
+        'welcome_message': welcome_message()
+    })
 
 
 def sign_in(request):

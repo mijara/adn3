@@ -10,7 +10,7 @@ class Software(models.Model):
 
 class Setting(models.Model):
     key = models.CharField(max_length=64, primary_key=True)
-    value = models.CharField(max_length=256)
+    value = models.TextField()
 
     def __str__(self):
         return self.key

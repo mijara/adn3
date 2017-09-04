@@ -42,11 +42,26 @@
     }
   },
   {
+    "model": "courses.Campus",
+    "pk": 3,
+    "fields": {
+      "name": "Vitacura"
+    }
+  },
+  {
     "model": "misc.Setting",
     "pk": 1,
     "fields": {
       "key": "preregistrations-open",
       "value": "True"
+    }
+  },
+  {
+    "model": "misc.Setting",
+    "pk": 2,
+    "fields": {
+      "key": "welcome-message",
+      "value": "Mensaje de Bienvenida"
     }
   },
   {
@@ -61,6 +76,13 @@
     "pk": 2,
     "fields": {
       "name": "MATLAB"
+    }
+  },
+  {
+    "model": "misc.Software",
+    "pk": 3,
+    "fields": {
+      "name": "SPLUS"
     }
   }
 ]

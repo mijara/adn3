@@ -39,6 +39,10 @@ def preregistrations_open():
     return Setting.objects.get(key='preregistrations-open').get_bool()
 
 
+def welcome_message():
+    return Setting.objects.get(key='welcome-message').get_str()
+
+
 def preregistrations_set(value):
     obj = Setting.objects.get(key='preregistrations-open')
     obj.value = str(value)

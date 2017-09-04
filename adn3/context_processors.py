@@ -1,7 +1,6 @@
 import re
 
 from adn3.services import preregistrations_open
-from .constants import *
 
 
 def constants(request):

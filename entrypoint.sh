@@ -1,7 +1,6 @@
 #!/bin/bash
 
 python manage.py migrate
-python manage.py loaddata initial.json
 python manage.py collectstatic --noinput
 
 exec gunicorn adn3.wsgi \
@@ -9,4 +8,3 @@ exec gunicorn adn3.wsgi \
     --bind 0.0.0.0:8000 \
     --workers 3 \
     --log-file -
-
