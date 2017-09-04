@@ -78,7 +78,7 @@
           <div class="form-group">
             <label for="id-software">Software</label>
             <select name="software" id="id-software" class="form-control">
-              {% for software in software_list %}
+              {% for software in course.software.all %}
                 <option value="{{ software.pk }}">{{ software }}</option>
               {% endfor %}
             </select>

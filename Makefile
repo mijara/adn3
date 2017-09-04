@@ -4,3 +4,5 @@ build:
 push:
 	docker push mijara/adn3
 
+all: build push
+

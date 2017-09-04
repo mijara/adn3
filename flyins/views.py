@@ -21,14 +21,13 @@ class FlyInsActiveMixin(UserPassesTestMixin):
         return preregistrations_open() and is_authenticated
 
 
-class RolAuthenticationView(UserPassesTestMixin, View):
+class RolAuthenticationView(View):
     template_name = 'flyins/rol_authentication.html'
 
     def get(self, request):
         if request.session.get('rol', False):
             return redirect(reverse_lazy('flyins:course_list'))
-        return render(request, self.template_name, {
-        })
+        return render(request, self.template_name)
 
     def post(self, request):
         initial = {

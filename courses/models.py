@@ -38,8 +38,12 @@ class Course(models.Model):
     # state of the course.
     status = models.BooleanField(default=True, verbose_name=u'Estado')
 
-    teachers = models.ManyToManyField('auth.User', through='CourseTeacher', blank=True,
+    teachers = models.ManyToManyField('auth.User', through='CourseTeacher',
+                                      blank=True,
                                       verbose_name='Profesores')
+
+    software = models.ManyToManyField('misc.Software',
+                                      verbose_name='Software')
 
     # Added for statistics.
     create_date = models.DateTimeField(auto_now_add=True)
