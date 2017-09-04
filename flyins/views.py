@@ -21,7 +21,7 @@ class FlyInsActiveMixin(UserPassesTestMixin):
         return preregistrations_open() and is_authenticated
 
 
-class RolAuthenticationView(View):
+class RolAuthenticationView(UserPassesTestMixin, View):
     template_name = 'flyins/rol_authentication.html'
 
     def get(self, request):
