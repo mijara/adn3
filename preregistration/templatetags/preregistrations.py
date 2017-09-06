@@ -1,8 +1,5 @@
 from django import template
-from django.shortcuts import get_object_or_404
 from django.template import Node
-
-from misc.models import Software
 
 register = template.Library()
 
@@ -68,11 +65,11 @@ class ScheduleNode(Node):
                 flyins = course.flyin_set.filter(software=software, first_preference='%d-%d' % (d, b)).count()
 
                 cls = ''
-                if flyins > 0:
+                if 10 > flyins > 0:
                     cls = 'label-simple'
-                elif flyins >= 10:
+                elif flyins < 20:
                     cls = 'label-warning'
-                elif flyins >= 20:
+                else:
                     cls = 'label-danger'
 
                 html += '<td class="text-center %s"><strong>%s</strong></td>' % (cls, flyins)
