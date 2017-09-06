@@ -7,7 +7,10 @@
 {% endblock %}
 
 {% block breadcrump %}
-  <!-- Left Blank -->
+  <ul class="breadcrumb">
+    <li><a href="{% url 'students:course_detail' version.test.course.pk %}">{{ version.test.course }}</a></li>
+    <li><a href="{% url 'students:test_detail' version.pk %}">{{ version.test }}</a></li>
+  </ul>
 {% endblock %}
 
 {% block container %}
