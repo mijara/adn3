@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from adn3.constants import YEAR, SEMESTER
+from adn3.mixins import CourseMixin
 from coordination.services import generate_excel
 from adn3.services import preregistrations_open, preregistrations_set, \
     is_coordinator
@@ -56,6 +57,14 @@ class PreRegistrationExcelView(CoordinatorTestMixin, View):
             raise Http404()
 
         return get_object_or_404(Software, pk=software_pk)
+
+
+class PreRegistrationsScheduleView(CoordinatorTestMixin, CourseMixin, View):
+    def get(self, request, course_pk, software_pk):
+        return render(request, 'coordination/course_schedule.html', {
+            'view': self,
+            'software': get_object_or_404(Software, pk=software_pk)
+        })
 
 
 class PreRegistrationsToggle(CoordinatorTestMixin, View):

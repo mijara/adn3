@@ -75,10 +75,9 @@
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal">Cerrar
-                </button>
-                <button type="submit" class="btn btn-primary">Generar</button>
+                <a href="#" onclick="showFirstPriority()" class="btn btn-info pull-left">Ver Resumen Primera Prioridad</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary">Generar</button>
               </div>
             </form>
           </div>
@@ -86,4 +85,14 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+  function showFirstPriority() {
+    var course = $('#id-course').val();
+    var software = $('#id-software').val();
+    window.open('preregistrations/schedule/' + course + '/' + software + '/', '_blank' );
+  }
+  </script>
 {% endblock %}

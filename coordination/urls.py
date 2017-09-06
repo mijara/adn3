@@ -15,6 +15,12 @@ urlpatterns = [
     ),
 
     url(
+        r'^preregistrations/schedule/(?P<course_pk>\d+)/(?P<software_pk>\d+)/$',
+        views.PreRegistrationsScheduleView.as_view(),
+        name='preregistrations_schedule'
+    ),
+
+    url(
         r'^preregistrations/toggle/$',
         views.PreRegistrationsToggle.as_view(),
         name='preregistrations_toggle'
