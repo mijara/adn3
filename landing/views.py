@@ -6,10 +6,10 @@ from adn3.services import is_teacher, is_student, is_assistant, welcome_message
 
 def index(request):
     if request.user.is_authenticated():
-        if is_teacher(request.user):
-            return redirect('teachers:index')
-        elif is_student(request.user):
+        if is_student(request.user):
             return redirect('students:agenda_list')
+        elif is_teacher(request.user):
+            return redirect('teachers:index')
 
     return render(request, 'landing/index.html', {
         'welcome_message': welcome_message()

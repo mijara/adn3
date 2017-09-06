@@ -33,7 +33,8 @@ class AgendaListView(UserPassesTestMixin, generic.ListView):
                     courses.append(a.course)
             context['assistant_courses'] = courses
 
-
+        if (is_teacher(self.request.user)):
+            context['coordinator_courses'] = self.request.user.course_set.all()
 
         return context
 

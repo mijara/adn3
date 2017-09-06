@@ -50,7 +50,7 @@ class RolForm(forms.Form):
             digit = 0
         elif digit == 10:
             digit = 'K'
-            
+
         if check_digit.lower() != str(digit).lower():
             raise ValidationError("Rol not valid")
 

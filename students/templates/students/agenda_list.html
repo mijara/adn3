@@ -43,7 +43,7 @@
             </div>
           {% endif %}
         {% endfor %}
-        {% if request.user|is_assistant %}
+        {% if assistant_courses %}
           <div class="row">
             <div class="col-sm-12">
               <h1 class="header">Mis Ayudantías</h1>
@@ -57,6 +57,36 @@
                     <div class="col-sm-6">
                       <h4 class="text-fit">
                         <a href="{% url 'assistants:course_detail' course.pk %}">
+                          {{ course }}
+                        </a>
+                      </h4>
+                      <div class="text-muted">{{ course.code }}</div>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                      {{ course.count_inscriptions }} Alumnos,
+                      {{ course.count_assistants }} Ayudantes
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        {% if coordinator_courses %}
+          <div class="row">
+            <div class="col-sm-12">
+              <h1 class="header">Mis Coordinaciones</h1>
+            </div>
+          </div>
+          {% for course in coordinator_courses %}
+            {% if course.status %}
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h4 class="text-fit">
+                        <a href="{% url 'courses:course_detail' course.pk %}">
                           {{ course }}
                         </a>
                       </h4>
