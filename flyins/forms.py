@@ -46,7 +46,12 @@ class RolForm(forms.Form):
 
         digit = 11 - (sum % 11)
 
-        if int(check_digit) != digit:
+        if digit == 11:
+            digit = 0
+        elif digit == 10:
+            digit = 'K'
+        print(digit, check_digit)
+        if check_digit.lower() != str(digit).lower():
             raise ValidationError("Rol not valid")
 
         return rol

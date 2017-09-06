@@ -5,7 +5,7 @@ from django.views import View
 from tests.models import Version, StudentsAnswers, Test, Answer
 from students import services
 
-from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student, is_student_of
+from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student, is_student_of, is_teacher
 from courses.models import Agenda, Course
 
 from django.http import HttpResponseRedirect, JsonResponse
@@ -32,6 +32,8 @@ class AgendaListView(UserPassesTestMixin, generic.ListView):
                 if a.course not in courses:
                     courses.append(a.course)
             context['assistant_courses'] = courses
+
+
 
         return context
 

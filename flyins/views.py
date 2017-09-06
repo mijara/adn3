@@ -36,7 +36,7 @@ class RolAuthenticationView(UserPassesTestMixin, View):
         form = RolForm(initial)
 
         if form.is_valid():
-            request.session.set_expiry(1200)
+            request.session.set_expiry(1)
             request.session['rol'] = self.request.POST.get('rol')
 
             return redirect(reverse_lazy('flyins:course_list'))
