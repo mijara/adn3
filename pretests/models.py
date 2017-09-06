@@ -33,6 +33,18 @@ class Pretest(models.Model):
     def get_delete_url(self):
         return 'pretests:pretest_delete', [self.course.pk, self.pk]
 
+    def get_submitted_pretests(self):
+        pretests = self.pretestupload_set.all()
+        reviewed = 0
+        for pretest in self.pretestupload_set.all():
+            if pretest.qualification:
+                reviewed  += 1
+        if len(pretests):
+            return [pretests, len(pretests), reviewed, len(pretests) - reviewed]
+        else:
+            return None
+
+
 
 class PretestFile(models.Model):
     pretest = models.ForeignKey('Pretest')
@@ -60,3 +72,5 @@ class PretestUpload(models.Model):
     student = models.ForeignKey('registration.Student', verbose_name='Estudiante')
 
     file = models.FileField(verbose_name='Archivo')
+
+    qualification = models.IntegerField(null=True)

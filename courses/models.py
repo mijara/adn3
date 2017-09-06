@@ -82,6 +82,12 @@ class Course(models.Model):
                 return True
         return False
 
+    def has_submitted_pretests(self):
+        for pretest in self.pretest_set.all():
+            if pretest.pretestupload_set.all():
+                return True
+        return False
+
     def get_students(self):
         for agenda in self.agenda_set.all():
             for student in agenda.inscriptions.all():

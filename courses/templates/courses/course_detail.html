@@ -104,6 +104,12 @@
         <h3 class="header"><span class="glyphicon glyphicon-inbox step"></span> Preinformes</h3>
 
         {% include 'pretests/_list.html' %}
+
+        <h3 class="header"><span class="glyphicon glyphicon-check step"></span> Disponibles para revisión</h3>
+
+        {% with course.pretest_set as pretest_list %}
+          {% include 'pretests/_pretest_review_list.html' %}
+        {% endwith %}
       {% endif %}
 
       {% if section == 'tests' %}

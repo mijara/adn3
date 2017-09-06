@@ -1,0 +1,101 @@
+{% extends 'base_courses.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block breadcrump %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+        <li><a href="{{ pretest.course.get_absolute_url }}">{{ pretest.course }}</a></li>
+        <li><a href="{{ pretest.course.get_tests_url }}">Controles</a></li>
+        <li><a href="{% url 'pretests:pretest_review_list' pretest.course.pk pretest.pk %}">Revisión {{ pretest.name }}</a></li>
+    </ol>
+{% endblock %}
+
+{% block container %}
+
+  {% with pretest.get_submitted_pretests  as pretests %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="header">
+                <span class="glyphicon glyphicon-check step"></span>
+                Revisión {{ pretest }} <span class="small">{{ pretests.3 }} de {{ pretests.1 }} revisiones pendientes</span>
+            </h1>
+        </div>
+    </div>
+      <div class="row">
+        <div class="col-sm-12">
+          {% if request.GET.message == 'success' %}
+            <div class="alert alert-success">
+              Calificación enviada con éxito
+            </div>
+          {% elif request.GET.message == 'nomore' %}
+            <div class="alert alert-warning">
+              No quedan controles por calificar
+            </div>
+          {% endif %}
+          <div class="table-responsive ">
+            <table class="table panel panel-default">
+              <thead>
+              <tr class="table-heading">
+                <th width="100%">Estudiante</th>
+                <th width="0%">Estado</th>
+                <th width="0%">Nota</th>
+                <th width="0%"></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for pretest in pretests.0 %}
+                <tr>
+                  <td>{{ pretest.student.user.first_name }} {{ pretest.student.user.last_name }}</td>
+                  <td>
+                    {% if pretest.qualification is not None %}
+                      <span class="text-success">Revisada</span>
+                    {% else %}
+                      <span class="text-danger">Pendiente</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                      {{ pretest.qualification|default_if_none:"-" }}
+                  </td>
+                  <td><a href="{{ pretest.get_review_url }}" type="button" class="btn btn-primary">Calificar</a></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endwith %}
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'vendor/DataTables/datatables.min.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      $('.table').DataTable({
+        "language": {
+          "paginate": {
+              "first": "Primera página",
+              "last": "Última página",
+              "next": "Siguiente",
+              "previous": "Anterior"
+          },
+          "info": "Mostrando página _PAGE_ de _PAGES_",
+          "lengthMenu": "Mostrar _MENU_ controles por página",
+          "loadingRecords": "Por favor, espere",
+          "search": "Buscar",
+          "zeroRecords": "No hay resultados para la búsqueda",
+          "infoEmpty": "No hay controles para mostrar",
+          "infoFiltered": "(De un total de _MAX_ controles)"
+        },
+        "columnDefs": [
+            {"orderable": false, "targets": 3}
+        ]
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/DataTables/datatables.min.css' %}"/>
+{% endblock %}

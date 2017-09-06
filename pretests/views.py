@@ -1,25 +1,33 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
+
+from adn3.services import is_teacher_of
 
 from adn3 import mixins
 from .forms import *
 
 
-class PretestMixin(mixins.CourseMixin):
+
+
+class PretestMixin(UserPassesTestMixin, mixins.CourseMixin):
     def get_pretest(self):
         return get_object_or_404(Pretest, pk=self.kwargs['pretest_pk'])
 
+    def test_func(self):
+        return is_teacher_of(self.request.user, self.get_course())
 
-class PretestDetailView(mixins.CourseMixin, generic.DetailView):
+
+class PretestDetailView(PretestMixin, mixins.CourseMixin, generic.DetailView):
     model = Pretest
 
 
-class PretestUpdateView(mixins.CourseMixin, generic.UpdateView):
+class PretestUpdateView(PretestMixin, mixins.CourseMixin, generic.UpdateView):
     model = Pretest
     form_class = PretestForm
 
 
-class PretestCreateView(mixins.CourseMixin, generic.CreateView):
+class PretestCreateView(PretestMixin, mixins.CourseMixin, generic.CreateView):
     model = Pretest
     form_class = PretestForm
 
@@ -28,7 +36,7 @@ class PretestCreateView(mixins.CourseMixin, generic.CreateView):
         return super(PretestCreateView, self).form_valid(form)
 
 
-class PretestDeleteView(mixins.CourseMixin, generic.DeleteView):
+class PretestDeleteView(PretestMixin, mixins.CourseMixin, generic.DeleteView):
     model = Pretest
 
     def get_success_url(self):
@@ -52,3 +60,13 @@ class PretestFileDeleteView(PretestMixin, generic.DeleteView):
 
     def get_success_url(self):
         return self.get_pretest().get_absolute_url()
+
+
+class PretestReviewListView(PretestMixin, mixins.CourseMixin, generic.DetailView):
+    model = Pretest
+    template_name = 'pretests/pretest_review_students_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = self.get_course()
+        return context

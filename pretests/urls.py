@@ -37,4 +37,10 @@ urlpatterns = [
         views.PretestFileDeleteView.as_view(),
         name='pretestfile_delete'
     ),
+
+    url(
+        r'^(?P<pk>\d+)/review/$',
+        views.PretestReviewListView.as_view(),
+        name='pretest_review_list'
+    ),
 ]

@@ -1,0 +1,32 @@
+{% if not course.has_submitted_pretests %}
+  <div class="alert alert-warning">
+    No hay preinformes para revisar
+  </div>
+{% else %}
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr class="table-heading">
+          <th width="60%">Nombre</th>
+          <th width="20%">Total</th>
+          <th width="20%">Revisados</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pretest in pretest_list.all %}
+          {% with pretest.get_submitted_pretests as pretests %}
+            {% if pretests %}
+              <tr>
+                <td><a href="{% url 'pretests:pretest_review_list' pretest.course.pk pretest.pk %}">{{ pretest.name }}</a></td>
+                <td>{{ pretest.1 }}</td>
+                <td>{{ pretest.2 }}</td>
+              </tr>
+            {% endif %}
+          {% endwith %}
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endif %}
