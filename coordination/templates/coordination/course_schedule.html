@@ -10,7 +10,9 @@
   <h2 class="page-header"><span class="glyphicon glyphicon-calendar"></span> {{ view.get_course }} <small>{{ software }}</small></h2>
 
   <div class="panel panel-default">
-    {% generate_calendar_p1 %}
+    <div class="table-responsive">
+      {% generate_calendar_p1 %}
+    </div>
   </div>
   </div>
 {% endblock %}

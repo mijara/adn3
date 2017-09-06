@@ -33,7 +33,7 @@ class PreRegistrationExcelView(CoordinatorTestMixin, View):
         course = self.get_course()
         software = self.get_software()
 
-        pr_list = course.flyin_set.filter(software=software).all()
+        pr_list = course.flyin_set.filter(software=software).order_by('pk')
         content = generate_excel(course, software, pr_list)
 
         response = HttpResponse(

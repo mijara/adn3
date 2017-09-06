@@ -43,8 +43,11 @@ class FlyIn(models.Model):
         max_length=32,
         verbose_name='Quinta Preferencia', blank=True, null=True)
 
+    def get_full_name(self):
+        return self.first_name + ' ' + self.last_names
+
     def __str__(self):
-        return str(self.first_name + ' ' + self.last_names)
+        return self.get_full_name()
 
     def get_absolute_url(self):
         return reverse_lazy('flyins:preregistration_detail',

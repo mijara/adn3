@@ -67,9 +67,9 @@ class ScheduleNode(Node):
                 cls = ''
                 if 10 > flyins > 0:
                     cls = 'label-simple'
-                elif flyins < 20:
+                elif 10 <= flyins < 20:
                     cls = 'label-warning'
-                else:
+                elif flyins >= 20:
                     cls = 'label-danger'
 
                 html += '<td class="text-center %s"><strong>%s</strong></td>' % (cls, flyins)

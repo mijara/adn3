@@ -38,7 +38,7 @@ def generate_excel(course, software, pr_list):
 
     for i, pr in enumerate(pr_list):
         ws['B%s' % (6 + i)] = i + 1
-        ws['C%s' % (6 + i)] = '{{"'
+        ws['C%s' % (6 + i)] = '{{"' if i == 0 else '{"'
         # ws['D%s' % (6 + i)] = pr.student.rol
         ws['D%s' % (6 + i)] = pr.rol
         ws['E%s' % (6 + i)] = '","'
