@@ -61,9 +61,12 @@ class PreRegistrationExcelView(CoordinatorTestMixin, View):
 
 class PreRegistrationsScheduleView(CoordinatorTestMixin, CourseMixin, View):
     def get(self, request, course_pk, software_pk):
+        flyins = self.get_course().flyin_set.filter(software_id=software_pk)
+
         return render(request, 'coordination/course_schedule.html', {
             'view': self,
-            'software': get_object_or_404(Software, pk=software_pk)
+            'software': get_object_or_404(Software, pk=software_pk),
+            'pr_count': flyins.count()
         })
 
 
