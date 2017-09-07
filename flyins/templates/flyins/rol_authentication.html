@@ -17,13 +17,38 @@
             <form action="" method="POST">
               {% csrf_token %}
               <div class="form-group">
-                <input name="rol" class="form-control" placeholder="123456789-0" required>
+                <input id="rol" name="rol" class="form-control" placeholder="123456789-0" required>
               </div>
-              <input type="submit" class="btn btn-success col-sm-12 lead">
+              <input type="submit" class="btn btn-success btn-block lead">
+              <br>
+              <div id="warning" class="alert alert-danger hidden no-margin">El número ingresado no parece ser un rol</div>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+      var currentYear = (new Date()).getFullYear();
+
+      $(document).ready(function () {
+          $("#rol").bind('change blur keyup click', function () {
+              let regex = /(\d*)\-([\dK])/gi;
+              $('#warning').addClass('hidden');
+              let rol = regex.exec($(this).val());
+              if (rol != null) {
+                  let year = rol[0].substring(0, 4);
+                  let career = rol[0].substring(4, 6);
+                  let position = rol[0].substring(6, 9);
+
+                  if (parseInt(year) > currentYear || parseInt(year) < 2010 || rol[1].length !== 9) {
+                      $('#warning').removeClass('hidden');
+                  }
+              }
+          });
+      });
+  </script>
 {% endblock %}

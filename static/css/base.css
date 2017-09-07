@@ -534,3 +534,7 @@ div.review-footer table tr:first-child td {
         border-bottom: 1px solid #e5e5e5
     }
 }
+
+.no-margin {
+    margin: 0 !important;
+}
