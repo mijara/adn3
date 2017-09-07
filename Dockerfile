@@ -11,4 +11,3 @@ RUN pip install -r /src/requirements.txt
 WORKDIR /src
 COPY ./entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
-
