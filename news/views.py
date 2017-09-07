@@ -1,20 +1,20 @@
-from django.core.urlresolvers import reverse_lazy
 from django.views import generic
 
 from adn3 import mixins
+from courses.views import IsTeacherOfCourseMixin
 from .forms import *
 
 
-class NewDetail(mixins.CourseMixin, generic.DetailView):
+class NewDetail(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.DetailView):
     model = New
 
 
-class NewUpdate(mixins.CourseMixin, generic.UpdateView):
+class NewUpdate(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.UpdateView):
     model = New
     form_class = NewForm
 
 
-class NewCreate(mixins.CourseMixin, generic.CreateView):
+class NewCreate(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.CreateView):
     model = New
     form_class = NewForm
 
@@ -24,7 +24,7 @@ class NewCreate(mixins.CourseMixin, generic.CreateView):
         return super(NewCreate, self).form_valid(form)
 
 
-class NewDelete(mixins.GoBackPageMixin, mixins.CourseMixin,
+class NewDelete(mixins.GoBackPageMixin, IsTeacherOfCourseMixin, mixins.CourseMixin,
                 generic.DeleteView):
     model = New
 
