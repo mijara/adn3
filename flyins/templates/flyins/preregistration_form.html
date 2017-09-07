@@ -42,7 +42,7 @@
     {% generate_calendar %}
   </div>
 
-  <form action="" method="post">
+  <form action="" method="post" id="form">
     {% csrf_token %}
 
     <div class="panel panel-default">
@@ -97,10 +97,12 @@
 
       <div class="panel-footer">
         <div class="pull-right">
-          <button class="btn btn-success">Enviar Pre-Inscripción</button>
+          <button class="btn btn-success" id="submit-btn">Enviar Pre-Inscripción</button>
         </div>
 
-        <p>Revise los datos antes de enviar la pre-inscripción! No existirá posibilidad de modificaciones.</p>
+        <p class="text-danger">
+          * Revise los datos antes de enviar la pre-inscripción! No existirá posibilidad de modificaciones.
+        </p>
       </div>
     </div>
   </form>
@@ -115,6 +117,11 @@
 
   <script>
       $(function () {
+          $("#form").submit(function () {
+              $("#submit-btn").attr("disabled", true);
+              return true;
+          });
+
           var selected = 0;
 
           $('.calendar-item').click(function () {

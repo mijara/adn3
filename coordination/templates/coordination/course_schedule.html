@@ -1,0 +1,18 @@
+{% extends 'base_teachers.html' %}
+{% load preregistrations %}
+
+{% block breadcrump %}
+  <!-- Left blank -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+  <h2 class="page-header"><span class="glyphicon glyphicon-calendar"></span> {{ view.get_course }} <small>{{ software }}</small></h2>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      {% generate_calendar_p1 %}
+    </div>
+  </div>
+  </div>
+{% endblock %}

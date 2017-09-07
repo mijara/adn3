@@ -70,11 +70,8 @@
                 class="caret"></span></a>
             <ul class="dropdown-menu">
               {% if user|is_student %}
-                <li><a href="{{ user.student.get_absolute_url }}">Perfil</a>
-                </li>
+                <li><a href="{{ user.student.get_absolute_url }}">Perfil</a></li>
               {% endif %}
-              <li><a href="#">¿Necesitas Ayuda?</a></li>
-              <li role="separator" class="divider"></li>
               <li><a href="{% url 'landing:logout' %}">Cerrar Sesión</a></li>
             </ul>
           </li>

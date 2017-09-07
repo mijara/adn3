@@ -75,9 +75,18 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
     form_class = FlyInForm
 
     def get(self, request, course_pk):
+        rol = self.request.session.get('rol', False)
+        course = self.get_course()
+
+        # has_pr = FlyIn.objects.filter(rol=rol, course=course).exists()
+        # if has_pr:
+        # return render(request, 'flyins/preregistration_exists.html', {
+        #         'course': course,
+        #     })
+
         return render(request, self.template_name, {
             'software_list': Software.objects.all(),
-            'course': self.get_course()
+            'course': course
         })
 
     def post(self, request, course_pk):
