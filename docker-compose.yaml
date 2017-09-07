@@ -11,4 +11,14 @@ services:
       - DJANGO_DEBUG=False
     ports:
       - "8000:8000"
-    network_mode: bridge
+  nginx:
+    container_name: nginx
+    image: nginx
+    volumes:
+      - /Users/mijara/media:/media
+      - /Users/mijara/Projects/adn3/staticroot:/static
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - "7000:7000"
+    depends_on:
+      - adn3
