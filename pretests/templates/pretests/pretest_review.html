@@ -1,0 +1,133 @@
+{% extends 'base_courses.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ pretestupload.pretest.course.get_absolute_url }}">{{ pretestupload.pretest.course }}</a></li>
+    <li><a href="{{ pretestupload.pretest.course.get_pretests_url }}">Preinformes</a></li>
+    <li><a href="{% url 'pretests:pretest_review_list' pretestupload.pretest.course.pk pretestupload.pretest.pk %}">Revisión {{ pretestupload }}</a>
+    </li>
+    <li><a
+        href="{% url 'pretests:pretest_review' pretestupload.pretest.course.pk pretestupload.pk pretestupload.student.pk %}">Preinforme
+      de {{ pretestupload.student.user.first_name }} {{ pretestupload.student.user.last_name }}</a></li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="glyphicon glyphicon-check step"></span>
+        Revisión {{ pretestupload }} <span
+          class="small">de {{ pretestupload.student.user.first_name }} {{ pretestupload.student.user.last_name }}</span>
+      </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Documento adjunto
+        </div>
+        <div class="panel-body">
+          {% if pretestupload.file %}
+            <span>{{ pretestupload.file.name }}</span>
+            <span class="pull-right">
+              <a class="btn btn-primary"
+                 href="{{ pretestupload.get_download_url }}">
+                  Descargar
+              </a>
+            </span>
+          {% else %}
+            <span>El estudiante no adjuntó un documento</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <form id="form" action="" method="POST" novalidate>
+      {% csrf_token %}
+      <div class="col-xs-12">
+        <div id="feedback" class="panel panel-default">
+          <div class="col-md-8">
+            <textarea class="form-control" name="feedback" rows="10"
+                      placeholder="Escriba un comentario para el estudiante">{{ pretestupload.feedback | default_if_none:"" }}</textarea>
+          </div>
+          <div class="col-md-4">
+            <input class="form-control" type="number" name="grade" id="grade" placeholder="Nota" value="{{ pretestupload.qualification | default_if_none:"" }}">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="panel panel-default review-footer no-footer-border">
+          <div class="panel-footer">
+            <button type="submit" name="action" value="close-after" class="btn btn-default">Guardar y salir</button>
+            <button type="submit" name="action" value="next-after" class="btn btn-primary pull-right">Guardar y
+              pasar al siguiente
+            </button>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="modalLabel">Hubo un problema</h4>
+        </div>
+        <div class="modal-body">
+          Asegurese de corregir todas las preguntas
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+      $(document).ready(function () {
+          if (parseInt($("#grade").val()) < 55) {
+              $("#grade").css('color', '#da4f4a');
+          } else if (parseInt($("#grade").val()) >= 55) {
+              $("#grade").css('color', '#5ab75c');
+          } else {
+              $("#grade").css('color', '#777');
+          }
+
+          $("#grade").on('input', function () {
+              if (parseInt($(this).val()) < 55) {
+                  $(this).css('color', '#da4f4a');
+              } else if (parseInt($(this).val()) >= 55) {
+                  $(this).css('color', '#5ab75c');
+              } else {
+                  $(this).css('color', '#777');
+              }
+
+              if (parseInt($(this).val()) > 100) {
+                  $(this).val(100);
+              } else if (parseInt($(this).val()) < 0) {
+                  $(this).val(0);
+              }
+          })
+      });
+
+      $("#form").submit(function(e) {
+          if (isNaN(parseInt($("#grade").val()))) {
+              alert('La calificación debe ser un número entero.');
+              return false;
+          }
+      })
+  </script>
+{% endblock %}

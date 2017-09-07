@@ -361,6 +361,20 @@ div.modal.modal-dialog-news {
     width: 15%;
 }
 
+.pretest-grade {
+    background: #fafafa;
+}
+
+.pretest-feedback .feedback {
+    padding: 15px;
+    white-space: normal;
+}
+
+.pretest-feedback p {
+    margin: 0;
+}
+
+
 /*
  * Test Review (Teacher section)
  */
@@ -463,4 +477,56 @@ div.review-footer table {
 
 div.review-footer table tr:first-child td {
     border-top: none;
+}
+
+.review-footer.no-footer-border > .panel-footer {
+    border-top: none;
+}
+
+
+/*
+ * Pretest Review (Teacher section)
+ */
+
+#feedback > div {
+    padding: 0;
+}
+
+#feedback textarea {
+    resize: none;
+    outline: none;
+    box-shadow: none;
+    border: 0;
+    font-size: 15pt;
+    font-weight: 300;
+    height: 200px;
+    padding: 20px;
+    border-right: 1px solid #e5e5e5;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+#feedback input {
+    outline: none;
+    box-shadow: none;
+    border: 0;
+    font-size: 35pt;
+    font-weight: 300;
+    text-align: center;
+    height: 200px;
+}
+
+#feedback input::-webkit-outer-spin-button,
+#feedback input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@media screen and (max-width: 991px) {
+    #feedback textarea {
+        border: none;
+        border-bottom: 1px solid #e5e5e5
+    }
 }

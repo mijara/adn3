@@ -73,4 +73,16 @@ class PretestUpload(models.Model):
 
     file = models.FileField(verbose_name='Archivo')
 
-    qualification = models.IntegerField(null=True)
+    qualification = models.IntegerField(null=True, verbose_name='Calificación')
+
+    feedback = models.TextField(null=True, verbose_name='Comentario')
+
+    def __str__(self):
+        return self.pretest.name
+
+    def get_download_url(self):
+        return self.file.url
+
+    @models.permalink
+    def get_review_url(self):
+        return 'pretests:pretest_review', [self.pretest.course.pk, self.pretest.pk, self.pk]

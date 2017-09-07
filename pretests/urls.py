@@ -43,4 +43,10 @@ urlpatterns = [
         views.PretestReviewListView.as_view(),
         name='pretest_review_list'
     ),
+
+    url(
+        r'^(?P<pretest_pk>\d+)/review/(?P<pk>\d+)$',
+        views.PretestReviewView.as_view(),
+        name='pretest_review'
+    ),
 ]

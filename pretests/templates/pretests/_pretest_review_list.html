@@ -19,8 +19,8 @@
             {% if pretests %}
               <tr>
                 <td><a href="{% url 'pretests:pretest_review_list' pretest.course.pk pretest.pk %}">{{ pretest.name }}</a></td>
-                <td>{{ pretest.1 }}</td>
-                <td>{{ pretest.2 }}</td>
+                <td>{{ pretests.1 }}</td>
+                <td>{{ pretests.2 }}</td>
               </tr>
             {% endif %}
           {% endwith %}

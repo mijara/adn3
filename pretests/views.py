@@ -1,13 +1,12 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 
 from adn3.services import is_teacher_of
-
 from adn3 import mixins
 from .forms import *
-
-
 
 
 class PretestMixin(UserPassesTestMixin, mixins.CourseMixin):
@@ -70,3 +69,24 @@ class PretestReviewListView(PretestMixin, mixins.CourseMixin, generic.DetailView
         context = super().get_context_data(**kwargs)
         context['course'] = self.get_course()
         return context
+
+
+class PretestReviewView(PretestMixin, generic.DetailView):
+    model = PretestUpload
+    template_name = "pretests/pretest_review.html"
+
+    def post(self, request, *args, **kwargs):
+        pretest = self.get_object()
+        pretest.qualification = request.POST.get('grade')
+        pretest.feedback = request.POST.get('feedback')
+        pretest.save()
+
+        pretests_list_url = reverse('pretests:pretest_review_list', args=[kwargs['course_pk'], kwargs['pretest_pk']])
+        if request.POST.get('action') == "close-after":
+            return HttpResponseRedirect(pretests_list_url + '?message=success');
+        elif request.POST.get('action') == "next-after":
+            next_ = PretestUpload.objects.filter(pretest__pk=kwargs['pretest_pk'], qualification=None).first()
+            if next_:
+                return HttpResponseRedirect(next_.get_review_url())
+            else:
+                return HttpResponseRedirect(pretests_list_url + '?message=nomore')

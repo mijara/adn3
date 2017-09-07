@@ -1,3 +1,5 @@
+{% load pretest %}
+
 {% if course.pretest_set.all %}
   <div class="panel panel-default">
     <table class="table table-responsive">
@@ -24,6 +26,58 @@
               {% endfor %}
             {% else %}
               <span class="text-info">No hay archivos</span>
+            {% endif %}
+          </td>
+          <td width="0%" class="spacing bg">
+            {% get_pretestupload pretest as pretestupload %}
+            {% if pretestupload %}
+              {% if pretestupload.qualification %}
+                {% if pretest.show_grade %}
+                  <div class="text-center text-info lead">
+                    <button type="button" class="btn btn-link" data-toggle="modal"
+                            data-target="#pretest{{ pretestupload.pk }}">
+                      <span class="lead">{{ pretestupload.qualification }}</span>
+                    </button>
+                  </div>
+                  <div class="modal fade" id="pretest{{ pretestupload.pk }}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          Revisión del profesor
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span>&times;</span>
+                          </button>
+                        </div>
+                        <div>
+                          <div class="pretest-feedback">
+                            <div class="lead feedback text-justify">{{ pretestupload.feedback | safe | default_if_none:"" }}</div>
+                            <div class="lead text-center pretest-grade">
+                              <p class="text-info">Calificación</p>
+                              <p>
+                                {% if pretestupload.qualification < 55 %}
+                                  <span class="text-danger">
+                                {% else %}
+                                  <span class="text-success">
+                                {% endif %}
+                                {{ pretestupload.qualification }}
+                                </span>
+                              </span>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% else %}
+                  <div class="text-center text-success">Revisado</div>
+                {% endif %}
+              {% else %}
+                <div class="text-center text-info">Pendiente de revisión</div>
+              {% endif %}
+            {% else %}
+              <div class="text-center text-info">Envío pendiente</div>
             {% endif %}
           </td>
         </tr>
