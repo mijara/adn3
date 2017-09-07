@@ -1,0 +1,14 @@
+version: "2"
+services:
+  adn3:
+    container_name: adn3
+    image: mijara/adn3
+    restart: on-failure
+    command: bash -c "python manage.py migrate && gunicorn adn3.wsgi -b 0.0.0.0:8000"
+    volumes:
+      - /Users/mijara/media:/src/media
+    environment:
+      - DJANGO_DEBUG=False
+    ports:
+      - "8000:8000"
+    network_mode: bridge

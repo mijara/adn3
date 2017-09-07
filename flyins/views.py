@@ -106,7 +106,7 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
             'first_name': self.request.POST.get('first_name'),
             'last_names': self.request.POST.get('last_names'),
             'rol': self.request.POST.get('rol'),
-            'usm_priority': self.request.POST.get('usm_priority'),
+            'usm_priority': self.request.POST.get('usm_priority').replace(',', '.'),
         }
         initial.update(selections)
 
