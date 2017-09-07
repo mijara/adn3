@@ -29,8 +29,7 @@
             </div>
           </div>
         {% endfor %}
-
-        {% if news|length == 0 %}
+        {% if new_list.count == 0 %}
           <div class="alert alert-warning">
             No existen noticias para este curso.
           </div>
