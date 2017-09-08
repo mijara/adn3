@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from adn3.mixins import CourseMixin
-from adn3.services import is_teacher_of
+from adn3.services import is_teacher_of, is_coordinator
 from courses.services import generate_grades_excel
 from .forms import *
 from . import services
@@ -12,10 +12,10 @@ from django.views import View
 
 class IsTeacherOfCourseMixin(UserPassesTestMixin):
     def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course())
+        return is_coordinator(self.request.user) or is_teacher_of(self.request.user, self.get_course())
 
 
-class CourseDetail(UserPassesTestMixin, CourseMixin, View):
+class CourseDetail(IsTeacherOfCourseMixin, CourseMixin, View):
     def get(self, request, course_pk, section='agendas'):
         return render(self.request, 'courses/course_detail.html', {
             'view': self,
@@ -24,15 +24,12 @@ class CourseDetail(UserPassesTestMixin, CourseMixin, View):
             'section': section,
         })
 
-    def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course())
-
 
 def index(request):
     return redirect('teachers:index')
 
 
-class GradesView(UserPassesTestMixin, CourseMixin, View):
+class GradesView(IsTeacherOfCourseMixin, CourseMixin, View):
     def get(self, request, course_pk):
         return render(request, 'courses/grades.html', {
             'view': self,
@@ -41,11 +38,8 @@ class GradesView(UserPassesTestMixin, CourseMixin, View):
             'course': self.get_course(),
         })
 
-    def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course())
 
-
-class GradesConfigView(UserPassesTestMixin, CourseMixin, View):
+class GradesConfigView(IsTeacherOfCourseMixin, CourseMixin, View):
     def get(self, request, course_pk):
         course = self.get_course()
 
@@ -75,9 +69,6 @@ class GradesConfigView(UserPassesTestMixin, CourseMixin, View):
             'ACTIVE': 'grades',
             'general_form': general_form
         })
-
-    def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course())
 
 
 class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):

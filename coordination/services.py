@@ -1,5 +1,6 @@
 import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
+from datetime import datetime
 
 
 def dayblock_to_adn2_format(day):
@@ -17,10 +18,13 @@ def generate_excel(course, software, pr_list):
     wb = openpyxl.Workbook()
     ws = wb.active
 
+    dt = datetime.now()
+
     ws['E2'] = str(course)
     ws['E3'] = 'Preinscripciones software {software} para {date}'.format(
         software=software.name,
-        date='20170311_12:39:17'
+        # format example: '20170311_12:39:17'
+        date=dt.strftime("%Y%m%d_%H:%M:%S")
     )
 
     ws['B5'] = 'Nro'
