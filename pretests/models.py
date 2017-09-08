@@ -37,7 +37,7 @@ class Pretest(models.Model):
         pretests = self.pretestupload_set.all()
         reviewed = 0
         for pretest in self.pretestupload_set.all():
-            if pretest.qualification:
+            if pretest.qualification is not None:
                 reviewed  += 1
         if len(pretests):
             return [pretests, len(pretests), reviewed, len(pretests) - reviewed]

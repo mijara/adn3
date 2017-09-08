@@ -59,7 +59,7 @@
                 </div>
               </td>
               <td width="0%" class="spacing bg">
-                {% if test.qualification %}
+                {% if test.qualification is not None %}
                   {% if test.version.test.show_grade %}
                     <div class="pull-right text-info lead">{{ test.qualification }}</div>
                   {% else %}

@@ -59,7 +59,7 @@ class Test(models.Model):
             for answer in version.studentsanswers_set.all():
                 if answer.get_status() == 2:
                     tests.append(answer)
-                    if answer.qualification:
+                    if answer.qualification is not None:
                         reviewed += 1
         if len(tests):
             return [tests, len(tests), reviewed, len(tests) - reviewed]

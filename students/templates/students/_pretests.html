@@ -31,7 +31,7 @@
           <td width="0%" class="spacing bg">
             {% get_pretestupload pretest as pretestupload %}
             {% if pretestupload %}
-              {% if pretestupload.qualification %}
+              {% if pretestupload.qualification is not None %}
                 {% if pretest.show_grade %}
                   <div class="text-center text-info lead">
                     <button type="button" class="btn btn-link" data-toggle="modal"
@@ -43,7 +43,7 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          Revisión del profesor
+                          Revisión de <strong>{{ pretestupload.pretest }}</strong>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span>&times;</span>
                           </button>
