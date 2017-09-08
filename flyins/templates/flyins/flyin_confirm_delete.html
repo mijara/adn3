@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+  <!-- EMPTY -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="col-sm-12">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            Modificar preinscripción
+          </div>
+
+          <div class="panel-body">
+            <p>
+              Estimado/a
+              <strong>{{ flyin.first_name }} {{ flyin.last_names }}</strong>,
+              usted ya posee una preinscripción en el curso
+              <strong>{{ flyin.course }}</strong>.
+            </p>
+            <p>Para modificar su preinscripción, primero debe eliminar la actual rellenando los siguientes
+              datos:
+            </p>
+            <div>
+              {% if form.errors %}
+                <div class="alert alert-danger">
+                  <strong>Datos incorrectos</strong>
+                </div>
+              {% endif %}
+              <div class="form-group">
+                <label for="id-rol">Rol USM</label>
+                <input name="rol" id="id-rol" class="form-control" value="{{ request.session.rol }}" required>
+              </div>
+              <div class="form-group">
+                <label for="id-secret">Código secreto</label>
+                <input name="secret" id="id-secret" class="form-control" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <a type="button" class="btn btn-default" href="{% url 'flyins:course_list' %}">Volver</a>
+            <input type="submit" class="btn btn-danger pull-right" value="Eliminar">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

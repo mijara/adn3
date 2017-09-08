@@ -25,7 +25,7 @@ class FlyInForm(forms.ModelForm):
 
 
 class RolForm(forms.Form):
-    rol = forms.CharField(max_length=11)
+    rol = forms.CharField()
 
     def clean_rol(self):
         rol = self.cleaned_data['rol']
@@ -55,3 +55,19 @@ class RolForm(forms.Form):
             raise ValidationError("Rol not valid")
 
         return rol
+
+class DeleteForm(forms.Form):
+    rol = forms.CharField()
+    secret = forms.CharField(max_length=64)
+
+    def clean(self):
+        rol = self.cleaned_data['rol']
+        secret = self.cleaned_data['secret']
+        preinscription = FlyIn.objects.filter(rol=rol, secret=secret).first()
+        print(preinscription)
+        if preinscription:
+            return self.cleaned_data
+        else:
+            raise ValidationError("Secret not valid")
+
+

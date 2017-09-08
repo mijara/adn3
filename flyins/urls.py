@@ -31,4 +31,10 @@ urlpatterns = [
         views.FlyInDetailView.as_view(),
         name='preregistration_detail'
     ),
+
+    url(
+        '^(?P<pk>\d+)/delete/$',
+        views.FlyInDeleteView.as_view(),
+        name='preregistration_delete'
+    ),
 ]

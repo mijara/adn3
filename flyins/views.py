@@ -9,7 +9,7 @@ from courses.models import Course
 from misc.models import Software
 from news.models import New
 from .models import FlyIn
-from .forms import FlyInForm, RolForm
+from .forms import FlyInForm, RolForm, DeleteForm
 from adn3 import mixins
 
 
@@ -69,6 +69,12 @@ class NewListView(FlyInsActiveMixin, mixins.CourseMixin, generic.ListView):
 class FlyInDetailView(FlyInsActiveMixin, generic.DetailView):
     model = FlyIn
 
+    def get(self, request, *args, **kwargs):
+        preinscription = self.get_object()
+        if preinscription.rol != self.request.session.get('rol'):
+            return redirect(reverse_lazy('flyins:course_list'))
+        return super().get(self, request, *args, **kwargs)
+
 
 class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
     template_name = 'flyins/preregistration_form.html'
@@ -77,6 +83,11 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
     def get(self, request, course_pk):
         rol = self.request.session.get('rol', False)
         course = self.get_course()
+
+        preinscription = FlyIn.objects.filter(rol=rol, course__pk=course_pk).first()
+        print(preinscription)
+        if preinscription:
+            return redirect(preinscription.get_delete_url())
 
         # has_pr = FlyIn.objects.filter(rol=rol, course=course).exists()
         # if has_pr:
@@ -90,6 +101,13 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
         })
 
     def post(self, request, course_pk):
+        rol = self.request.session.get('rol', False)
+
+        preinscription = FlyIn.objects.filter(rol=rol, course__pk=course_pk).first()
+
+        if preinscription:
+            return redirect(preinscription.get_delete_url())
+
         preferences = request.POST.getlist('block')
         sel_names = ['first_preference', 'second_preference', 'third_preference',
                      'fourth_preference', 'fifth_preference']
@@ -119,4 +137,46 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
         return render(request, self.template_name, {
             'form': form,
             'course': self.get_course(),
+        })
+
+
+class FlyInDeleteView(FlyInsActiveMixin, View):
+    template_name = 'flyins/flyin_confirm_delete.html'
+
+    def get(self, request, pk):
+        rol = self.request.session.get('rol', False)
+
+        preinscription = FlyIn.objects.filter(rol=rol, pk=pk).first()
+
+        if not preinscription:
+            return redirect(reverse_lazy('flyins:course_list'))
+
+        return render(request, self.template_name, {
+            'flyin': preinscription
+        })
+
+    def post(self, request, pk):
+        rol = self.request.session.get('rol', False)
+
+        preinscription = FlyIn.objects.filter(rol=rol, pk=pk).first()
+
+        if not preinscription:
+            return redirect(reverse_lazy('flyins:course_list'))
+
+
+        initial = {
+            'rol': self.request.POST.get('rol'),
+            'secret': self.request.POST.get('secret'),
+        }
+
+        form = DeleteForm(initial)
+
+        if form.is_valid():
+            re = reverse_lazy('flyins:preregistration_create', args=[preinscription.course.pk])
+            preinscription.delete()
+            return redirect(re)
+
+        return render(request, self.template_name, {
+            'form': form,
+            'flyin': preinscription,
         })

@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.db import models
 from django.urls import reverse_lazy
+import uuid
 
 from adn3.choices import make_days_blocks
 
@@ -17,6 +18,8 @@ class FlyIn(models.Model):
     parallel = models.IntegerField()
 
     previous_experience = models.BooleanField()
+
+    secret = models.CharField(max_length=64)
 
     first_preference = models.CharField(
         choices=make_days_blocks(),
@@ -52,3 +55,11 @@ class FlyIn(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('flyins:preregistration_detail',
                             args=[self.pk])
+
+    def get_delete_url(self):
+        return reverse_lazy('flyins:preregistration_delete', args=[self.pk])
+
+    def save(self, *args, **kwargs):
+        # generate secret.
+        self.secret = str(uuid.uuid4())
+        super().save(*args, **kwargs)
