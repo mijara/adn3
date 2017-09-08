@@ -6,8 +6,87 @@
 
 {% block container %}
   <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Datos de la preinscripción
+        </div>
+        <div class="panel-body">
+          <p>
+            Estimado/a
+            <strong>{{ flyin.first_name }} {{ flyin.last_names }}</strong>,
+            usted ya posee una preinscripción en el curso
+            <strong>{{ flyin.course }}</strong>.
+          </p>
+        </div>
+        <table class="table table-responsive">
+          <tbody>
+          <tr>
+            <th width="20%">Rol USM</th>
+            <td>{{ flyin.rol }}</td>
+          </tr>
+          <tr>
+            <th>Prioridad USM</th>
+            <td>{{ flyin.usm_priority }}</td>
+          </tr>
+          <tr>
+            <th>Paralelo</th>
+            <td>{{ flyin.parallel }}</td>
+          </tr>
+          <tr>
+            <th>Experiencia previa en laboratorios</th>
+            <td>{{ flyin.previous_experience|yesno:"Si,No" }}</td>
+          </tr>
+          <tr>
+            <th>Software</th>
+            <td>{{ flyin.software }}</td>
+          </tr>
+          {% if flyin.psu_score %}
+            <tr>
+              <th>Puntaje PSU</th>
+              <td>{{ flyin.psu_score }}</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <th>Primera Preferencia</th>
+            <td>{{ flyin.get_first_preference_display }}</td>
+          </tr>
+
+          {% if flyin.second_preference %}
+            <tr>
+              <th>Segunda Preferencia</th>
+              <td>{{ flyin.get_second_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if flyin.third_preference %}
+            <tr>
+              <th>Tercera Preferencia</th>
+              <td>{{ flyin.get_third_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if flyin.fourth_preference %}
+            <tr>
+              <th>Cuarta Preferencia</th>
+              <td>{{ flyin.get_fourth_preference_display }}</td>
+            </tr>
+          {% endif %}
+
+          {% if flyin.fifth_preference %}
+            <tr>
+              <th>Quinta Preferencia</th>
+              <td>{{ flyin.get_fifth_preference_display }}</td>
+            </tr>
+          {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <form action="" method="POST">
       {% csrf_token %}
+      <input type="hidden" name="pk" value="{{ flyin.pk }}">
       <div class="col-sm-12">
         <div class="panel panel-danger">
           <div class="panel-heading">
@@ -15,13 +94,8 @@
           </div>
 
           <div class="panel-body">
-            <p>
-              Estimado/a
-              <strong>{{ flyin.first_name }} {{ flyin.last_names }}</strong>,
-              usted ya posee una preinscripción en el curso
-              <strong>{{ flyin.course }}</strong>.
-            </p>
-            <p>Para modificar su preinscripción, primero debe eliminar la actual rellenando los siguientes
+            <p>Para modificar su preinscripción, primero debe <strong>eliminar</strong> la actual rellenando los
+              siguientes
               datos:
             </p>
             <div>
@@ -34,10 +108,12 @@
                 <label for="id-rol">Rol USM</label>
                 <input name="rol" id="id-rol" class="form-control" value="{{ request.session.rol }}" required>
               </div>
-              <div class="form-group">
-                <label for="id-secret">Código secreto</label>
-                <input name="secret" id="id-secret" class="form-control" required>
-              </div>
+              {% if flyin.secret != "NULL" %}
+                <div class="form-group">
+                  <label for="id-secret">Código secreto</label>
+                  <input name="secret" id="id-secret" class="form-control" required>
+                </div>
+              {% endif %}
             </div>
           </div>
 

@@ -71,8 +71,12 @@ class FlyInDetailView(FlyInsActiveMixin, generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         preinscription = self.get_object()
-        if preinscription.rol != self.request.session.get('rol'):
+        if preinscription.rol != self.request.session.get('rol') or preinscription.seen:
             return redirect(reverse_lazy('flyins:course_list'))
+
+        preinscription.seen = True
+        preinscription.save()
+
         return super().get(self, request, *args, **kwargs)
 
 
@@ -163,10 +167,12 @@ class FlyInDeleteView(FlyInsActiveMixin, View):
         if not preinscription:
             return redirect(reverse_lazy('flyins:course_list'))
 
+        secret = self.request.POST.get('secret') if self.request.POST.get('secret') is not None else "NULL"
 
         initial = {
             'rol': self.request.POST.get('rol'),
-            'secret': self.request.POST.get('secret'),
+            'secret': secret,
+            'pk': self.request.POST.get('pk'),
         }
 
         form = DeleteForm(initial)

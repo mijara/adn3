@@ -21,6 +21,8 @@ class FlyIn(models.Model):
 
     secret = models.CharField(max_length=64)
 
+    seen = models.BooleanField(default=False)
+
     first_preference = models.CharField(
         choices=make_days_blocks(),
         max_length=32,
@@ -61,5 +63,6 @@ class FlyIn(models.Model):
 
     def save(self, *args, **kwargs):
         # generate secret.
-        self.secret = str(uuid.uuid4())
+        if not self.seen:
+            self.secret = str(uuid.uuid4())
         super().save(*args, **kwargs)

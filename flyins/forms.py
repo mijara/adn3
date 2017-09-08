@@ -58,13 +58,15 @@ class RolForm(forms.Form):
 
 class DeleteForm(forms.Form):
     rol = forms.CharField()
-    secret = forms.CharField(max_length=64)
+    secret = forms.CharField()
+    pk = forms.CharField()
 
     def clean(self):
         rol = self.cleaned_data['rol']
         secret = self.cleaned_data['secret']
-        preinscription = FlyIn.objects.filter(rol=rol, secret=secret).first()
-        print(preinscription)
+        pk = self.cleaned_data['pk']
+        preinscription = FlyIn.objects.filter(pk=pk, rol=rol, secret=secret).first()
+
         if preinscription:
             return self.cleaned_data
         else:
