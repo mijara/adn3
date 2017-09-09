@@ -89,7 +89,6 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
         course = self.get_course()
 
         preinscription = FlyIn.objects.filter(rol=rol, course__pk=course_pk).first()
-        print(preinscription)
         if preinscription:
             return redirect(preinscription.get_delete_url())
 
@@ -177,7 +176,7 @@ class FlyInDeleteView(FlyInsActiveMixin, View):
             'pk': self.request.POST.get('pk'),
         }
 
-        form = DeleteForm(initial)
+        form = DeleteForm(self.request, initial)
 
         if form.is_valid():
             re = reverse_lazy('flyins:preregistration_create', args=[preinscription.course.pk])

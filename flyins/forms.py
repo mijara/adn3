@@ -37,7 +37,7 @@ class RolForm(forms.Form):
         check_digit = split_rol[1]
 
         reversed_rol = split_rol[0][::-1]
-        mult = [2,3,4,5,6,7]
+        mult = [2, 3, 4, 5, 6, 7]
 
         sum = 0
 
@@ -56,15 +56,24 @@ class RolForm(forms.Form):
 
         return rol
 
+
 class DeleteForm(forms.Form):
     rol = forms.CharField()
     secret = forms.CharField()
     pk = forms.CharField()
 
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(DeleteForm, self).__init__(*args, **kwargs)
+
     def clean(self):
         rol = self.cleaned_data['rol']
         secret = self.cleaned_data['secret']
         pk = self.cleaned_data['pk']
+
+        if rol != self.request.session.get('rol', False):
+            raise ValidationError('Rol is incorrect')
+
         preinscription = FlyIn.objects.filter(pk=pk, rol=rol, secret=secret).first()
 
         if preinscription:
