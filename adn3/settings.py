@@ -12,8 +12,9 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'True') != 'False'
 
 ALLOWED_HOSTS = [
     'localhost',
+    '127.0.0.1',
     '200.1.16.121',
-    '192.168.0.19',
+    '172.16.14.128',
     'lab.mat.utfsm.cl'
 ]
 
