@@ -100,7 +100,8 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
 
         return render(request, self.template_name, {
             'software_list': Software.objects.all(),
-            'course': course
+            'course': course,
+            'view': self,
         })
 
     def post(self, request, course_pk):
@@ -140,6 +141,7 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
         return render(request, self.template_name, {
             'form': form,
             'course': self.get_course(),
+            'view': self,
         })
 
 
