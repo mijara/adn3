@@ -71,5 +71,3 @@ class DeleteForm(forms.Form):
             return self.cleaned_data
         else:
             raise ValidationError("Secret not valid")
-
-
