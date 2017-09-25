@@ -48,7 +48,7 @@ class StudentForm(forms.ModelForm):
             digit = 'K'
 
         if check_digit.lower() != str(digit).lower():
-            raise ValidationError("Rol not valid")
+            raise ValidationError(u'Rol inválido')
 
         return rol
 
@@ -64,7 +64,7 @@ class TicketForm(forms.ModelForm):
         email = self.cleaned_data['email']
 
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('Ya existe un usuario con este email')
+            raise forms.ValidationError(u'Ya existe un usuario con este email')
         return email
 
     class Meta:

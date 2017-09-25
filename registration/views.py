@@ -40,8 +40,6 @@ class StudentCreateView(View):
             student_form.save()
 
             return redirect('registration:student_success')
-        else:
-            student_form.add_error('secret', 'Código secreto inválido')
 
         return render(request, 'registration/student_form.html', context={
             'user_form': user_form,
