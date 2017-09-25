@@ -15,6 +15,12 @@ urlpatterns = [
     ),
 
     url(
+        '^sign-in/(?P<err_code>.+)/$',
+        views.sign_in,
+        name='sign_in'
+    ),
+
+    url(
         '^logout/$',
         views.log_out,
         name='logout'

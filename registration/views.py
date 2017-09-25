@@ -27,6 +27,9 @@ class StudentCreateView(View):
         if user_form.is_valid() and student_form.is_valid():
             email = user_form.cleaned_data['email']
 
+            if User.objects.filter(username=email).exists():
+                return redirect('landing:sign_in')
+
             user_form.instance.username = email
             user = user_form.save()
 

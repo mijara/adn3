@@ -16,7 +16,7 @@ def index(request):
     })
 
 
-def sign_in(request):
+def sign_in(request, err_code=0):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -32,9 +32,19 @@ def sign_in(request):
             elif is_student(user):
                 return redirect('students:agenda_list')
         else:
-            return render(request, 'landing/signin.html')
+            return render(request, 'landing/signin.html', {
+                'err_message': 'Credenciales inválidas, intente nuevamente.'
+            })
 
-    return redirect('landing:index')
+    # translate error code.
+    err_message = ''
+    if err_code == '1':
+        err_message = 'Usted ya tiene una cuenta en el sistema con este correo, ' \
+                      'por favor inicie sesión para continuar.'
+
+    return render(request, 'landing/signin.html', {
+        'err_message': err_message
+    })
 
 
 def log_out(request):

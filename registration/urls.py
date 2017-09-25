@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     url(
-        '^create/$',
+        '^$',
         views.StudentCreateView.as_view(),
         name='student_create'
     ),

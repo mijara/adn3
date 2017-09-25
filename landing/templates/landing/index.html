@@ -5,13 +5,15 @@
 
 {% block container %}
   <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <a class="btn btn-block btn-lg btn-success" href="{% url 'flyins:rol_authentication' %}">
-          Click para ingresar pre-inscripciones
-        </a>
+    {% if PRE_REGISTRATIONS_OPEN %}
+      <div class="row">
+        <div class="col-sm-12">
+          <a class="btn btn-block btn-lg btn-success" href="{% url 'flyins:rol_authentication' %}">
+            Click para ingresar pre-inscripciones
+          </a>
+        </div>
       </div>
-    </div>
+    {% endif %}
 
     <div class="row" style="margin-top: 16px">
       <div class="col-sm-8">

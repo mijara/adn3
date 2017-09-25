@@ -156,7 +156,7 @@ class Agenda(models.Model):
         blank=True,
         related_name='assistants')
 
-    code = models.CharField(max_length=64, verbose_name="Código de inscripción", null=True)
+    code = models.CharField(max_length=64, verbose_name="Código de inscripción", null=True, blank=True)
 
     @models.permalink
     def get_attendance_url(self):
