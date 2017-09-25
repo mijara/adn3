@@ -26,21 +26,19 @@ class StudentCreateView(View):
 
         if user_form.is_valid() and student_form.is_valid():
             email = user_form.cleaned_data['email']
-            secret = student_form.cleaned_data['secret']
 
-            if validate_secret(email, secret):
-                user_form.instance.username = email
-                user = user_form.save()
+            user_form.instance.username = email
+            user = user_form.save()
 
-                students_group = Group.objects.get(name='students')
-                students_group.user_set.add(user)
+            students_group = Group.objects.get(name='students')
+            students_group.user_set.add(user)
 
-                student_form.instance.user = user
-                student_form.save()
+            student_form.instance.user = user
+            student_form.save()
 
-                return redirect('registration:student_success')
-            else:
-                student_form.add_error('secret', 'Código secreto inválido')
+            return redirect('registration:student_success')
+        else:
+            student_form.add_error('secret', 'Código secreto inválido')
 
         return render(request, 'registration/student_form.html', context={
             'user_form': user_form,

@@ -2,6 +2,7 @@
 from django.db import models
 from adn3.choices import *
 from adn3.utils import get_year_semester
+import random
 
 
 class Campus(models.Model):
@@ -155,6 +156,8 @@ class Agenda(models.Model):
         blank=True,
         related_name='assistants')
 
+    code = models.CharField(max_length=64, verbose_name="Código de inscripción", null=True)
+
     @models.permalink
     def get_attendance_url(self):
         return 'attendance:show', [self.course.pk, self.pk]
@@ -167,6 +170,12 @@ class Agenda(models.Model):
             if agenda_test.active:
                 return True
         return False
+
+    def set_code(self):
+        code = str(self.pk) + 'S' + str(self.course.pk) + 'D'
+        code += ''.join(random.choice('0123456789ABCDEF') for _ in range(3))
+        self.code = code
+        return code
 
 
 class CourseTeacher(models.Model):

@@ -548,3 +548,13 @@ div.review-footer table tr:first-child td {
     border-radius: 5px;
     margin-left: 20px;
 }
+
+/*
+ * Assistant
+ */
+
+.inscription-code {
+    padding: 10px;
+    display: block;
+    text-align: center;
+}

@@ -11,7 +11,7 @@ class Student(models.Model):
 
     rol = models.CharField(max_length=20, verbose_name='Rol USM')
 
-    usm_priority = models.IntegerField(verbose_name='Prioridad')
+    usm_priority = models.IntegerField(verbose_name='Prioridad', null=True)
 
     campus = models.ForeignKey('courses.Campus')
 

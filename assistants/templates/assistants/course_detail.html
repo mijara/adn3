@@ -1,34 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block bodytag %}
-    <body class="body-student">
+  <body class="body-student">
 {% endblock %}
 
 {% block breadcrump %}
 {% endblock %}
 
 {% block container %}
-    <div class="col-sm-12">
-        <h1 class="page-header">{{ course }}</h1>
+  <div class="col-sm-12">
+    <h1 class="page-header">{{ course }}</h1>
+  </div>
+
+  <div class="col-sm-12">
+    <div class="alert alert-success">
+      Bienvenido(a) <strong>Ayudante</strong>!
     </div>
 
-    <div class="col-sm-12">
-        <div class="alert alert-success">
-            Bienvenido(a) <strong>Ayudante</strong>!
-        </div>
+    <h2 class="page-header"></span> Inscripción</h2>
+    {% include 'assistants/_inscription.html' %}
 
-        <h2 class="page-header"></span> Asistencia</h2>
-        {% include 'assistants/_agendas.html' %}
+    <h2 class="page-header"></span> Asistencia</h2>
+    {% include 'assistants/_agendas.html' %}
 
-        <h2 class="page-header"></span> Controles</h2>
-        {% include 'assistants/_tests.html' %}
+    <h2 class="page-header"></span> Controles</h2>
+    {% include 'assistants/_tests.html' %}
 
-        <!--
-        <h2 class="page-header"></span> Calificaciones</h2>
-        <div class="alert alert-warning">
-            Not Implemented Yet
-        </div>
-        -->
+    <!--
+    <h2 class="page-header"></span> Calificaciones</h2>
+    <div class="alert alert-warning">
+        Not Implemented Yet
     </div>
+    -->
+  </div>
   </div>
 {% endblock %}

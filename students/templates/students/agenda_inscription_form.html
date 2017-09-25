@@ -1,0 +1,84 @@
+{% extends 'base_students.html' %}
+
+{% load static %}
+{% load bootstrap3 %}
+
+{% block breadcrump %}
+  <!-- Left Blank -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        {% block icon %}
+          <span class="glyphicon glyphicon-user"></span>
+        {% endblock %}
+
+        Inscribir Curso
+      </h1>
+
+      {% block form %}
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              {% with agenda_form as form %}
+                {% include '_form.html' %}
+              {% endwith %}
+              <div id="alert" class="alert alert-warning" hidden>
+                El código ingresado no es válido.
+              </div>
+            </div>
+
+            <div class="panel-footer text-right">
+              <button id="submit" class="btn btn-primary" disabled>Inscribir</button>
+            </div>
+          </div>
+        </form>
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/restore-caret-position.js' %}"></script>
+  <script>
+      const regex = /\d+S\d+D[A-Z0-9]{3}/g;
+
+      $('#code').on('input', function () {
+          var caretPosition = getCaretPosition(this);
+          this.value = this.value.toUpperCase();
+          setCaretPosition(this, caretPosition);
+
+          $('#submit').attr('disabled', true);
+          $('#alert').attr('hidden', true);
+          $('#agenda').val('');
+          $('#agenda-id').val('');
+          $('#course').val('');
+
+          let m = this.value.match(regex);
+
+          if (m !== null) {
+              $('#code').attr('disabled', true);
+              m = m[0];
+              $.ajax({
+                  url: "{% url 'students:agenda_information' '999' %}".replace('999', m)
+              }).done(function (response) {
+                  console.log(response);
+                  if (!response['error']) {
+                      $('#code, #submit').attr('disabled', false);
+
+                      $('#agenda').val(response['agenda']);
+                      $('#agenda-id').val(response['agenda_id']);
+                      $('#course').val(response['course']);
+                  } else {
+                      $('#code').attr('disabled', false);
+                      $('#alert').attr('hidden', false);
+                  }
+              });
+          }
+      });
+  </script>
+{% endblock %}

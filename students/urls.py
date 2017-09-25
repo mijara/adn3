@@ -39,6 +39,24 @@ urlpatterns = [
     ),
 
     url(
+        '^agenda/inscription/$',
+        views.AgendaInscriptionView.as_view(),
+        name="agenda_inscription"
+    ),
+
+    url(
+        '^agenda/inscription/success$',
+        views.AgendaInscriptionSuccessView.as_view(),
+        name="agenda_inscription_success"
+    ),
+
+    url(
+        '^agenda/information/(?P<code>[A-Za-z0-9]+)/$',
+        views.AgendaInfoView.as_view(),
+        name="agenda_information"
+    ),
+
+    url(
         '^pretest/(?P<pk>\d+)/$',
         pretest_views.PretestDetailView.as_view(),
         name="pretest_detail"

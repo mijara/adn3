@@ -1,0 +1,31 @@
+{% if course.agenda_set.count == 0 %}
+  <div class="alert alert-warning">
+    Sin agendas
+  </div>
+{% else %}
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      Comparta el código generado con sus estudiantes para que puedan inscribir el laboratorio.
+
+    </div>
+    <table class="table table-responsive">
+      {% for agenda in agendas %}
+        <tr>
+          <td width="60%">{{ agenda.get_day_display }} {{ agenda.get_block_display }}</td>
+          <td width="10%">
+            {% if not agenda.code %}
+              <a class="btn btn-success pull-right" href="{% url 'assistants:enable_inscription' course.pk agenda.pk %}"
+                 title="Asistencia">
+                Habilitar inscripción
+              </a>
+            {% else %}
+              <code class="inscription-code">
+                {{ agenda.code }}
+              </code>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endif %}

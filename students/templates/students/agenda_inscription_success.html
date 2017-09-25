@@ -1,0 +1,23 @@
+{% extends 'base_students.html' %}
+
+{% block breadcrump %}
+  <!-- Left Blank -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          Registro Exitoso
+        </div>
+
+        <div class="panel-body">
+          <p>El curso ha sido registrado exitosamente!</p>
+
+          <p>Ahora puede dirigirse a la <a href="{% url 'students:agenda_list' %}">página principal</a> para acceder al curso.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

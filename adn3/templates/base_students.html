@@ -7,5 +7,7 @@
 {% block navitems %}
   <ul class="nav navbar-nav">
     <li><a href="{% url 'students:agenda_list' %}">Cursos</a></li>
+    <!-- TODO: Implement a flag that indicate the inscriptions are enabled -->
+    <li><a href="{% url 'students:agenda_inscription' %}">Inscribir curso</a></li>
   </ul>
 {% endblock %}

@@ -27,8 +27,15 @@
               {% with student_form as form %}
                 {% include '_form.html' %}
               {% endwith %}
-            </div>
 
+              <div id="warning" class="alert alert-warning hidden no-margin">
+                <p><strong>Aviso</strong></p>
+                <p>
+                  El valor ingresado no parece ser un <strong>Rol</strong>, por favor
+                  asegúrese que no sea su <strong>RUT</strong>.
+                  Si este si es su <strong>Rol</strong> puede continuar.</p>
+              </div>
+            </div>
             <div class="panel-footer text-right">
               {% block panel_footer_extra %}
               {% endblock %}
@@ -40,4 +47,27 @@
       {% endblock %}
     </div>
   </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+      var currentYear = (new Date()).getFullYear();
+
+      $(document).ready(function () {
+          $("#rol").bind('change blur keyup click', function () {
+              let regex = /(\d*)\-([\dK])/gi;
+              $('#warning').addClass('hidden');
+              let rol = regex.exec($(this).val());
+              if (rol !== null) {
+                  let year = rol[0].substring(0, 4);
+                  let career = rol[0].substring(4, 6);
+                  let position = rol[0].substring(6, 9);
+
+                  if (parseInt(year) > currentYear || parseInt(year) < 2010 || rol[1].length !== 9) {
+                      $('#warning').removeClass('hidden');
+                  }
+              }
+          });
+      });
+  </script>
 {% endblock %}

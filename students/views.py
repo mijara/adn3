@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views import generic
 from django.views import View
 
@@ -16,6 +16,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 
 from django.contrib.auth.mixins import UserPassesTestMixin
+
+from .forms import *
 
 
 class AgendaListView(UserPassesTestMixin, generic.ListView):
@@ -186,6 +188,64 @@ class UpdateAnswers(UserPassesTestMixin, View):
 
         except Exception as e:
             return JsonResponse({'error': True, 'message': e})
+
+    def test_func(self):
+        return is_student(self.request.user)
+
+
+class AgendaInscriptionView(UserPassesTestMixin, View):
+    def get(self, request):
+        agenda_form = AgendaForm(prefix='agenda')
+
+        return render(request, 'students/agenda_inscription_form.html', context={
+            'agenda_form': agenda_form
+        })
+
+    def post(self, request):
+        agenda_form = AgendaForm(request.POST, prefix='agenda')
+
+        if agenda_form.is_valid():
+            code = agenda_form.cleaned_data['code']
+            agenda_id = agenda_form.cleaned_data['agenda_id']
+
+            agenda = Agenda.objects.get(code=code, pk=agenda_id)
+            agenda.inscriptions.add(self.request.user)
+            agenda.save()
+
+            return redirect('students:agenda_inscription_success')
+        else:
+            agenda_form.add_error('code', 'Código inválido')
+
+        return render(request, 'students/agenda_inscription_form.html', context={
+            'agenda_form': agenda_form,
+        })
+
+    def test_func(self):
+        return is_student(self.request.user)
+
+class AgendaInscriptionSuccessView(UserPassesTestMixin, generic.TemplateView):
+    template_name = 'students/agenda_inscription_success.html'
+
+    def test_func(self):
+        return is_student(self.request.user)
+
+class AgendaInfoView(UserPassesTestMixin, View):
+    def get(self, request, code):
+        agenda = Agenda.objects.filter(code=code).first()
+        if agenda:
+            response = {
+                'error': False,
+                'agenda': agenda.__str__(),
+                'agenda_id': agenda.pk,
+                'course': agenda.course.__str__()
+            }
+        else:
+            response = {
+                'error': True,
+                'message': 'Invalid code'
+            }
+
+        return JsonResponse(response)
 
     def test_func(self):
         return is_student(self.request.user)
