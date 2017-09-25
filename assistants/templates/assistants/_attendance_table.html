@@ -24,7 +24,7 @@
             </td>
 
             <td>
-              -
+              {{ attendance.0.student.rol }}
             </td>
 
             {% for a in attendance.1 %}
@@ -37,9 +37,9 @@
     </div>
 
     <div class="panel-footer">
-        <a type="button" class="btn btn-default" href="{% url 'assistants:course_detail' course.pk %}">Volver al curso</a>
+      <a type="button" class="btn btn-default" href="{% url 'assistants:course_detail' course.pk %}">Volver al curso</a>
 
-        <button class="btn btn-primary pull-right" type="submit">Guardar</button>
+      <button class="btn btn-primary pull-right" type="submit">Guardar</button>
     </div>
   </div>
 </form>
