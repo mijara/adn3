@@ -4,7 +4,7 @@ services:
     container_name: adn3
     image: mijara/adn3
     restart: on-failure
-    command: bash -c "python manage.py migrate && gunicorn adn3.wsgi -b 0.0.0.0:8000"
+    command: bash -c "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn adn3.wsgi -b 0.0.0.0:8000"
     volumes:
       - /Users/mijara/media:/src/media
     environment:

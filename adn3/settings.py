@@ -54,7 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 )
 
 ROOT_URLCONF = 'adn3.urls'
@@ -108,16 +108,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/'
-
-#EMAIL_USE_TLS = True
-#EMAIL_HOST = ''
-#EMAIL_HOST_USER = ''
-#EMAIL_HOST_PASSWORD = ''
-#EMAIL_PORT = 587
-DEFAULT_EMAIL_FROM = 'adn3@lab.mat.utfsm.cl'
