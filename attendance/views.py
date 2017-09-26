@@ -2,12 +2,17 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from courses.models import Agenda
 from .services import *
-from adn3.services import is_teacher_of
+from adn3.services import is_teacher_of, is_coordinator
 from adn3.mixins import CourseMixin
 from django.views import View
 
 
-class ShowAttendanceView(UserPassesTestMixin, CourseMixin, View):
+class HasAccessToAttendanceMixin(UserPassesTestMixin):
+    def test_func(self):
+        return is_teacher_of(self.request.user, self.get_course()) or is_coordinator(self.request.user)
+
+
+class ShowAttendanceView(HasAccessToAttendanceMixin, CourseMixin, View):
     def get(self, request, course_pk, agenda_pk):
         agenda = get_object_or_404(Agenda, pk=agenda_pk)
 
@@ -25,15 +30,9 @@ class ShowAttendanceView(UserPassesTestMixin, CourseMixin, View):
             'course': self.get_course()
         })
 
-    def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course())
 
-
-class SaveAttendanceView(UserPassesTestMixin, CourseMixin, View):
+class SaveAttendanceView(HasAccessToAttendanceMixin, CourseMixin, View):
     def post(self, request, course_pk, agenda_pk):
         agenda = get_object_or_404(Agenda, pk=agenda_pk)
         save_matrix(agenda, request.POST)
         return redirect('attendance:show', course_pk, agenda_pk)
-
-    def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course())
