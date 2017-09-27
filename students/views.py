@@ -5,7 +5,8 @@ from django.views import View
 from tests.models import Version, StudentsAnswers, Test, Answer
 from students import services
 
-from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student, is_student_of, is_teacher
+from adn3.services import is_assistant_of, is_assistant, preregistrations_open, is_student, is_student_of, is_teacher, \
+    registrations_open
 from courses.models import Agenda, Course
 
 from django.http import HttpResponseRedirect, JsonResponse
@@ -193,7 +194,7 @@ class UpdateAnswers(UserPassesTestMixin, View):
         return is_student(self.request.user)
 
 
-class AgendaInscriptionView(UserPassesTestMixin, View):
+class AgendaRegistrationView(UserPassesTestMixin, View):
     def get(self, request):
         agenda_form = AgendaForm(prefix='agenda')
 
@@ -221,13 +222,15 @@ class AgendaInscriptionView(UserPassesTestMixin, View):
         })
 
     def test_func(self):
-        return is_student(self.request.user)
+        return is_student(self.request.user) and registrations_open()
 
-class AgendaInscriptionSuccessView(UserPassesTestMixin, generic.TemplateView):
+
+class AgendaRegistrationSuccessView(UserPassesTestMixin, generic.TemplateView):
     template_name = 'students/agenda_inscription_success.html'
 
     def test_func(self):
-        return is_student(self.request.user)
+        return is_student(self.request.user) and registrations_open()
+
 
 class AgendaInfoView(UserPassesTestMixin, View):
     def get(self, request, code):
@@ -248,4 +251,4 @@ class AgendaInfoView(UserPassesTestMixin, View):
         return JsonResponse(response)
 
     def test_func(self):
-        return is_student(self.request.user)
+        return is_student(self.request.user) and registrations_open()

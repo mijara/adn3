@@ -65,6 +65,14 @@
     }
   },
   {
+    "model": "misc.Setting",
+    "pk": 3,
+    "fields": {
+      "key": "registrations-open",
+      "value": "False"
+    }
+  },
+  {
     "model": "misc.Software",
     "pk": 1,
     "fields": {

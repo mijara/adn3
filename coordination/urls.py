@@ -25,4 +25,10 @@ urlpatterns = [
         views.PreRegistrationsToggle.as_view(),
         name='preregistrations_toggle'
     ),
+
+    url(
+        r'^registrations/toggle/$',
+        views.RegistrationsToggle.as_view(),
+        name='registrations_toggle'
+    ),
 ]
