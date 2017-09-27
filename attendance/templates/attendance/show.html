@@ -19,8 +19,43 @@
   <div class="row">
     <div class="col-sm-12">
       <h1 class="header">
+        {{ agenda.get_day_display }} {{ agenda.get_block_display }} en {{ agenda.room }}
+      </h1>
+    </div>
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="glyphicon glyphicon glyphicon-user"></span>
+        Ayudantes
+      </h1>
+
+      <div class="panel panel-default">
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
+            <tr class="table-heading">
+              <th>Nombre</th>
+              <th>Rol</th>
+              <th>Correo electrónico</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for assistant in agenda.assistants.all %}
+              <tr>
+                <td>{{ assistant.first_name }} {{ assistant.last_name }}</td>
+                <td>{{ assistant.student.rol }}</td>
+                <td><a href="mailto:{{ assistant.username }}">{{ assistant.username }}</a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-12">
+      <h1 class="header">
         <span class="glyphicon glyphicon-list-alt step"></span>
-        Asistencia: {{ agenda.get_day_display }} {{ agenda.get_block_display }}
+        Asistencia
       </h1>
 
       {% if table %}

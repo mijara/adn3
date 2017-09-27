@@ -6,8 +6,7 @@ from adn3.constants import YEAR, SEMESTER
 from adn3.mixins import CourseMixin
 from coordination.services import generate_excel
 from adn3.services import preregistrations_open, preregistrations_set, \
-    is_coordinator
-
+    is_coordinator, registrations_open, registrations_set
 from courses.models import Course
 from misc.models import Software
 
@@ -25,6 +24,7 @@ class CoordinationIndexView(CoordinatorTestMixin, View):
             'current_courses': current_courses,
             'software_list': Software.objects.all(),
             'preregistrations_open': preregistrations_open(),
+            'registrations_open': registrations_open(),
         })
 
 
@@ -74,5 +74,13 @@ class PreRegistrationsToggle(CoordinatorTestMixin, View):
     def get(self, request):
         state = preregistrations_open()
         preregistrations_set(not state)
+
+        return redirect('coordination:coordination_index')
+
+
+class RegistrationsToggle(CoordinatorTestMixin, View):
+    def get(self, request):
+        state = registrations_open()
+        registrations_set(not state)
 
         return redirect('coordination:coordination_index')

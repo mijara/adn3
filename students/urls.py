@@ -40,13 +40,13 @@ urlpatterns = [
 
     url(
         '^agenda/inscription/$',
-        views.AgendaInscriptionView.as_view(),
+        views.AgendaRegistrationView.as_view(),
         name="agenda_inscription"
     ),
 
     url(
         '^agenda/inscription/success$',
-        views.AgendaInscriptionSuccessView.as_view(),
+        views.AgendaRegistrationSuccessView.as_view(),
         name="agenda_inscription_success"
     ),
 

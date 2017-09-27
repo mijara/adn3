@@ -14,14 +14,19 @@
 
   <div class="col-sm-12">
     <div class="alert alert-success">
-      Bienvenido(a) <strong>Ayudante</strong>!
+      Bienvenido(a) <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong>!
     </div>
 
-    <h2 class="page-header"></span> Inscripción</h2>
-    {% include 'assistants/_inscription.html' %}
+    {% if REGISTRATIONS_OPEN %}
+      <h2 class="page-header"></span> Inscripción</h2>
+      {% include 'assistants/_inscription.html' %}
+    {% endif %}
 
     <h2 class="page-header"></span> Asistencia</h2>
     {% include 'assistants/_agendas.html' %}
+
+    <h2 class="page-header"></span> Sesiones</h2>
+    {% include 'students/_sessions.html' %}
 
     <h2 class="page-header"></span> Controles</h2>
     {% include 'assistants/_tests.html' %}

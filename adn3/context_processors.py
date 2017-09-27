@@ -1,11 +1,12 @@
 import re
 
-from adn3.services import preregistrations_open
+from adn3.services import preregistrations_open, registrations_open
 
 
 def constants(request):
     return {
         'PRE_REGISTRATIONS_OPEN': preregistrations_open(),
+        'REGISTRATIONS_OPEN': registrations_open(),
     }
 
 
