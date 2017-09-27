@@ -70,6 +70,7 @@ class AttendanceSaveView(UserPassesTestMixin, mixins.CourseMixin, View):
         agenda = get_object_or_404(Agenda, pk=self.kwargs['agenda_pk'])
         return is_assistant_of_agenda(self.request.user, agenda)
 
+
 class InscriptionEnableView(UserPassesTestMixin, mixins.CourseMixin, View):
     def get(self, request, course_pk, agenda_pk):
         agenda = get_object_or_404(Agenda, pk=agenda_pk)

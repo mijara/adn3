@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'assistants',
     'coordination',
     'flyins',
+    'public',
 )
 
 MIDDLEWARE_CLASSES = (

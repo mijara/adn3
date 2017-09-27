@@ -18,8 +18,8 @@ class New(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
     public = models.BooleanField(default=False, verbose_name=u'Público',
-                                 help_text=u'Si es público, además, se mostrará en el inicio '
-                                           u'para usuarios sin iniciar sesión.')
+                                 help_text=u'Si es público, además, se mostrará a usuarios '
+                                           u'externos a la universidad.')
 
     class Meta:
         ordering = ('-create_date',)

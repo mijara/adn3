@@ -1,0 +1,37 @@
+{% extends 'base_public.html' %}
+
+{% block breadcrump %}
+
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="header">
+        <i class="glyphicon glyphicon-asterisk pull-right"></i>
+        Cursos
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      {% for course in course_list %}
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h4 class="text-fit">
+                  <a href="{% url 'public:course_detail' course.pk %}">
+                    {{ course }}
+                  </a>
+                </h4>
+                <div class="text-muted">{{ course.code }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

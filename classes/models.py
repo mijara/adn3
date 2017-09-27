@@ -30,9 +30,9 @@ class Session(models.Model):
 
     # if this session is private or public.
     state = models.IntegerField(default=PRIVATE, choices=[
-        (PRIVATE, 'Privada'),
-        (PUBLIC, 'Pública'),
-    ], verbose_name='Estado')
+        (PRIVATE, 'Visible Sólo a Estudiantes'),
+        (PUBLIC, 'Visible a Público Externo'),
+    ], verbose_name='Visibilidad')
 
     # what kind of session is this, regular, recuperative or test.
     session_type = models.IntegerField(default=REGULAR, choices=[

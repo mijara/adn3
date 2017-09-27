@@ -1,0 +1,115 @@
+{% extends 'base_public.html' %}
+
+{% block breadcrump %}
+
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="header">
+        <i class="glyphicon glyphicon-asterisk pull-right"></i>
+        {{ course }}
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="page-header"><span class="glyphicon glyphicon-map-marker step"></span> Sesiones</h2>
+      {% if course.session_set.all %}
+        <div class="panel panel-default">
+          <table class="table table-responsive">
+            {% for session in course.session_set.all %}
+              {% if session.state == 1 %}
+                <tr >
+                  <td width="60%" style="vertical-align: top !important;">
+                    <div>
+                      <strong>{{ session.name }}</strong>
+                    </div>
+
+                    <div>
+                      {{ session.start_date }} al {{ session.end_date }}
+                    </div>
+                  </td>
+                  <td width="40%" class="spacing">
+                    <div>
+                      <strong>Archivos</strong>
+                    </div>
+                    {% if session.sessionfile_set.all %}
+                      {% for file in session.sessionfile_set.all %}
+                        <div><span class="glyphicon glyphicon-file step"></span> <a
+                            href="{{ file.file.url }}">{{ file }}</a></div>
+                      {% endfor %}
+                    {% else %}
+                      <span class="text-info">No hay archivos</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+        </div>
+      {% else %}
+        <div class="alert alert-warning">No hay sesiones disponibles</div>
+      {% endif %}
+
+      <h2 class="page-header"><span class="glyphicon glyphicon-download step"></span> Archivos</h2>
+      {% include 'students/_files.html' %}
+
+      <h2 class="page-header"><span class="glyphicon glyphicon-pencil step"></span> Preinformes</h2>
+      {% if course.pretest_set.all %}
+        <div class="panel panel-default">
+          <table class="table table-responsive">
+            {% for pretest in course.pretest_set.all %}
+              <tr>
+                <td width="60%" style="vertical-align: top !important;">
+                  <strong>{{ pretest.name }}</strong>
+                </td>
+
+                <td width="40%" class="spacing">
+                  <div>
+                    <strong>Archivos</strong>
+                  </div>
+                  {% if session.sessionfile_set.all %}
+                    {% for file in session.sessionfile_set.all %}
+                      <div><span class="glyphicon glyphicon-file step"></span> <a
+                          href="{{ file.file.url }}">{{ file }}</a></div>
+                    {% endfor %}
+                  {% else %}
+                    <span class="text-warning">No hay archivos</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      {% else %}
+        <div class="alert alert-warning">No hay preinformes disponibles</div>
+      {% endif %}
+
+      <h2 class="page-header"><span class="glyphicon glyphicon-bookmark step"></span> Noticias</h2>
+      {% if course.new_set.all %}
+        {% for new in course.new_set.all %}
+          {% if new.public %}
+            <div class="panel panel-default student-news">
+              <div class="panel-heading">
+                <h4>
+                  {{ new.title }}
+                  <small>{{ new.create_date }}</small>
+                </h4>
+              </div>
+              <div class="panel-body">
+                <div class="text-justify markdown-body">
+                  {{ new.html | safe }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <div class="alert alert-warning">No hay noticias disponibles</div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

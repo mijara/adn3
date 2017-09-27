@@ -27,7 +27,7 @@ class AgendaListView(UserPassesTestMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (is_assistant(self.request.user)):
+        if is_assistant(self.request.user):
             agendas = self.request.user.assistants.all()
             courses = []
             for a in agendas:
@@ -35,7 +35,7 @@ class AgendaListView(UserPassesTestMixin, generic.ListView):
                     courses.append(a.course)
             context['assistant_courses'] = courses
 
-        if (is_teacher(self.request.user)):
+        if is_teacher(self.request.user):
             context['coordinator_courses'] = self.request.user.course_set.all()
 
         return context
