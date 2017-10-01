@@ -21,8 +21,20 @@ urlpatterns = [
     ),
 
     url(
-        '^course/(?P<course_pk>\d+)/inscription/(?P<agenda_pk>\d+)/enable',
+        '^course/(?P<course_pk>\d+)/inscription/(?P<agenda_pk>\d+)/enable/$',
         views.InscriptionEnableView.as_view(),
         name='enable_inscription'
+    ),
+
+    url(
+        '^course/(?P<course_pk>\d+)/agenda/(?P<pk>\d+)/pretest/(?P<pretest_pk>\d+)/$',
+        views.PretestReviewListView.as_view(),
+        name='pretest_review_list'
+    ),
+
+    url(
+        '^course/(?P<course_pk>\d+)/agenda/(?P<agenda_pk>\d+)/pretest/(?P<pretest_pk>\d+)/review/(?P<pk>\d+)/$',
+        views.PretestReviewView.as_view(),
+        name='pretest_review'
     ),
 ]

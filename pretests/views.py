@@ -83,7 +83,7 @@ class PretestReviewView(PretestMixin, generic.DetailView):
 
         pretests_list_url = reverse('pretests:pretest_review_list', args=[kwargs['course_pk'], kwargs['pretest_pk']])
         if request.POST.get('action') == "close-after":
-            return HttpResponseRedirect(pretests_list_url + '?message=success');
+            return HttpResponseRedirect(pretests_list_url + '?message=success')
         elif request.POST.get('action') == "next-after":
             next_ = PretestUpload.objects.filter(pretest__pk=kwargs['pretest_pk'], qualification=None).first()
             if next_:

@@ -177,6 +177,38 @@ class Agenda(models.Model):
         self.code = code
         return code
 
+    def has_submitted_pretests(self):
+        for pretest in self.course.pretest_set.all():
+            for pretestupload in pretest.pretestupload_set.all():
+                if pretestupload.student.user in self.inscriptions.all():
+                    return True
+        return False
+
+    def get_submitted_pretests(self, pretest_pk = None):
+        if pretest_pk:
+            pretests = self.course.pretest_set.filter(pk=pretest_pk)
+        else:
+            pretests = self.course.pretest_set.all()
+        students = self.inscriptions.all()
+        pretests_list = []
+
+        for pretest in pretests:
+            # [Pretest, pretests_upload, len pretest_upload, reviewed, pending reviews]
+            sub_list = [pretest, [], 0, 0, 0]
+            for upload in pretest.pretestupload_set.all():
+                if upload.student.user in students:
+                    sub_list[1].append(upload)
+                    if upload.qualification is not None:
+                        sub_list[3] += 1
+            sub_list[2] = len(sub_list[1])
+            sub_list[4] = len(sub_list[1]) - sub_list[3]
+            pretests_list.append(sub_list)
+        print(pretests_list)
+        if len(pretests_list):
+            return pretests_list
+        else:
+            return None
+
 
 class CourseTeacher(models.Model):
     user = models.ForeignKey('auth.User', verbose_name='Profesor')

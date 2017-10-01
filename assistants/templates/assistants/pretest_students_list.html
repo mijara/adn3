@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block bodytag %}
+  <body class="body-student">
+{% endblock %}
+
+{% block breadcrump %}
+{% endblock %}
+
+
+{% block container %}
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="header">
+        <span class="glyphicon glyphicon-check step"></span>
+        Revisión {{ pretest.0.name }} <span class="small">{{ agenda }}</span>
+      </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      {% if request.GET.message == 'success' %}
+        <div class="alert alert-success">
+          Calificación enviada con éxito
+        </div>
+      {% elif request.GET.message == 'nomore' %}
+        <div class="alert alert-warning">
+          No quedan controles por calificar
+        </div>
+      {% endif %}
+      <h5 class="text-muted text-center">{{ pretest.4 }} de {{ pretest.2 }} revisiones pendientes</h5>
+
+      <div class="table-responsive ">
+        <table class="table panel panel-default">
+          <thead>
+          <tr class="table-heading">
+            <th width="100%">Estudiante</th>
+            <th width="0%">Estado</th>
+            <th width="0%">Nota</th>
+            <th width="0%"></th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for pretestupload in pretest.1 %}
+            <tr>
+              <td>{{ pretestupload.student.user.first_name }} {{ pretestupload.student.user.last_name }}</td>
+              <td>
+                {% if pretestupload.qualification is not None %}
+                  <span class="text-success">Revisada</span>
+                {% else %}
+                  <span class="text-danger">Pendiente</span>
+                {% endif %}
+              </td>
+              <td>
+                {{ pretestupload.qualification|default_if_none:"-" }}
+              </td>
+              <td><a
+                  href="{% url 'assistants:pretest_review' agenda.course.pk agenda.pk pretest.0.pk pretestupload.pk %}"
+                  type="button" class="btn btn-primary">Calificar</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <a href="{% url 'assistants:course_detail' agenda.course.pk %}" class="btn btn-default"> Volver al curso</a>
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'vendor/DataTables/datatables.min.js' %}"></script>
+  <script>
+      $(document).ready(function () {
+          $('.table').DataTable({
+              "language": {
+                  "paginate": {
+                      "first": "Primera página",
+                      "last": "Última página",
+                      "next": "Siguiente",
+                      "previous": "Anterior"
+                  },
+                  "info": "Mostrando página _PAGE_ de _PAGES_",
+                  "lengthMenu": "Mostrar _MENU_ preinformes por página",
+                  "loadingRecords": "Por favor, espere",
+                  "search": "Buscar",
+                  "zeroRecords": "No hay resultados para la búsqueda",
+                  "infoEmpty": "No hay preinformes para mostrar",
+                  "infoFiltered": "(De un total de _MAX_ preinformes)"
+              },
+              "columnDefs": [
+                  {"orderable": false, "targets": 3}
+              ]
+          });
+      });
+  </script>
+{% endblock %}
+
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/DataTables/datatables.min.css' %}"/>
+{% endblock %}
