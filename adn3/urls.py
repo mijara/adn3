@@ -131,4 +131,12 @@ urlpatterns = [
             namespace='assistants'
         )
     ),
+
+    url(
+        r'^public/',
+        include(
+            'public.urls',
+            namespace='public'
+        )
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

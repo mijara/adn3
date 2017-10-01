@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 
-from adn3.services import is_teacher_of
+from adn3.services import is_teacher_of, is_coordinator
 from adn3 import mixins
 from .forms import *
 
@@ -14,7 +14,7 @@ class PretestMixin(UserPassesTestMixin, mixins.CourseMixin):
         return get_object_or_404(Pretest, pk=self.kwargs['pretest_pk'])
 
     def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course())
+        return is_coordinator(self.request.user) or is_teacher_of(self.request.user, self.get_course())
 
 
 class PretestDetailView(PretestMixin, mixins.CourseMixin, generic.DetailView):

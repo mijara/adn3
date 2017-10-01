@@ -45,7 +45,6 @@ class Pretest(models.Model):
             return None
 
 
-
 class PretestFile(models.Model):
     pretest = models.ForeignKey('Pretest')
 
@@ -63,6 +62,7 @@ class PretestFile(models.Model):
     def get_delete_url(self):
         return 'pretests:pretestfile_delete', [self.pretest.course.pk,
                                                self.pretest.pk, self.pk]
+
 
 class PretestUpload(models.Model):
     software = models.ForeignKey('misc.Software', verbose_name='Software')
