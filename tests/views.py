@@ -24,6 +24,7 @@ class VersionMixin(TestMixin):
     def get_version(self):
         return get_object_or_404(Version, pk=self.kwargs['version_pk'])
 
+
 class TestsUserPassesTestMixin(UserPassesTestMixin):
     def test_func(self):
         return is_teacher_of(self.request.user, self.get_course()) or is_coordinator(self.request.user)
@@ -33,7 +34,6 @@ class TestsUserPassesTestMixin(UserPassesTestMixin):
 # ==========
 class TestDetail(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DetailView):
     model = Test
-
 
 
 class TestCreate(TestsUserPassesTestMixin, mixins.CourseMixin, generic.CreateView):
@@ -51,7 +51,6 @@ class TestCreate(TestsUserPassesTestMixin, mixins.CourseMixin, generic.CreateVie
         return super(TestCreate, self).form_valid(form)
 
 
-
 class TestReviewListView(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DetailView):
     model = Test
     template_name = 'tests/test_review_students_list.html'
@@ -60,7 +59,6 @@ class TestReviewListView(TestsUserPassesTestMixin, mixins.CourseMixin, generic.D
         context = super().get_context_data(**kwargs)
         context['course'] = self.get_course()
         return context
-
 
 
 class TestReviewView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
@@ -102,7 +100,6 @@ class TestReviewView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
                 return HttpResponseRedirect(tests_list_url + '?message=nomore')
 
 
-
 class DownloadStudentFileView(TestsUserPassesTestMixin, mixins.CourseMixin, View):
     model = StudentsAnswers
 
@@ -110,12 +107,11 @@ class DownloadStudentFileView(TestsUserPassesTestMixin, mixins.CourseMixin, View
         student_answer = get_object_or_404(StudentsAnswers, pk=pk)
         if student_answer.document:
             filename = student_answer.document.name.split('/')[-1]
-            response = HttpResponse(student_answer.document, content_type='text/plain')
+            response = HttpResponse(student_answer.document, content_type='application/force-download')
             response['Content-Disposition'] = 'attachment; filename =%s' % filename
             return response
         else:
             return HttpResponse("El estudiante no adjuntó un documento")
-
 
 
 class TestUpdate(TestsUserPassesTestMixin, mixins.CourseMixin, generic.UpdateView):
@@ -123,13 +119,11 @@ class TestUpdate(TestsUserPassesTestMixin, mixins.CourseMixin, generic.UpdateVie
     form_class = TestForm
 
 
-
 class TestDelete(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DeleteView):
     model = Test
 
     def get_success_url(self):
         return self.get_course().get_tests_url()
-
 
 
 # Version Views
@@ -143,7 +137,6 @@ class VersionDetail(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
         return context
 
 
-
 class VersionCreate(TestsUserPassesTestMixin, TestMixin, View):
     def get(self, request, course_pk, test_pk):
         test = get_object_or_404(Test, pk=test_pk)
@@ -154,13 +147,11 @@ class VersionCreate(TestsUserPassesTestMixin, TestMixin, View):
         return redirect(version.test.get_absolute_url())
 
 
-
 class VersionDelete(TestsUserPassesTestMixin, TestMixin, generic.DeleteView):
     model = Version
 
     def get_success_url(self):
         return self.get_test().get_absolute_url()
-
 
 
 class ToggleTest(UserPassesTestMixin, View):
@@ -174,6 +165,7 @@ class ToggleTest(UserPassesTestMixin, View):
         agenda = get_object_or_404(Agenda, pk=self.kwargs['agenda_pk'])
         return is_assistant_of_agenda(self.request.user, agenda)
 
+
 class VersionDuplicateView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
     model = Version
     template_name = "tests/version_confirm_duplicate.html"
@@ -185,7 +177,6 @@ class VersionDuplicateView(TestsUserPassesTestMixin, TestMixin, generic.DetailVi
         for q in self.get_object().question_set.all():
             services.duplicate_question(q, new_version)
         return redirect(self.get_test().get_absolute_url())
-
 
 
 # FIXME: Change?
@@ -229,7 +220,6 @@ class ChoiceQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.Creat
         return self.get_version().get_absolute_url()
 
 
-
 class ChoiceQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateView):
     model = ChoiceQuestion
     form_class = ChoiceQuestionForm
@@ -264,13 +254,11 @@ class ChoiceQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.Updat
         return self.get_version().get_absolute_url()
 
 
-
 class ChoiceQuestionDelete(TestsUserPassesTestMixin, VersionMixin, generic.DeleteView):
     model = ChoiceQuestion
 
     def get_success_url(self):
         return self.get_version().get_absolute_url()
-
 
 
 class TextQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.CreateView):
@@ -285,7 +273,6 @@ class TextQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.CreateV
         return self.get_version().get_absolute_url()
 
 
-
 class TextQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateView):
     model = TextQuestion
     form_class = TextQuestionForm
@@ -294,13 +281,11 @@ class TextQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateV
         return self.get_version().get_absolute_url()
 
 
-
 class TextQuestionDelete(TestsUserPassesTestMixin, VersionMixin, generic.DeleteView):
     model = TextQuestion
 
     def get_success_url(self):
         return self.get_version().get_absolute_url()
-
 
 
 class NumericalQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.CreateView):
@@ -315,7 +300,6 @@ class NumericalQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.Cr
         return self.get_version().get_absolute_url()
 
 
-
 class NumericalQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateView):
     model = NumericalQuestion
     form_class = NumericalQuestionForm
@@ -324,10 +308,8 @@ class NumericalQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.Up
         return self.get_version().get_absolute_url()
 
 
-
 class NumericalQuestionDelete(TestsUserPassesTestMixin, VersionMixin, generic.DeleteView):
     model = NumericalQuestion
 
     def get_success_url(self):
         return self.get_version().get_absolute_url()
-
