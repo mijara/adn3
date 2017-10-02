@@ -7,9 +7,9 @@
     {% for file in course.coursefile_set.all %}
       <li class="list-group-item">
         <div class="pull-right">
-          <a href="#" data-clipboard-text="{{ request.get_host }}{{ file.file.url }}" class="step">Copiar Enlace</a>
-
-          {{ file.downloads }} <span class="glyphicon glyphicon-download-alt back-step"></span>
+          {{ file.downloads }} <span class="glyphicon glyphicon-download-alt step"></span>
+          <a href="#" data-clipboard-text="{{ request.get_host }}{{ file.file.url }}"
+             class="btn btn-info btn-xs">Copiar Enlace</a>
         </div>
 
         <a href="{{ file.get_absolute_url }}">{{ file.name }}</a>
