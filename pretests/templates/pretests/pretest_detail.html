@@ -33,36 +33,39 @@
           Preinforme
         </div>
 
-        <div class="panel-body">
-          <table width="100%">
-            <tbody>
-            <tr>
-              <td width="25%">Nombre</td>
-              <td>{{ pretest.name }}</td>
-            </tr>
+        <table class="table table-responsive" width="100%">
+          <tbody>
+          <tr>
+            <th width="30%">Nombre</th>
+            <td>{{ pretest.name }}</td>
+          </tr>
 
-            <tr>
-              <td>Sesión Inicio</td>
-              <td>{{ pretest.start_session }}</td>
-            </tr>
+          <tr>
+            <th>Sesión Inicio</th>
+            <td>{{ pretest.start_session }}</td>
+          </tr>
 
-            <tr>
-              <td>Sesión Entrega</td>
-              <td>{{ pretest.end_session }}</td>
-            </tr>
+          <tr>
+            <th>Sesión Entrega</th>
+            <td>{{ pretest.end_session }}</td>
+          </tr>
 
-            <tr>
-              <td>Porcentaje</td>
-              <td>{{ pretest.percentage }}%</td>
-            </tr>
+          <tr>
+            <th>Porcentaje</th>
+            <td>{{ pretest.percentage }}%</td>
+          </tr>
 
-            <tr>
-              <td>Mostrar calificaciones</td>
-              <td>{% if pretest.show_grade %}Si{% else %}No{% endif %}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+          <tr>
+            <th>Mostrar calificaciones</th>
+            <td>{% if pretest.show_grade %}Si{% else %}No{% endif %}</td>
+          </tr>
+
+          <tr>
+            <th>Entrega Online</th>
+            <td>{{ pretest.online|yesno:'Si,No' }}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
