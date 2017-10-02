@@ -85,7 +85,8 @@ class TestReviewView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
                 if val == "true":
                     qualification += answer.question.score
 
-        # FIXME: Maybe it's better to get the qualification in real time with an object method and not use an attribute to store it every time
+        # FIXME: Maybe it's better to get the qualification in real time with an
+        # FIXME: object method and not use an attribute to store it every time
         student_answer.qualification = qualification
         student_answer.save()
 
