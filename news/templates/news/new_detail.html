@@ -14,16 +14,13 @@
     <div class="col-sm-12">
       {% if new.owner == request.user %}
         <div class="pull-right">
-          <a href="{{ new.get_update_url }}" class="btn btn-success">
+          <a href="{{ new.get_update_url }}" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-pencil"></span> Editar
           </a>
         </div>
       {% endif %}
 
-      <h1 class="header">{{ new.title }}</h1>
-
-      {{ new.html | safe }}
+      {% include 'news/_new.html' %}
     </div>
   </div>
 {% endblock %}
-
