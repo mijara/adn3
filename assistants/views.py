@@ -4,9 +4,10 @@ from django.shortcuts import render
 from courses.models import Agenda
 from django.shortcuts import get_object_or_404, redirect
 from tests.models import Test
-from pretests.models import PretestUpload
-from django.core.urlresolvers import reverse
+from pretests.models import PretestUpload, Pretest
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
+from .services import has_pretestupload, get_next_pretestupload
 
 from attendance.services import *
 
@@ -92,6 +93,15 @@ class PretestReviewListView(UserPassesTestMixin, mixins.CourseMixin, generic.Det
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Create Pretestupload for students who don't have a Pretestupload. Only if the Pretest is offline
+        pretest = get_object_or_404(Pretest, pk=self.kwargs['pretest_pk'])
+        if not pretest.online:
+            for student in self.get_object().inscriptions.all():
+                if has_pretestupload(pretest, student) is None:
+                    pretestupload = PretestUpload(student=student.student, pretest=pretest)
+                    pretestupload.save()
+
         context['pretest'] = self.get_object().get_submitted_pretests(self.kwargs['pretest_pk'])[0]
         return context
 
@@ -107,22 +117,29 @@ class PretestReviewView(UserPassesTestMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['agenda'] = get_object_or_404(Agenda, pk=self.kwargs['agenda_pk'])
+        context['pretest'] = get_object_or_404(Pretest, pk=self.kwargs['pretest_pk'])
         return context
 
-
     def post(self, request, *args, **kwargs):
-        pretest = self.get_object()
-        pretest.qualification = request.POST.get('grade')
-        pretest.feedback = request.POST.get('feedback')
-        pretest.save()
+        pretestupload = self.get_object()
+        pretest = get_object_or_404(Pretest, pk=self.kwargs['pretest_pk'])
+        agenda = get_object_or_404(Agenda, pk=self.kwargs['agenda_pk'])
+        next_ = get_next_pretestupload(pretest, agenda, pretestupload)
+        pretests_list_url = reverse_lazy('assistants:pretest_review_list',
+                                         args=[kwargs['course_pk'], kwargs['agenda_pk'], kwargs['pretest_pk']])
 
-        pretests_list_url = reverse('assistants:pretest_review_list', args=[kwargs['course_pk'], kwargs['agenda_pk'], kwargs['pretest_pk']])
+        if request.POST.get('action') != "force-next":
+            pretestupload.qualification = request.POST.get('grade')
+            pretestupload.feedback = request.POST.get('feedback')
+            pretestupload.save()
+
         if request.POST.get('action') == "close-after":
             return HttpResponseRedirect(pretests_list_url + '?message=success')
-        elif request.POST.get('action') == "next-after":
-            next_ = PretestUpload.objects.filter(pretest__pk=kwargs['pretest_pk'], qualification=None).first()
+        elif request.POST.get('action') == "next-after" or request.POST.get('action') == "force-next":
             if next_:
-                return HttpResponseRedirect(next_.get_review_url())
+                next_url = reverse_lazy('assistants:pretest_review',
+                                        args=[agenda.course.pk, agenda.pk, pretest.pk, next_.pk])
+                return HttpResponseRedirect(next_url)
             else:
                 return HttpResponseRedirect(pretests_list_url + '?message=nomore')
 

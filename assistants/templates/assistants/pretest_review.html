@@ -18,28 +18,30 @@
       </h1>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Documento adjunto
-        </div>
-        <div class="panel-body">
-          {% if pretestupload.file %}
-            <span>{{ pretestupload.file.name }}</span>
-            <span class="pull-right">
+  {% if pretest.online %}
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Documento adjunto
+          </div>
+          <div class="panel-body">
+            {% if pretestupload.file %}
+              <span>{{ pretestupload.file.name }}</span>
+              <span class="pull-right">
               <a class="btn btn-primary"
                  href="{{ pretestupload.get_download_url }}">
                   Descargar
               </a>
             </span>
-          {% else %}
-            <span>El estudiante no adjuntó un documento</span>
-          {% endif %}
+            {% else %}
+              <span>El estudiante no adjuntó un documento</span>
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
   <div class="row">
     <form id="form" action="" method="POST" novalidate>
       {% csrf_token %}
@@ -50,7 +52,8 @@
                       placeholder="Escriba un comentario para el estudiante">{{ pretestupload.feedback | default_if_none:"" }}</textarea>
           </div>
           <div class="col-md-4">
-            <input class="form-control" type="number" name="grade" id="grade" placeholder="Nota" value="{{ pretestupload.qualification | default_if_none:"" }}">
+            <input class="form-control" type="number" name="grade" id="grade" placeholder="Nota"
+                   value="{{ pretestupload.qualification | default_if_none:"" }}">
           </div>
           <div class="clearfix"></div>
         </div>
@@ -59,12 +62,22 @@
         <div class="panel panel-default review-footer no-footer-border">
           <div class="panel-footer">
             <button type="submit" name="action" value="close-after" class="btn btn-default">Guardar y salir</button>
+
+
             <button type="submit" name="action" value="next-after" class="btn btn-primary pull-right">Guardar y
               pasar al siguiente
             </button>
             <div class="clearfix"></div>
           </div>
         </div>
+      </div>
+      <div class="col-sm-12">
+        <a type="button" href="{% url 'assistants:pretest_review_list' agenda.course.pk agenda.pk pretest.pk %}"
+           class="btn btn-default">Volver al curso</a>
+        <button type="submit" name="action" value="force-next" class="btn btn-danger pull-right"
+                onclick="toggleNext()">
+          Pasar al siguiente
+        </button>
       </div>
     </form>
   </div>
@@ -90,6 +103,11 @@
 
 {% block script %}
   <script>
+      var next = false;
+
+      function toggleNext() {
+          next = true;
+      }
       $(document).ready(function () {
           if (parseInt($("#grade").val()) < 55) {
               $("#grade").css('color', '#da4f4a');
@@ -116,8 +134,9 @@
           })
       });
 
-      $("#form").submit(function(e) {
-          if (isNaN(parseInt($("#grade").val()))) {
+      $("#form").submit(function (e) {
+          console.log(e);
+          if (!next && isNaN(parseInt($("#grade").val().replace(/.*[\.|\,].*/g, 'N')))) {
               alert('La calificación debe ser un número entero.');
               return false;
           }

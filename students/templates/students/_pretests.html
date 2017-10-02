@@ -15,7 +15,19 @@
                 Sesión {{ pretest.end_session.number }}</a>
             </div>
           </td>
-          <td width="40%" class="spacing">
+          <td width="20%" class="spacing">
+            <div>
+              <strong>Tipo de entrega</strong>
+            </div>
+            <div>
+              {% if pretest.online %}
+                Online
+              {% else %}
+                Presencial
+              {% endif %}
+            </div>
+          </td>
+          <td width="20%" class="spacing">
             <div>
               <strong>Archivos</strong>
             </div>
@@ -78,7 +90,11 @@
                 <div class="text-center text-info">Pendiente de revisión</div>
               {% endif %}
             {% else %}
-              <div class="text-center text-info">Envío pendiente</div>
+              {% if pretest.online %}
+                <div class="text-center text-info">Envío pendiente</div>
+              {% else %}
+                <div class="text-center text-info">Pendiente de revisión</div>
+              {% endif %}
             {% endif %}
           </td>
         </tr>

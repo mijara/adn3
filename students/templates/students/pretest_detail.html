@@ -42,24 +42,31 @@
       </div>
     </div>
 
-  <div class="col-sm-8">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        Entrega
-      </div>
+    <div class="col-sm-8">
+      {% if pretest.online %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Entrega
+          </div>
 
-      <div class="panel-body">
-        {% if pretestupload %}
-          Usted ya realizó una entrega para este pre-informe.
-        {% else %}
-          <form action="{% url 'students:pretestupload_create' pretest.pk %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            <button class="btn btn-primary btn-block">Entregar</button>
-          </form>
-        {% endif %}
-      </div>
+          <div class="panel-body">
+            {% if pretestupload %}
+              Usted ya realizó una entrega para este pre-informe.
+            {% else %}
+              <form action="{% url 'students:pretestupload_create' pretest.pk %}" method="post"
+                    enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-primary btn-block">Entregar</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      {% else %}
+        <div class="alert alert-warning">
+          Debe entregar su preinforme al ayudante del laboratorio.
+        </div>
+      {% endif %}
     </div>
-  </div>
   </div>
 {% endblock %}

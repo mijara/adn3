@@ -71,17 +71,17 @@ class PretestFile(models.Model):
 
 
 class PretestUpload(models.Model):
-    software = models.ForeignKey('misc.Software', verbose_name='Software')
+    software = models.ForeignKey('misc.Software', verbose_name='Software', null=True, blank=True)
 
     pretest = models.ForeignKey(Pretest, verbose_name='Preinforme')
 
     student = models.ForeignKey('registration.Student', verbose_name='Estudiante')
 
-    file = models.FileField(verbose_name='Archivo')
+    file = models.FileField(verbose_name='Archivo', null=True, blank=True)
 
-    qualification = models.IntegerField(null=True, verbose_name='Calificación')
+    qualification = models.IntegerField(verbose_name='Calificación', null=True, blank=True)
 
-    feedback = models.TextField(null=True, verbose_name='Comentario')
+    feedback = models.TextField(verbose_name='Comentario', null=True, blank=True)
 
     def __str__(self):
         return self.pretest.name

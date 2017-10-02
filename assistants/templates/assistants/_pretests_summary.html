@@ -1,37 +1,36 @@
 {% for agenda in agendas %}
-  {% if not agenda.has_submitted_pretests %}
-    <div class="alert alert-warning">
-      No hay preinformes para revisar en la agenda <strong>{{ agenda }}</strong>
-    </div>
-  {% else %}
-    <div class="panel panel-default">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-          <tr class="table-heading">
-            <th colspan="2">
-              {{ agenda.get_day_display }} {{ agenda.get_block_display }}
-            </th>
-          </tr>
-          </thead>
-          {% for pretest in agenda.get_submitted_pretests %}
-            <tr>
-              <td>
-                <div>
-                  <strong>{{ pretest.0.name }}</strong>
-                </div>
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr class="table-heading">
+          <th colspan="2">
+            {{ agenda.get_day_display }} {{ agenda.get_block_display }}
+          </th>
+        </tr>
+        </thead>
+        {% for pretest in agenda.get_submitted_pretests %}
+          <tr>
+            <td>
+              <div>
+                <strong>{{ pretest.0.name }}</strong>
+              </div>
 
-                <div>
-                  {{ pretest.4 }} revisiones pendientes • {{ pretest.2 }} Preinformes subidos
-                </div>
-              </td>
-              <td>
-                <a href="{% url 'assistants:pretest_review_list' agenda.course.pk pretest.0.pk agenda.pk %}" class="btn btn-primary pull-right">Revisar</a>
-              </td>
-            </tr>
-          {% endfor %}
-        </table>
-      </div>
+              <div>
+                {% if pretest.0.online %}
+                {{ pretest.4 }} revisiones pendientes • {{ pretest.2 }} Preinformes subidos
+                {% else %}
+                  Entrega presencial
+                {% endif %}
+              </div>
+            </td>
+            <td>
+              <a href="{% url 'assistants:pretest_review_list' agenda.course.pk agenda.pk pretest.0.pk %}"
+                 class="btn btn-primary pull-right">Revisar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
     </div>
-  {% endif %}
+  </div>
 {% endfor %}
