@@ -14,11 +14,15 @@ class Pretest(models.Model):
     end_session = models.ForeignKey('classes.Session', related_name='end_session',
                                     verbose_name='Sesión Entrega')
 
-    percentage = models.IntegerField(default=0, verbose_name='Porcentaje')
+    percentage = models.IntegerField(default=0, verbose_name='Porcentaje Nota')
 
-    show_grade = models.BooleanField(default=False, verbose_name='Mostrar calificación')
+    show_grade = models.BooleanField(default=False, verbose_name='Mostrar calificación',
+                                     help_text='Mostrará la calificación al estudiante posterior a la revisión.')
 
-    online = models.BooleanField(default=False, verbose_name='Entrega Online')
+    online = models.BooleanField(default=False, verbose_name='Entrega Online',
+                                 help_text='Permitirá al estudiante enviar un '
+                                           'archivo a través del sistema, para que el '
+                                           'encargado posteriormente lo descargue y evalúe.')
 
     def __str__(self):
         return self.name
