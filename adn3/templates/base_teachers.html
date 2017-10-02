@@ -31,6 +31,7 @@
       },
       "HTML-CSS": { availableFonts: ["TeX"] }
     });
+
   </script>
 
   <script type="text/javascript"
@@ -96,6 +97,14 @@
 
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/clipboard.min.js' %}"></script>
+<script>
+    var clipboard = new Clipboard('*[data-clipboard-text]');
+    clipboard.on('success', function (e) {
+        alert('Copiado al Portapapeles.');
+        e.clearSelection();
+    });
+</script>
 
 {% block script %}{% endblock %}
 
