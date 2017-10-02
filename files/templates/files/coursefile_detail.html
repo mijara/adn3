@@ -13,21 +13,30 @@
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="header">
+      <h3 class="header">
         <span class="pull-right">
-          <a href="{{ object.get_update_url }}" class="btn btn-success">
+          <a href="{{ object.get_update_url }}" class="btn btn-sm btn-success">
             <span class="glyphicon glyphicon-pencil step"></span>
             Editar
           </a>
         </span>
 
         <span class="glyphicon glyphicon-upload step"></span>
-        {{ object.name }} <small>({{ object.downloads }} descargas)</small>
-      </h1>
+        {{ object.name }} <small>{{ object.update_date }}</small>
+      </h3>
 
-      <a href="{{ object.get_download_url }}" class="btn btn-success btn-lg btn-block">
-        Descargar
-      </a>
+      <div class="row">
+        <div class="col-sm-9">
+          <input type="text" class="form-control" value="{{ request.get_host }}{{ object.file.url }}">
+        </div>
+
+        <div class="visible-xs" style="height: 10px"></div>
+
+        <div class="col-sm-3">
+          <a href="{{ object.file.url }}" target="_blank" class="btn btn-block btn-primary">
+            <i class="glyphicon glyphicon-download-alt step"></i> Descargar</a>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}

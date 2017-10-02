@@ -33,34 +33,32 @@
           Sesión
         </div>
 
-        <div class="panel-body">
-          <table width="100%">
-            <tbody>
-            <tr>
-              <td width="25%">Nombre</td>
-              <td>{{ session.name }}</td>
-            </tr>
+        <table class="table table-responsive" width="100%">
+          <tbody>
+          <tr>
+            <th width="30%">Nombre</th>
+            <td>{{ session.name }}</td>
+          </tr>
 
-            <tr>
-              <td>Tipo</td>
-              <td>{{ session.get_session_type_display }}</td>
-            </tr>
+          <tr>
+            <th>Tipo</th>
+            <td>{{ session.get_session_type_display }}</td>
+          </tr>
 
-            <tr>
-              <td>Estado</td>
-              <td>{{ session.get_state_display }}</td>
-            </tr>
+          <tr>
+            <th>Estado</th>
+            <td>{{ session.get_state_display }}</td>
+          </tr>
 
-            <tr>
-              <td>Periodo</td>
-              <td>
-                {{ session.start_date | date:'d/m' }} - {{ session.end_date | date:'d/m' }}
-                ({{ session.duration }} días)
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+          <tr>
+            <th>Periodo</th>
+            <td>
+              {{ session.start_date | date:'d/m' }} - {{ session.end_date | date:'d/m' }}
+              ({{ session.duration }} días)
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
