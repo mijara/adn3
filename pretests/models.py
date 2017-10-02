@@ -9,14 +9,16 @@ class Pretest(models.Model):
     name = models.CharField(max_length=128, verbose_name=u'Nombre')
 
     start_session = models.ForeignKey('classes.Session', related_name='start_session',
-                                      verbose_name=u'Sesión Inicio')
+                                      verbose_name='Sesión Inicio')
 
     end_session = models.ForeignKey('classes.Session', related_name='end_session',
-                                    verbose_name=u'Sesión Entrega')
+                                    verbose_name='Sesión Entrega')
 
-    percentage = models.IntegerField(default=0, verbose_name=u'Porcentaje')
+    percentage = models.IntegerField(default=0, verbose_name='Porcentaje')
 
-    show_grade = models.BooleanField(default=False, verbose_name=u'Mostrar calificación')
+    show_grade = models.BooleanField(default=False, verbose_name='Mostrar calificación')
+
+    online = models.BooleanField(default=False, verbose_name='Entrega Online')
 
     def __str__(self):
         return self.name
