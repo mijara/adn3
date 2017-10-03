@@ -55,7 +55,7 @@ class Session(models.Model):
         return self.name
 
     def duration(self):
-        return (self.end_date - self.start_date).days
+        return (self.end_date - self.start_date).days + 1
 
     @models.permalink
     def get_absolute_url(self):
