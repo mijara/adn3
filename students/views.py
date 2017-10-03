@@ -163,8 +163,11 @@ class UpdateAnswers(UserPassesTestMixin, View):
         try:
             sv = StudentsAnswers.objects.get(student=request.user, version__pk=request.POST['version'])
             if sv.get_status() == 1:
+                # Reset qualification
+                sv.qualification = 0
+                sv.save()
                 for key in request.POST:
-                    services.update_answer(key, request.user, request.POST[key], request.POST['version'])
+                    services.update_answer(key, request.user, request.POST[key], request.POST['version'], sv.pk)
 
                 for key in request.FILES:
                     services.update_document(request.POST['version'], request.user, request.FILES[key])

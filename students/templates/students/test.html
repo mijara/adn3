@@ -48,7 +48,6 @@
           <a class="btn btn-default pull-right" href="{{ version.file.url }}" target="_blank">Ver documento</a>
         </div>
       {% endif %}
-
       <form id="form">
         {% csrf_token %}
         <input type="hidden" name="version" value="{{ version.pk }}">

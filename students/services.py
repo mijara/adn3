@@ -33,10 +33,12 @@ def create_empty_answers(question, student):
         pass
 
 
-def update_answer(pk, student, _answer, version):
+def update_answer(pk, student, _answer, version, sv_pk):
     if pk in ['version', 'csrfmiddlewaretoken']:
         return
 
+    # Text question
+    studentanswer = get_object_or_404(StudentsAnswers, pk=sv_pk)
     try:
         answer = TextAnswer.objects.get(pk=pk, student=student)
         answer.text = _answer
@@ -44,16 +46,44 @@ def update_answer(pk, student, _answer, version):
     except:
         pass
 
+    # Choice question
     try:
         answer = ChoiceAnswer.objects.get(pk=pk, student=student)
         answer.alternative = Alternative.objects.get(pk=_answer)
+
+        # Auto-correction
+        # TODO: Add condition -> If studentanswer.version.test.auto_correction
+        correct_alternative = answer.question.choicequestion.alternative_set.filter(correct=True).first()
+        grade = studentanswer.qualification
+        if answer.alternative.pk == correct_alternative.pk:
+            answer.correct = True
+            studentanswer.qualification =  (0 if grade is None else grade) + answer.question.score
+            studentanswer.save()
+        else:
+            answer.correct = False
+        print(answer.question.score)
+
         answer.save()
     except:
         pass
 
+    # Numerical question
     try:
         answer = NumericalAnswer.objects.get(pk=pk, student=student)
-        answer.number = _answer
+        answer.number = float(_answer)
+
+        # Auto-correction
+        # TODO: Add condition -> If studentanswer.version.test.auto_correction
+        top_limit = answer.question.numericalquestion.top_limit
+        bottom_limit = answer.question.numericalquestion.bottom_limit
+        grade = studentanswer.qualification
+        if answer.number >= bottom_limit and answer.number <= top_limit:
+            answer.correct = True
+            studentanswer.qualification = (0 if grade is None else grade) + answer.question.score
+            studentanswer.save()
+        else:
+            answer.correct = False
+
         answer.save()
     except:
         pass
@@ -69,12 +99,14 @@ def update_document(version, student, file):
     except:
         pass
 
+
 def get_agenda(object):
     sv = get_object_or_404(StudentsAnswers, student=object.request.user, version__pk=object.kwargs['pk'])
     for agenda in sv.version.test.course.agenda_set.all():
         if object.request.user in agenda.inscriptions.all():
             return agenda
     return None
+
 
 def is_active(user, test):
     for agendatest in test.agendatest_set.filter(active=True):
