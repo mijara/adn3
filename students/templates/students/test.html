@@ -122,22 +122,25 @@
 {% endblock %}
 
 {% block script %}
-  <!-- MathJax -->
   <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-          messageStyle: "none"
-        });
-
-
-
-
-
-
+    MathJax.Hub.Config({
+      messageStyle: "none",
+      extensions: ["tex2jax.js"],
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": { availableFonts: ["TeX"] }
+    });
 
   </script>
+
   <script type="text/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=default">
+          src="//lab.mat.utfsm.cl/mathjax/MathJax.js">
   </script>
+
   <!-- Bootstrap Notify -->
   <script src="{% static 'vendor/bootstrap-notify-master/bootstrap-notify.js' %}"></script>
   <script>

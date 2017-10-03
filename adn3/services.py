@@ -36,11 +36,17 @@ def is_assistant_of_agenda(user, agenda):
 
 
 def preregistrations_open():
-    return Setting.objects.get(key='preregistrations-open').get_bool()
+    try:
+        return Setting.objects.get(key='preregistrations-open').get_bool()
+    except:
+        return False
 
 
 def registrations_open():
-    return Setting.objects.get(key='registrations-open').get_bool()
+    try:
+        return Setting.objects.get(key='registrations-open').get_bool()
+    except:
+        return False
 
 
 def welcome_message():
