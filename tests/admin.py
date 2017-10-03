@@ -42,9 +42,13 @@ class AlternativeAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'question', 'correct')
 
 
+class StudentsAnswersAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'student', 'qualification')
+
+
 admin.site.register(Test)
 admin.site.register(AgendaTest)
-admin.site.register(StudentsAnswers)
+admin.site.register(StudentsAnswers, StudentsAnswersAdmin)
 admin.site.register(Version, VersionAdmin)
 admin.site.register(ChoiceQuestion, ChoiceQuestionAdmin)
 admin.site.register(NumericalQuestion, NumericalQuestionAdmin)

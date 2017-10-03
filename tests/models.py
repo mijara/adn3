@@ -145,6 +145,9 @@ class StudentsAnswers(models.Model):
 
     qualification = models.IntegerField(null=True)
 
+    def __str__(self):
+        return self.version.__str__()
+
     # Return the answers status
     # 1: In progress
     # 2: It's over
