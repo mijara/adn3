@@ -231,6 +231,9 @@ class Answer(models.Model):
     question = models.ForeignKey('Question', verbose_name=u'Pregunta')
     correct = models.NullBooleanField(verbose_name=u'Es correcta')
 
+    class Meta:
+        ordering = ('pk',)
+
     def __str__(self):
         return self.student.username
 
