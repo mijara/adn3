@@ -190,6 +190,9 @@ class Question(models.Model):
 
     html = models.TextField(verbose_name=u'html')
 
+    class Meta:
+        ordering = ('pk',)
+
     def __str__(self):
         return self.text[:25]
 
