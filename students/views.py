@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.views import generic
 from django.views import View
 
+from attendance.models import Attendance
 from tests.models import Version, StudentsAnswers, Test, Answer
 from students import services
 
@@ -92,7 +93,8 @@ class TestPreConfirmationView(UserPassesTestMixin, generic.DetailView):
         return super().get(self, request, *args, **kwargs)
 
     def test_func(self):
-        return is_student_of(self.request.user, self.get_object().course)
+        return is_student_of(self.request.user, self.get_object().course) \
+               and self.get_object().is_student_allowed(self.request.user)
 
 
 class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):
@@ -122,7 +124,8 @@ class TestVersionAssignView(UserPassesTestMixin, generic.DetailView):
             return HttpResponseRedirect(reverse('students:course_detail', kwargs={'pk': test.course.pk}))
 
     def test_func(self):
-        return is_student(self.request.user)
+        return is_student(self.request.user) and \
+               self.get_object().is_student_allowed(self.request.user)
 
 
 class TestDetailView(UserPassesTestMixin, generic.DetailView):

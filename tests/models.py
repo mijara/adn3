@@ -9,6 +9,9 @@ from django.db import models
 
 from django.utils import timezone
 
+from attendance.models import Attendance
+from courses.models import Agenda
+
 
 class Test(models.Model):
     course = models.ForeignKey('courses.Course', verbose_name=u'Curso')
@@ -72,6 +75,21 @@ class Test(models.Model):
         for agenda in self.course.agenda_set.all():
             AgendaTest.objects.create(agenda=agenda, test=self)
 
+    def is_student_allowed(self, user):
+        agenda = Agenda.objects.filter(
+            course=self.course, inscriptions__in=[user]
+        ).get()
+
+        attendance = Attendance.objects.filter(
+            session=self.session, agenda=agenda, user=user)
+
+        if not attendance.exists():
+            return False
+        elif attendance.get().attended not in (Attendance.ATTENDED, Attendance.JUSTIFIED):
+            return False
+
+        return True
+
 
 class AgendaTest(models.Model):
     agenda = models.ForeignKey('courses.Agenda')
@@ -105,15 +123,18 @@ class Version(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'tests:version_detail', [self.test.course.pk, self.test.pk, self.pk]
+        return 'tests:version_detail', [self.test.course.pk, self.test.pk,
+                                        self.pk]
 
     @models.permalink
     def get_delete_url(self):
-        return 'tests:version_delete', [self.test.course.pk, self.test.pk, self.pk]
+        return 'tests:version_delete', [self.test.course.pk, self.test.pk,
+                                        self.pk]
 
     @models.permalink
     def get_duplicate_url(self):
-        return 'tests:version_duplicate', [self.test.course.pk, self.test.pk, self.pk]
+        return 'tests:version_duplicate', [self.test.course.pk, self.test.pk,
+                                           self.pk]
 
     def get_letter(self):
         letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -153,7 +174,8 @@ class StudentsAnswers(models.Model):
     # 2: It's over
     # There is a delta of 5 minutes
     def get_status(self):
-        finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout + 5)
+        finish_time = self.started_at + timezone.timedelta(
+            minutes=self.version.test.timeout + 5)
 
         if finish_time < timezone.now() or self.submitted:
             return 2
@@ -161,7 +183,8 @@ class StudentsAnswers(models.Model):
             return 1
 
     def get_time_left(self):
-        finish_time = self.started_at + timezone.timedelta(minutes=self.version.test.timeout)
+        finish_time = self.started_at + timezone.timedelta(
+            minutes=self.version.test.timeout)
         if finish_time > timezone.now():
             left = finish_time - timezone.now()
             return left.total_seconds() / 60
@@ -175,7 +198,8 @@ class StudentsAnswers(models.Model):
 
     @models.permalink
     def get_review_url(self):
-        return 'tests:test_review', [self.version.test.course.pk, self.version.test.pk, self.pk]
+        return 'tests:test_review', [self.version.test.course.pk,
+                                     self.version.test.pk, self.pk]
 
 
 class Question(models.Model):
@@ -200,12 +224,14 @@ class Question(models.Model):
 class TextQuestion(Question):
     def get_update_url(self):
         return reverse_lazy('tests:textquestion_update',
-                            args=[self.version.test.course.pk, self.version.test.pk,
+                            args=[self.version.test.course.pk,
+                                  self.version.test.pk,
                                   self.version.pk, self.pk])
 
     def get_delete_url(self):
         return reverse_lazy('tests:textquestion_delete',
-                            args=[self.version.test.course.pk, self.version.test.pk,
+                            args=[self.version.test.course.pk,
+                                  self.version.test.pk,
                                   self.version.pk, self.pk])
 
 
@@ -215,14 +241,16 @@ class NumericalQuestion(Question):
 
     def get_update_url(self):
         return reverse_lazy('tests:numericalquestion_update',
-                            args=[self.version.test.course.pk, self.version.test.pk,
+                            args=[self.version.test.course.pk,
+                                  self.version.test.pk,
                                   self.version.pk, self.pk])
 
 
 class ChoiceQuestion(Question):
     def get_update_url(self):
         return reverse_lazy('tests:choicequestion_update',
-                            args=[self.version.test.course.pk, self.version.test.pk,
+                            args=[self.version.test.course.pk,
+                                  self.version.test.pk,
                                   self.version.pk, self.pk])
 
 
@@ -252,7 +280,8 @@ class NumericalAnswer(Answer):
 
 
 class ChoiceAnswer(Answer):
-    alternative = models.ForeignKey('Alternative', verbose_name=u'Alternativa', null=True, blank=True)
+    alternative = models.ForeignKey('Alternative', verbose_name=u'Alternativa',
+                                    null=True, blank=True)
 
 
 class Alternative(models.Model):
@@ -276,6 +305,7 @@ class Alternative(models.Model):
 def pre_delete(sender, instance, **kwargs):
     for question in instance.version.question_set.all():
         try:
-            Answer.objects.get(student=instance.student, question=question).delete()
+            Answer.objects.get(student=instance.student,
+                               question=question).delete()
         except:
             pass
