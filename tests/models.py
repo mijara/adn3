@@ -70,10 +70,13 @@ class Test(models.Model):
             return None
 
     def save(self, *args, **kwargs):
+        is_new = self.pk is None
         super().save(*args, **kwargs)
 
-        for agenda in self.course.agenda_set.all():
-            AgendaTest.objects.create(agenda=agenda, test=self)
+        if is_new:
+            for agenda in self.course.agenda_set.all():
+                AgendaTest.objects.create(agenda=agenda, test=self)
+
 
     def is_student_allowed(self, user):
         agenda = Agenda.objects.filter(

@@ -46,6 +46,7 @@ class RolForm(forms.Form):
 
         digit = 11 - (sum % 11)
 
+        # TODO: Remove the condition digit == 11 and use a modulo operator in the previous line
         if digit == 11:
             digit = 0
         elif digit == 10:
