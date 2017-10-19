@@ -487,6 +487,10 @@ div.review-footer table tr:first-child td {
     border-top: none;
 }
 
+.btn-statistics {
+    margin-bottom: 10px;
+}
+
 /*
  * Pretest Review (Teacher section)
  */
@@ -557,4 +561,48 @@ div.review-footer table tr:first-child td {
     padding: 10px;
     display: block;
     text-align: center;
+}
+
+/*
+ * Statistics
+ */
+.statistics {
+    border-top: 1px solid #ddd;
+}
+
+.statistics > div {
+    position: relative;
+    padding: 15px;
+    background: #fbfbfb;
+}
+
+.statistics > div * {
+    z-index: 1;
+    position: relative;
+    margin: 0;
+}
+
+.statistics > div span {
+    font-size: 200%;
+}
+
+.statistics .bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+.statistics .corrects {
+    color: #5cb85c;
+    border-right: 1px solid #ddd;
+}
+
+.statistics .incorrects {
+    color: #d9534f;
+}
+
+.no-overflow {
+    overflow: hidden;
 }

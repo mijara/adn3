@@ -199,6 +199,12 @@ class StudentsAnswers(models.Model):
     def get_document_url(self):
         return self.document.url
 
+    def get_student_agenda(self):
+        course = self.version.test.course
+        for agenda in self.student.inscriptions.filter(course=course):
+            return agenda
+        return None
+
     @models.permalink
     def get_review_url(self):
         return 'tests:test_review', [self.version.test.course.pk,
@@ -222,6 +228,11 @@ class Question(models.Model):
 
     def __str__(self):
         return self.text[:25]
+
+    def get_correct_incorrect_answers(self):
+        correct = len(self.answer_set.filter(correct=True))
+        incorrect = len(self.answer_set.filter(correct=False))
+        return correct, incorrect
 
 
 class TextQuestion(Question):

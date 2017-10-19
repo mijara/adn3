@@ -7,7 +7,7 @@
     <li><a href="{% url 'courses:index' %}">Cursos</a></li>
     <li><a href="{{ test.course.get_absolute_url }}">{{ test.course }}</a></li>
     <li><a href="{{ test.course.get_tests_url }}">Controles</a></li>
-    <li><a href="{% url 'tests:test_review_list' test.course.pk test.pk %}">Revisión {{ test }}</a></li>
+    <li><a href="{% url 'tests:test_review_statistics' test.course.pk test.pk %}">Estadísticas {{ test }}</a></li>
   </ol>
 {% endblock %}
 
@@ -17,16 +17,10 @@
     <div class="row">
       <div class="col-sm-12">
         <h1 class="header">
-          <span class="glyphicon glyphicon-check step"></span>
-          Revisión {{ test }} <span class="small">{{ answers.3 }} de {{ answers.1 }} revisiones pendientes</span>
+          <span class="glyphicon glyphicon-education step"></span>
+          Estadísticas {{ test }} <span class="small">{{ answers.1 }} controles</span>
         </h1>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <a href="{% url 'tests:test_review_statistics' test.course.pk test.pk %}" role="button" class="btn btn-success btn-block btn-statistics">Ver estadisticas</a>
-      </div>
-      <div class="clearfix"></div>
     </div>
     <div class="row">
       <div class="col-sm-12">
@@ -39,39 +33,34 @@
             No quedan controles por calificar
           </div>
         {% endif %}
-        <div class="table-responsive ">
-          <table class="table panel panel-default">
-            <thead>
-            <tr class="table-heading">
-              <th width="80%">Estudiante</th>
-              <th width="20%">Agenda</th>
-              <th width="0%">Estado</th>
-              <th width="0%">Nota</th>
-              <th width="0%"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for answer in answers.0 %}
-              <tr>
-                <td>{{ answer.student.first_name }} {{ answer.student.last_name }}</td>
-                <td>{{ answer.get_student_agenda }}</td>
-                <td>
-                  {% if answer.qualification is not None %}
-                    <span class="text-success">Revisada</span>
-                  {% else %}
-                    <span class="text-danger">Pendiente</span>
-                  {% endif %}
-                </td>
-                <td>
-                  {{ answer.qualification|default_if_none:"-" }}
-                </td>
-                <td><a href="{{ answer.get_review_url }}" type="button" class="btn btn-primary">Calificar</a></td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
+
+        <!-- Corrects vs Incorrects -->
+        {% for version, data in correctIncorrects.items %}
+          <h1>Forma {{ version }}</h1>
+          {% for i, question in data.items %}
+            <div class="panel panel-default clearfix no-overflow">
+              <div class="panel-body">
+                <h3>{{ forloop.counter }}.
+                  <small>{{ question.question.text }}</small>
+                </h3>
+              </div>
+              <div class="statistics text-center clearfix">
+                <div class="col-md-6 corrects">
+                  <p>Correctas</p>
+                  <span class="lead">{{ question.correct }}</span>
+                  <div class="bar" style="height: {{ question.correctPercentage|floatformat:"-3" }}%"></div>
+                </div>
+                <div class="col-md-6 incorrects">
+                  <p>Incorrectas</p>
+                  <span class="lead">{{ question.incorrect }}</span>
+                  <div class="bar" style="height: {{ question.incorrectPercentage|floatformat:"-3" }}%"></div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
       </div>
+    </div>
     </div>
   {% endwith %}
 {% endblock %}

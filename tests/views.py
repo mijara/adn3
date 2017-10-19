@@ -61,6 +61,33 @@ class TestReviewListView(TestsUserPassesTestMixin, mixins.CourseMixin, generic.D
         return context
 
 
+class TestReviewStatisticsView(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DetailView):
+    model = Test
+    template_name = 'tests/test_review_statistics.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['correctIncorrects'] = {}
+        for version in self.get_object().version_set.all():
+            info = {}git
+            # Corrects vs Incorrects
+            for i, question in enumerate(version.question_set.all()):
+                correct, incorrect = question.get_correct_incorrect_answers()
+                if correct != 0 or incorrect != 0:
+                    info[i] = {
+                        'question': question,
+                        'correct': correct,
+                        'incorrect': incorrect,
+                        'correctPercentage': correct * 100 / (correct + incorrect),
+                        'incorrectPercentage': incorrect * 100 / (correct + incorrect),
+                    }
+
+            context['correctIncorrects'][version.get_letter] = info
+
+        return context
+
+
 class TestReviewView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
     model = StudentsAnswers
     template_name = "tests/test_review.html"

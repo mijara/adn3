@@ -21,6 +21,12 @@ urlpatterns = [
     ),
 
     url(
+        r'^(?P<pk>\d+)/review/statistics$',
+        views.TestReviewStatisticsView.as_view(),
+        name='test_review_statistics'
+    ),
+
+    url(
         r'^(?P<test_pk>\d+)/review/(?P<pk>\d+)$',
         views.TestReviewView.as_view(),
         name='test_review'
