@@ -70,7 +70,7 @@ class TestReviewStatisticsView(TestsUserPassesTestMixin, mixins.CourseMixin, gen
 
         context['correctIncorrects'] = {}
         for version in self.get_object().version_set.all():
-            info = {}git
+            info = {}
             # Corrects vs Incorrects
             for i, question in enumerate(version.question_set.all()):
                 correct, incorrect = question.get_correct_incorrect_answers()
