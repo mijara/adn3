@@ -9,6 +9,12 @@
           </th>
         </tr>
         </thead>
+        {% if not agenda.get_submitted_pretests %}
+          <tr>
+            <td colspan="2" class="text-center text-muted">No hay preinformes.</td>
+          </tr>
+
+        {% endif %}
         {% for pretest in agenda.get_submitted_pretests %}
           <tr>
             <td>
