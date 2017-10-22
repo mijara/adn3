@@ -38,8 +38,8 @@ class PretestCreateView(PretestMixin, mixins.CourseMixin, generic.CreateView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        form.fields['start_session'].queryset = self.object.course.session_set
-        form.fields['end_session'].queryset = self.object.course.session_set
+        form.fields['start_session'].queryset = self.get_course().session_set
+        form.fields['end_session'].queryset = self.get_course().session_set
         return form
 
     def form_valid(self, form):
