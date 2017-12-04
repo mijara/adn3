@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'coordination',
     'flyins',
     'public',
+    'polls',
 )
 
 MIDDLEWARE_CLASSES = (

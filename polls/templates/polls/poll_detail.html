@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block breadcrump %}
+
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="alert alert-success">
+        Encuesta enviada con éxito!
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <p>
+            Su encuesta fue enviada al curso: {{ view.get_course }}.
+          </p>
+
+          <p>
+            Gracias por contestar la encuesta!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

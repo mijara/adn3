@@ -78,6 +78,14 @@ urlpatterns = [
     ),
 
     url(
+        r'^(?P<course_pk>\d+)/polls/',
+        include(
+            'polls.urls',
+            namespace='polls'
+        )
+    ),
+
+    url(
         '^students/',
         include(
             'students.urls',
