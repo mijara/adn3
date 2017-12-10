@@ -31,4 +31,16 @@ urlpatterns = [
         views.RegistrationsToggle.as_view(),
         name='registrations_toggle'
     ),
+
+    url(
+        r'^polls/toggle/$',
+        views.PollsToggle.as_view(),
+        name='polls_toggle'
+    ),
+
+    url(
+        r'^polls/excel/$',
+        views.PollsExcelView.as_view(),
+        name='polls_excel'
+    ),
 ]

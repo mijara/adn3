@@ -73,6 +73,13 @@
     }
   },
   {
+    "model": "misc.Setting",
+    "pk": 4,
+    "fields": {
+      "key": "polls-open",
+      "value": "False"
+    }
+  {
     "model": "misc.Software",
     "pk": 1,
     "fields": {

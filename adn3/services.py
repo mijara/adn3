@@ -67,3 +67,15 @@ def registrations_set(value):
 
 def is_teacher_of(user, course):
     return course.teachers.filter(pk=user.pk).exists()
+
+
+def polls_open():
+    try:
+        return Setting.objects.get(key='polls-open').get_bool()
+    except:
+        return False
+
+def polls_set(value):
+    obj = Setting.objects.get(key='polls-open')
+    obj.value = str(value)
+    obj.save()

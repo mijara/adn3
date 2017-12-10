@@ -1,0 +1,6 @@
+{% if POLLS_OPEN %}
+  <div class="alert alert-info text-center">
+    <p class="lead">Hay una encuesta disponible</p>
+    <p class="lead"><a href="{% url 'polls:poll_create' course.pk %}" class="alert-link">Ir a la encuesta</a></p>
+  </div>
+{% endif %}

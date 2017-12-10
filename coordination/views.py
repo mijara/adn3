@@ -4,11 +4,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from adn3.constants import YEAR, SEMESTER
 from adn3.mixins import CourseMixin
-from coordination.services import generate_excel
+from coordination.services import generate_excel, generate_polls_excel
 from adn3.services import preregistrations_open, preregistrations_set, \
-    is_coordinator, registrations_open, registrations_set
+    is_coordinator, registrations_open, registrations_set, polls_open, polls_set
 from courses.models import Course
 from misc.models import Software
+from polls.models import Poll
 
 
 class CoordinatorTestMixin(UserPassesTestMixin):
@@ -25,6 +26,7 @@ class CoordinationIndexView(CoordinatorTestMixin, View):
             'software_list': Software.objects.all(),
             'preregistrations_open': preregistrations_open(),
             'registrations_open': registrations_open(),
+            'polls_open': polls_open(),
         })
 
 
@@ -84,3 +86,34 @@ class RegistrationsToggle(CoordinatorTestMixin, View):
         registrations_set(not state)
 
         return redirect('coordination:coordination_index')
+
+
+class PollsToggle(CoordinatorTestMixin, View):
+    def get(self, request):
+        state = polls_open()
+        polls_set(not state)
+
+        return redirect('coordination:coordination_index')
+
+
+class PollsExcelView(CoordinatorTestMixin, View):
+    def get(self, request):
+        course = self.get_course()
+
+        poll_list = Poll.objects.filter(course=course).order_by('pk')
+        print(poll_list)
+        content = generate_polls_excel(course, poll_list)
+
+        response = HttpResponse(
+            content=content,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=encuesta-{filename}.xlsx'.format(filename=str(course))
+        return response
+
+    def get_course(self):
+        course_pk = self.request.GET.get('course')
+
+        if course_pk is None:
+            raise Http404()
+
+        return get_object_or_404(Course, pk=course_pk)

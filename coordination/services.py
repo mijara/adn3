@@ -2,6 +2,8 @@ import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
 from datetime import datetime
 
+from polls.models import Poll
+
 
 def dayblock_to_adn2_format(day):
     """
@@ -67,5 +69,36 @@ def generate_excel(course, software, pr_list):
         ws['U%s' % (6 + i)] = int(pr.previous_experience)
         ws['V%s' % (6 + i)] = '},' if i + 1 < len(pr_list) else '}}'
         ws['W%s' % (6 + i)] = pr.parallel
+
+    return save_virtual_workbook(wb)
+
+
+def generate_polls_excel(course, poll_list):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    dt = datetime.now()
+
+    ws['E2'] = 'Encuesta fin de semestre'
+    ws['E3'] = str(course)
+
+    ws['B5'] = 'Nro'
+    ws['C5'] = 'Año'
+    ws['D5'] = 'Semestre'
+
+    letters = "EFGHIJKLMNOPQRSTUVWXYZ"
+    for i, q in enumerate(Poll._meta.get_fields()[3:]):
+        ws['%s5' % letters[i]] = q.verbose_name
+
+    for i, pll in enumerate(poll_list):
+        ws['B%s' % (6 + i)] = i
+        ws['C%s' % (6 + i)] = pll.course.year
+        ws['D%s' % (6 + i)] = pll.course.semester
+
+        p_dict = pll.__dict__
+        keys = list(p_dict.keys())[4:-1]
+
+        for j, q in enumerate(keys):
+            ws['%s%s' % (letters[j], (6 + i))] = p_dict[q]
 
     return save_virtual_workbook(wb)
