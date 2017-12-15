@@ -169,6 +169,9 @@ class StudentsAnswers(models.Model):
 
     qualification = models.IntegerField(null=True)
 
+    class Meta:
+        ordering = ('pk',)
+
     def __str__(self):
         return self.version.__str__()
 
@@ -289,8 +292,7 @@ class NumericalAnswer(Answer):
 
     def is_correct(self):
         if not self.number: return False
-        return self.number <= self.question.numericalquestion.top_limit and \
-               self.number >= self.question.numericalquestion.bottom_limit
+        return self.question.numericalquestion.top_limit >= self.number >= self.question.numericalquestion.bottom_limit
 
 
 class ChoiceAnswer(Answer):

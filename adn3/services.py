@@ -75,6 +75,7 @@ def polls_open():
     except:
         return False
 
+
 def polls_set(value):
     obj = Setting.objects.get(key='polls-open')
     obj.value = str(value)

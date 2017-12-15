@@ -36,13 +36,15 @@ def generate_grades_excel(course):
     students = course.get_students()
 
     for student in students:
-        grades = student.get_grades_for_course(course)
-
         full_name = student.user.get_full_name()
-
         grade_matrix.set_user(full_name)
 
+        grades = student.get_grades_for_course(course)
         for test_name, grade in grades:
             grade_matrix.add(test_name, grade)
+
+        pretest_grades = student.get_pretest_grades_for_course(course)
+        for name, grade in pretest_grades:
+            grade_matrix.add_pretest(name, grade)
 
     return grade_matrix.render()

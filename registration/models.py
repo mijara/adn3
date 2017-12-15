@@ -3,6 +3,7 @@ import uuid
 
 from django.urls import reverse_lazy
 
+from pretests.models import PretestUpload
 from tests.models import Test
 
 
@@ -37,6 +38,17 @@ class Student(models.Model):
                 else:
                     answers = answers.first()
                     yield test.name, answers.qualification
+
+    def get_pretest_grades_for_course(self, course):
+        for pretest in course.pretest_set.all():
+            upload = PretestUpload.objects.filter(student=self, pretest=pretest)
+
+            if not upload.exists():
+                yield pretest.name, None
+
+            else:
+                upload = upload.first()
+                yield pretest.name, upload.qualification
 
 
 class Ticket(models.Model):

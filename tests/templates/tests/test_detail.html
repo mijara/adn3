@@ -57,18 +57,8 @@
           <table width="100%">
             <tbody>
             <tr>
-              <th>Software</th>
-              <td>{{ test.software.name }}</td>
-            </tr>
-
-            <tr>
               <th>Sesión</th>
               <td>{{ test.session.number }} ({{ test.session.name }})</td>
-            </tr>
-
-            <tr>
-              <th>Estado</th>
-              <td>{% if test.active %}Activo{% else %}Inactivo{% endif %}</td>
             </tr>
 
             <tr>
@@ -78,17 +68,12 @@
 
             <tr>
               <th>Puntaje</th>
-              <td>--</td>
+              <td>{{ test.percentage }}</td>
             </tr>
 
             <tr>
               <th>Duración</th>
               <td>{{ test.get_timeout_display }}</td>
-            </tr>
-
-            <tr>
-              <th>Respuestas</th>
-              <td>--</td>
             </tr>
             </tbody>
           </table>

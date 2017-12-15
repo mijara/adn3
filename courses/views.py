@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 
 from adn3.mixins import CourseMixin
 from adn3.services import is_teacher_of, is_coordinator
-from courses.services import generate_grades_excel
+from courses.grades_workbook import generate_course_grades
 from .forms import *
 from . import services
 from django.views import View
@@ -50,17 +50,34 @@ class GradesConfigView(IsTeacherOfCourseMixin, CourseMixin, View):
 
         general_form = CourseGradesConfigForm(request.POST or None, instance=instance)
 
-        if request.method == 'POST':
-            if general_form.is_valid():
-                instance = general_form.save(commit=False)
-                instance.course = course
-                instance.save()
+        return render(request, 'courses/grades_config.html', {
+            'course': course,
+            'view': self,
+            'section': 'grades',
+            'ACTIVE': 'grades',
+            'general_form': general_form
+        })
 
-                services.save_pretests(request.POST)
-                services.save_tests(request.POST)
-                services.save_sessions(request.POST, services.session_pks(course))
+    def post(self, request, course_pk):
+        course = self.get_course()
 
-                return redirect('courses:grades', pk=course_pk)
+        try:
+            instance = course.grades_config
+        except CourseGradesConfig.DoesNotExist:
+            instance = CourseGradesConfig()
+
+        general_form = CourseGradesConfigForm(request.POST or None, instance=instance)
+
+        if general_form.is_valid():
+            instance = general_form.save(commit=False)
+            instance.course = course
+            instance.save()
+
+            services.save_pretests(request.POST)
+            services.save_tests(request.POST)
+            services.save_sessions(request.POST, services.session_pks(course))
+
+            return redirect('courses:course_grades_config', course_pk=course_pk)
 
         return render(request, 'courses/grades_config.html', {
             'course': course,
@@ -75,7 +92,7 @@ class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
     def get(self, request, course_pk):
         course = self.get_course()
 
-        content = generate_grades_excel(course)
+        content = generate_course_grades(course)
 
         response = HttpResponse(
             content=content,

@@ -43,7 +43,8 @@ class AlternativeAdmin(admin.ModelAdmin):
 
 
 class StudentsAnswersAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'student', 'qualification')
+    list_display = ('__str__', 'student', 'qualification', 'started_at')
+
 
 class AgendaTestAdmin(admin.ModelAdmin):
     list_display = ('agenda', 'test', 'active')
