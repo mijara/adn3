@@ -3,7 +3,7 @@ from openpyxl.writer.excel import save_virtual_workbook
 
 from attendance.models import Attendance
 from pretests.models import PretestUpload
-from tests.models import Answer
+from tests.models import Answer, StudentsAnswers, Version
 
 
 def _questions_row(student_answers, version):
@@ -20,29 +20,40 @@ def _questions_row(student_answers, version):
     return row
 
 
-def _append_test_version(course, version, ws, resume):
-    header = ['Rol', 'Nombres', 'Apellidos']
-    header += ['P%d' % (i + 1) for i in range(version.question_set.count())] + ['Nota']
-    ws.append(header)
+def _append_test_version(student, personal, test, wb, sheets):
+    sa = StudentsAnswers.objects.filter(student=student.user, version__test=test)
+    print(sa)
 
-    for sa in version.studentsanswers_set.all():
-        rol = sa.student.student.rol
-        personal = [rol, sa.student.first_name, sa.student.last_name]
+    if sa.exists():
+        sa = sa.first()
+
+        if sa.version.pk not in sheets:
+            sheets[sa.version.pk] = wb.create_sheet(test.name + ' - ' + sa.version.get_letter())
+            header = ['Rol', 'Nombres', 'Apellidos']
+            header += ['P%d' % (i + 1) for i in range(sa.version.question_set.count())] + ['Nota']
+            sheets[sa.version.pk].append(header)
+
+        sheets[sa.version.pk].append(personal + _questions_row(sa, sa.version))
+
+        return sa.qualification
+    else:
+        return 0
+
+
+def _append_tests(course, wb, resume):
+    sheets = {}
+
+    for student in course.get_students():
+        rol = student.rol
+        personal = [rol, student.user.first_name, student.user.last_name]
 
         # add test qualification to general view.
         if rol not in resume:
             resume[rol] = personal[:]
-        resume[rol].append(sa.qualification)
 
-        # add test specifics to the test worksheet.
-        ws.append(personal + _questions_row(sa, version))
-
-
-def _append_tests(course, wb, resume):
-    for test in course.test_set.all():
-        for version in test.version_set.all():
-            test_ws = wb.create_sheet(test.name + ' - ' + version.get_letter())
-            _append_test_version(course, version, test_ws, resume)
+        for test in course.test_set.all():
+            grade = _append_test_version(student, personal, test, wb, sheets)
+            resume[rol].append(grade)
 
 
 def _append_pretests(course, resume):

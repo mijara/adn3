@@ -40,6 +40,9 @@ class Test(models.Model):
 
     percentage = models.IntegerField(verbose_name=u'Porcentaje')
 
+    class Meta:
+        ordering = ('create_date',)
+
     def __str__(self):
         return self.name
 
