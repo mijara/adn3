@@ -31,6 +31,13 @@
   <div class="row">
     <div class="col-sm-12">
       <a href="{% url 'courses:course_grades_excel' course.pk %}" class="btn btn-success btn-lg btn-block">Descargar en Excel</a>
+
+      <br>
+
+      <p class="alert alert-danger">
+        Esta funcionalidad está en estado de prueba, no confie en los resultados
+        entregados hasta que el Administrador lo indique.
+      </p>
     </div>
   </div>
 {% endblock %}
