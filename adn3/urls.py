@@ -147,4 +147,12 @@ urlpatterns = [
             namespace='public'
         )
     ),
+
+    url(
+        r'^administration/',
+        include(
+            'administration.urls',
+            namespace='administration'
+        )
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

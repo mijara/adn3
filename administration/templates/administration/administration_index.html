@@ -1,0 +1,24 @@
+{% extends 'base_teachers.html' %}
+
+{% block breadcrump %}
+  <!-- Left blank -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Herramientas
+        </div>
+
+        <div class="list-group">
+          <a href="{% url 'administration:teacher_create' %}" class="list-group-item">
+            <span class="glyphicon glyphicon-pencil step"></span>
+            Registrar Profesor
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

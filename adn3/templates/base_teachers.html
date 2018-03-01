@@ -72,6 +72,12 @@
             <a href="{% url 'coordination:coordination_index' %}">Coordinación</a>
           </li>
         {% endif %}
+
+        {% if user.is_superuser %}
+            <li>
+              <a href="{% url 'administration:administration_index' %}">Administración</a>
+            </li>
+          {% endif %}
       </ul>
 
       {% if user.is_authenticated %}

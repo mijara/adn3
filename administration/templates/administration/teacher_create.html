@@ -1,0 +1,24 @@
+{% extends 'base_teachers.html' %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Registrar Profesor
+          </div>
+
+          <div class="panel-body">
+            {% include '_form.html' %}
+          </div>
+
+          <div class="panel-footer text-right">
+            <button class="btn btn-primary">Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

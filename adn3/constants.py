@@ -4,7 +4,7 @@ application.
 """
 
 # Current year
-YEAR = 2017
+YEAR = 2018
 
 # Current semester number.
-SEMESTER = 2
+SEMESTER = 1
