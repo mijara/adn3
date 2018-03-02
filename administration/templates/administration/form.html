@@ -7,16 +7,15 @@
         {% csrf_token %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            Registrar Profesor
+            {% block title %}{% endblock %}
           </div>
 
           <div class="panel-body">
-            Profesor creado con éxito.
+            {% include '_form.html' %}
           </div>
 
           <div class="panel-footer text-right">
-            <a class="btn btn-primary" href="{% url 'administration:administration_index' %}">Volver</a>
-            <a class="btn btn-success" href="{% url 'administration:teacher_create' %}">Registrar otro profesor</a>
+            <button class="btn btn-primary">Guardar</button>
           </div>
         </div>
       </form>

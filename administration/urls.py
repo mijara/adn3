@@ -16,7 +16,19 @@ urlpatterns = [
 
     url(
         r'^teachers/create/success/$',
-        views.TeacherCreateSuccessView.as_view(),
-        name='teacher_create_success'
+        views.TeacherSuccessView.as_view(),
+        name='teacher_success'
+    ),
+
+    url(
+        r'^courses/create/$',
+        views.CourseCreateView.as_view(),
+        name='course_create'
+    ),
+
+    url(
+        r'^courses/create/success/$',
+        views.CourseSuccessView.as_view(),
+        name='course_success'
     ),
 ]

@@ -1,0 +1,15 @@
+{% extends 'administration/success.html' %}
+
+{% block add_other_url %}
+  {% url 'administration:course_create' %}
+{% endblock %}
+
+{% block title %}
+  Registrar Curso
+{% endblock %}
+
+{% block message %}
+  Curso registrado con éxito.
+
+  HERNAN AQUÍ MEJOR IR A UNA PÁGINA PARA MANEJAR LOS ENCARGADOS DEL CURSO O ALGO ASÍ ?
+{% endblock %}

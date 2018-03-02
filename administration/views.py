@@ -2,6 +2,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.models import User, Group
+
+from courses.models import Course
 from . import forms
 
 
@@ -33,5 +35,17 @@ class TeacherCreateView(AdministratorTestMixin, generic.CreateView):
         return response
 
 
-class TeacherCreateSuccessView(AdministratorTestMixin, generic.TemplateView):
-    template_name = 'administration/teacher_create_success.html'
+class TeacherSuccessView(AdministratorTestMixin, generic.TemplateView):
+    template_name = 'administration/teacher_success.html'
+
+
+class CourseCreateView(AdministratorTestMixin, generic.CreateView):
+    model = Course
+    form_class = forms.CourseForm
+    template_name = 'administration/course_create.html'
+
+    success_url = reverse_lazy('administration:course_success')
+
+
+class CourseSuccessView(AdministratorTestMixin, generic.TemplateView):
+    template_name = 'administration/course_success.html'
