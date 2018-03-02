@@ -24,6 +24,11 @@ def is_assistant(user):
     return user.groups.filter(name='assistants').exists()
 
 
+def is_superteacher_of(user, course):
+    sts = user.superteacher_set.filter(campus=course.campus)
+    return sts.exists()
+
+
 def is_assistant_of(user, course):
     for agenda in course.agenda_set.all():
         if user in agenda.assistants.all():
