@@ -16,7 +16,16 @@ class CourseListView(UserPassesTestMixin, generic.ListView):
     def get_queryset(self):
         if is_coordinator(self.request.user):
             return Course.objects.filter(year=YEAR, semester=SEMESTER)
-        return self.request.user.course_set.filter(year=YEAR, semester=SEMESTER)
+
+        campuses = [st.campus for st in self.request.user.superteacher_set.all() if st.campus]
+
+        course_set = self.request.user.course_set.filter(year=YEAR, semester=SEMESTER)
+
+        if len(campuses) != 0:
+            campus_courses_set = Course.objects.filter(year=YEAR, semester=SEMESTER, campus__in=campuses)
+            return campus_courses_set | course_set
+
+        return course_set
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -3,16 +3,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from adn3.mixins import CourseMixin
-from adn3.services import is_teacher_of, is_coordinator
+from adn3.services import is_teacher_of, is_coordinator, is_superteacher_of
 from courses.grades_workbook import generate_course_grades
+from courses.mixins import IsTeacherOfCourseMixin
 from .forms import *
 from . import services
 from django.views import View
-
-
-class IsTeacherOfCourseMixin(UserPassesTestMixin):
-    def test_func(self):
-        return is_coordinator(self.request.user) or is_teacher_of(self.request.user, self.get_course())
 
 
 class CourseDetail(IsTeacherOfCourseMixin, CourseMixin, View):
