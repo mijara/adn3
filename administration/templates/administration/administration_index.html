@@ -9,29 +9,13 @@
     <div class="col-sm-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          Herramientas
+          Cursos
         </div>
 
         <div class="list-group">
-          <a href="{% url 'administration:teacher_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-pencil step"></span>
-            Registrar Profesor
-          </a>
-
           <a href="{% url 'administration:course_create' %}" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt step"></span>
-            Registrar Curso
-          </a>
-
-          <a href="{% url 'administration:course_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Registrar estudiante
-          </a>
-
-
-          <a href="{% url 'administration:course_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Registrar ayudante
+            Registrar curso
           </a>
 
           <a href="{% url 'administration:teacher_course_create' %}" class="list-group-item">
@@ -42,6 +26,29 @@
           <a href="{% url 'administration:co_assistant_course_create' %}" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt step"></span>
             Asignar ayudante coordinador a curso
+          </a>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Usuarios
+        </div>
+
+        <div class="list-group">
+          <a href="{% url 'administration:teacher_create' %}" class="list-group-item">
+            <span class="glyphicon glyphicon-pencil step"></span>
+            Registrar profesor
+          </a>
+
+          <a href="{% url 'administration:course_create' %}" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt step"></span>
+            Registrar estudiante
+          </a>
+
+          <a href="{% url 'administration:course_create' %}" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt step"></span>
+            Registrar ayudante
           </a>
         </div>
       </div>
