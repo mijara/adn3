@@ -76,6 +76,20 @@ def polls_open():
         return False
 
 
+def get_period_year():
+    try:
+        return Setting.objects.get(key='period-year').get_int()
+    except:
+        return None
+
+
+def get_period_semester():
+    try:
+        return Setting.objects.get(key='period-semester').get_int()
+    except:
+        return None
+
+
 def polls_set(value):
     obj = Setting.objects.get(key='polls-open')
     obj.value = str(value)

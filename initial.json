@@ -81,6 +81,22 @@
     }
   },
   {
+    "model": "misc.Setting",
+    "pk": 5,
+    "fields": {
+      "key": "period-year",
+      "value": "2018"
+    }
+  },
+  {
+    "model": "misc.Setting",
+    "pk": 6,
+    "fields": {
+      "key": "period-semester",
+      "value": "1"
+    }
+  },
+  {
     "model": "misc.Software",
     "pk": 1,
     "fields": {
