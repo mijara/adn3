@@ -14,3 +14,12 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ('name', 'code', 'campus', 'year', 'semester', 'software')
+
+
+class YearSemesterForm(forms.Form):
+    year = forms.IntegerField(label='Año')
+
+    semester = forms.ChoiceField(choices=(
+        (1, 1),
+        (2, 2)
+    ), label='Semestre')

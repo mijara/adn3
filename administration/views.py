@@ -3,7 +3,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.models import User, Group
 
+from adn3.services import get_period_year, get_period_semester
 from courses.models import Course
+from misc.models import Setting
 from . import forms
 
 
@@ -49,3 +51,29 @@ class CourseCreateView(AdministratorTestMixin, generic.CreateView):
 
 class CourseSuccessView(AdministratorTestMixin, generic.TemplateView):
     template_name = 'administration/course_success.html'
+
+
+class YearSemesterUpdateView(AdministratorTestMixin, generic.FormView):
+    form_class = forms.YearSemesterForm
+    template_name = 'administration/yearsemester_form.html'
+    success_url = reverse_lazy('administration:administration_index')
+
+    def get_initial(self):
+        initial = super().get_initial()
+
+        initial['year'] = get_period_year()
+        initial['semester'] = get_period_semester()
+
+        return initial
+
+    def form_valid(self, form):
+        setting_year = Setting.objects.get(key='period-year')
+        setting_semester = Setting.objects.get(key='period-semester')
+
+        setting_year.value = str(form.cleaned_data['year'])
+        setting_semester.value = str(form.cleaned_data['semester'])
+
+        setting_year.save()
+        setting_semester.save()
+
+        return super().form_valid(form)

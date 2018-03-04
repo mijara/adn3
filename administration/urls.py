@@ -31,4 +31,10 @@ urlpatterns = [
         views.CourseSuccessView.as_view(),
         name='course_success'
     ),
+
+    url(
+        r'^yearsemester/update/$',
+        views.YearSemesterUpdateView.as_view(),
+        name='yearsemester_update'
+    ),
 ]
