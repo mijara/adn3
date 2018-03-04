@@ -79,6 +79,7 @@
       "key": "polls-open",
       "value": "False"
     }
+  },
   {
     "model": "misc.Software",
     "pk": 1,
