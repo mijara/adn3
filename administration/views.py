@@ -67,6 +67,9 @@ class YearSemesterUpdateView(AdministratorTestMixin, generic.FormView):
         return initial
 
     def form_valid(self, form):
+        """
+        Save settings to database.
+        """
         setting_year = Setting.objects.get(key='period-year')
         setting_semester = Setting.objects.get(key='period-semester')
 

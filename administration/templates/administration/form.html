@@ -21,22 +21,21 @@
       </form>
     </div>
   </div>
+
   <div class="row">
     <div class="col-sm-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">Detalle</div>
-            <div class="panel-body">
-              {% block detail %}{% endblock %}
-            </div>
-        </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">Detalle</div>
+        {% block detail %}{% endblock %}
+      </div>
     </div>
   </div>
 {% endblock %}
 
 {% block script %}
   <script>
-    $('.selectpicker').selectpicker({
-      size: 10
-    });
+      $('.selectpicker').selectpicker({
+          size: 10
+      });
   </script>
 {% endblock %}
