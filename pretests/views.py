@@ -6,15 +6,13 @@ from django.views import generic
 
 from adn3.services import is_teacher_of, is_coordinator
 from adn3 import mixins
+from courses.mixins import IsTeacherOfCourseMixin
 from .forms import *
 
 
-class PretestMixin(UserPassesTestMixin, mixins.CourseMixin):
+class PretestMixin(IsTeacherOfCourseMixin, mixins.CourseMixin):
     def get_pretest(self):
         return get_object_or_404(Pretest, pk=self.kwargs['pretest_pk'])
-
-    def test_func(self):
-        return is_coordinator(self.request.user) or is_teacher_of(self.request.user, self.get_course())
 
 
 class PretestDetailView(PretestMixin, mixins.CourseMixin, generic.DetailView):

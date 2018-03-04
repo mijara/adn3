@@ -5,6 +5,7 @@ from django.views import View
 from django.views import generic
 
 from adn3 import mixins
+from courses.mixins import IsTeacherOfCourseMixin
 from .forms import *
 from adn3.services import is_teacher_of, is_assistant_of_agenda, is_coordinator
 
@@ -25,18 +26,13 @@ class VersionMixin(TestMixin):
         return get_object_or_404(Version, pk=self.kwargs['version_pk'])
 
 
-class TestsUserPassesTestMixin(UserPassesTestMixin):
-    def test_func(self):
-        return is_teacher_of(self.request.user, self.get_course()) or is_coordinator(self.request.user)
-
-
 # Test Views
 # ==========
-class TestDetail(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DetailView):
+class TestDetail(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.DetailView):
     model = Test
 
 
-class TestCreate(TestsUserPassesTestMixin, mixins.CourseMixin, generic.CreateView):
+class TestCreate(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.CreateView):
     model = Test
     form_class = TestForm
 
@@ -51,7 +47,7 @@ class TestCreate(TestsUserPassesTestMixin, mixins.CourseMixin, generic.CreateVie
         return super(TestCreate, self).form_valid(form)
 
 
-class TestReviewListView(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DetailView):
+class TestReviewListView(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.DetailView):
     model = Test
     template_name = 'tests/test_review_students_list.html'
 
@@ -61,7 +57,7 @@ class TestReviewListView(TestsUserPassesTestMixin, mixins.CourseMixin, generic.D
         return context
 
 
-class TestReviewStatisticsView(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DetailView):
+class TestReviewStatisticsView(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.DetailView):
     model = Test
     template_name = 'tests/test_review_statistics.html'
 
@@ -88,7 +84,7 @@ class TestReviewStatisticsView(TestsUserPassesTestMixin, mixins.CourseMixin, gen
         return context
 
 
-class TestReviewView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
+class TestReviewView(IsTeacherOfCourseMixin, TestMixin, generic.DetailView):
     model = StudentsAnswers
     template_name = "tests/test_review.html"
 
@@ -128,7 +124,7 @@ class TestReviewView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
                 return HttpResponseRedirect(tests_list_url + '?message=nomore')
 
 
-class DownloadStudentFileView(TestsUserPassesTestMixin, mixins.CourseMixin, View):
+class DownloadStudentFileView(IsTeacherOfCourseMixin, mixins.CourseMixin, View):
     model = StudentsAnswers
 
     def get(self, request, course_pk, test_pk, pk):
@@ -142,12 +138,12 @@ class DownloadStudentFileView(TestsUserPassesTestMixin, mixins.CourseMixin, View
             return HttpResponse("El estudiante no adjuntó un documento")
 
 
-class TestUpdate(TestsUserPassesTestMixin, mixins.CourseMixin, generic.UpdateView):
+class TestUpdate(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.UpdateView):
     model = Test
     form_class = TestForm
 
 
-class TestDelete(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DeleteView):
+class TestDelete(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.DeleteView):
     model = Test
 
     def get_success_url(self):
@@ -156,7 +152,7 @@ class TestDelete(TestsUserPassesTestMixin, mixins.CourseMixin, generic.DeleteVie
 
 # Version Views
 # =============
-class VersionDetail(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
+class VersionDetail(IsTeacherOfCourseMixin, TestMixin, generic.DetailView):
     model = Version
 
     def get_context_data(self, **kwargs):
@@ -165,7 +161,7 @@ class VersionDetail(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
         return context
 
 
-class VersionCreate(TestsUserPassesTestMixin, TestMixin, View):
+class VersionCreate(IsTeacherOfCourseMixin, TestMixin, View):
     def get(self, request, course_pk, test_pk):
         test = get_object_or_404(Test, pk=test_pk)
 
@@ -175,7 +171,7 @@ class VersionCreate(TestsUserPassesTestMixin, TestMixin, View):
         return redirect(version.test.get_absolute_url())
 
 
-class VersionDelete(TestsUserPassesTestMixin, TestMixin, generic.DeleteView):
+class VersionDelete(IsTeacherOfCourseMixin, TestMixin, generic.DeleteView):
     model = Version
 
     def get_success_url(self):
@@ -194,7 +190,7 @@ class ToggleTest(UserPassesTestMixin, View):
         return is_assistant_of_agenda(self.request.user, agenda)
 
 
-class VersionDuplicateView(TestsUserPassesTestMixin, TestMixin, generic.DetailView):
+class VersionDuplicateView(IsTeacherOfCourseMixin, TestMixin, generic.DetailView):
     model = Version
     template_name = "tests/version_confirm_duplicate.html"
 
@@ -225,7 +221,7 @@ def version_attach_file(request, version_pk, course_pk, test_pk):
 
 # Question Views
 # ==============
-class ChoiceQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.CreateView):
+class ChoiceQuestionCreate(IsTeacherOfCourseMixin, VersionMixin, generic.CreateView):
     model = ChoiceQuestion
     form_class = ChoiceQuestionForm
 
@@ -248,7 +244,7 @@ class ChoiceQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.Creat
         return self.get_version().get_absolute_url()
 
 
-class ChoiceQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateView):
+class ChoiceQuestionUpdate(IsTeacherOfCourseMixin, VersionMixin, generic.UpdateView):
     model = ChoiceQuestion
     form_class = ChoiceQuestionForm
 
@@ -282,14 +278,14 @@ class ChoiceQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.Updat
         return self.get_version().get_absolute_url()
 
 
-class ChoiceQuestionDelete(TestsUserPassesTestMixin, VersionMixin, generic.DeleteView):
+class ChoiceQuestionDelete(IsTeacherOfCourseMixin, VersionMixin, generic.DeleteView):
     model = ChoiceQuestion
 
     def get_success_url(self):
         return self.get_version().get_absolute_url()
 
 
-class TextQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.CreateView):
+class TextQuestionCreate(IsTeacherOfCourseMixin, VersionMixin, generic.CreateView):
     model = TextQuestion
     form_class = TextQuestionForm
 
@@ -301,7 +297,7 @@ class TextQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.CreateV
         return self.get_version().get_absolute_url()
 
 
-class TextQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateView):
+class TextQuestionUpdate(IsTeacherOfCourseMixin, VersionMixin, generic.UpdateView):
     model = TextQuestion
     form_class = TextQuestionForm
 
@@ -309,14 +305,14 @@ class TextQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateV
         return self.get_version().get_absolute_url()
 
 
-class TextQuestionDelete(TestsUserPassesTestMixin, VersionMixin, generic.DeleteView):
+class TextQuestionDelete(IsTeacherOfCourseMixin, VersionMixin, generic.DeleteView):
     model = TextQuestion
 
     def get_success_url(self):
         return self.get_version().get_absolute_url()
 
 
-class NumericalQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.CreateView):
+class NumericalQuestionCreate(IsTeacherOfCourseMixin, VersionMixin, generic.CreateView):
     model = NumericalQuestion
     form_class = NumericalQuestionForm
 
@@ -328,7 +324,7 @@ class NumericalQuestionCreate(TestsUserPassesTestMixin, VersionMixin, generic.Cr
         return self.get_version().get_absolute_url()
 
 
-class NumericalQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.UpdateView):
+class NumericalQuestionUpdate(IsTeacherOfCourseMixin, VersionMixin, generic.UpdateView):
     model = NumericalQuestion
     form_class = NumericalQuestionForm
 
@@ -336,7 +332,7 @@ class NumericalQuestionUpdate(TestsUserPassesTestMixin, VersionMixin, generic.Up
         return self.get_version().get_absolute_url()
 
 
-class NumericalQuestionDelete(TestsUserPassesTestMixin, VersionMixin, generic.DeleteView):
+class NumericalQuestionDelete(IsTeacherOfCourseMixin, VersionMixin, generic.DeleteView):
     model = NumericalQuestion
 
     def get_success_url(self):

@@ -1,7 +1,7 @@
 from django.views import generic
 
 from adn3 import mixins
-from courses.views import IsTeacherOfCourseMixin
+from courses.mixins import IsTeacherOfCourseMixin
 from .forms import *
 
 
