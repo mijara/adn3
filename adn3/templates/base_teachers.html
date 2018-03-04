@@ -19,6 +19,9 @@
   <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
   <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
+  <!--- Bootstrap Select CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       messageStyle: "none",
@@ -104,6 +107,7 @@
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/clipboard.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 <script>
     var clipboard = new Clipboard('*[data-clipboard-text]');
     clipboard.on('success', function (e) {

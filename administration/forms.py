@@ -23,3 +23,16 @@ class YearSemesterForm(forms.Form):
         (1, 1),
         (2, 2)
     ), label='Semestre')
+
+
+class TeacherCourseForm(forms.Form):
+    teacher = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="teachers"), label="Profesor(a)",
+                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
+    course = forms.ModelChoiceField(queryset=Course.objects.all(), label="Curso",
+                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
+
+class TeacherCourseForm(forms.Form):
+    teacher = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="teachers"), label="Profesor(a)",
+                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
+    course = forms.ModelChoiceField(queryset=Course.objects.all(), label="Curso",
+                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))

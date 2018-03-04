@@ -1,0 +1,36 @@
+{% extends 'administration/form.html' %}
+
+{% block title %}
+  Asignar profesor a curso
+{% endblock %}
+
+{% block detail %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">Curso</th>
+          <th>Profesores</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in courses %}
+          <tr>
+            <td>{{ course }}</td>
+            <td>
+              {% if course.teachers.all %}
+                <lu>
+                  {% for teacher in course.teachers.all %}
+                    <li>{{ teacher }}</li>
+                  {% endfor %}
+                </lu>
+              {% else %}
+                <span class="text-danger">No hay profesores asignados</span>
+            {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
