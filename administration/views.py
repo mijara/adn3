@@ -4,7 +4,7 @@ from django.views import generic
 from django.contrib.auth.models import User, Group
 
 from adn3.services import get_period_year, get_period_semester
-from courses.models import Course, CourseTeacher
+from courses.models import Course, CourseTeacher, Agenda
 from misc.models import Setting
 from . import forms
 
@@ -90,6 +90,34 @@ class TeacherCourseCreateView(AdministratorTestMixin, generic.FormView):
 
         if not CourseTeacher.objects.filter(course=course, user=teacher):
             course_teacher = CourseTeacher.objects.create(course=course, user=teacher, coordinates=False)
+            course_teacher.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['courses'] = Course.objects.all()
+        return context
+
+
+class CoAssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
+    form_class = forms.CoAssistantCourseForm
+    template_name = 'administration/co_assistant_course_form.html'
+    success_url = reverse_lazy('administration:co_assistant_course_create')
+
+    def form_valid(self, form):
+        course = form.cleaned_data['course']
+        assistant = form.cleaned_data['assistant']
+
+        if not CourseTeacher.objects.filter(course=course, user=assistant):
+            teachers_group = Group.objects.get(name='teachers')
+
+            assistant.groups.add(teachers_group)
+            assistant.save()
+
+            course_teacher = CourseTeacher.objects.create(course=course, user=assistant, coordinates=False)
             course_teacher.save()
 
         return super().form_valid(form)

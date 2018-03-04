@@ -94,6 +94,12 @@ class Course(models.Model):
             for student in agenda.inscriptions.all():
                 yield student.student
 
+    def get_coordinator_assistants(self):
+        return self.teachers.filter(groups__name="assistants")
+
+    def get_teachers(self):
+        return self.teachers.filter(groups__name="teachers").exclude(groups__name="assistants")
+
     @models.permalink
     def get_absolute_url(self):
         return 'courses:course_detail', [self.pk]

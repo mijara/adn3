@@ -1,7 +1,7 @@
 {% extends 'administration/form.html' %}
 
 {% block title %}
-  Asignar profesor a curso
+  Asignar ayudante a curso
 {% endblock %}
 
 {% block detail %}
@@ -10,7 +10,7 @@
       <thead>
         <tr>
           <th width="50%">Curso</th>
-          <th>Profesores</th>
+          <th>ayudantes</th>
         </tr>
       </thead>
       <tbody>
@@ -18,14 +18,14 @@
           <tr>
             <td>{{ course }}</td>
             <td>
-              {% if course.get_teachers %}
+              {% if course.get_coordinator_assistants %}
                 <lu>
-                  {% for teacher in course.get_teachers %}
+                  {% for teacher in course.get_coordinator_assistants %}
                     <li>{{ teacher }}</li>
                   {% endfor %}
                 </lu>
               {% else %}
-                <span class="text-danger">No hay profesores asignados</span>
+                <span class="text-danger">No hay ayudantes asignados</span>
             {% endif %}
             </td>
           </tr>
