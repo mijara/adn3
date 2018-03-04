@@ -14,7 +14,9 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ('name', 'code', 'campus', 'year', 'semester', 'software')
-
+        help_texts = {
+            'software': 'Mantenga la tecla <strong>control</strong> presionada para seleccionar más de uno.'
+        }
 
 class YearSemesterForm(forms.Form):
     year = forms.IntegerField(label='Año')

@@ -52,6 +52,10 @@ class CourseCreateView(AdministratorTestMixin, generic.CreateView):
 
     success_url = reverse_lazy('administration:course_success')
 
+    def get_courses(self):
+        courses = Course.objects.filter(year=get_period_year(), semester=get_period_semester())
+        return courses.all()
+
 
 class CourseSuccessView(AdministratorTestMixin, generic.TemplateView):
     template_name = 'administration/course_success.html'

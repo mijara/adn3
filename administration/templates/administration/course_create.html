@@ -1,5 +1,33 @@
 {% extends 'administration/form.html' %}
 
 {% block title %}
-  Registrar Curso
+  Registrar curso
+{% endblock %}
+
+{% block detail %}
+  <div class="panel-body">
+    Cursos ya creados en este semestre:
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Sigla</th>
+        <th>Campus</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for course in view.get_courses %}
+        <tr>
+          <td>{{ course.name }}</td>
+          <td>{{ course.code }}</td>
+          <td>{{ course.campus }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
