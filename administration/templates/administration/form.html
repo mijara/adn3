@@ -22,14 +22,16 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">Detalle</div>
-        {% block detail %}{% endblock %}
+  {% block detailpanel %}
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">Detalle</div>
+          {% block detail %}{% endblock %}
+        </div>
       </div>
     </div>
-  </div>
+  {% endblock %}
 {% endblock %}
 
 {% block script %}
