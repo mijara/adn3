@@ -3,3 +3,29 @@
 {% block title %}
   Registrar Profesor
 {% endblock %}
+
+{% block detail %}
+  <div class="panel-body">
+    Profesores registrados actualmente en ADN3:
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">Profesor</th>
+          <th>Correo</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for teacher in view.get_teachers %}
+          <tr>
+            <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
+            <td>{{ teacher.email }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

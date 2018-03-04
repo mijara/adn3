@@ -36,6 +36,10 @@ class TeacherCreateView(AdministratorTestMixin, generic.CreateView):
 
         return response
 
+    def get_teachers(self):
+        group = Group.objects.get(name='teachers')
+        return group.user_set.all()
+
 
 class TeacherSuccessView(AdministratorTestMixin, generic.TemplateView):
     template_name = 'administration/teacher_success.html'
