@@ -15,6 +15,18 @@ urlpatterns = [
     ),
 
     url(
+        r'^students/create/$',
+        views.StudentCreateView.as_view(),
+        name='student_create'
+    ),
+
+    url(
+        r'^students/success/$',
+        views.StudentSuccessView.as_view(),
+        name='student_success'
+    ),
+
+    url(
         r'^teachers/create/success/$',
         views.TeacherSuccessView.as_view(),
         name='teacher_success'

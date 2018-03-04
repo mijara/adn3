@@ -3,9 +3,11 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.models import User, Group
 
+from administration.forms import StudentForm
 from adn3.services import get_period_year, get_period_semester
 from courses.models import Course, CourseTeacher, Agenda
 from misc.models import Setting
+from registration.models import Student
 from . import forms
 
 
@@ -139,3 +141,30 @@ class CoAssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
         # Add in a QuerySet of all the books
         context['courses'] = Course.objects.all()
         return context
+
+
+class StudentCreateView(AdministratorTestMixin, generic.CreateView):
+    model = User
+    form_class = StudentForm
+    template_name = 'administration/student_form.html'
+    success_url = reverse_lazy('administration:student_success')
+
+    def form_valid(self, form):
+        form.instance.username = form.instance.email
+
+        response = super().form_valid(form)
+
+        campus = form.cleaned_data['campus']
+        usm_priority = form.cleaned_data['usm_priority']
+        rol = form.cleaned_data['rol']
+
+        Student.objects.create(user=self.object, campus=campus, usm_priority=usm_priority, rol=rol)
+
+        group = Group.objects.get(name='students')
+        group.user_set.add(self.object)
+
+        return response
+
+
+class StudentSuccessView(AdministratorTestMixin, generic.TemplateView):
+    template_name = 'administration/student_success.html'
