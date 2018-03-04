@@ -95,6 +95,10 @@ def get_period_semester():
         return None
 
 
+def get_year_semester():
+    return get_period_year(), get_period_semester()
+
+
 def polls_set(value):
     obj = Setting.objects.get(key='polls-open')
     obj.value = str(value)
