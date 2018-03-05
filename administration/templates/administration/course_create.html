@@ -1,5 +1,7 @@
 {% extends 'administration/form.html' %}
 
+{% load administration %}
+
 {% block title %}
   Registrar curso
 {% endblock %}
@@ -13,9 +15,10 @@
     <table class="table">
       <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Sigla</th>
-        <th>Campus</th>
+        <th width="60%">Nombre</th>
+        <th width="20%">Sigla</th>
+        <th width="20%">Campus</th>
+        <th width="0">Admin</th>
       </tr>
       </thead>
 
@@ -25,6 +28,7 @@
           <td>{{ course.name }}</td>
           <td>{{ course.code }}</td>
           <td>{{ course.campus }}</td>
+          <td><a href="{{ course|admin_url }}">Admin</a></td>
         </tr>
       {% endfor %}
       </tbody>
