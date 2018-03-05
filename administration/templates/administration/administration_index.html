@@ -15,64 +15,59 @@
     <div class="col-sm-12">
       <div class="panel panel-default">
         <div class="panel-heading">
+          <span class="glyphicon glyphicon-list-alt step"></span>
           Cursos
         </div>
 
         <div class="list-group">
           <a href="{% url 'administration:course_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Registrar curso
+            Registrar <strong>curso</strong>
           </a>
 
           <a href="{% url 'administration:teacher_course_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Asignar profesor a curso
+            Asignar <strong>profesor</strong> a curso
           </a>
 
           <a href="{% url 'administration:co_assistant_course_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Asignar ayudante coordinador a curso
+            Asignar <strong>ayudante coordinador</strong> a curso
           </a>
 
           <a href="{% url 'administration:assistant_course_select' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Asignar ayudante a agenda
+            Asignar <strong>ayudante</strong> a agenda
           </a>
         </div>
       </div>
 
       <div class="panel panel-default">
         <div class="panel-heading">
+          <span class="glyphicon glyphicon-user step"></span>
           Usuarios
         </div>
 
         <div class="list-group">
           <a href="{% url 'administration:teacher_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-pencil step"></span>
-            Registrar profesor
+            Registrar <strong>profesor</strong>
           </a>
 
           <a href="{% url 'administration:student_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Registrar estudiante
+            Registrar <strong>estudiante</strong>
           </a>
 
           <a href="{% url 'administration:assistant_create' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt step"></span>
-            Registrar ayudante
+            Registrar <strong>ayudante</strong>
           </a>
         </div>
       </div>
 
       <div class="panel panel-default">
         <div class="panel-heading">
+            <span class="glyphicon glyphicon-wrench step"></span>
           Configuración
         </div>
 
         <div class="list-group">
           <a href="{% url 'administration:yearsemester_update' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-pencil step"></span>
-            Actualizar período académico
+            Actualizar <strong>período académico</strong>
           </a>
         </div>
       </div>
