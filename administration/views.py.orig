@@ -145,33 +145,7 @@ class CoAssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
         return context
 
 
-class StudentCreateView(AdministratorTestMixin, generic.CreateView):
-    model = User
-    form_class = StudentForm
-    template_name = 'administration/student_form.html'
-    success_url = reverse_lazy('administration:student_success')
-
-    def form_valid(self, form):
-        form.instance.username = form.instance.email
-
-        response = super().form_valid(form)
-
-        campus = form.cleaned_data['campus']
-        usm_priority = form.cleaned_data['usm_priority']
-        rol = form.cleaned_data['rol']
-
-        Student.objects.create(user=self.object, campus=campus, usm_priority=usm_priority, rol=rol)
-
-        group = Group.objects.get(name='students')
-        group.user_set.add(self.object)
-
-        return response
-
-
-class StudentSuccessView(AdministratorTestMixin, generic.TemplateView):
-    template_name = 'administration/student_success.html'
-
-
+<<<<<<< HEAD
 class AssistantCourseSelectView(AdministratorTestMixin, generic.FormView):
     form_class = forms.SelectCourseForm
     template_name = 'administration/course_assistant_select.html'
@@ -216,3 +190,30 @@ class AssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
     def get_success_url(self):
         url = reverse_lazy('administration:assistant_course_create', kwargs={'course_pk': self.kwargs['course_pk']})
         return url
+=======
+class StudentCreateView(AdministratorTestMixin, generic.CreateView):
+    model = User
+    form_class = StudentForm
+    template_name = 'administration/student_form.html'
+    success_url = reverse_lazy('administration:student_success')
+
+    def form_valid(self, form):
+        form.instance.username = form.instance.email
+
+        response = super().form_valid(form)
+
+        campus = form.cleaned_data['campus']
+        usm_priority = form.cleaned_data['usm_priority']
+        rol = form.cleaned_data['rol']
+
+        Student.objects.create(user=self.object, campus=campus, usm_priority=usm_priority, rol=rol)
+
+        group = Group.objects.get(name='students')
+        group.user_set.add(self.object)
+
+        return response
+
+
+class StudentSuccessView(AdministratorTestMixin, generic.TemplateView):
+    template_name = 'administration/student_success.html'
+>>>>>>> c771ee0d1e49a47ccd3f8bb1aa82c8e49ab7b948
