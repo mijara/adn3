@@ -113,7 +113,7 @@ class TeacherCourseCreateView(AdministratorTestMixin, generic.FormView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['courses'] = Course.objects.all()
+        context['courses'] = Course.objects.filter(year=get_period_year(), semester=get_period_semester())
         return context
 
 
@@ -227,7 +227,7 @@ class AssistantCreateView(AdministratorTestMixin, generic.FormView):
     def form_valid(self, form):
         student = form.cleaned_data['student']
 
-        students_group = Group.objects.get(name='assistants')
+        students_group = Group.objects.get(name='assistantsgi')
         student.groups.add(students_group)
         student.save()
 
