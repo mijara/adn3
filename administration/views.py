@@ -216,3 +216,22 @@ class AssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
     def get_success_url(self):
         url = reverse_lazy('administration:assistant_course_create', kwargs={'course_pk': self.kwargs['course_pk']})
         return url
+
+
+class AssistantCreateView(AdministratorTestMixin, generic.FormView):
+    form_class = forms.AssistantForm
+    template_name = 'administration/assistant_create.html'
+    success_url = reverse_lazy('administration:assistant_create')
+
+    def form_valid(self, form):
+        student = form.cleaned_data['student']
+
+        students_group = Group.objects.get(name='assistants')
+        student.groups.add(students_group)
+        student.save()
+
+        return super().form_valid(form)
+
+    def get_students(self):
+        group = Group.objects.get(name='assistants')
+        return group.user_set.all()
