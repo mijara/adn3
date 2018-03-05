@@ -153,6 +153,7 @@ class StudentCreateView(AdministratorTestMixin, generic.CreateView):
 
     def form_valid(self, form):
         form.instance.username = form.instance.email
+        form.instance.set_password('cambiame')
 
         response = super().form_valid(form)
 
