@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from courses.models import Course, Campus
+from courses.models import Course, Campus, Agenda
 
 
 class TeacherForm(forms.ModelForm):

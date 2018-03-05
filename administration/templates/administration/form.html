@@ -15,7 +15,9 @@
           </div>
 
           <div class="panel-footer text-right">
-            <button class="btn btn-primary">Guardar</button>
+            {% block submit %}
+              <button class="btn btn-primary">Guardar</button>
+            {% endblock %}
           </div>
         </div>
       </form>
