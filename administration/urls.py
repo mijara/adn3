@@ -73,4 +73,10 @@ urlpatterns = [
         views.AssistantCourseCreateView.as_view(),
         name='assistant_course_create'
     ),
+
+    url(
+        r'^assistant/create/$',
+        views.AssistantCreateView.as_view(),
+        name='assistant_create'
+    ),
 ]
