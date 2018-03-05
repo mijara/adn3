@@ -1,0 +1,38 @@
+{% extends 'administration/form.html' %}
+
+{% block title %}
+  <a href="{% url 'administration:assistant_course_select' %}" class="btn btn-default"><span
+          class="glyphicon glyphicon-arrow-left"></span> Volver </a>
+  Asignar ayudante a agenda del curso <strong>{{ course }}</strong>
+{% endblock %}
+
+{% block detail %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th width="50%">Agenda</th>
+        <th>ayudantes</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for agenda in course.agenda_set.all %}
+        <tr>
+          <td>{{ agenda }}</td>
+          <td>
+            {% if agenda.assistants %}
+              <lu>
+                {% for teacher in agenda.assistants.all %}
+                  <li>{{ teacher }}</li>
+                {% endfor %}
+              </lu>
+            {% else %}
+              <span class="text-danger">No hay ayudantes asignados</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

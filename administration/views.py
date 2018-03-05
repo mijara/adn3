@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.models import User, Group
@@ -139,3 +141,49 @@ class CoAssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
         # Add in a QuerySet of all the books
         context['courses'] = Course.objects.all()
         return context
+
+
+class AssistantCourseSelectView(AdministratorTestMixin, generic.FormView):
+    form_class = forms.SelectCourseForm
+    template_name = 'administration/course_assistant_select.html'
+    success_url = reverse_lazy('administration:assistant_course_create')
+
+    def form_valid(self, form):
+        self.form = form
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        course = self.form.cleaned_data['course']
+        url = reverse_lazy('administration:assistant_course_create', kwargs={'course_pk': course.pk})
+        return url
+
+
+class AssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
+    form_class = forms.AssistantAgendaForm
+    template_name = 'administration/course_assistant_create.html'
+    success_url = reverse_lazy('administration:assistant_course_create')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['course_pk'] = self.kwargs['course_pk']
+        return kwargs
+
+    def form_valid(self, form):
+        print('asd')
+        agenda = form.cleaned_data['agenda']
+        assistant = form.cleaned_data['assistant']
+        print(agenda.assistants.all())
+        if assistant not in agenda.assistants.all():
+            agenda.assistants.add(assistant)
+            agenda.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = get_object_or_404(Course, pk=self.kwargs['course_pk'])
+        return context
+
+    def get_success_url(self):
+        url = reverse_lazy('administration:assistant_course_create', kwargs={'course_pk': self.kwargs['course_pk']})
+        return url
