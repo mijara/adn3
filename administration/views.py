@@ -27,11 +27,11 @@ class TeacherCreateView(AdministratorTestMixin, generic.CreateView):
     form_class = forms.TeacherForm
     template_name = 'administration/teacher_create.html'
 
-    success_url = reverse_lazy('administration:teacher_create_success')
+    success_url = reverse_lazy('administration:teacher_success')
 
     def form_valid(self, form):
         form.instance.username = form.instance.email
-        form.instance.set_password('temporal')
+        form.instance.set_password('cambiame')
 
         response = super().form_valid(form)
 
