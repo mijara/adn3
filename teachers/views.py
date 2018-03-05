@@ -1,11 +1,14 @@
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from adn3.services import is_teacher, is_student, is_coordinator
 
 from adn3.constants import YEAR, SEMESTER
 from courses.models import *
-from django.views import generic
+from django.views import generic, View
 
 
 @method_decorator(login_required, 'dispatch')
@@ -34,3 +37,24 @@ class CourseListView(UserPassesTestMixin, generic.ListView):
 
     def test_func(self):
         return is_teacher(self.request.user) and not is_student(self.request.user)
+
+
+class TeacherPasswordUpdateView(View):
+    def get(self, request):
+        form = PasswordChangeForm(self.request.user)
+
+        return render(request, 'teachers/teacher_password_update.html', context={
+            'form': form,
+        })
+
+    def post(self, request):
+        form = PasswordChangeForm(self.request.user, data=self.request.POST)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('teachers:index')
+
+        return render(request, 'teachers/teacher_password_update.html', context={
+            'form': form,
+        })

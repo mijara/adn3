@@ -20,7 +20,8 @@
   <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
   <!--- Bootstrap Select CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -34,6 +35,7 @@
       },
       "HTML-CSS": { availableFonts: ["TeX"] }
     });
+
 
   </script>
 
@@ -77,10 +79,10 @@
         {% endif %}
 
         {% if user.is_superuser %}
-            <li>
-              <a href="{% url 'administration:administration_index' %}">Administración</a>
-            </li>
-          {% endif %}
+          <li>
+            <a href="{% url 'administration:administration_index' %}">Administración</a>
+          </li>
+        {% endif %}
       </ul>
 
       {% if user.is_authenticated %}
@@ -89,6 +91,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                aria-expanded="false">{{ request.user }} <span class="caret"></span></a>
             <ul class="dropdown-menu">
+              <li><a href="{% url 'teachers:teacher_password_update' %}">Actualizar Contraseña</a></li>
               <li><a href="{% url 'landing:logout' %}">Cerrar Sesión</a></li>
             </ul>
           </li>

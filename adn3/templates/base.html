@@ -76,6 +76,11 @@
               {% if user|is_student %}
                 <li><a href="{{ user.student.get_absolute_url }}">Perfil</a></li>
               {% endif %}
+
+              {% if user|is_teacher %}
+                <li><a href="{% url 'teachers:teacher_password_update' %}">Actualizar Contraseña</a></li>
+              {% endif %}
+
               <li><a href="{% url 'landing:logout' %}">Cerrar Sesión</a></li>
             </ul>
           </li>
