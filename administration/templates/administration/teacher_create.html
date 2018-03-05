@@ -1,5 +1,7 @@
 {% extends 'administration/form.html' %}
 
+{% load administration %}
+
 {% block title %}
   Registrar Profesor
 {% endblock %}
@@ -14,7 +16,8 @@
       <thead>
         <tr>
           <th width="50%">Profesor</th>
-          <th>Correo</th>
+          <th width="50%">Correo</th>
+          <th width="0">Admin</th>
         </tr>
       </thead>
 
@@ -23,6 +26,7 @@
           <tr>
             <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
             <td>{{ teacher.email }}</td>
+            <td><a href="{{ teacher|admin_url }}">Admin</a></td>
           </tr>
         {% endfor %}
       </tbody>
