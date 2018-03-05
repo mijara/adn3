@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from adn3.constants import YEAR, SEMESTER
+from adn3.services import get_period_year, get_period_semester
 from adn3.mixins import CourseMixin
 from coordination.services import generate_excel, generate_polls_excel
 from adn3.services import preregistrations_open, preregistrations_set, \
@@ -19,7 +19,7 @@ class CoordinatorTestMixin(UserPassesTestMixin):
 
 class CoordinationIndexView(CoordinatorTestMixin, View):
     def get(self, request):
-        current_courses = Course.objects.filter(semester=SEMESTER, year=YEAR)
+        current_courses = Course.objects.filter(year=get_period_year(), semester=get_period_semester())
 
         return render(request, 'coordination/coordination_index.html', {
             'current_courses': current_courses,

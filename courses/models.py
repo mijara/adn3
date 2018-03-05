@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.db import models
 from adn3.choices import *
-from adn3.utils import get_year_semester
+from adn3.services import get_year_semester
 import random
 
 
