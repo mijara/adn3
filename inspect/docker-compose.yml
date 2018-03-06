@@ -1,0 +1,25 @@
+version: "2"
+services:
+  postgres:
+    image: postgres:latest
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=adn3
+    ports:
+      - "5432:5432"
+    logging:
+      driver: none
+
+  adn3-inspect:
+    image: mijara/adn3-inspect:latest
+    restart: on-failure
+    command: bash -c "python manage.py shell_plus --notebook"
+    environment:
+      - DATABASE_URL=postgres://adn3@postgres/adn3
+    volumes:
+      - "./../scripts.ipynb:/src/scripts.ipynb"
+    links:
+      - postgres
+    ports:
+      - "8888:8888"

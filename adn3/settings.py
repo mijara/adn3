@@ -25,6 +25,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_markup',
+    'django_extensions',
     'bootstrap3',
     'landing',
     'teachers',
@@ -117,3 +118,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = '/'
 
 SESSION_COOKIE_AGE = 3600 * 3
+
+NOTEBOOK_ARGUMENTS = [
+    '--ip', '0.0.0.0', 
+    '--allow-root',
+    '--no-browser', 
+]
+
