@@ -19,6 +19,8 @@ class FlyIn(models.Model):
 
     previous_experience = models.BooleanField()
 
+    create_date = models.DateTimeField(auto_now_add=True)
+
     secret = models.CharField(max_length=64)
 
     seen = models.BooleanField(default=False)
