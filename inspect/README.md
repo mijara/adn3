@@ -8,8 +8,6 @@ make build
 
 ./collectdb.sh > init.sql
 
-# remove unnecesary lines from init.sql
-
 docker-compose up
 ```
 
