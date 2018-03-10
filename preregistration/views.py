@@ -25,6 +25,7 @@ class CourseListView(PreRegistrationsActiveMixin, generic.ListView):
     def get_queryset(self):
         # Filter courses already pre-registered and courses on another campus.
         return super().get_queryset()\
+            .exclude(deactivate_preregistrations=True)\
             .exclude(preregistration__student=self.request.user.student)\
             .filter(campus=self.request.user.student.campus)
 

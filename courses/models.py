@@ -49,6 +49,9 @@ class Course(models.Model):
     # Added for statistics.
     create_date = models.DateTimeField(auto_now_add=True)
 
+    # overrides the global pre-registrations toggle.
+    deactivate_preregistrations = models.BooleanField(default=False)
+
     def count_inscriptions(self):
         count = 0
 

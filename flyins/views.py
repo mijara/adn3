@@ -55,7 +55,9 @@ class CourseListView(FlyInsActiveMixin, generic.ListView):
 
     def get_queryset(self):
         # Filter courses already pre-registered and courses on another campus.
-        return super().get_queryset().exclude(status=False)
+        return super().get_queryset().\
+            exclude(status=False).\
+            exclude(deactivate_preregistrations=True)
 
 
 class NewListView(FlyInsActiveMixin, mixins.CourseMixin, generic.ListView):
@@ -87,6 +89,9 @@ class FlyInCreateView(FlyInsActiveMixin, mixins.CourseMixin, View):
     def get(self, request, course_pk):
         rol = self.request.session.get('rol', False)
         course = self.get_course()
+
+        if course.deactivate_preregistrations:
+            return redirect('flyins:course_list')
 
         preinscription = FlyIn.objects.filter(rol=rol, course__pk=course_pk).first()
         if preinscription:
