@@ -45,6 +45,18 @@ urlpatterns = [
     ),
 
     url(
+        r'^agenda/create/$',
+        views.AgendaCreateView.as_view(),
+        name='agenda_create'
+    ),
+
+    url(
+        r'^agenda/create/success/$',
+        views.AgendaSuccessView.as_view(),
+        name='agenda_success'
+    ),
+
+    url(
         r'^yearsemester/update/$',
         views.YearSemesterUpdateView.as_view(),
         name='yearsemester_update'

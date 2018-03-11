@@ -151,7 +151,9 @@ class Agenda(models.Model):
 
     software = models.ForeignKey(
         'misc.Software',
-        verbose_name='Software')
+        verbose_name='Software',
+        null=True,
+        blank=True)
 
     inscriptions = models.ManyToManyField(
         'auth.User',

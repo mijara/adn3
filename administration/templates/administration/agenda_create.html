@@ -1,0 +1,43 @@
+{% extends 'administration/form.html' %}
+
+{% load administration %}
+
+{% block title %}
+  Registrar agenda
+{% endblock %}
+
+{% block detail %}
+  <div class="panel-body">
+    Agendas por curso creados en este semestre:
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th width="60%">Curso</th>
+        <th width="0">Agendas</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for course in view.get_courses %}
+        <tr>
+          <td>{{ course }}</td>
+          <td>
+            {% if course.agenda_set.all %}
+              <lu>
+                {% for agenda in course.agenda_set.all %}
+                  <li>{{ agenda }}</li>
+                {% endfor %}
+              </lu>
+            {% else %}
+              <span class="text-danger">No hay agendas creadas</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

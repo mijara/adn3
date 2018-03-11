@@ -1,0 +1,13 @@
+{% extends 'administration/success.html' %}
+
+{% block add_other_url %}
+  {% url 'administration:agenda_create' %}
+{% endblock %}
+
+{% block title %}
+  Registrar Agenda
+{% endblock %}
+
+{% block message %}
+  Agenda registrada con éxito.
+{% endblock %}

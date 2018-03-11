@@ -65,6 +65,22 @@ class CourseSuccessView(AdministratorTestMixin, generic.TemplateView):
     template_name = 'administration/course_success.html'
 
 
+class AgendaCreateView(AdministratorTestMixin, generic.CreateView):
+    model = Agenda
+    form_class = forms.AgendaForm
+    template_name = 'administration/agenda_create.html'
+
+    success_url = reverse_lazy('administration:agenda_success')
+
+    def get_courses(self):
+        courses = Course.objects.filter(year=get_period_year(), semester=get_period_semester())
+        return courses.all()
+
+
+class AgendaSuccessView(AdministratorTestMixin, generic.TemplateView):
+    template_name = 'administration/agenda_success.html'
+
+
 class YearSemesterUpdateView(AdministratorTestMixin, generic.FormView):
     form_class = forms.YearSemesterForm
     template_name = 'administration/yearsemester_form.html'
