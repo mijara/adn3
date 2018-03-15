@@ -606,3 +606,13 @@ div.review-footer table tr:first-child td {
 .no-overflow {
     overflow: hidden;
 }
+
+
+/* Contact */
+.contact {
+    position: fixed;
+    bottom: 0;
+    background: #fafbfc;
+    padding: 10px;
+    border-top-right-radius: 5px;
+}
