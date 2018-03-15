@@ -4,10 +4,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from adn3.services import get_period_year, get_period_semester
 from adn3.mixins import CourseMixin
-from coordination.services import generate_excel, generate_polls_excel
+from coordination.services import generate_excel, generate_polls_excel, generate_preregistrations_overview_excel
 from adn3.services import preregistrations_open, preregistrations_set, \
     is_coordinator, registrations_open, registrations_set, polls_open, polls_set
 from courses.models import Course
+from courses.services import get_active_courses
 from misc.models import Software
 from polls.models import Poll
 
@@ -59,6 +60,18 @@ class PreRegistrationExcelView(CoordinatorTestMixin, View):
             raise Http404()
 
         return get_object_or_404(Software, pk=software_pk)
+
+
+class PreRegistrationOverviewExcelView(CoordinatorTestMixin, View):
+    def get(self, request):
+        courses = get_active_courses()
+        content = generate_preregistrations_overview_excel(courses.all())
+
+        response = HttpResponse(
+            content=content,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=preinscripciones.xlsx'
+        return response
 
 
 class PreRegistrationsScheduleView(CoordinatorTestMixin, CourseMixin, View):

@@ -15,6 +15,12 @@ urlpatterns = [
     ),
 
     url(
+        r'^preregistrations/overview/excel/$',
+        views.PreRegistrationOverviewExcelView.as_view(),
+        name='preregistrations_overview_excel'
+    ),
+
+    url(
         r'^preregistrations/schedule/(?P<course_pk>\d+)/(?P<software_pk>\d+)/$',
         views.PreRegistrationsScheduleView.as_view(),
         name='preregistrations_schedule'
