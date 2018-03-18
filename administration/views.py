@@ -243,7 +243,7 @@ class AssistantCreateView(AdministratorTestMixin, generic.FormView):
     def form_valid(self, form):
         student = form.cleaned_data['student']
 
-        students_group = Group.objects.get(name='assistantsgi')
+        students_group = Group.objects.get(name='assistants')
         student.groups.add(students_group)
         student.save()
 
