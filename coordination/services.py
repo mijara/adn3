@@ -1,7 +1,11 @@
+from typing import List
+
 import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
 from datetime import datetime
 
+from adn3.services import get_period_year, get_period_semester
+from courses.models import Course
 from polls.models import Poll
 
 
@@ -77,8 +81,6 @@ def generate_polls_excel(course, poll_list):
     wb = openpyxl.Workbook()
     ws = wb.active
 
-    dt = datetime.now()
-
     ws['E2'] = 'Encuesta fin de semestre'
     ws['E3'] = str(course)
 
@@ -100,5 +102,29 @@ def generate_polls_excel(course, poll_list):
 
         for j, q in enumerate(keys):
             ws['%s%s' % (letters[j], (6 + i))] = p_dict[q]
+
+    return save_virtual_workbook(wb)
+
+
+def generate_preregistrations_overview_excel(courses: List[Course]):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    ws.append([
+        'Curso',
+        'Sede',
+        'Código',
+        'Año-Semestre',
+        'Estudiantes Preinscritos'
+    ])
+
+    for course in courses:
+        ws.append([
+            course.name,
+            course.campus.name,
+            course.code,
+            "%s-%s" % (get_period_year(), get_period_semester()),
+            course.flyin_set.count()
+        ])
 
     return save_virtual_workbook(wb)

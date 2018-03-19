@@ -16,12 +16,19 @@
           <a href="#" class="list-group-item" data-toggle="modal"
              data-target="#select-course">
             <span class="glyphicon glyphicon-list step"></span>
-            Generar Excel de pre-inscripciones
+            Generar <strong>tabla de pre-inscripciones</strong> (excel)
           </a>
+
+          <a href="{% url 'coordination:preregistrations_overview_excel' %}"
+             class="list-group-item">
+            <span class="glyphicon glyphicon-list step"></span>
+            Generar <strong>resumen de pre-inscripciones</strong> (excel)
+          </a>
+
           <a href="#" class="list-group-item" data-toggle="modal"
              data-target="#poll-select">
             <span class="glyphicon glyphicon-list step"></span>
-            Generar Excel de encuestas
+            Generar <strong>tabla de encuestas</strong> (excel)
           </a>
         </div>
       </div>

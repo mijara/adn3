@@ -1,4 +1,6 @@
+from adn3.services import get_period_year, get_period_semester
 from courses.gradematrix import GradeMatrix
+from courses.models import Course
 from pretests.models import Pretest
 from classes.models import Session
 from tests.models import Test
@@ -48,3 +50,7 @@ def generate_grades_excel(course):
             grade_matrix.add_pretest(name, grade)
 
     return grade_matrix.render()
+
+
+def get_active_courses():
+    return Course.objects.filter(status=True, year=get_period_year(), semester=get_period_semester())
