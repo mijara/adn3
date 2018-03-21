@@ -18,11 +18,10 @@
     </div>
   {% endif %}
 
-  <div class="alert alert-info">
+  <div class="alert alert-warning">
     Recuerde leer las noticias del curso antes de preinscribir!
 
-    <p><a href="{% url 'flyins:new_list' course.pk %}" class="alert-link">Presione aquí para ver las noticias
-      de este curso.</a></p>
+    <p><a href="{% url 'public:course_detail' course.pk %}" class="alert-link">Presione aquí para la información pública de este curso.</a></p>
   </div>
 
   <div class="panel panel-default">
