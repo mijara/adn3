@@ -42,12 +42,6 @@ class AgendaListView(UserPassesTestMixin, generic.ListView):
 
         return context
 
-    def get(self, request, *args, **kwargs):
-        if preregistrations_open():
-            return redirect('preregistrations:course_list')
-
-        return super().get(request, *args, **kwargs)
-
     def get_queryset(self):
         return self.request.user.inscriptions.all()
 
