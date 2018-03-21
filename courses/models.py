@@ -17,8 +17,12 @@ class Campus(models.Model):
 
 class Room(models.Model):
     name = models.CharField(max_length=128, verbose_name=u'Nombre')
+
     code = models.CharField(max_length=32, verbose_name=u'Código')
+
     seats = models.IntegerField(verbose_name=u'Asientos')
+
+    campus = models.ForeignKey(Campus, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
