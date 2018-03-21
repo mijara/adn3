@@ -12,14 +12,11 @@
 {% block container %}
   <div class="row">
     <div class="col-sm-12">
-      {% if new.owner == request.user %}
-        <div class="pull-right">
-          <a href="{{ new.get_update_url }}" class="btn btn-success btn-sm">
-            <span class="glyphicon glyphicon-pencil"></span> Editar
-          </a>
-        </div>
-      {% endif %}
-
+      <div class="pull-right">
+        <a href="{{ new.get_update_url }}" class="btn btn-success btn-sm">
+          <span class="glyphicon glyphicon-pencil"></span> Editar
+        </a>
+      </div>
       {% include 'news/_new.html' %}
     </div>
   </div>
