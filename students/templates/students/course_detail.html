@@ -11,7 +11,10 @@
 {% endblock %}
 {% block container %}
   <div class="col-sm-12">
-    <h1 class="page-header">{{ course }}</h1>
+    <h1 class="page-header">
+      {{ course }}
+      <div style="font-size: 16px; color: #999">Sala: {{ agenda.room }}</div>
+    </h1>
   </div>
 
   <div class="col-sm-12">
@@ -53,6 +56,7 @@
       },
       "HTML-CSS": { availableFonts: ["TeX"] }
     });
+
 
   </script>
 
