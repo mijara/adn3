@@ -1,0 +1,33 @@
+Se ha creado una nueva cuenta en el sitio del Laboratorio de Matemáticas de la UTFSM.
+
+LAB. DE COMPUTACIÓN PARA LAS APLICACIONES DE LA MATEMÁTICA EN INGENIERÍA. ( https://lab.mat.utfsm.cl )
+
+******************
+Bienvenido(a), {{name}}!
+******************
+
+Se ha creado una nueva cuenta en el sitio del Laboratorio de Matemáticas de la UTFSM.
+
+Para ingresar, utilice las siguientes credenciales:
+
+Correo: {{email}}
+
+Contraseña: cambiame
+
+Una vez iniciada la sesión, por favor, cambie su contraseña.
+
+Ir a la página del laboratorio ( {{ action_url }} )
+
+Si tiene alguna consulta o sugerencia, por favor contáctenos al correo electrónico: ( adn3.contacto@gmail.com )
+
+
+Gracias,
+El equipo de ADN3
+
+2018 LAB. DE COMPUTACIÓN PARA LAS APLICACIONES DE LA MATEMÁTICA EN INGENIERÍA.
+
+Universidad Técnica Federico Santa María
+
+Avenida España 1680.
+
+Valparaiso

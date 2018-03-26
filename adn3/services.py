@@ -1,4 +1,7 @@
 from misc.models import Setting
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
 
 
 def is_student(user):
@@ -103,3 +106,18 @@ def polls_set(value):
     obj = Setting.objects.get(key='polls-open')
     obj.value = str(value)
     obj.save()
+
+
+def send_new_user_email(full_name, email):
+    plaintext = get_template('email_templates/welcome.txt')
+    html = get_template('email_templates/welcome.html')
+
+    d = Context({'name': full_name, 'email': email})
+
+    subject = 'Contacto desde ADN3 - UTFSM'
+
+    text_content = plaintext.render(d)
+    html_content = html.render(d)
+    msg = EmailMultiAlternatives(subject, text_content, to=[email])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()

@@ -6,7 +6,7 @@ from django.views import generic
 from django.contrib.auth.models import User, Group
 
 from administration.forms import StudentForm
-from adn3.services import get_period_year, get_period_semester
+from adn3.services import get_period_year, get_period_semester, send_new_user_email
 from courses.models import Course, CourseTeacher, Agenda
 from misc.models import Setting
 from registration.models import Student
@@ -181,6 +181,9 @@ class StudentCreateView(AdministratorTestMixin, generic.CreateView):
 
         group = Group.objects.get(name='students')
         group.user_set.add(self.object)
+
+        full_name = '%s %s' % (form.instance.first_name, form.instance.last_name)
+        send_new_user_email(full_name, form.instance.email)
 
         return response
 
