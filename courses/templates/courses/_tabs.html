@@ -8,7 +8,7 @@
     <li role="presentation" class="nav-inner-item">
       <a href="{{ agenda.get_attendance_url }}">
         <span class="glyphicon glyphicon-menu-right step"></span>
-        {{ agenda }} {{ agenda.room }}
+        {{ agenda.name }} {{ agenda.room.name }}
       </a>
     </li>
   {% endfor %}
