@@ -173,6 +173,9 @@ class Agenda(models.Model):
 
     code = models.CharField(max_length=64, verbose_name="Código de inscripción", null=True, blank=True)
 
+    class Meta:
+        ordering = ('day', 'block')
+
     @models.permalink
     def get_attendance_url(self):
         return 'attendance:show', [self.course.pk, self.pk]
