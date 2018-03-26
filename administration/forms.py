@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from adn3.services import get_period_year
 from courses.models import Course, Campus, Agenda
+from courses.services import get_active_courses
 
 
 class TeacherForm(forms.ModelForm):
@@ -52,19 +54,19 @@ class YearSemesterForm(forms.Form):
 class TeacherCourseForm(forms.Form):
     teacher = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="teachers"), label="Profesor(a)",
                                      widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
-    course = forms.ModelChoiceField(queryset=Course.objects.all(), label="Curso",
+    course = forms.ModelChoiceField(queryset=get_active_courses(), label="Curso",
                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
 
 
 class CoAssistantCourseForm(forms.Form):
     assistant = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="assistants"), label="Ayudante",
                                        widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
-    course = forms.ModelChoiceField(queryset=Course.objects.all(), label="Curso",
+    course = forms.ModelChoiceField(queryset=get_active_courses(), label="Curso",
                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
 
 
 class SelectCourseForm(forms.Form):
-    course = forms.ModelChoiceField(queryset=Course.objects.all(), label="Curso",
+    course = forms.ModelChoiceField(queryset=get_active_courses(), label="Curso",
                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
 
 
@@ -86,6 +88,10 @@ class AssistantForm(forms.Form):
 
 
 class AgendaForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['course'].queryset = get_active_courses()
+
     class Meta:
         model = Agenda
         fields = ('day', 'block', 'room', 'course')

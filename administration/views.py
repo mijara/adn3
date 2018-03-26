@@ -10,6 +10,7 @@ from adn3.services import get_period_year, get_period_semester, send_new_user_em
 from courses.models import Course, CourseTeacher, Agenda
 from misc.models import Setting
 from registration.models import Student
+from courses.services import get_active_courses
 from . import forms
 
 
@@ -157,7 +158,7 @@ class CoAssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['courses'] = Course.objects.all()
+        context['courses'] = get_active_courses()
         return context
 
 
