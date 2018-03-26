@@ -56,6 +56,9 @@ class Course(models.Model):
     # overrides the global pre-registrations toggle.
     deactivate_preregistrations = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ('-year', '-semester', 'code', 'campus')
+
     def count_inscriptions(self):
         count = 0
 
