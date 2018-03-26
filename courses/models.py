@@ -25,7 +25,7 @@ class Room(models.Model):
     campus = models.ForeignKey(Campus, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return "%s - %s" % (self.name, self.campus.name)
 
 
 class Course(models.Model):
