@@ -178,7 +178,8 @@ class Agenda(models.Model):
         return 'attendance:show', [self.course.pk, self.pk]
 
     def __str__(self):
-        return u'%s %s' % (self.get_day_display(), self.get_block_display())
+        return u'%s %s - %s %s' % (self.get_day_display(), self.get_block_display(),
+                                   self.room.name, self.room.campus.name)
 
     def has_active_tests(self):
         for agenda_test in self.agendatest_set.all():
