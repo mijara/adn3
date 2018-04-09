@@ -183,6 +183,10 @@ class Agenda(models.Model):
     def get_attendance_url(self):
         return 'attendance:show', [self.course.pk, self.pk]
 
+    @models.permalink
+    def get_update_url(self):
+        return 'attendance:agenda_update', [self.course.pk, self.pk]
+
     def __str__(self):
         return u'%s %s - %s %s' % (self.get_day_display(), self.get_block_display(),
                                    self.room.name, self.room.campus.name)

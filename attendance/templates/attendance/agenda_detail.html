@@ -8,7 +8,6 @@
     <li><a href="{{ agenda.course.get_agendas_url }}">Agendas</a></li>
     <li>
       <a href="{% url 'attendance:show' course.pk agenda.pk %}">
-        Asistencia:
         {{ agenda.get_day_display }} {{ agenda.get_block_display }}
       </a>
     </li>
@@ -19,18 +18,27 @@
   <div class="row">
     <div class="col-sm-12">
       <h1 class="header">
-        {{ agenda.get_day_display }} {{ agenda.get_block_display }} en {{ agenda.room }}
+        <div class="pull-right">
+          <a href="{{ agenda.get_update_url }}" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+        </div>
+
+        Agenda: {{ agenda.get_day_display }} {{ agenda.get_block_display }}
       </h1>
     </div>
-    <div class="col-sm-12">
-      <h1 class="header">
-        <span class="glyphicon glyphicon glyphicon-user"></span>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <h3 class="header">
+        <span class="glyphicon glyphicon glyphicon-user step"></span>
         Ayudantes
-      </h1>
+      </h3>
 
       <div class="panel panel-default">
         <div class="table-responsive">
-          <table class="table ">
+          <table class="table">
             <thead>
             <tr class="table-heading">
               <th>Nombre</th>
@@ -50,13 +58,43 @@
           </table>
         </div>
       </div>
-
     </div>
+
+    <div class="col-sm-4">
+      <h3 class="header">
+        Detalles
+      </h3>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Detalles
+        </div>
+
+        <div class="table-responsive">
+          <table class="table ">
+            <tbody>
+            <tr>
+              <th>Sala</th>
+              <td>{{ agenda.room }}</td>
+            </tr>
+
+            <tr>
+              <th>Inscritos</th>
+              <td>{{ agenda.inscriptions.count }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-12">
-      <h1 class="header">
+      <h3 class="header">
         <span class="glyphicon glyphicon-list-alt step"></span>
         Asistencia
-      </h1>
+      </h3>
 
       {% if table %}
         {% include 'attendance/_table.html' %}

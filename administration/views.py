@@ -219,10 +219,10 @@ class AssistantCourseCreateView(AdministratorTestMixin, generic.FormView):
         return kwargs
 
     def form_valid(self, form):
-        print('asd')
         agenda = form.cleaned_data['agenda']
         assistant = form.cleaned_data['assistant']
         print(agenda.assistants.all())
+
         if assistant not in agenda.assistants.all():
             agenda.assistants.add(assistant)
             agenda.save()

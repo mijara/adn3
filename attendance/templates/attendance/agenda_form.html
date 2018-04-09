@@ -1,0 +1,168 @@
+{% extends 'base_courses.html' %}
+
+{% block breadcrump %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'courses:index' %}">Cursos</a></li>
+    <li><a href="{{ agenda.course.get_absolute_url }}">{{ agenda.course }}</a>
+    </li>
+    <li><a href="{{ agenda.course.get_agendas_url }}">Agendas</a></li>
+    <li>
+      <a href="{% url 'attendance:show' view.get_course.pk agenda.pk %}">
+        {{ agenda.get_day_display }} {{ agenda.get_block_display }}
+      </a>
+    </li>
+    <li>
+      <a href="{{ agenda.get_update_url }}">
+        Editar
+      </a>
+    </li>
+  </ol>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="header">
+        <span class="glyphicon glyphicon-user step"></span>
+        Ayudantes
+      </h3>
+
+      <form action="{% url 'attendance:agenda_update_delete_assistants' view.get_course.pk agenda.pk %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Ayudantes actuales
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+              <tr class="table-heading">
+                <th width="0">A</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Email</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              {% for assistant in agenda.assistants.all %}
+                <tr>
+                  <td>
+                    <input type="checkbox" name="assistants" value="{{ assistant.pk }}">
+                  </td>
+                  <td>
+                    {{ assistant.get_full_name }}
+                  </td>
+                  <td>
+                    {{ assistant.student.rol }}
+                  </td>
+                  <td>
+                    {{ assistant.email }}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel-footer text-right">
+            <button type="submit" class="btn btn-danger btn-sm">Eliminar ayudantes</button>
+          </div>
+        </div>
+      </form>
+
+      <form action="{% url 'attendance:agenda_update_add_assistant' view.get_course.pk agenda.pk %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Agregar ayudante
+          </div>
+
+          <div class="panel-body">
+            {% with add_assistant_form as form %}
+              {% include '_form.html' %}
+            {% endwith %}
+          </div>
+
+          <div class="panel-footer text-right">
+            <button type="submit" class="btn btn-primary">Agregar ayudante</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="header">
+        <span class="glyphicon glyphicon-list-alt step"></span>
+        Inscripciones
+      </h3>
+
+      <form action="{% url 'attendance:agenda_update_delete_inscriptions' view.get_course.pk agenda.pk %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Inscritos actualmente
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+              <tr class="table-heading">
+                <th width="0">A</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Email</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              {% for student in agenda.inscriptions.all %}
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inscriptions" value="{{ student.pk }}">
+                  </td>
+                  <td>
+                    {{ student.get_full_name }}
+                  </td>
+                  <td>
+                    {{ student.student.rol }}
+                  </td>
+                  <td>
+                    {{ student.email }}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel-footer text-right">
+            <button type="submit" class="btn btn-danger btn-sm">Eliminar inscripciones</button>
+          </div>
+        </div>
+      </form>
+
+      <form action="{% url 'attendance:agenda_update_add_inscription' view.get_course.pk agenda.pk %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Agregar inscripción
+          </div>
+
+          <div class="panel-body">
+            {% with add_inscription_form as form %}
+              {% include '_form.html' %}
+            {% endwith %}
+          </div>
+
+          <div class="panel-footer text-right">
+            <button type="submit" class="btn btn-primary">Inscribir</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

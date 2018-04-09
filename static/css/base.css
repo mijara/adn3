@@ -616,3 +616,7 @@ div.review-footer table tr:first-child td {
     padding: 10px;
     border-top-right-radius: 5px;
 }
+
+.icon {
+    color: #6699cc;
+}
