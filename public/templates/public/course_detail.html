@@ -71,8 +71,8 @@
                   <div>
                     <strong>Archivos</strong>
                   </div>
-                  {% if session.sessionfile_set.all %}
-                    {% for file in session.sessionfile_set.all %}
+                  {% if pretest.pretestfile_set.all %}
+                    {% for file in pretest.pretestfile_set.all %}
                       <div><span class="glyphicon glyphicon-file step"></span> <a
                           href="{{ file.file.url }}">{{ file }}</a></div>
                     {% endfor %}
