@@ -1,12 +1,32 @@
+import base64
+from datetime import datetime
+
+import io
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views import generic
+from django.views import generic, View
 
 from adn3 import mixins
+from files.services import register_file_download
 from .forms import *
+import matplotlib.pyplot as plt
 
 
 class CourseFileDetailView(mixins.CourseMixin, generic.DetailView):
     model = CourseFile
+
+    def graph_downloads(self):
+        data = self.object.coursefiledownload_set.all()
+
+        dates = [d.timestamp.strftime('%d/%m') for d in data]
+        plt.gcf().set_size_inches((8, 2.5))
+        plt.hist(dates, color='k')
+        plt.gcf().autofmt_xdate()
+        plt.gcf().tight_layout()
+
+        sio = io.BytesIO()
+        plt.savefig(sio, format="png")
+
+        return base64.b64encode(sio.getvalue())
 
 
 class CourseFileCreateView(mixins.CourseMixin, generic.CreateView):
@@ -30,11 +50,15 @@ class CourseFileDeleteView(mixins.CourseMixin, generic.DeleteView):
         return self.get_course().get_files_url()
 
 
-def download(request, course_pk, pk):
-    course_file = get_object_or_404(CourseFile, pk=pk)
+class CourseFileDownloadView(View):
+    def get(self, *args, **kwargs):
+        pk = self.kwargs.pop('pk')
+        course_file = get_object_or_404(CourseFile, pk=pk)
 
-    course_file.downloads += 1
-    course_file.save()
+        course_file.downloads += 1
+        course_file.save()
 
-    # FIXME: is this a security hazard?
-    return redirect(course_file.file.url)
+        register_file_download(course_file, self.request.user)
+
+        # FIXME: is this a security hazard?
+        return redirect(course_file.file.url)

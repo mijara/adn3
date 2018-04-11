@@ -8,6 +8,7 @@
       <li class="list-group-item">
         <div class="pull-right">
           {{ file.downloads }} <span class="glyphicon glyphicon-download-alt step"></span>
+
           <a href="#" data-clipboard-text="{{ request.get_host }}{{ file.file.url }}"
              class="btn btn-info btn-xs">Copiar Enlace</a>
         </div>

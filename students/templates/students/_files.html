@@ -3,7 +3,7 @@
     {% if course.coursefile_set.all %}
       <div class="list-group">
         {% for file in course.coursefile_set.all %}
-          <a href="{{ file.file.url }}" class="list-group-item">
+          <a href="{{ file.get_download_url }}" class="list-group-item">
             <span class="glyphicon glyphicon-file step"></span>
             {{ file.name }}
           </a>

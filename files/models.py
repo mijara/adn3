@@ -38,3 +38,11 @@ class CourseFile(models.Model):
     @models.permalink
     def get_delete_url(self):
         return 'files:coursefile_delete', [self.course.pk, self.pk]
+
+
+class CourseFileDownload(models.Model):
+    file = models.ForeignKey('CourseFile')
+
+    user = models.ForeignKey('auth.User', null=True, blank=True)
+
+    timestamp = models.DateTimeField(auto_now_add=True)

@@ -10,7 +10,7 @@ urlpatterns = [
 
     url(
         '^(?P<pk>\d+)/download/$',
-        views.download,
+        views.CourseFileDownloadView.as_view(),
         name='coursefile_download'
     ),
 

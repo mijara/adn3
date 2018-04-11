@@ -22,19 +22,60 @@
         </span>
 
         <span class="glyphicon glyphicon-upload step"></span>
-        {{ object.name }} <small>{{ object.update_date }}</small>
+        {{ object.name }}
+        <small>{{ object.update_date }}</small>
       </h3>
 
       <div class="row">
         <div class="col-sm-9">
-          <input type="text" disabled class="form-control" value="{{ request.get_host }}{{ object.file.url }}">
+          <input type="text" disabled class="form-control" value="{{ request.get_host }}{{ object.get_download_url }}">
         </div>
 
         <div class="visible-xs" style="height: 10px"></div>
 
         <div class="col-sm-3">
-          <a href="{{ object.file.url }}" target="_blank" class="btn btn-block btn-primary">
+          <a href="{{ object.get_download_url }}" target="_blank" class="btn btn-block btn-primary">
             <i class="glyphicon glyphicon-download-alt step"></i> Descargar</a>
+        </div>
+      </div>
+
+      <p></p>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Descargas históricas (día/mes)
+            </div>
+
+            <div class="panel-body text-center">
+              <img src="data:image/png;base64,{{ view.graph_downloads }}" width="100%">
+            </div>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                <tr class="table-heading">
+                  <th width="50%">Usuario</th>
+                  <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for download in coursefile.coursefiledownload_set.all %}
+                    <tr>
+                    <td>
+                      {{ download.user|default_if_none:'Anónimo' }}
+                    </td>
+
+                    <td>
+                      {{ download.timestamp|date:"d.m.Y - H:i:s" }}
+                    </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
