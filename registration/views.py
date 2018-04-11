@@ -25,12 +25,12 @@ class StudentCreateView(View):
         student_form = StudentForm(request.POST, prefix='student')
 
         if user_form.is_valid() and student_form.is_valid():
-            email = user_form.cleaned_data['email']
+            email = user_form.cleaned_data['email'].lower()
 
             if User.objects.filter(username=email).exists():
                 return redirect('landing:sign_in')
 
-            user_form.instance.username = email
+            user_form.instance.username = email.lower()
             user = user_form.save()
 
             students_group = Group.objects.get(name='students')
