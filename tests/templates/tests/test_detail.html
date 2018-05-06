@@ -79,6 +79,16 @@
           </table>
         </div>
       </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Acciones
+        </div>
+
+        <div class="list-group">
+          <a href="{% url 'tests:test_download_all' test.course.pk test.pk %}" class="list-group-item">Descargar todas las respuetas</a>
+        </div>
+      </div>
     </div>
   </div>
 

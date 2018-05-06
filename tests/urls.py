@@ -9,6 +9,12 @@ urlpatterns = [
     ),
 
     url(
+        r'^(?P<pk>\d+)/download-all/$',
+        views.TestDownloadAll.as_view(),
+        name='test_download_all'
+    ),
+
+    url(
         r'^create/$',
         views.TestCreate.as_view(),
         name='test_create'

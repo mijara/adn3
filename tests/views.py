@@ -4,6 +4,10 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views import View
 from django.views import generic
 
+import zipfile
+import io
+import os
+
 from adn3 import mixins
 from courses.mixins import IsTeacherOfCourseMixin
 from .forms import *
@@ -30,6 +34,28 @@ class VersionMixin(TestMixin):
 # ==========
 class TestDetail(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.DetailView):
     model = Test
+
+
+class TestDownloadAll(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.View):
+    def get(self, *args, **kwargs):
+        test = get_object_or_404(Test, pk=self.kwargs['pk'])
+
+        s = io.BytesIO()
+
+        zf = zipfile.ZipFile(s, 'w')
+
+        for version in test.version_set.all():
+            for answer in version.studentsanswers_set.all():
+                _, ext = os.path.splitext(answer.document.path)
+                zf.write(answer.document.path, answer.student.email.replace('@', '__') + ext)
+
+        zf.close()
+
+        resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        resp['Content-Disposition'] = 'attachment; filename=%s' % (test.name.replace(' ', '_') + '.zip')
+        resp['Content-length'] = s.tell()
+
+        return resp
 
 
 class TestCreate(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.CreateView):
