@@ -95,15 +95,21 @@ def generate_course_grades(course):
 
     # get the grade configuration.
     gc = course.grades_config
-    print(gc.grade_tests)
 
     # add the resume table to the worksheet.
     for resume in resume_by_student.values():
+        resume = [0 if v is None else v for v in resume]
+        
         len_tests = course.test_set.count()
         len_pretests = course.pretest_set.count()
 
         tests = sum(resume[3:(3 + len_tests)]) / len_tests
-        pretests = sum(resume[(3 + len_tests):(3 + len_tests + len_pretests)]) / len_pretests
+
+        if len_pretests != 0:
+            pretests = sum(resume[(3 + len_tests):(3 + len_tests + len_pretests)]) / len_pretests
+        else:
+            pretests = 0
+
         assistance = resume[-1]
 
         final = tests * gc.grade_tests / 100 + pretests * gc.grade_pretests / 100 + \

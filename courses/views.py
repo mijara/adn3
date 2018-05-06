@@ -94,5 +94,5 @@ class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
             content=content,
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response[
-            'Content-Disposition'] = 'attachment; filename=preinscripciones.xlsx'
+            'Content-Disposition'] = 'attachment; filename=notas.xlsx'
         return response
