@@ -46,8 +46,9 @@ class TestDownloadAll(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.View):
 
         for version in test.version_set.all():
             for answer in version.studentsanswers_set.all():
-                _, ext = os.path.splitext(answer.document.path)
-                zf.write(answer.document.path, answer.student.email.replace('@', '__') + ext)
+                if answer.document:
+                    _, ext = os.path.splitext(answer.document.path)
+                    zf.write(answer.document.path, answer.student.email.replace('@', '__') + ext)
 
         zf.close()
 
