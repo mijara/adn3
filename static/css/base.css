@@ -620,3 +620,7 @@ div.review-footer table tr:first-child td {
 .icon {
     color: #6699cc;
 }
+
+.mb-1 {
+    margin-bottom: 10px;
+}
