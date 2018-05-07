@@ -106,5 +106,5 @@ class CourseStudentsExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
             content=content,
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response[
-            'Content-Disposition'] = 'attachment; filename=notas.xlsx'
+            'Content-Disposition'] = 'attachment; filename=estudiantes.xlsx'
         return response
