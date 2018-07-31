@@ -1,5 +1,4 @@
 import base64
-from datetime import datetime
 
 import io
 from django.shortcuts import render, get_object_or_404, redirect
