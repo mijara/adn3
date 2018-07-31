@@ -10,6 +10,7 @@
 
 body {
     color: #555;
+    padding-bottom: 32px;
 }
 
 .container {
@@ -611,6 +612,7 @@ div.review-footer table tr:first-child td {
 /* Contact */
 .contact {
     position: fixed;
+    z-index: 100000;
     bottom: 0;
     background: #fafbfc;
     padding: 10px;
