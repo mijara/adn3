@@ -1,4 +1,6 @@
 import os
+import matplotlib
+matplotlib.use('Agg')
 
 from . import defaults
 import dj_database_url
