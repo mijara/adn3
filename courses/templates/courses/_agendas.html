@@ -3,11 +3,14 @@
     Sin agendas
   </div>
 {% else %}
+  <a class="btn btn-info btn-block mb-1" href="{% url 'courses:course_students_excel' course.pk %}">
+    Descargar lista de estudiantes
+  </a>
   <div class="panel panel-default">
     <div class="table-responsive">
       <table class="table">
         <thead>
-        <tr class="table-heading  ">
+        <tr class="table-heading">
           <th width="19%">Día</th>
           <th width="19%">Bloque</th>
           <th width="19%">Sala</th>

@@ -27,6 +27,12 @@ urlpatterns = [
     ),
 
     url(
+        '^(?P<course_pk>\d+)/students/excel/$',
+        views.CourseStudentsExcelView.as_view(),
+        name='course_students_excel'
+    ),
+
+    url(
         '^(?P<course_pk>\d+)/$',
         views.CourseDetail.as_view(),
         name='course_detail'
@@ -36,5 +42,5 @@ urlpatterns = [
         '^(?P<course_pk>\d+)/(?P<section>.+)/$',
         views.CourseDetail.as_view(),
         name='course_detail'
-    ),
+    )
 ]

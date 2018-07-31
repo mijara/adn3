@@ -1,9 +1,7 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from adn3.mixins import CourseMixin
-from adn3.services import is_teacher_of, is_coordinator, is_superteacher_of
 from courses.grades_workbook import generate_course_grades
 from courses.mixins import IsTeacherOfCourseMixin
 from .forms import *
@@ -95,4 +93,18 @@ class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response[
             'Content-Disposition'] = 'attachment; filename=notas.xlsx'
+        return response
+
+
+class CourseStudentsExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
+    def get(self, request, course_pk):
+        course = self.get_course()
+
+        content = services.generate_students_excel(course)
+
+        response = HttpResponse(
+            content=content,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response[
+            'Content-Disposition'] = 'attachment; filename=estudiantes.xlsx'
         return response
