@@ -28,6 +28,9 @@ def create_matrix(agenda):
         records = user.attendance_set.filter(agenda=agenda.pk)
         row = []
         for i in range(1, max_session_number + 1):
+            if not agenda.course.session_set.filter(number=i):
+                continue
+
             record = records.filter(session__number=i)
 
             prefix = '%s_%s' % (i, user.pk)
