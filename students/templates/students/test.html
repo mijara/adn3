@@ -84,6 +84,7 @@
           </div>
         </div>
         <div class="form-group">
+          <input id="finish" type="button" class="btn btn-danger" role="button" value="Finalizar control">
           <input type="submit" class="btn btn-primary pull-right" role="button" value="Guardar respuestas">
         </div>
       </form>
@@ -111,7 +112,7 @@
           <h4 class="modal-title" id="modalLabel">Lo sentimos</h4>
         </div>
         <div class="modal-body">
-          <p>Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
+          <p id="modal-message">Has superado el tiempo límite. Se enviarán las respuestas que tengas hasta el momento.</p>
           <div class="modal-footer">
             <a href="{% url 'students:course_detail' version.test.course.pk %}" type="button" class="btn btn-default">Ir al inicio</a>
           </div>
@@ -195,25 +196,10 @@
       }
 
       function updateTarget(playback) {
-          // Uncomment the line below to reverse the animation
-          // playback = 1 - playback
-          // Update the target properties based on the playback position
-        /*if ((Date.now() - startedAt) !== 0) {
-         if ((Date.now() - startedAt)%60000 >0 && (Date.now() - startedAt)%60000 < 30000 && flagUpdateMinutes) {
-         flag2UpdateMinutes = true;
-         flagUpdateMinutes = false;
-         }
-         else if ((Date.now() - startedAt)%60000 > 30000 && !flagUpdateMinutes ) {
-         flagUpdateMinutes = true;
-         }
-         }*/
           if ($('.time-out').html() != getMinutesLeft()) {
               $('.time-out').html(getMinutesLeft());
           }
-        /*if (flag2UpdateMinutes){
-         $('.time-out').html(getMinutesLeft());
-         flag2UpdateMinutes = false;
-         }*/
+
           $('.progress-bar').css('min-width', playback * 100 + '%');
 
           // Every 5 minutes send the answers
@@ -256,6 +242,12 @@
                       $('#documentName').removeClass('hidden').html(response['document']);
                   }
 
+                  if (finish) {
+                    $('#modal-message').html('El control ha finalizado');
+                    $('#modal').modal({backdrop: 'static', keyboard: false});
+                  }
+
+
                   saveSuccessNotification();
               }
           });
@@ -263,6 +255,13 @@
       $(form).submit(function (e) {
           e.preventDefault();
           send(false);
+      });
+
+      $('#finish').click(function() {
+        var decision = confirm("¿Seguro(a) que deseas finalizar el control?");
+        if (decision) {
+          send(true)
+        }
       });
 
       function saveSuccessNotification() {
