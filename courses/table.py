@@ -11,3 +11,38 @@ class Table:
 
         if column not in self.columns:
             self.columns.append(column)
+
+    def as_html(self):
+        html = '<table border="1" cellpadding="3">'
+
+        html += '<tr>'
+        html += f'<td>ID</td>'
+        for column in self.columns:
+            html += f'<td>{column}</td>'
+        html += '</tr>'
+
+        html_row = list(self.columns)
+
+        for _id, row in self.rows.items():
+            html += f'<td>{_id}</td>'
+
+            for col, val in row.items():
+                html_row[html_row.index(col)] = f'<td>{val}</td>'
+
+        html += ''.join(html_row)
+        html += '</table>'
+        return html
+
+    def fill_columns(self, columns):
+        for col in columns:
+            if col not in self.columns:
+                self.columns.append(col)
+
+    def fill_blanks(self):
+        for row in self.rows.values():
+            for column in self.columns:
+                if column not in row:
+                    row[column] = ''
+
+    def add_row(self, _row):
+        self.rows[_row] = {}

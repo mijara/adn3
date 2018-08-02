@@ -88,16 +88,19 @@ class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
 
         content = generate_course_grades(course)
 
-        """
         response = HttpResponse(
             content=content,
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response[
-            'Content-Disposition'] = 'attachment; filename=notas.xlsx'
-        """
 
-        return HttpResponse(
-            content=generate_course_grades_v2(course))
+        response['Content-Disposition'] = 'attachment; filename=notas.xlsx'
+
+        return response
+
+
+class CourseGradesExcelView2(IsTeacherOfCourseMixin, CourseMixin, View):
+    def get(self, request, course_pk):
+        course = self.get_course()
+        return HttpResponse(content=generate_course_grades_v2(course))
 
 
 class CourseStudentsExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
@@ -109,6 +112,5 @@ class CourseStudentsExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
         response = HttpResponse(
             content=content,
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response[
-            'Content-Disposition'] = 'attachment; filename=estudiantes.xlsx'
+        response['Content-Disposition'] = 'attachment; filename=estudiantes.xlsx'
         return response

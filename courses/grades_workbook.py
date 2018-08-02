@@ -121,34 +121,103 @@ def generate_course_grades(course):
 
 
 def generate_course_grades_v2(course):
-    table = Table()
+    resume_table = Table()
 
     sessions_total = course.session_set.count()
 
+    tests = [t for t in course.test_set.all()]
+    pretests = [p for p in course.pretest_set.all()]
+
+    resume_table.fill_columns(["Nombres", "Apellidos", "Rol"])
+
+    resume_table.fill_columns([f'C{i+1}' for i in range(len(tests))])
+    resume_table.fill_columns([f'P{i+1}' for i in range(len(pretests))])
+
     for student in course.get_students():
+        # personal data
+        resume_table.set(row=student.user.email, column=f'Nombres', value=student.user.first_name)
+        resume_table.set(row=student.user.email, column=f'Apellidos', value=student.user.last_name)
+        resume_table.set(row=student.user.email, column=f'Rol', value=student.rol)
+
         # tests.
-        student_answers = StudentsAnswers.objects.filter(student=student.user).all()
+        student_answers = StudentsAnswers.objects.filter(student=student.user, version__test__course=course).all()
         for student_answer in student_answers:
-            table.set(
+            resume_table.set(
                 row=student.user.email,
-                column=student_answer.version.test.name,
+                column=f'C{tests.index(student_answer.version.test) + 1}',
                 value=student_answer.qualification)
 
         # pretests.
-        pretest_uploads = PretestUpload.objects.filter(student=student).all()
+        pretest_uploads = PretestUpload.objects.filter(student=student, pretest__course=course).all()
         for upload in pretest_uploads:
-            table.set(
+            resume_table.set(
                 row=student.user.email,
-                column=upload.pretest.name,
+                column=f'P{pretests.index(upload.pretest) + 1}',
                 value=upload.qualification)
 
         # assistance.
-        attendance = Attendance.objects.filter(user=student.user). \
+        attendance = Attendance.objects.filter(user=student.user, agenda__course=course). \
             exclude(attended=Attendance.NO_ATTENDED).count()
 
-        table.set(
+        resume_table.set(
             row=student.user.email,
             column="Asistencia",
             value=int(attendance * 100 / sessions_total))
 
-    return str(table.rows)
+    resume_table.fill_blanks()
+
+    output = resume_table.as_html() + '<hr>'
+
+    for test in tests:
+        for version in test.version_set.all():
+            output += generate_version_excel(course, version).as_html() + '<hr>'
+
+    output += generate_assistance_excel(course).as_html()
+
+    return output
+
+
+def generate_version_excel(course, version):
+    table = Table()
+
+    questions = [q for q in version.question_set.all()]
+
+    for student in course.get_students():
+        sa = StudentsAnswers.objects.filter(student=student.user, version=version)
+        if not sa.exists():
+            table.add_row(student.user.email)
+            continue
+        sa = sa.get()
+
+        answers = Answer.objects.filter(student=student.user, question__version=version).all()
+
+        for answer in answers:
+            table.set(row=student.user.email, column=f'P{questions.index(answer.question) + 1}', value=answer.correct)
+
+        table.set(row=student.user.email, column=f'Nota', value=sa.qualification)
+
+    table.fill_columns([f'P{questions.index(q) + 1}' for q in questions] + ['Nota'])
+    table.fill_blanks()
+
+    return table
+
+
+def generate_assistance_excel(course):
+    table = Table()
+
+    sessions = [s for s in course.session_set.all()]
+    table.fill_columns([s.number for s in sessions])
+
+    for student in course.get_students():
+        for session in sessions:
+            attendance = Attendance.objects.filter(session=session, user=student.user)
+
+            if not attendance.exists():
+                continue
+            attendance = attendance.get()
+
+            table.set(row=student.user.email, column=session.number, value=attendance.get_attended_display())
+
+    table.fill_blanks()
+
+    return table
