@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'public',
     'polls',
     'administration',
+    'playground',
 )
 
 MIDDLEWARE_CLASSES = (
