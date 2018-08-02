@@ -2,6 +2,7 @@ import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
 
 from attendance.models import Attendance
+from courses.table import Table
 from pretests.models import PretestUpload
 from tests.models import Answer, StudentsAnswers, Version
 
@@ -22,7 +23,7 @@ def _questions_row(student_answers, version):
 
 def _append_test_version(student, personal, test, wb, sheets):
     sa = StudentsAnswers.objects.filter(student=student.user, version__test=test)
-    print(sa)
+    #  print(sa)
 
     if sa.exists():
         sa = sa.first()
@@ -99,7 +100,7 @@ def generate_course_grades(course):
     # add the resume table to the worksheet.
     for resume in resume_by_student.values():
         resume = [0 if v is None else v for v in resume]
-        
+
         len_tests = course.test_set.count()
         len_pretests = course.pretest_set.count()
 
@@ -117,3 +118,37 @@ def generate_course_grades(course):
         resume_ws.append(resume + [final])
 
     return save_virtual_workbook(wb)
+
+
+def generate_course_grades_v2(course):
+    table = Table()
+
+    sessions_total = course.session_set.count()
+
+    for student in course.get_students():
+        # tests.
+        student_answers = StudentsAnswers.objects.filter(student=student.user).all()
+        for student_answer in student_answers:
+            table.set(
+                row=student.user.email,
+                column=student_answer.version.test.name,
+                value=student_answer.qualification)
+
+        # pretests.
+        pretest_uploads = PretestUpload.objects.filter(student=student).all()
+        for upload in pretest_uploads:
+            table.set(
+                row=student.user.email,
+                column=upload.pretest.name,
+                value=upload.qualification)
+
+        # assistance.
+        attendance = Attendance.objects.filter(user=student.user). \
+            exclude(attended=Attendance.NO_ATTENDED).count()
+
+        table.set(
+            row=student.user.email,
+            column="Asistencia",
+            value=int(attendance * 100 / sessions_total))
+
+    return str(table.rows)

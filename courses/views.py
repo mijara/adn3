@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from adn3.mixins import CourseMixin
-from courses.grades_workbook import generate_course_grades
+from courses.grades_workbook import generate_course_grades, generate_course_grades_v2
 from courses.mixins import IsTeacherOfCourseMixin
 from .forms import *
 from . import services
@@ -88,12 +88,16 @@ class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
 
         content = generate_course_grades(course)
 
+        """
         response = HttpResponse(
             content=content,
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response[
             'Content-Disposition'] = 'attachment; filename=notas.xlsx'
-        return response
+        """
+
+        return HttpResponse(
+            content=generate_course_grades_v2(course))
 
 
 class CourseStudentsExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
