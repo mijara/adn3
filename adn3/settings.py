@@ -1,6 +1,4 @@
 import os
-import matplotlib
-matplotlib.use('Agg')
 
 from . import defaults
 import dj_database_url
@@ -122,11 +120,10 @@ LOGIN_URL = '/'
 SESSION_COOKIE_AGE = 3600 * 3
 
 NOTEBOOK_ARGUMENTS = [
-    '--ip', '0.0.0.0', 
+    '--ip', '0.0.0.0',
     '--allow-root',
-    '--no-browser', 
+    '--no-browser',
 ]
-
 
 # Email Settings
 EMAIL_USE_TLS = True

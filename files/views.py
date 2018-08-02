@@ -7,7 +7,6 @@ from django.views import generic, View
 from adn3 import mixins
 from files.services import register_file_download
 from .forms import *
-import matplotlib.pyplot as plt
 
 
 class CourseFileDetailView(mixins.CourseMixin, generic.DetailView):
