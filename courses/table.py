@@ -21,15 +21,18 @@ class Table:
             html += f'<td>{column}</td>'
         html += '</tr>'
 
-        html_row = list(self.columns)
-
         for _id, row in self.rows.items():
+            html_row = list(self.columns)
+
+            html += '<tr>'
             html += f'<td>{_id}</td>'
 
             for col, val in row.items():
+                print(html_row)
                 html_row[html_row.index(col)] = f'<td>{val}</td>'
 
-        html += ''.join(html_row)
+            html += ''.join(html_row)
+            html += '</tr>'
         html += '</table>'
         return html
 
