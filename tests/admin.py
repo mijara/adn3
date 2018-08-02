@@ -43,6 +43,7 @@ class AlternativeAdmin(admin.ModelAdmin):
 
 
 class StudentsAnswersAdmin(admin.ModelAdmin):
+    search_fields = ('student__first_name', 'student__last_name', 'student__email')
     list_display = ('__str__', 'student', 'qualification', 'started_at')
 
 

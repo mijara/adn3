@@ -25,7 +25,7 @@ class Pretest(models.Model):
                                            'encargado posteriormente lo descargue y evalúe.')
 
     def __str__(self):
-        return self.name
+        return self.name + ' - ' + self.course.__str__()
 
     @models.permalink
     def get_absolute_url(self):

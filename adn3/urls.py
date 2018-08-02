@@ -155,4 +155,12 @@ urlpatterns = [
             namespace='administration'
         )
     ),
+
+    url(
+      r'^playground/',
+      include(
+          'playground.urls',
+          namespace='playground'
+      )
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
