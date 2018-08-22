@@ -214,7 +214,8 @@ def generate_assistance_excel(course):
 
             if not attendance.exists():
                 continue
-            attendance = attendance.get()
+
+            attendance = attendance.first()
 
             table.set(row=student.user.email, column=session.number, value=attendance.get_attended_display())
 
