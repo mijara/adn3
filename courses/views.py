@@ -100,7 +100,16 @@ class CourseGradesExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
 class CourseGradesExcelView2(IsTeacherOfCourseMixin, CourseMixin, View):
     def get(self, request, course_pk):
         course = self.get_course()
-        return HttpResponse(content=generate_course_grades_v2(course))
+
+        content = generate_course_grades_v2(course)
+
+        response = HttpResponse(
+            content=content,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+        response['Content-Disposition'] = 'attachment; filename=notas.xlsx'
+
+        return response
 
 
 class CourseStudentsExcelView(IsTeacherOfCourseMixin, CourseMixin, View):

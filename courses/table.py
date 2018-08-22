@@ -7,7 +7,7 @@ class Table:
         if row not in self.rows:
             self.rows[row] = {}
         _row = self.rows[row]
-        _row[column] = value
+        _row[column] = value if value is not None else 0
 
         if column not in self.columns:
             self.columns.append(column)
@@ -34,7 +34,19 @@ class Table:
             html += ''.join(html_row)
             html += '</tr>'
         html += '</table>'
+
         return html
+
+    def as_excel(self, worksheet):
+        worksheet.append(['ID'] + self.columns)
+
+        for _id, row in self.rows.items():
+            html_row = list(self.columns)
+
+            for col, val in row.items():
+                html_row[html_row.index(col)] = val
+
+            worksheet.append([_id] + html_row)
 
     def fill_columns(self, columns):
         for col in columns:
@@ -45,7 +57,7 @@ class Table:
         for row in self.rows.values():
             for column in self.columns:
                 if column not in row:
-                    row[column] = ''
+                    row[column] = 0
 
     def add_row(self, _row):
         self.rows[_row] = {}

@@ -166,15 +166,22 @@ def generate_course_grades_v2(course):
 
     resume_table.fill_blanks()
 
-    output = resume_table.as_html() + '<hr>'
+    # generate excel.
+    wb = openpyxl.Workbook()
+    resume_ws = wb.active
+    resume_ws.title = "General"
+
+    resume_table.as_excel(resume_ws)
 
     for test in tests:
         for version in test.version_set.all():
-            output += generate_version_excel(course, version).as_html() + '<hr>'
+            ws = wb.create_sheet(version.test.name + ' - ' + version.get_letter())
+            generate_version_excel(course, version).as_excel(ws)
 
-    output += generate_assistance_excel(course).as_html()
+    ws = wb.create_sheet('Asistencia')
+    generate_assistance_excel(course).as_excel(ws)
 
-    return output
+    return save_virtual_workbook(wb)
 
 
 def generate_version_excel(course, version):
