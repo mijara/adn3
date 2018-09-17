@@ -49,3 +49,6 @@ class PreRegistration(models.Model):
     def get_delete_url(self):
         return reverse_lazy('preregistrations:preregistration_delete',
                             args=[self.pk])
+
+    def get_full_name(self):
+        return self.student.user.first_name + ' ' + self.student.user.last_name
