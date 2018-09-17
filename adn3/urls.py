@@ -94,14 +94,6 @@ urlpatterns = [
     ),
 
     url(
-        '^preregistrations/',
-        include(
-            'preregistration.urls',
-            namespace='preregistrations'
-        )
-    ),
-
-    url(
         '^flyins/',
         include(
             'flyins.urls',
