@@ -7,6 +7,14 @@ from pretests.models import PretestUpload
 from tests.models import Answer, StudentsAnswers, Version
 
 
+def clean_invalid_characters(string):
+    invalid_characters = ['*', ':', '/', '\\', '?', '[', ']']
+    for character in invalid_characters:
+        string = string.replace(character, ' ')
+
+    return string
+
+
 def _questions_row(student_answers, version):
     row = []
     for question in version.question_set.all():
@@ -29,7 +37,8 @@ def _append_test_version(student, personal, test, wb, sheets):
         sa = sa.first()
 
         if sa.version.pk not in sheets:
-            sheets[sa.version.pk] = wb.create_sheet(test.name + ' - ' + sa.version.get_letter())
+            title = clean_invalid_characters(test.name + ' - ' + sa.version.get_letter())
+            sheets[sa.version.pk] = wb.create_sheet(title)
             header = ['Rol', 'Nombres', 'Apellidos']
             header += ['P%d' % (i + 1) for i in range(sa.version.question_set.count())] + ['Nota']
             sheets[sa.version.pk].append(header)
@@ -175,7 +184,8 @@ def generate_course_grades_v2(course):
 
     for test in tests:
         for version in test.version_set.all():
-            ws = wb.create_sheet(version.test.name + ' - ' + version.get_letter())
+            title = clean_invalid_characters(version.test.name + ' - ' + version.get_letter())
+            ws = wb.create_sheet(title)
             generate_version_excel(course, version).as_excel(ws)
 
     ws = wb.create_sheet('Asistencia')
