@@ -6,6 +6,7 @@
   <a class="btn btn-info btn-block mb-1" href="{% url 'courses:course_students_excel' course.pk %}">
     Descargar lista de estudiantes
   </a>
+
   <div class="panel panel-default">
     <div class="table-responsive">
       <table class="table">
@@ -40,3 +41,19 @@
     </div>
   </div>
 {% endif %}
+
+<hr>
+
+<h4>Profesores del curso</h4>
+
+{% for teacher in course.teachers.all %}
+  <div class="row">
+    <div class="col-sm-5">
+      <b>{{ teacher.get_full_name }}</b>
+    </div>
+
+    <div class="col-sm-7">
+      <a href="mailto:{{ teacher.email }}">{{ teacher.email }}</a>
+    </div>
+  </div>
+{% endfor %}
