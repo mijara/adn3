@@ -53,7 +53,15 @@ class TestDownloadAll(IsTeacherOfCourseMixin, mixins.CourseMixin, generic.View):
         zf.close()
 
         resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
-        resp['Content-Disposition'] = 'attachment; filename=%s' % (test.name.replace(' ', '_') + '.zip')
+        resp['Content-Disposition'] = 'attachment; filename=%s' % (
+                test.name.replace(' ', '_')
+                .replace('á', 'a')
+                .replace('é', 'e')
+                .replace('í', 'i')
+                .replace('ó', 'o')
+                .replace('ú', 'u')
+                .replace('ñ', 'n')
+                + '.zip')
         resp['Content-length'] = s.tell()
 
         return resp
