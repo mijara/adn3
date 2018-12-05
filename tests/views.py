@@ -107,6 +107,7 @@ class TestReviewStatisticsView(IsTeacherOfCourseMixin, mixins.CourseMixin, gener
                 correct, incorrect = question.get_correct_incorrect_answers()
                 if correct != 0 or incorrect != 0:
                     info[i] = {
+                        'number': i + 1,
                         'question': question,
                         'correct': correct,
                         'incorrect': incorrect,
