@@ -14,7 +14,8 @@ class FlyIn(models.Model):
     last_names = models.CharField(max_length=128, verbose_name='Apellidos')
 
     rol = models.CharField(max_length=20, verbose_name='Rol USM')
-    usm_priority = models.FloatField(verbose_name='Prioridad')
+    usm_priority = models.FloatField(verbose_name='Prioridad',
+                                     help_text='Se permite ingrsar puntaje PSU para estudiantes de primer año')
     parallel = models.IntegerField()
 
     previous_experience = models.BooleanField()
