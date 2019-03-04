@@ -9,7 +9,8 @@ class CalendarNode(Node):
         days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
         blocks = ['1 - 2', '3 - 4', '5 - 6', '7 - 8', '9 - 10', '11 - 12']
 
-        html = '<table class="table">\n'
+        html = '<div class="table-responsive">'
+        html += '<table class="table">\n'
         html += '<thead>\n'
         html += '<tr class="table-heading">\n'
         html += '<th width="15%">Bloque</th>\n'
@@ -33,6 +34,7 @@ class CalendarNode(Node):
 
         html += '</tbody>'
         html += '</table>'
+        html += '</div>'
 
         return html
 
