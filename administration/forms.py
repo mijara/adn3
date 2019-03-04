@@ -52,39 +52,70 @@ class YearSemesterForm(forms.Form):
 
 
 class TeacherCourseForm(forms.Form):
-    teacher = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="teachers"), label="Profesor(a)",
+    teacher = forms.ModelChoiceField(queryset=None, label="Profesor(a)",
                                      widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
-    course = forms.ModelChoiceField(queryset=get_active_courses(), label="Curso",
+
+    course = forms.ModelChoiceField(queryset=None, label="Curso",
                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
+
+    def __init__(self, *args, **kwargs):
+        super(TeacherCourseForm, self).__init__(*args, **kwargs)
+
+        self.fields['teacher'].queryset = User.objects.filter(groups__name="teachers")
+
+        self.fields['course'].queryset = get_active_courses()
 
 
 class CoAssistantCourseForm(forms.Form):
-    assistant = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="assistants"), label="Ayudante",
+    assistant = forms.ModelChoiceField(queryset=None, label="Ayudante",
                                        widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
-    course = forms.ModelChoiceField(queryset=get_active_courses(), label="Curso",
+
+    course = forms.ModelChoiceField(queryset=None, label="Curso",
                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
+
+    def __init__(self, *args, **kwargs):
+        super(CoAssistantCourseForm, self).__init__(*args, **kwargs)
+
+        self.fields['assistant'].queryset = User.objects.filter(groups__name="assistants")
+
+        self.fields['course'].queryset = get_active_courses()
 
 
 class SelectCourseForm(forms.Form):
-    course = forms.ModelChoiceField(queryset=get_active_courses(), label="Curso",
+    course = forms.ModelChoiceField(queryset=None, label="Curso",
                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
+
+    def __init__(self, *args, **kwargs):
+        super(SelectCourseForm, self).__init__(*args, **kwargs)
+
+        self.fields['course'].queryset = get_active_courses()
 
 
 class AssistantAgendaForm(forms.Form):
-    agenda = forms.ModelChoiceField(queryset=Agenda.objects.all(), label="Agenda",
+    agenda = forms.ModelChoiceField(queryset=None, label="Agenda",
                                     widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
-    assistant = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="assistants"), label="Ayudante",
+
+    assistant = forms.ModelChoiceField(queryset=None, label="Ayudante",
                                        widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
 
     def __init__(self, *args, **kwargs):
-        course_pk = kwargs.pop('course_pk', None)
         super(AssistantAgendaForm, self).__init__(*args, **kwargs)
+
+        course_pk = kwargs.pop('course_pk', None)
+
         self.fields['agenda'].queryset = Agenda.objects.filter(course__pk=course_pk)
+
+        self.fields['assistant'].queryset = User.objects.filter(groups__name="assistants")
 
 
 class AssistantForm(forms.Form):
-    student = forms.ModelChoiceField(queryset=User.objects.filter(groups__name="students"), label="Estudiante",
+    student = forms.ModelChoiceField(queryset=None, label="Estudiante",
                                      widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
+
+    def __init__(self, *args, **kwargs):
+        super(AssistantForm, self).__init__(*args, **kwargs)
+
+        self.fields['student'].queryset = User.objects.filter(groups__name="students")
 
 
 class AgendaForm(forms.ModelForm):
