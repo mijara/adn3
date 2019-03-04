@@ -21,7 +21,8 @@
   <div class="alert alert-warning">
     Recuerde leer las noticias del curso antes de preinscribir!
 
-    <p><a href="{% url 'public:course_detail' course.pk %}" class="alert-link">Presione aquí para la información pública de este curso.</a></p>
+    <p><a href="{% url 'public:course_detail' course.pk %}" class="alert-link">Presione aquí para la información pública
+      de este curso.</a></p>
   </div>
 
   <div class="panel panel-default">
@@ -71,6 +72,7 @@
           <div class="form-group">
             <label for="id-usm_priority">Prioridad</label>
             <input name="usm_priority" id="id-usm_priority" class="form-control" required>
+            <small class="form-text text-muted">Se permite ingresar puntaje PSU para estudiantes de primer año</small>
           </div>
 
           <div class="form-group">
@@ -108,7 +110,8 @@
 {% endblock %}
 
 {% block page_header %}
-  Pre-Inscripción <small>{{ view.get_course }}</small>
+  Pre-Inscripción
+  <small>{{ view.get_course }}</small>
 {% endblock %}
 
 {% block script %}
