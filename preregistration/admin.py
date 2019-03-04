@@ -7,4 +7,5 @@ class PreRegistrationAdmin(admin.ModelAdmin):
     list_filter = ('course', 'software')
 
 
-admin.site.register(PreRegistration, PreRegistrationAdmin)
+# Deprecated.
+# admin.site.register(PreRegistration, PreRegistrationAdmin)
