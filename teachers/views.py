@@ -35,7 +35,12 @@ class CourseListView(UserPassesTestMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['old_course_list'] = self.request.user.course_set.exclude(
+        if is_coordinator(self.request.user):
+            course_set = Course.objects
+        else:
+            course_set = self.request.user.course_set
+
+        context['old_course_list'] = course_set.exclude(
             year=get_period_year(),
             semester=get_period_semester())
 
