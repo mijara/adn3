@@ -98,3 +98,13 @@
     </div>
   </div>
 {% endblock %}
+
+{% block script %}
+  <script language="JavaScript">
+    window.onbeforeunload = confirmExit;
+
+    function confirmExit() {
+      return "Asegurate de haber guardado el código secreto antes de salir. ¿Quieres salir?";
+    }
+  </script>
+{% endblock %}
