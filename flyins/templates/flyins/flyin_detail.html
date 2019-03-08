@@ -80,17 +80,19 @@
               <td>{{ object.get_fifth_preference_display }}</td>
             </tr>
           {% endif %}
-            <tr>
-              <th>Código secreto</th>
-              <td>{{ object.secret }}</td>
-            </tr>
-            <tr class="success text-success">
-              <td class="text-center" colspan="2">
-                Guarde su código secreto. Le será de utilidad si decide modificar o eliminar su preinscripción. No lo comparta con nadie.
-              </td>
-            </tr>
           </tbody>
         </table>
+      </div>
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          Código secreto
+        </div>
+        <div class="panel-body text-center">
+          <span class="lead text-danger">{{ object.secret }}</span>
+        </div>
+        <div class="panel-heading text-center">
+          <span>Guarde su código secreto. Le será de utilidad si decide modificar o eliminar su preinscripción. No lo comparta con nadie.</span>
+        </div>
       </div>
       <button class="btn btn-block btn-success hidden-print" onclick="window.print()">Imprimir</button>
     </div>
