@@ -99,9 +99,9 @@ class AssistantAgendaForm(forms.Form):
                                        widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}))
 
     def __init__(self, *args, **kwargs):
-        super(AssistantAgendaForm, self).__init__(*args, **kwargs)
-
         course_pk = kwargs.pop('course_pk', None)
+
+        super(AssistantAgendaForm, self).__init__(*args, **kwargs)
 
         self.fields['agenda'].queryset = Agenda.objects.filter(course__pk=course_pk)
 
