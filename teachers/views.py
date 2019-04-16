@@ -47,7 +47,7 @@ class CourseListView(UserPassesTestMixin, generic.ListView):
         return context
 
     def test_func(self):
-        return is_teacher(self.request.user) and not is_student(self.request.user)
+        return is_teacher(self.request.user)
 
 
 class TeacherPasswordUpdateView(View):

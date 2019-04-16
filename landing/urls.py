@@ -9,6 +9,12 @@ urlpatterns = [
     ),
 
     url(
+        '^choice/$',
+        views.choice,
+        name='choice'
+    ),
+
+    url(
         '^sign-in/$',
         views.sign_in,
         name='sign_in'

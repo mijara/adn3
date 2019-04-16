@@ -6,14 +6,26 @@ from adn3.services import is_teacher, is_student, is_assistant, welcome_message
 
 def index(request):
     if request.user.is_authenticated():
-        if is_student(request.user):
-            return redirect('students:agenda_list')
-        elif is_teacher(request.user):
+        if is_teacher(request.user) and is_student(request.user):
+            return redirect('landing:choice')
+        if is_teacher(request.user):
             return redirect('teachers:index')
+        elif is_student(request.user):
+            return redirect('students:agenda_list')
 
     return render(request, 'landing/index.html', {
         'welcome_message': welcome_message()
     })
+
+
+def choice(request):
+    if request.user.is_authenticated():
+        if is_teacher(request.user) and is_student(request.user):
+            return render(request, 'landing/choice.html', {
+                'welcome_message': welcome_message()
+            })
+
+    return redirect('landing:index')
 
 
 def sign_in(request, err_code=0):

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load markup_tags %}
+
+{% block breadcrump %}{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <div class="row text-center">
+            <h1>Ingresar como</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6" style="text-align: center; padding: 64px 0">
+                <a href="/teachers" class="btn btn-lg btn-primary">Profesor / Coordinador</a>
+            </div>
+
+            <div class="col-xs-6" style="text-align: center; padding: 64px 0">
+                <a href="/students" class="btn btn-lg btn-primary">Estudiante / Ayudante</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
