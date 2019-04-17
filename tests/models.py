@@ -103,6 +103,9 @@ class AgendaTest(models.Model):
 
     active = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = ('agenda', 'test')
+
 
 class Version(models.Model):
     test = models.ForeignKey('Test', verbose_name='Control')

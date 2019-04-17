@@ -2,6 +2,12 @@ from django.contrib import admin
 from .models import *
 
 
+def auto_scale(modeladmin, request, queryset):
+    for font in queryset.all():
+        font.scale = font.calculate_scale()
+        font.save()
+
+
 class ChoiceAnswerInline(admin.TabularInline):
     model = ChoiceAnswer
 
