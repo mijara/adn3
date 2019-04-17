@@ -4,6 +4,8 @@ from adn3.choices import *
 from adn3.services import get_year_semester
 import random
 
+from tests.models import AgendaTest
+
 
 class Campus(models.Model):
     name = models.CharField(max_length=64, verbose_name=u'Nombre')
@@ -190,6 +192,14 @@ class Agenda(models.Model):
     def __str__(self):
         return u'%s %s - %s %s' % (self.get_day_display(), self.get_block_display(),
                                    self.room.name, self.room.campus.name)
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_new:
+            for test in self.course.test_set.all():
+                AgendaTest.objects.create(agenda=self, test=test)
 
     def has_active_tests(self):
         for agenda_test in self.agendatest_set.all():
