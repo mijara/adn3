@@ -34,7 +34,22 @@
 
     <h2 class="page-header"><span class="glyphicon glyphicon-bookmark step"></span> Noticias</h2>
     {% include 'students/_news.html' %}
-  </div>
+
+    <h2 class="page-header"><span class="glyphicon glyphicon-book step"></span> Profesores del curso</h2>   
+
+
+    {% for teacher in course.teachers.all %}
+    <div class="row">
+      <div class="col-sm-5">
+        <b>{{ teacher.get_full_name }}</b>
+      </div>
+
+      <div class="col-sm-7">
+        <a href="mailto:{{ teacher.email }}">{{ teacher.email }}</a>
+      </div>
+    </div>
+    {% endfor %}
+    </div>
 {% endblock %}
 
 {% block script %}
