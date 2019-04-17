@@ -2,10 +2,17 @@ from django.contrib import admin
 from .models import *
 
 
-def auto_scale(modeladmin, request, queryset):
-    for font in queryset.all():
-        font.scale = font.calculate_scale()
-        font.save()
+def fix_agendatest(modeladmin, request, queryset):
+    for test in queryset.all():
+        for agenda in test.course.agenda_set.all():
+            print(test, agenda)
+
+            if not AgendaTest.objects.filter(test=test, agenda=agenda).exists():
+                AgendaTest.objects.create(agenda=agenda, test=test)
+                print('created (agenda, test):', agenda, test)
+
+
+fix_agendatest.short_description = "Fix legacy AgendaTest errors"
 
 
 class ChoiceAnswerInline(admin.TabularInline):
@@ -57,7 +64,13 @@ class AgendaTestAdmin(admin.ModelAdmin):
     list_display = ('agenda', 'test', 'active')
 
 
-admin.site.register(Test)
+class TestAdmin(admin.ModelAdmin):
+    list_display = ('name', 'course', 'create_date')
+    actions = [fix_agendatest]
+    list_filter = ('course__year', 'course__semester')
+
+
+admin.site.register(Test, TestAdmin)
 admin.site.register(AgendaTest, AgendaTestAdmin)
 admin.site.register(StudentsAnswers, StudentsAnswersAdmin)
 admin.site.register(Version, VersionAdmin)
