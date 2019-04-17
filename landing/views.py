@@ -39,7 +39,9 @@ def sign_in(request, err_code=0):
             login(request, user)
 
             # redirect the user accordingly
-            if is_teacher(user):
+            if is_teacher(request.user) and is_student(request.user):
+                return redirect('landing:choice')
+            elif is_teacher(user):
                 return redirect('teachers:index')
             elif is_student(user):
                 return redirect('students:agenda_list')
