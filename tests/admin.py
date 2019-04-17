@@ -5,8 +5,6 @@ from .models import *
 def fix_agendatest(modeladmin, request, queryset):
     for test in queryset.all():
         for agenda in test.course.agenda_set.all():
-            print(test, agenda)
-
             if not AgendaTest.objects.filter(test=test, agenda=agenda).exists():
                 AgendaTest.objects.create(agenda=agenda, test=test)
                 print('created (agenda, test):', agenda, test)
