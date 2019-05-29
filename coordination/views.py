@@ -20,7 +20,7 @@ class CoordinatorTestMixin(UserPassesTestMixin):
 
 class CoordinationIndexView(CoordinatorTestMixin, View):
     def get(self, request):
-        current_courses = Course.objects.filter(year=get_period_year(), semester=get_period_semester())
+        current_courses = Course.objects.filter()
 
         return render(request, 'coordination/coordination_index.html', {
             'current_courses': current_courses,
