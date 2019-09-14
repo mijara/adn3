@@ -129,7 +129,7 @@ NOTEBOOK_ARGUMENTS = [
 # Email Settings
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', '')
+EMAIL_HOST_PASSWORD = 'qVmVpWKBgB4Ympkd'
 EMAIL_HOST_USER = 'adn3.contacto@gmail.com'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "ADN3 <%s>" % EMAIL_HOST_USER

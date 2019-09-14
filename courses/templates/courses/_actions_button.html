@@ -29,5 +29,11 @@
     <li><a href="{% url 'courses:course_grades' course.pk %}">
       <span class="glyphicon glyphicon-ok step"></span> Calificaciones</a>
     </li>
+
+    <li role="separator" class="divider"></li>
+
+    <li><a href="{% url 'courses:course_change_password' course.pk %}">
+      <span class="glyphicon glyphicon-repeat step"></span> Contraseña Estudiante</a>
+    </li>
   </ul>
 </div>

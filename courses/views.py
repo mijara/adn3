@@ -1,5 +1,9 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import generic
+from django.utils.crypto import get_random_string
 
 from adn3.mixins import CourseMixin
 from courses.grades_workbook import generate_course_grades, generate_course_grades_v2
@@ -123,3 +127,42 @@ class CourseStudentsExcelView(IsTeacherOfCourseMixin, CourseMixin, View):
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=estudiantes.xlsx'
         return response
+
+
+class CourseStudentChangePassword(IsTeacherOfCourseMixin, CourseMixin, generic.FormView):
+    template_name = 'courses/student_password.html'
+    form_class = PasswordChangeTokenForm
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['password'] = get_random_string(length=16)
+        return data
+
+    def form_valid(self, form):
+        self.email = form.cleaned_data['email']
+        self.password = form.cleaned_data['password']
+
+        user = User.objects.filter(email=self.email)
+
+        if not user.exists():
+            return self.render_to_response({
+                'err_message': 'Correo no registrado en el sistema.',
+                'password': get_random_string(length=16),
+            })
+
+        user = user.get()
+        user.set_password(self.password)
+        user.save()
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('courses:course_change_password_success',
+                            args=[self.get_course().pk]) + f'?password={self.password}&email={self.email}'
+
+
+class CourseStudentChangePasswordSuccess(IsTeacherOfCourseMixin, CourseMixin, generic.TemplateView):
+    template_name = 'courses/student_password_success.html'

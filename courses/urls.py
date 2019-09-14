@@ -45,8 +45,20 @@ urlpatterns = [
     ),
 
     url(
+        '^(?P<course_pk>\d+)/change-password/success/$',
+        views.CourseStudentChangePasswordSuccess.as_view(),
+        name='course_change_password_success'
+    ),
+
+    url(
+        '^(?P<course_pk>\d+)/change-password/$',
+        views.CourseStudentChangePassword.as_view(),
+        name='course_change_password'
+    ),
+
+    url(
         '^(?P<course_pk>\d+)/(?P<section>.+)/$',
         views.CourseDetail.as_view(),
         name='course_detail'
-    )
+    ),
 ]

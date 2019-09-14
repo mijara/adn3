@@ -156,6 +156,17 @@
 
         {% include 'files/_list.html' %}
       {% endif %}
+
+    {% if section == 'student_password' %}
+        <a href="{% url 'files:coursefile_create' course.pk %}" class="btn btn-success btn-sm pull-right">
+          <span class="glyphicon glyphicon-plus"></span>
+          Subir Archivo
+        </a>
+
+        <h3 class="header"><span class="glyphicon glyphicon-download step"></span> Archivos</h3>
+
+        {% include 'files/_list.html' %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}
