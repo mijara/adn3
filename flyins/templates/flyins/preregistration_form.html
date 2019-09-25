@@ -4,149 +4,158 @@
 {% load static %}
 
 {% block breadcrump %}
-  <!-- Intentional No Breadcrump -->
+    <!-- Intentional No Breadcrump -->
 {% endblock %}
 
 {% block icon %}
-  <span class="glyphicon glyphicon-th step"></span>
+    <span class="glyphicon glyphicon-th step"></span>
 {% endblock %}
 
 {% block form %}
-  {% if form.errors %}
-    <div class="alert alert-danger">
-      <strong>Debe seleccionar al menos una preferencia.</strong>
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Debe seleccionar al menos una preferencia.</strong>
+        </div>
+    {% endif %}
+
+    <div class="alert alert-warning">
+        Recuerde leer las noticias del curso antes de preinscribir!
+
+        <p><a href="{% url 'public:course_detail' course.pk %}" class="alert-link">Presione aquí para la información
+            pública
+            de este curso.</a></p>
     </div>
-  {% endif %}
-
-  <div class="alert alert-warning">
-    Recuerde leer las noticias del curso antes de preinscribir!
-
-    <p><a href="{% url 'public:course_detail' course.pk %}" class="alert-link">Presione aquí para la información pública
-      de este curso.</a></p>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      Horarios
-    </div>
-
-    <div class="panel-body">
-      Seleccione los bloques en orden de preferencia, puede escoger hasta 5
-      bloques.
-
-      <strong>
-        <div class="text-danger">* No se puede en CC Ma 5-6, Ju 5-6; y en Santiago Ma 7-8, Ju 7-8</div>
-      </strong>
-    </div>
-
-    {% generate_calendar %}
-  </div>
-
-  <form action="" method="post" id="form">
-    {% csrf_token %}
 
     <div class="panel panel-default">
-      <div class="panel-heading">
-        Datos
-      </div>
-
-      <div class="list-group">
-        <div class="list-group-item" id="selected">
-          <p>Presione un bloque para eliminarlo de su preferencia.</p>
-        </div>
-        <div class="list-group-item">
-          <div class="form-group">
-            <label for="id-first_name">Nombre</label>
-            <input name="first_name" id="id-first_name" class="form-control" required>
-          </div>
-
-          <div class="form-group">
-            <label for="id-last_names">Apellidos</label>
-            <input name="last_names" id="id-last_names" class="form-control" required>
-          </div>
-
-          <div class="form-group">
-            <label for="id-rol">Rol</label>
-            <input name="rol" id="id-rol" class="form-control" value="{{ request.session.rol }}" required>
-          </div>
-          <div class="form-group">
-            <label for="id-usm_priority">Prioridad</label>
-            <input name="usm_priority" id="id-usm_priority" class="form-control" required>
-            <small class="form-text text-muted">Se permite ingresar puntaje ponderado PSU para estudiantes de primer año</small>
-          </div>
-
-          <div class="form-group">
-            <label for="id-parallel">Paralelo</label>
-            <input type="number" name="parallel" id="id-parallel" class="form-control" required>
-          </div>
-
-          <div class="form-group">
-            <label for="id-software">Software</label>
-            <select name="software" id="id-software" class="form-control">
-              {% for software in course.software.all %}
-                <option value="{{ software.pk }}">{{ software }}</option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="id-experience">¿Has realizado antes algún laboratorio?</label>
-            <input type="checkbox" name="previous_experience" id="id-experience">
-          </div>
-        </div>
-      </div>
-
-      <div class="panel-footer">
-        <div class="pull-right">
-          <button class="btn btn-success" id="submit-btn">Enviar Pre-Inscripción</button>
+        <div class="panel-heading">
+            Horarios
         </div>
 
-        <p class="text-danger">
-          * Revise los datos antes de enviar la pre-inscripción! No existirá posibilidad de modificaciones.
-        </p>
-      </div>
+        <div class="panel-body">
+            Seleccione los bloques en orden de preferencia, puede escoger hasta 5
+            bloques.
+
+            <strong>
+                {#        <div class="text-danger">* No se puede en CC Ma 5-6, Ju 5-6; y en Santiago Ma 7-8, Ju 7-8</div>#}
+                <div class="text-warning">
+                    Recuerde ver la
+                    <a href="https://lab.mat.utfsm.cl/media/Disponibilidad_Salas_Laboratorio_EDIFICIO_P__Sem_2_2019.pdf">
+                        DISPONIBILIDAD SALAS CC
+                    </a>
+                </div>
+            </strong>
+        </div>
+
+        {% generate_calendar %}
     </div>
-  </form>
+
+    <form action="" method="post" id="form">
+        {% csrf_token %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Datos
+            </div>
+
+            <div class="list-group">
+                <div class="list-group-item" id="selected">
+                    <p>Presione un bloque para eliminarlo de su preferencia.</p>
+                </div>
+                <div class="list-group-item">
+                    <div class="form-group">
+                        <label for="id-first_name">Nombre</label>
+                        <input name="first_name" id="id-first_name" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id-last_names">Apellidos</label>
+                        <input name="last_names" id="id-last_names" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id-rol">Rol</label>
+                        <input name="rol" id="id-rol" class="form-control" value="{{ request.session.rol }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id-usm_priority">Prioridad</label>
+                        <input name="usm_priority" id="id-usm_priority" class="form-control" required>
+                        <small class="form-text text-muted">Se permite ingresar puntaje ponderado PSU para estudiantes
+                            de primer año
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id-parallel">Paralelo</label>
+                        <input type="number" name="parallel" id="id-parallel" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id-software">Software</label>
+                        <select name="software" id="id-software" class="form-control">
+                            {% for software in course.software.all %}
+                                <option value="{{ software.pk }}">{{ software }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id-experience">¿Has realizado antes algún laboratorio?</label>
+                        <input type="checkbox" name="previous_experience" id="id-experience">
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success" id="submit-btn">Enviar Pre-Inscripción</button>
+                </div>
+
+                <p class="text-danger">
+                    * Revise los datos antes de enviar la pre-inscripción! No existirá posibilidad de modificaciones.
+                </p>
+            </div>
+        </div>
+    </form>
 {% endblock %}
 
 {% block page_header %}
-  Pre-Inscripción
-  <small>{{ view.get_course }}</small>
+    Pre-Inscripción
+    <small>{{ view.get_course }}</small>
 {% endblock %}
 
 {% block script %}
-  <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
 
-  <script>
-      $(function () {
-          $("#form").submit(function () {
-              $("#submit-btn").attr("disabled", true);
-              return true;
-          });
+    <script>
+        $(function () {
+            $("#form").submit(function () {
+                $("#submit-btn").attr("disabled", true);
+                return true;
+            });
 
-          var selected = 0;
+            var selected = 0;
 
-          $('.calendar-item').click(function () {
-              var self = $(this);
+            $('.calendar-item').click(function () {
+                var self = $(this);
 
-              if (self.data('added') === false || self.data('added') === undefined) {
-                  if (selected >= 5) {
-                      alert('Ya ha seleccionado el límite máximo de bloques!');
-                      return;
-                  }
+                if (self.data('added') === false || self.data('added') === undefined) {
+                    if (selected >= 5) {
+                        alert('Ya ha seleccionado el límite máximo de bloques!');
+                        return;
+                    }
 
-                  // add to selected list.
-                  self.data('parent', $(self[0].parentNode));
-                  $('#selected').append(self);
-                  self.data('added', true);
-                  selected += 1;
-              } else {
-                  // return to place.
-                  self.data('parent').append(self);
-                  self.data('added', false);
-                  selected -= 1;
-              }
-          });
-      });
-  </script>
+                    // add to selected list.
+                    self.data('parent', $(self[0].parentNode));
+                    $('#selected').append(self);
+                    self.data('added', true);
+                    selected += 1;
+                } else {
+                    // return to place.
+                    self.data('parent').append(self);
+                    self.data('added', false);
+                    selected -= 1;
+                }
+            });
+        });
+    </script>
 {% endblock %}
