@@ -102,7 +102,7 @@ urlpatterns = [
     ),
 
     url(
-        '^registration/',
+        '^registro/',
         include(
             'registration.urls',
             namespace='registration'
