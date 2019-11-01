@@ -1,6 +1,6 @@
 cycler==0.10.0
 dj-database-url==0.4.2
-Django==1.10.3
+Django==1.11.23
 django-bootstrap3==7.1.0
 django-extensions==2.0.5
 django-markup==1.2
